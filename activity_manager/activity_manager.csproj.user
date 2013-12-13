@@ -1,0 +1,14 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartArguments>config="D:\Projects\Visual Studio Projects\Мена\reports\contract.xml" id_contract=6 connection_string="Dsn=mena;uid={PWR\IGNVV}" contract_path="D:\Projects\Visual Studio Projects\Мена\reports\\" report_path="\\nas\mena\reports\\"</StartArguments>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>
+    </ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <StartArguments>config="D:\Projects\Visual Studio Projects\LicenseAlcohol\LicenseAlcohol\bin\Debug\reports\issued_licenses2012.xml" connection_string="Dsn=license_import" report_file="D:\Projects\Visual Studio Projects\LicenseAlcohol\LicenseAlcohol\bin\Debug\reports\issued_licenses2012.ods" start_date="01.01.2013" end_date="10.12.2013" id_signer=1</StartArguments>
+  </PropertyGroup>
+</Project>

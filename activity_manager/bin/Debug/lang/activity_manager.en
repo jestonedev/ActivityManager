@@ -1,0 +1,28 @@
+Некорректный формат входной строки параметров:Incorrect format input string of parameters
+Путь до папки {0} не найден:Path to the folder {0} not found
+Не передана ссылка на файл конфигурации:Do not pass a reference to the configuration file
+Файл {0} не найден:File {0} not found
+Корневой элемент файла конфигурации неизвестен:The root element of the configuration file is unknown
+Неизвестный атрибут {0} элемента <step>:Unknown attribute {0} of element <step>
+Некорректное числовое значение атрибута {0} = {1}:Incorrect numeric value of the attribute {0} = {1}
+Не указан обязательный атрибут "action" элемента <step>:Not a required attribute "action" of the element <step>
+Не указан обязательный атрибут "name" элемента <parameter>:Not a requered attribute "name" of the element <parameter>
+Неизвестное правило для фильтрации плагинов:Unknown rule to filter plug-ins
+В сборке не задана ссылка на интерфейс плагина IPlugin:In the assembly reference not set to an interface plug IPlugin
+В сборке не задан класс, реализующий интерфейс плагина IPlugin:In the assembly do not specify a class that implements the interface plug IPlugin
+Несоответствие типов параметров:Mismatch parameters
+Попытка запуск несуществующей задачи:An attempt to launch a non-existent task
+Число переданных входных параметров неверно:The number of input parameters passed correctly
+Неоднозначность определения заданного действия. Действие "{0}" определено в плагинах {1} и {2}. Необходимо явное указание плагина в файле конфигурации:The ambiguity of determining the set of action. The action "{0}" is defined in plugins {1} and {2}. Should be explicit indication the plug-in configuration file
+В плагине {0} не определено действие {1}:The plugin {0} does not have an action {1}
+Не удалось найти действие {0} ни в одном из плагинов:Unable to find the action {0} in any of the plug-ins
+Не удалось найти действие {0} в плагине {1}:Unable to find the action {0} in the plugin {1}
+Параметр {0} действия {1} плагина {2} предполагает получение, а не возвращение значения:Parameter {0} of action {1} of plugin {2} implies getting, not return value
+Параметр {0} действия {1} плагина {2} предполагает возвращение, а не получение значения:Parameter {0} of action {1} of plugin {2} implies return, not getting value
+Некорректный формат файла "{0}" языковой поддержки:Incorrect language file "{0}" format
+Ошибка преобразования значения "{0}" параметра {1} к типу {2} требуемому действием {3} плагина {4}:Conversion error of the value "{0}" of the paremeter {1} to the type {2} of action {3} required plugin {4}
+Некорректное числовое значение атрибута "repeat" = {0}:Incorrect integer value of attribute "repeat" = {0}
+В действии {0} плагина {1} не существует переменной с именем {2}:In action {0} of plugin {1} not exists variable with name {2}
+[Шаг {0}]:[Step {0}]
+Некорректно задан режим отладки. Режим отладки задается числом от 0 до 2:Incorrectly set the debug mode. Debug mode is a number between 0 and 2
+Передано неверное число параметров в действие {0} плагина {1}:Incorrect parameter count in action {0} of plugin {1}

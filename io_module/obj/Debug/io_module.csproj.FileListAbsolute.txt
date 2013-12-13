@@ -1,0 +1,7 @@
+D:\Projects\Visual Studio Projects\activity_manager\io_module\bin\Debug\io_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\io_module\bin\Debug\io_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\io_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\io_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\io_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\io_module.pdb

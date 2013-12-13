@@ -1,0 +1,7 @@
+D:\Projects\Visual Studio Projects\activity_manager\io_module\bin\Release\io_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\io_module\bin\Release\io_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Release\io_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Release\io_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\io_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\io_module.pdb

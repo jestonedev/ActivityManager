@@ -1,0 +1,17 @@
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\test_module.TestForm.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\test_module.Properties.Resources.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\test_module.csproj.GenerateResource.Cache
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\test_module.exe
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\test_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\report_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\report_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\test_module.exe
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\test_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\sql_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\sql_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\extended_types.dll
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\extended_types.pdb
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\conv_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\test_module\bin\Debug\conv_module.pdb

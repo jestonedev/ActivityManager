@@ -1,0 +1,8 @@
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.Editor.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.Properties.Resources.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.csproj.GenerateResource.Cache
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\am_editor.exe
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\am_editor.pdb
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.exe
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.pdb

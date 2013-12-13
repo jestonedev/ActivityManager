@@ -1,0 +1,7 @@
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\activity_manager.exe.config
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\activity_manager.exe
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\activity_manager.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Release\activity_manager.exe
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Release\activity_manager.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\am_classes.pdb

@@ -1,0 +1,14 @@
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\report_module\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\report_module\bin\Debug\report_module.dll
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\report_module\bin\Debug\report_module.pdb
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\report_module\obj\Debug\report_module.dll
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\report_module\obj\Debug\report_module.pdb
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\activity_manager\bin\Debug\report_module.dll
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\activity_manager\bin\Debug\report_module.pdb
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\activity_manager\bin\Debug\plugins\report_module.dll
+C:\Documents and Settings\ignvv\Мои документы\Visual Studio 2008\Projects\activity_manager\activity_manager\bin\Debug\plugins\report_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Debug\report_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Debug\report_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\report_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\report_module.pdb
