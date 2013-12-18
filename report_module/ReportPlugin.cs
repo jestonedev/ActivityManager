@@ -138,7 +138,7 @@ namespace report_module
             //Формируем отчет
             report_editing(report_unzip_path, template_file_info.Extension);
             //Запаковываем файл шаблона и удаляем временную директорию отчета
-            string report_full_filename = Path.Combine(temporary_path, report_filename + "." + template_file_info.Extension);
+            string report_full_filename = Path.Combine(temporary_path, report_filename + template_file_info.Extension);
             zip.CreateZip(report_full_filename, report_unzip_path, true, "");
             Directory.Delete(report_unzip_path, true);
             file_name = report_full_filename;
