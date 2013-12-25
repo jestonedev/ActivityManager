@@ -52,6 +52,28 @@ namespace am_classes
             }
         }
 
+        public static bool IsPlugin(string AssemblyPath)
+        {
+            try
+            {
+                Assembly assembly = Assembly.ReflectionOnlyLoadFrom(AssemblyPath);
+                Type IPlugin = assembly.GetType(assembly.GetName().Name + ".IPlugin");
+                bool is_plugin = false;
+                if ((IPlugin != null) && (IPlugin.IsInterface))
+                    is_plugin = true;
+                return is_plugin;
+            }
+            catch (BadImageFormatException)
+            {
+                return false;
+            }
+        }
+
+        public string RealizeClassName()
+        {
+            return this.realize_class.Name;
+        }
+
         public void ExecuteAction(string ActionName, object[] input_parameters, out object[] output_parameters)
         {
             foreach (PluginActionInfo action in PluginActions)
@@ -73,6 +95,11 @@ namespace am_classes
                 if (action.ActionName == ActionName)
                     return true;
             return false;
+        }
+
+        public override string ToString()
+        {
+            return PluginName;
         }
     }
 }

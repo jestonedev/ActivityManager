@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace activity_manager
+namespace am_classes
 {
-	class PluginIncludeRule
+	public class PluginIncludeRule
 	{
 		public string IncludeRule { get; set; }
 		public string PluginNameMask { get; set; }

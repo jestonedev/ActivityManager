@@ -47,9 +47,11 @@
   <ItemGroup>
     <Compile Include="ActivityStep.cs" />
     <Compile Include="ActivityStepParameter.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="PluginActionInfo.cs" />
     <Compile Include="PluginActionParameter.cs" />
+    <Compile Include="PluginIncludeRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>report_module</name>
+    </assembly>
+    <members>
+        <member name="F:report_module.CalcEditor.styles">
+            <summary>
+            Список стилей, которые необходимо применить к каждому последующему элементу
+            </summary>
+        </member>
+        <member name="T:report_module.ReportHelper">
+            <summary>
+            Класс со вспомогательными фунциями
+            </summary>
+        </member>
+        <member name="M:report_module.ReportHelper.get_table_pattern_regex(System.Collections.Generic.List{System.String})">
+            <summary>
+            Получить регулярное выражение по списку параметров, входящих в паттерн таблицы
+            </summary>
+            <param name="templates">Список параметров, входящих в паттерн таблицы</param>
+            <returns>Регулярное выражение</returns>
+        </member>
+        <member name="M:report_module.ReportHelper.find_xelements(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            Поиск xml-элементов с тэгом xml_tag в элементе xelement с рекурсивным заходом
+            </summary>
+            <param name="xelement">Корневой элемент</param>
+            <param name="xml_tag">XML-тэг искомого элемента</param>
+            <returns>Список найденных элементов</returns>
+        </member>
+        <member name="F:report_module.WriterEditor.styles">
+            <summary>
+            Список стилей, которые необходимо применить к каждому последующему элементу
+            </summary>
+        </member>
+        <member name="F:report_module.ReportPlugin.template_file">
+            <summary>
+            Файл шаблона отчета
+            </summary>
+        </member>
+        <member name="F:report_module.ReportPlugin.temporary_path">
+            <summary>
+            Путь до временной директории пользователя
+            </summary>
+        </member>
+        <member name="F:report_module.ReportPlugin.values">
+            <summary>
+            Список переменных для подстановки
+            </summary>
+        </member>
+        <member name="M:report_module.ReportPlugin.#ctor">
+            <summary>
+            В конструкторе происходит проверка существования директории report_module во временной папке.
+            При необходимости директория создается. Плагин контролирует очистку директории от старых файлов.
+            </summary>
+        </member>
+        <member name="M:report_module.ReportPlugin.report_set_template_file(System.String)">
+            <summary>
+            Установить файл шаблона
+            </summary>
+            <param name="file_name">Полный путь до файла шаблона</param>
+        </member>
+        <member name="M:report_module.ReportPlugin.report_set_string_value(System.String,System.String)">
+            <summary>
+            Установить строковый параметр замены
+            </summary>
+            <param name="pattern">Шаблон замены в формате @"^\$\w+\$$"</param>
+            <param name="value">Подставляемое значение</param>
+        </member>
+        <member name="M:report_module.ReportPlugin.report_set_string_values(extended_types.ReportRow)">
+            <summary>
+            Групповая установка строковых параметров замены
+            </summary>
+            <param name="values">Список подставляемых значений</param>
+        </member>
+        <member name="M:report_module.ReportPlugin.report_set_table_value(extended_types.ReportTable,report_module.XmlClouser)">
+            <summary>
+            Установить списочный (табличный) параметр замены
+            </summary>
+            <param name="table">Список параметров</param>
+            <param name="xml_clouser">XML-замыкатель. Поддерживаемые замыкатели по умолчанию table, row, cell</param>
+        </member>
+        <member name="M:report_module.ReportPlugin.report_generate(System.String@)">
+            <summary>
+            Функция генерации отчета
+            </summary>
+            <param name="file_name">Путь до выходного файла отчета</param>
+        </member>
+        <member name="M:report_module.ReportPlugin.report_editing(System.String,System.String)">
+            <summary>
+            Функция определения типа документа и вызова соответсвующего редактора отчета
+            </summary>
+            <param name="report_unzip_path">Путь до распакованного документа</param>
+        </member>
+        <member name="M:report_module.ExcelEditor.ss_element(System.String,report_module.SharedXLSXStrings)">
+            <summary>
+            Получить элемент в файле sharedStrings.xml Excel-отчета
+            </summary>
+            <param name="shared_string">Искомая строка</param>
+            <param name="shared_strings">Класс-обертка sharedStrings.xml</param>
+            <returns>Найденый элемент. Если ничего не найдено - вызывается исключение</returns>
+        </member>
+        <member name="M:report_module.ExcelEditor.ss_index(System.String,report_module.SharedXLSXStrings)">
+            <summary>
+            Получить индекс строки в файле sharedStrings.xml Excel-отчета
+            </summary>
+            <param name="shared_string">Искомая строка</param>
+            <param name="shared_strings">Класс-обертка sharedStrings.xml</param>
+            <returns>Индекс найденного элемента. Если ничего не найдено - вызывается исключение</returns>
+        </member>
+        <member name="M:report_module.ExcelEditor.ca_increment(System.Int32,System.Int32,System.String)">
+            <summary>
+            Инкремент адреса ячейки таблицы Excel
+            </summary>
+            <param name="x_increment">Инкремент по столбцам</param>
+            <param name="y_increment">Инкремент по строкам</param>
+            <param name="address">Исходный адрес ячейки</param>
+            <returns>Полученный адресс ячейки</returns>
+        </member>
+        <member name="M:report_module.ExcelEditor.recalculate_merge_cells(System.Xml.Linq.XDocument,System.String,System.Int32,System.Int32)">
+            <summary>
+            Пересчитать позиции объединенных ячеек согласно смещениям относительно начальной ячейки
+            </summary>
+            <param name="sheet">Excel-лист</param>
+            <param name="address">Адрес ячейки, относительно которой производится смещение</param>
+            <param name="x_increment">Смещение по столбцам</param>
+            <param name="y_increment">Смещение по строкам</param>
+        </member>
+    </members>
+</doc>

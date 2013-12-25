@@ -12,6 +12,7 @@
     <AssemblyName>am_editor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>start-here-gnome-green.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,10 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScintillaNET, Version=2.5.2.0, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\activity_manager\ScintillaNET\ScintillaNET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -54,10 +60,64 @@
     <Compile Include="Editor.Designer.cs">
       <DependentUpon>Editor.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormComboBoxValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormComboBoxValue.Designer.cs">
+      <DependentUpon>FormComboBoxValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCommandLineParams.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCommandLineParams.Designer.cs">
+      <DependentUpon>FormCommandLineParams.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLanguage.Designer.cs">
+      <DependentUpon>FormLanguage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPlugins.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPlugins.Designer.cs">
+      <DependentUpon>FormPlugins.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSqlValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSqlValue.Designer.cs">
+      <DependentUpon>FormSqlValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStringValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStringValue.Designer.cs">
+      <DependentUpon>FormStringValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormComboBoxValue.resx">
+      <DependentUpon>FormComboBoxValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCommandLineParams.resx">
+      <DependentUpon>FormCommandLineParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLanguage.resx">
+      <DependentUpon>FormLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPlugins.resx">
+      <DependentUpon>FormPlugins.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSqlValue.resx">
+      <DependentUpon>FormSqlValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStringValue.resx">
+      <DependentUpon>FormStringValue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -69,6 +129,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -78,12 +139,34 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SettingsStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\am_classes\am_classes.csproj">
       <Project>{5E75F821-DEB5-4338-A20D-0AA3E35834F1}</Project>
       <Name>am_classes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert-object-5929516005.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\list-remove-5921719056.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\package-installed-updated.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new-go-up-5892019571.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new-go-up-5892013514.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new-go-down-5895517224.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="start-here-gnome-green.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

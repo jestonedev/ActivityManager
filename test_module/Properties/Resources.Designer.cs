@@ -59,5 +59,47 @@ namespace am_editor.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap insert_object_5929516005 {
+            get {
+                object obj = ResourceManager.GetObject("insert-object-5929516005", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap list_remove_5921719056 {
+            get {
+                object obj = ResourceManager.GetObject("list-remove-5921719056", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap new_go_down_5895517224 {
+            get {
+                object obj = ResourceManager.GetObject("new-go-down-5895517224", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap new_go_up_5892013514 {
+            get {
+                object obj = ResourceManager.GetObject("new-go-up-5892013514", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap new_go_up_5892019571 {
+            get {
+                object obj = ResourceManager.GetObject("new-go-up-5892019571", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap package_installed_updated {
+            get {
+                object obj = ResourceManager.GetObject("package-installed-updated", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

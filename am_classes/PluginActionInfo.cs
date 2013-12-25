@@ -63,5 +63,10 @@ namespace am_classes
 				}
 			}
 		}
+
+        public override string ToString()
+        {
+            return this.ActionName;
+        }
 	}
 }

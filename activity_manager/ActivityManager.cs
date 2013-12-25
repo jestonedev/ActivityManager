@@ -28,8 +28,8 @@ namespace activity_manager
 		
 		//Конфигурация языкового пакета
 		private Language language = new Language("ru");
-		private delegate string lanuage_delegate(string text);
-		private lanuage_delegate _;
+		private delegate string language_delegate(string text);
+		private language_delegate _;
 
 		public ActivityManager(string[] args)
 		{
@@ -79,7 +79,7 @@ namespace activity_manager
 			IEnumerable<XElement> elements = xdoc.Root.Elements("step");
 			foreach (XElement element in elements)
 			{
-				activity_steps.Add(ConvertXElementToActivityStep(element));
+				activity_steps.Add(ActivityStep.ConvertXElementToActivityStep(element, this.language));
 			}
 			//Обрабатываем элемент plugins
 			XElement plugins = xdoc.Root.Element("plugins");
@@ -322,7 +322,7 @@ namespace activity_manager
 			string[] files = Directory.GetFiles(plugins_path,"*.dll", SearchOption.TopDirectoryOnly);
 			foreach (string file in files)
 			{
-				bool include = true;
+				bool include = false;
 				FileInfo fi = new FileInfo(file);
 				foreach (PluginIncludeRule pir in plugins_include_rules)
 				{

@@ -185,9 +185,9 @@ namespace sql_module
         /// <summary>
         /// Получить строку таблицы по указанному номеру
         /// </summary>
-        /// <param name="table"></param>
-        /// <param name="row_number"></param>
-        /// <param name="row"></param>
+        /// <param name="table">Таблица, из которой выбирается строка</param>
+        /// <param name="row_number">Номер строки начиная с 0</param>
+        /// <param name="row">Результирующая строка</param>
         public void sql_get_row(DataTable table, int row_number, out DataRow row)
         {
             if (table.Rows.Count <= row_number)

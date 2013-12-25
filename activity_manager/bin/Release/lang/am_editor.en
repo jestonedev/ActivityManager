@@ -1,0 +1,46 @@
+Ошибка:Error
+AM-редактор:AM-editor
+Неизвестный плагин {0}:Unknown plugin {0}
+Неизвестное действие {0}:Unknown action {0}
+Задать значение параметра:Set parameter value
+Параметр:Parameter
+Описание:Description
+Имя параметра командной строки может содержать только цифры, буквы и символ подчеркивания. Первым символом имени не должна быть цифра:Name command-line option can only contain alphanumeric characters and the underscore character. The first character of the name can not be a number
+Нельзя задавать одинаковые имена для нескольких параметров:You can not specify the same name for several parameters
+Имя параметра config является зарезервированным:Parameter config is reserved
+Внимание:Warning
+Проверка прошла успешно:Verification successful
+Информация:Information
+Не удалось найти исполняемый файл activity_manager.exe:Can't find executable program activity_manager.exe
+Строка выполнения успешно скопирована:Execution string successfully copied
+Конфигурация:Configuration
+Настройка:Setting
+Создать:Create
+Открыть:Open
+Сохранить:Save
+Сохранить как:Save as
+Копировать строку выполнения:Copy execution string
+Выполнить:Execute
+Выход:Quit
+Плагины:Plugins
+Плагин:Plugin
+Параметры командной строки:Command line parameters
+Язык:Language
+Шаг:Step
+Действие:Action
+Параметры:Parameters
+Имя:Name
+Тип:Type
+Направление:Direction
+Значение:Value
+Описание:Description
+Отменить:Cancel
+Имя параметра:Parameter name
+Значение параметра:Parameter value
+Выбрать язык:Choose language
+Язык интерфейса:Interface language
+Язык конфигурационного файла:Configuration file language
+Значение переменной:Variable value
+Имя переменной:Variable name
+Вставить:Insert
+Задать глобальное имя:Set global parameter name

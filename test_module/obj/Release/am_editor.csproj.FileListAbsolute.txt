@@ -6,3 +6,10 @@ D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release
 D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\am_editor.pdb
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.exe
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.pdb
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.FormPlugins.resources
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\am_editor.exe.config
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.FormComboBoxValue.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.FormSqlValue.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.FormStringValue.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.FormCommandLineParams.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\am_editor.FormLanguage.resources
