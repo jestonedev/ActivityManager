@@ -3,4 +3,3 @@ D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release
 D:\Projects\Visual Studio Projects\activity_manager\conv_module\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\conv_module\obj\Release\conv_module.dll
 D:\Projects\Visual Studio Projects\activity_manager\conv_module\obj\Release\conv_module.pdb
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\conv_module.XML

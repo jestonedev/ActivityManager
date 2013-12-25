@@ -65,7 +65,7 @@
             <summary>
             Установить строковый параметр замены
             </summary>
-            <param name="pattern">Шаблон замены в формате @"^\$\w+\$$"</param>
+            <param name="pattern">Шаблон замены"</param>
             <param name="value">Подставляемое значение</param>
         </member>
         <member name="M:report_module.ReportPlugin.report_set_string_values(extended_types.ReportRow)">

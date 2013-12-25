@@ -90,7 +90,7 @@ namespace report_module
         /// <summary>
         /// Установить строковый параметр замены
         /// </summary>
-        /// <param name="pattern">Шаблон замены в формате @"^\$\w+\$$"</param>
+        /// <param name="pattern">Шаблон замены"</param>
         /// <param name="value">Подставляемое значение</param>
         public void report_set_string_value(string name, string value)
 		{

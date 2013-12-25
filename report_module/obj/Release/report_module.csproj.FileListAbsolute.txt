@@ -6,4 +6,3 @@ D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Release\re
 D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Release\report_module.pdb
 D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\report_module.dll
 D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\report_module.pdb
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\report_module.XML

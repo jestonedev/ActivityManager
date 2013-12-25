@@ -58,6 +58,12 @@ namespace mena_module
             out_table = tmp_table;
         }
 
+        /// <summary>
+        /// Специфический метод конвертации этажа. Исключает фразы вроде "нулевом этаже".
+        /// </summary>
+        /// <param name="in_row">Строка параметров отчета, в которой производится замена</param>
+        /// <param name="column_floor_name">Имя колонки с строковым наименованием этажа</param>
+        /// <param name="out_row">Выходная строка параметров отчета</param>
         public void mena_floor_template(ReportRow in_row, string column_floor_name, out ReportRow out_row)
         {
             if (in_row[column_floor_name].Value == "нулевом")
