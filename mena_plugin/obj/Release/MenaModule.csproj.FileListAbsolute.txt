@@ -1,0 +1,7 @@
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\MenaModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\MenaModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\MenaModule.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\MenaModule.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Release\MenaModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Release\MenaModule.pdb

@@ -1,5 +1,7 @@
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\extended_types.dll
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\extended_types.pdb
 D:\Projects\Visual Studio Projects\activity_manager\extended_types\obj\Release\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio Projects\activity_manager\extended_types\obj\Release\extended_types.dll
-D:\Projects\Visual Studio Projects\activity_manager\extended_types\obj\Release\extended_types.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ExtendedTypes.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ExtendedTypes.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ExtendedTypes.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ExtendedTypes.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\extended_types\obj\Release\ExtendedTypes.dll
+D:\Projects\Visual Studio Projects\activity_manager\extended_types\obj\Release\ExtendedTypes.pdb

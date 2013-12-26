@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using am_classes;
+using AMClasses;
 
-namespace am_editor
+namespace AmEditor
 {
-    public partial class FormLanguage : Form
+    internal partial class FormLanguage : Form
     {
         public string config_language { 
             get { return comboBoxConfigLanguage.Text; }
@@ -24,15 +24,6 @@ namespace am_editor
         }
 
         public List<string> languages {
-            get
-            {
-                List<string> list = new List<string>();
-                foreach (string item in comboBoxConfigLanguage.Items)
-                {
-                    list.Add(item);
-                }
-                return list;
-            }
             set 
             {
                 foreach (string item in value)

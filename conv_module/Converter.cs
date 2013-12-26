@@ -4,30 +4,78 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace conv_module
+namespace ConvertModule
 {
+    /// <summary>
+    /// Падеж
+    /// </summary>
     public enum TextCase { 
-        Nominative/*Кто? Что?*/, 
-        Genitive/*Кого? Чего?*/, 
-        Dative/*Кому? Чему?*/, 
-        Accusative/*Кого? Что?*/, 
-        Instrumental/*Кем? Чем?*/, 
-        Prepositional/*О ком? О чём?*/ 
+        /// <summary>
+        /// Кто? Что?
+        /// </summary>
+        Nominative, 
+        /// <summary>
+        /// Кого? Чего?
+        /// </summary>
+        Genitive, 
+        /// <summary>
+        /// Кому? Чему?
+        /// </summary>
+        Dative, 
+        /// <summary>
+        /// Кого? Что?
+        /// </summary>
+        Accusative, 
+        /// <summary>
+        /// Кем? Чем?
+        /// </summary>
+        Instrumental, 
+        /// <summary>
+        /// О ком? О чём?
+        /// </summary>
+        Prepositional 
     };
 
+    /// <summary>
+    /// Пол
+    /// </summary>
     public enum Sex { 
+        /// <summary>
+        /// Мужской
+        /// </summary>
         Male,
+        /// <summary>
+        /// Женский
+        /// </summary>
         Female,
+        /// <summary>
+        /// Средний
+        /// </summary>
         Neuter
     }
 
+    /// <summary>
+    /// Тип валюты
+    /// </summary>
     public enum CurrencyType
     {
+        /// <summary>
+        /// Рубли
+        /// </summary>
         Ruble,
+        /// <summary>
+        /// Доллары
+        /// </summary>
         Dollar,
+        /// <summary>
+        /// Евро
+        /// </summary>
         Euro
     }
 
+    /// <summary>
+    /// Базовый класс конвертации
+    /// </summary>
     public class Converter
     {
         private TextCaseClass textcase;
@@ -70,9 +118,14 @@ namespace conv_module
 
         List<string> fractional_postfixs = new List<string>() { "десятая", "сотая", "тысячная", "десятитысячная", "стотысячная", "миллионная", "десятимиллионная", "стомиллионная", "миллиардная" };
         
-        public Converter(TextCase textcase, Sex sex)
+        /// <summary>
+        /// Конструктор класса конвертации
+        /// </summary>
+        /// <param name="textCase">Падеж по умолчанию, в который мы планируем конвертировать</param>
+        /// <param name="sex">Пол по умолчанию, в который мы планируем конвертировать</param>
+        public Converter(TextCase textCase, Sex sex)
         {
-            switch (textcase)
+            switch (textCase)
             {
                 case TextCase.Nominative: this.textcase = new NominativeCaseClass();
                     break;
@@ -98,88 +151,88 @@ namespace conv_module
             }
         }
 
-        private string OrdinalRemainderToText(long remainder, TextCaseClass textcase, SexClass sex, bool last_part, int part_num)
+        private string OrdinalRemainderToText(long remainder, TextCaseClass textCase, SexClass inSex, bool lastPart, int partNum)
         {
             int x = (int)remainder % 100;
-            int hundreds = (int)(remainder - x) / 100;
-            int tens = (int)(remainder - (remainder % 10) - hundreds * 100) / 10;
-            if (tens >= 2)
+            int hundreds_count = (int)(remainder - x) / 100;
+            int tens_count = (int)(remainder - (remainder % 10) - hundreds_count * 100) / 10;
+            if (tens_count >= 2)
                 x = (int)remainder % 10;
             string result = "";
-            if (hundreds > 0)
+            if (hundreds_count > 0)
             {
-                if (!last_part)
-                    result = sex.Translate(this.hundreds[hundreds]);
+                if (!lastPart)
+                    result = inSex.Translate(this.hundreds[hundreds_count]);
                 else
                 {
-                    if (part_num == 0)
+                    if (partNum == 0)
                     {
-                        if ((tens == 0) && (x == 0))
-                            result = textcase.Translate(sex.Translate(this.ordinal_hundreds[hundreds]));
+                        if ((tens_count == 0) && (x == 0))
+                            result = textCase.Translate(inSex.Translate(this.ordinal_hundreds[hundreds_count]));
                         else
-                            result = sex.Translate(this.hundreds[hundreds]);
+                            result = inSex.Translate(this.hundreds[hundreds_count]);
                     }
                     else
-                        result = sex.Translate(this.ordinals_part_hundreds_prefix[hundreds]);
+                        result = inSex.Translate(this.ordinals_part_hundreds_prefix[hundreds_count]);
                 }
             }
-            if (tens > 1)
+            if (tens_count > 1)
             {
-                if ((result.Length > 0) && ((!last_part) || (part_num == 0)))
+                if ((result.Length > 0) && ((!lastPart) || (partNum == 0)))
                     result = result + " ";
-                if (!last_part)
-                    result = result + sex.Translate(this.tens[tens]);
+                if (!lastPart)
+                    result = result + inSex.Translate(this.tens[tens_count]);
                 else
                 {
-                    if (part_num == 0)
+                    if (partNum == 0)
                     {
                         if (x == 0)
-                            result = result + textcase.Translate(sex.Translate(this.ordinal_tens[tens]));
+                            result = result + textCase.Translate(inSex.Translate(this.ordinal_tens[tens_count]));
                         else
-                            result = result + sex.Translate(this.tens[tens]);
+                            result = result + inSex.Translate(this.tens[tens_count]);
                     }
                     else
-                        result = result + sex.Translate(this.ordinals_part_tens_prefix[tens]);
+                        result = result + inSex.Translate(this.ordinals_part_tens_prefix[tens_count]);
                 }
             }
             if (x > 0)
             {
-                if ((result.Length > 0) && ((!last_part) || (part_num == 0)))
+                if ((result.Length > 0) && ((!lastPart) || (partNum == 0)))
                     result = result + " ";
-                if (!last_part)
-                    result = result + sex.Translate(this.ones[x]);
+                if (!lastPart)
+                    result = result + inSex.Translate(this.ones[x]);
                 else
                 {
-                    if (part_num == 0)
-                        result = result + textcase.Translate(sex.Translate(this.ordinals_ones[x]));
+                    if (partNum == 0)
+                        result = result + textCase.Translate(inSex.Translate(this.ordinals_ones[x]));
                     else
-                        result = result + sex.Translate(this.ordinals_part_ones_prefix[x]);
+                        result = result + inSex.Translate(this.ordinals_part_ones_prefix[x]);
                 }
             }
             return result;
         }
 
-        private string CardinalRemainderToText(long remainder, SexClass sex)
+        private string CardinalRemainderToText(long remainder, SexClass in_sex)
         {
             int x = (int)remainder % 100;
-            int hundreds = (int)(remainder - x) / 100;
-            int tens = (int)(remainder - (remainder % 10) - hundreds*100) / 10;
-            if (tens >= 2)
+            int hundreds_count = (int)(remainder - x) / 100;
+            int tens_count = (int)(remainder - (remainder % 10) - hundreds_count*100) / 10;
+            if (tens_count >= 2)
                 x = (int)remainder % 10;
             string result = "";
-            if (hundreds > 0)
-                result = sex.Translate(this.hundreds[hundreds]);
-            if (tens > 1)
+            if (hundreds_count > 0)
+                result = in_sex.Translate(this.hundreds[hundreds_count]);
+            if (tens_count > 1)
             {
                 if (result.Length > 0)
                     result = result + " ";
-                result = result + sex.Translate(this.tens[tens]);
+                result = result + in_sex.Translate(this.tens[tens_count]);
             }
             if (x > 0)
             {
                 if (result.Length > 0)
                     result = result + " ";
-                result = result + sex.Translate(this.ones[x]);
+                result = result + in_sex.Translate(this.ones[x]);
             }
             return result;
         }
@@ -289,16 +342,21 @@ namespace conv_module
             return result;
         }
 
-        public string NumberToText(long number, bool is_ordinal)
+        /// <summary>
+        /// Метод конвертации числа в текст
+        /// </summary>
+        /// <param name="number">Число</param>
+        /// <param name="isOrdinal">Если true - порядковое числительное, если false - количественное числительное</param>
+        /// <returns>Строковое представление числа</returns>
+        public string NumberToText(long number, bool isOrdinal)
         {
-
-            if (is_ordinal)
+            if (isOrdinal)
                 return OrdinalToText(number);
             else
                 return CardinalToText(number);
         }
 
-        private TextCaseClass letter_to_textcase(string letter)
+        private static TextCaseClass LetterToTextCase(string letter)
         {
             switch (letter)
             {
@@ -308,37 +366,47 @@ namespace conv_module
                 case "a": return new AccusativeCaseClass();
                 case "i": return new InstrumentalCaseClass();
                 case "p": return new PrepositionalCaseClass();
-                default: throw new ApplicationException("Неизвестный падеж");
+                default: throw new ConvertException("Неизвестный падеж");
             }
         }
 
-        public string DateTimeToText(DateTime datetime, string format)
+        private string DayToText(DateTime dateTime, string format)
         {
             Match match_day = Regex.Match(format, "dd[ngdaip]");
             while (match_day.Success)
             {
-                int day = datetime.Day;
-                this.textcase = letter_to_textcase(match_day.Value[2].ToString());
+                int day = dateTime.Day;
+                this.textcase = LetterToTextCase(match_day.Value[2].ToString());
                 this.sex = new NeuterClass();
                 string day_str = NumberToText(day, true);
                 format = Regex.Replace(format, match_day.Value, day_str);
                 match_day = match_day.NextMatch();
             }
+            return format;
+        }
+
+        private string MonthToText(DateTime dateTime, string format)
+        {
             Match match_month = Regex.Match(format, "MM[ngdaip]");
             while (match_month.Success)
             {
-                int month = datetime.Month;
-                this.textcase = letter_to_textcase(match_month.Value[2].ToString());
-                format = Regex.Replace(format, match_month.Value, 
+                int month = dateTime.Month;
+                this.textcase = LetterToTextCase(match_month.Value[2].ToString());
+                format = Regex.Replace(format, match_month.Value,
                     this.textcase.Translate(this.monthes[month - 1]));
                 match_month = match_month.NextMatch();
             }
+            return format;
+        }
+
+        private string YearToText(DateTime dateTime, string format)
+        {
             Match match_year = Regex.Match(format, "yyyy[ngdaip]");
             while (match_year.Success)
             {
-                int year = datetime.Year;
+                int year = dateTime.Year;
                 this.sex = new MaleClass();
-                this.textcase = letter_to_textcase(match_year.Value[4].ToString());
+                this.textcase = LetterToTextCase(match_year.Value[4].ToString());
                 format = Regex.Replace(format, match_year.Value, NumberToText(year, true) + " " +
                     this.textcase.Translate("год"));
                 match_year = match_year.NextMatch();
@@ -346,53 +414,63 @@ namespace conv_module
             match_year = Regex.Match(format, "yy[ngdaip]");
             while (match_year.Success)
             {
-                int year = datetime.Year % 100;
-                this.textcase = letter_to_textcase(match_year.Value[2].ToString());
+                int year = dateTime.Year % 100;
+                this.textcase = LetterToTextCase(match_year.Value[2].ToString());
                 this.sex = new MaleClass();
-                format = Regex.Replace(format, match_year.Value, NumberToText(year, true)+" "+
+                format = Regex.Replace(format, match_year.Value, NumberToText(year, true) + " " +
                     this.textcase.Translate("год"));
                 match_year = match_year.NextMatch();
             }
+            return format;
+        }
+
+        private string HoursToText(DateTime dateTime, string format)
+        {
             Match match_hour = Regex.Match(format, "hh[ngdaip]");
             while (match_hour.Success)
             {
-                int hour = datetime.Hour % 12 == 0 ? 12 : datetime.Hour % 12;
+                int hour = dateTime.Hour % 12 == 0 ? 12 : dateTime.Hour % 12;
                 string hour_postfix = "";
                 if (hour == 1)
                     hour_postfix = "час";
                 else
-                if (hour >= 5)
-                    hour_postfix = "часов";
-                else
-                    hour_postfix = "часа";
-                this.textcase = letter_to_textcase(match_hour.Value[2].ToString());
+                    if (hour >= 5)
+                        hour_postfix = "часов";
+                    else
+                        hour_postfix = "часа";
+                this.textcase = LetterToTextCase(match_hour.Value[2].ToString());
                 this.sex = new MaleClass();
-                format = Regex.Replace(format, match_hour.Value, NumberToText(hour, false)+" "+
+                format = Regex.Replace(format, match_hour.Value, NumberToText(hour, false) + " " +
                     this.textcase.Translate(hour_postfix));
                 match_hour = match_hour.NextMatch();
             }
             match_hour = Regex.Match(format, "HH[ngdaip]");
             while (match_hour.Success)
             {
-                int hour = datetime.Hour;
+                int hour = dateTime.Hour;
                 string hour_postfix = "";
                 if ((hour == 1) || (hour == 21))
                     hour_postfix = "час";
                 else
-                if (((hour >= 5) && (hour <= 20)) || (hour == 0))
-                    hour_postfix = "часов";
-                else
-                    hour_postfix = "часа";
+                    if (((hour >= 5) && (hour <= 20)) || (hour == 0))
+                        hour_postfix = "часов";
+                    else
+                        hour_postfix = "часа";
                 this.sex = new MaleClass();
-                this.textcase = letter_to_textcase(match_hour.Value[2].ToString());
+                this.textcase = LetterToTextCase(match_hour.Value[2].ToString());
                 format = Regex.Replace(format, match_hour.Value, NumberToText(hour, false) + " " +
                     this.textcase.Translate(hour_postfix));
                 match_hour = match_hour.NextMatch();
             }
+            return format;
+        }
+
+        private string MinutesToText(DateTime dateTime, string format)
+        {
             Match match_minute = Regex.Match(format, "mm[ngdaip]");
             while (match_minute.Success)
             {
-                int minute = datetime.Minute;
+                int minute = dateTime.Minute;
                 string minute_postfix = "";
                 if (minute % 10 == 1)
                 {
@@ -400,26 +478,32 @@ namespace conv_module
                         minute_postfix = "минута";
                     else
                         minute_postfix = "минут";
-                } else
-                if ((minute % 10 >= 5) || (minute % 10 == 0))
-                    minute_postfix = "минут";
+                }
                 else
-                {
-                    if ((minute >= 12) && (minute <= 14))
+                    if ((minute % 10 >= 5) || (minute % 10 == 0))
                         minute_postfix = "минут";
                     else
-                        minute_postfix = "минуты";
-                }
-                this.textcase = letter_to_textcase(match_minute.Value[2].ToString());
+                    {
+                        if ((minute >= 12) && (minute <= 14))
+                            minute_postfix = "минут";
+                        else
+                            minute_postfix = "минуты";
+                    }
+                this.textcase = LetterToTextCase(match_minute.Value[2].ToString());
                 this.sex = new FemaleClass();
                 format = Regex.Replace(format, match_minute.Value, NumberToText(minute, false) + " " +
                     this.textcase.Translate(minute_postfix));
                 match_minute = match_minute.NextMatch();
             }
+            return format;
+        }
+
+        private string SecondsToText(DateTime dateTime, string format)
+        {
             Match match_second = Regex.Match(format, "ss[ngdaip]");
             while (match_second.Success)
             {
-                int second = datetime.Second;
+                int second = dateTime.Second;
                 string second_postfix = "";
                 if (second % 10 == 1)
                 {
@@ -438,133 +522,192 @@ namespace conv_module
                         else
                             second_postfix = "секунды";
                     }
-                this.textcase = letter_to_textcase(match_second.Value[2].ToString());
+                this.textcase = LetterToTextCase(match_second.Value[2].ToString());
                 this.sex = new FemaleClass();
                 format = Regex.Replace(format, match_second.Value, NumberToText(second, false) + " " +
                     this.textcase.Translate(second_postfix));
                 match_second = match_second.NextMatch();
             }
-            return datetime.ToString(format);
+            return format;
         }
 
-        private List<string> GetCurrenctyPostfix(CurrencyType currency_type, double currency, bool is_ordinal)
+        /// <summary>
+        /// Метод конвертации даты в текст
+        /// </summary>
+        /// <param name="dateTime">Дата</param>
+        /// <param name="format">
+        /// Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
+        /// ddx - день месяца в виде текста
+        /// MMx - месяц в виде текста
+        /// yyx - год в формате двухзначного числа в виде текста
+        /// yyyyx - год в формате четырехзначного числа в виде текста
+        /// hhx - время от 1 до 12 в виде текста
+        /// HHx - время от 0 до 23 в виде текста
+        /// mmx - минуты в виде текста
+        /// ssx - секунды в виде текста
+        /// Буква "х" во всех расширенных форматах - первая буква падежа n,g,d,a,i,p
+        /// </param>
+        /// <returns>Строковое представление даты</returns>
+        public string DateTimeToText(DateTime dateTime, string format)
+        {
+            format = DayToText(dateTime, format);
+            format = MonthToText(dateTime, format);
+            format = YearToText(dateTime, format);
+            format = HoursToText(dateTime, format);
+            format = MinutesToText(dateTime, format);
+            format = SecondsToText(dateTime, format);
+            return dateTime.ToString(format);
+        }
+
+        private static string GetIntegralPart(CurrencyType currencyType, bool isOrdinal, long integral)
+        {
+            switch (currencyType)
+            {
+                case CurrencyType.Ruble:
+                    if (isOrdinal)
+                        return "рубль";
+                    else
+                        if ((integral % 10 == 0) || (integral % 10 >= 5) || ((integral % 100 >= 11) && (integral % 100 <= 14)))
+                            return "рублей";
+                        else
+                            if (integral % 10 == 1)
+                                return "рубль";
+                            else
+                                return "рубля";
+                case CurrencyType.Dollar:
+                    if (isOrdinal)
+                        return "доллар";
+                    else
+                        if ((integral % 10 == 0) && (integral % 10 >= 5) || ((integral >= 11) && (integral <= 14)))
+                            return "долларов";
+                        else
+                            if (integral % 10 == 1)
+                                return "доллар";
+                            else
+                                return "доллара";
+                case CurrencyType.Euro:
+                    return "евро";
+                default: throw new ConvertException("Неизвестный тип валюты");
+            }
+        }
+
+        private static string GetFractionalPart(CurrencyType currencyType, bool isOrdinal, long fractional)
+        {
+            switch (currencyType)
+            {
+                case CurrencyType.Ruble:
+                    if (isOrdinal)
+                        return "копейка";
+                    else
+                        if ((fractional % 10 == 0) || (fractional % 10 >= 5) ||
+                            ((fractional >= 11) && (fractional <= 14)))
+                            return "копеек";
+                        else
+                            if (fractional % 10 == 1)
+                                return "копейка";
+                            else
+                                return "копейки";
+                case CurrencyType.Dollar:
+                    if (isOrdinal)
+                        return "цент";
+                    else
+                        if ((fractional % 10 == 0) && (fractional % 10 >= 5) ||
+                            ((fractional >= 11) && (fractional <= 14)))
+                            return "центов";
+                        else
+                            if (fractional % 10 == 1)
+                                return "цент";
+                            else
+                                return "цента";
+                case CurrencyType.Euro:
+                    if (isOrdinal)
+                        return "цент";
+                    else
+                        if ((fractional % 10 == 0) && (fractional % 10 >= 5) ||
+                            ((fractional >= 11) && (fractional <= 14)))
+                            return "центов";
+                        else
+                            if (fractional % 10 == 1)
+                                return "цент";
+                            else
+                                return "цента";
+                default: throw new ConvertException("Неизвестный тип валюты");
+            }
+        }
+
+        private static List<string> GetCurrenctyPostfix(ConvertModule.CurrencyType currencyType, double currency, bool isOrdinal)
         {
             string[] currency_parts = currency.ToString().Split(new char[] { '.', ',' });
             long integral = long.Parse(currency_parts[0]);
             long fractional = 0;
             if (currency_parts.Length > 1)
                 fractional = long.Parse(currency_parts[1].Substring(0,2));
-            string integral_postfix = "";
-            string fractional_postfix = "";
-            switch (currency_type)
-            {
-                case CurrencyType.Ruble:
-                    if (is_ordinal)
-                        integral_postfix = "рубль";
-                    else
-                    if ((integral % 10 == 0) || (integral % 10 >= 5) || ((integral % 100 >= 11) && (integral % 100 <= 14)))
-                        integral_postfix = "рублей";
-                    else
-                    if (integral % 10 == 1)
-                        integral_postfix = "рубль";
-                    else
-                        integral_postfix = "рубля";
-                    if (is_ordinal)
-                        fractional_postfix = "копейка";
-                    else
-                    if ((fractional % 10 == 0) || (fractional % 10 >= 5) || 
-                        ((fractional >= 11) && (fractional <= 14)))
-                        fractional_postfix = "копеек";
-                    else
-                        if (fractional % 10 == 1)
-                            fractional_postfix = "копейка";
-                        else
-                            fractional_postfix = "копейки";
-                    return new List<string>() { integral_postfix, fractional_postfix };
-                case CurrencyType.Dollar:
-                    if (is_ordinal)
-                        integral_postfix = "доллар";
-                    else
-                    if ((integral % 10 == 0) && (integral % 10 >= 5) || ((integral >= 11) && (integral <= 14)))
-                        integral_postfix = "долларов";
-                    else
-                    if (integral % 10 == 1)
-                        integral_postfix = "доллар";
-                    else
-                        integral_postfix = "доллара";
-                    if (is_ordinal)
-                        fractional_postfix = "цент";
-                    else
-                    if ((fractional % 10 == 0) && (fractional % 10 >= 5) ||
-                        ((fractional >= 11) && (fractional <= 14)))
-                        fractional_postfix = "центов";
-                    else
-                        if (fractional % 10 == 1)
-                            fractional_postfix = "цент";
-                        else
-                            fractional_postfix = "цента";
-                    return new List<string>() { integral_postfix, fractional_postfix };
-                case CurrencyType.Euro:
-                    integral_postfix = "евро";
-                    if (is_ordinal)
-                        fractional_postfix = "цент";
-                    else
-                    if ((fractional % 10 == 0) && (fractional % 10 >= 5) ||
-                        ((fractional >= 11) && (fractional <= 14)))
-                        fractional_postfix = "центов";
-                    else
-                        if (fractional % 10 == 1)
-                            fractional_postfix = "цент";
-                        else
-                            fractional_postfix = "цента";
-                    return new List<string>() { integral_postfix, fractional_postfix };
-                default: throw new ApplicationException("Неизвестный тип валюты");
-            }
+            string integral_postfix = GetIntegralPart(currencyType, isOrdinal, integral);
+            string fractional_postfix = GetFractionalPart(currencyType, isOrdinal, fractional);
+            return new List<string>() { integral_postfix, fractional_postfix };
         }
 
-        public string CurrencyToString(double currency, CurrencyType currency_type, string format, string thousand_separator, bool is_ordinal)
+        /// <summary>
+        /// Метод конвертации суммы в строку
+        /// </summary>
+        /// <param name="currency">Сумма</param>
+        /// <param name="currencyType">Тип валюты</param>
+        /// <param name="format">
+        /// Формат строки вывода суммы:
+        /// ii - рубли (доллары, евро) в виде числа
+        /// ff - копейки (центы) в виде числа
+        /// iix - рубли (доллары, евро) в виде строки
+        /// ffx - копейки (центы) в виде строки
+        /// rx - слово "рубль" ("доллар", "евро")
+        /// kx - словок "копейка" ("цент")
+        /// Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
+        /// </param>
+        /// <param name="thousandSeparator">Разделитель порядков</param>
+        /// <param name="isOrdinal">Если true - порядковое числительное (первый рубль), если false - количественное числительное (один рубль)</param>
+        /// <returns>Возвращает строковое представление суммы</returns>
+        public string CurrencyToString(double currency, CurrencyType currencyType, string format, string thousandSeparator, bool isOrdinal)
         {
-            List<string> currency_types = GetCurrenctyPostfix(currency_type, currency, is_ordinal);
+            List<string> currency_types = GetCurrenctyPostfix(currencyType, currency, isOrdinal);
             string[] currency_parts = currency.ToString().Split(new char[] { '.', ',' }, 2);
             long integral = long.Parse(currency_parts[0]);
-            if (currency_type == CurrencyType.Euro)
+            if (currencyType == CurrencyType.Euro)
                 this.sex = new NeuterClass();
             else
                 this.sex = new MaleClass();
             Match match_integral = Regex.Match(format, "ii[ngdaip]");
             while (match_integral.Success)
             {
-                this.textcase = letter_to_textcase(match_integral.Value[2].ToString());
-                string integral_part = NumberToText(integral, is_ordinal);
+                this.textcase = LetterToTextCase(match_integral.Value[2].ToString());
+                string integral_part = NumberToText(integral, isOrdinal);
                 format = format.Replace(match_integral.Value, integral_part);
                 match_integral = match_integral.NextMatch();
             }
             Match match_rur = Regex.Match(format, "r[ngdaip]");
             while (match_rur.Success)
             {
-                this.textcase = letter_to_textcase(match_rur.Value[1].ToString());
+                this.textcase = LetterToTextCase(match_rur.Value[1].ToString());
                 format = format.Replace(match_rur.Value, this.textcase.Translate(currency_types[0]));
                 match_rur = match_rur.NextMatch();
             }
             long fractional = 0;
             if (currency_parts.Length > 1)
                 fractional = long.Parse(currency_parts[1].Substring(0, 2));
-            if (currency_type == CurrencyType.Ruble)
+            if (currencyType == CurrencyType.Ruble)
                 this.sex = new FemaleClass();
             else
                 this.sex = new MaleClass();
             Match match_fractional = Regex.Match(format, "ff[ngdaip]");
             while (match_fractional.Success)
             {
-                this.textcase = letter_to_textcase(match_fractional.Value[2].ToString());
-                string fractional_part = NumberToText(fractional, is_ordinal);
-                format = format.Replace(match_integral.Value, fractional_part);
+                this.textcase = LetterToTextCase(match_fractional.Value[2].ToString());
+                string fractional_part = NumberToText(fractional, isOrdinal);
+                format = format.Replace(match_fractional.Value, fractional_part);
                 match_fractional = match_fractional.NextMatch();
             }
             Match match_kop = Regex.Match(format, "k[ngdaip]");
             while (match_kop.Success)
             {
-                this.textcase = letter_to_textcase(match_kop.Value[1].ToString());
+                this.textcase = LetterToTextCase(match_kop.Value[1].ToString());
                 format = format.Replace(match_kop.Value, this.textcase.Translate(currency_types[1]));
                 match_kop = match_kop.NextMatch();
             }
@@ -581,9 +724,9 @@ namespace conv_module
                     integral_part_str = "0" + integral_part_str;
                 integral_num = integral_part_str + integral_num;
                 if (integral > 0)
-                    integral_num = thousand_separator + integral_num;
+                    integral_num = thousandSeparator + integral_num;
             }
-            if (integral_num == "")
+            if (String.IsNullOrEmpty(integral_num))
                 integral_num = "0";
             format = format.Replace("ii", integral_num);
             string fractional_str = fractional.ToString();
@@ -593,6 +736,11 @@ namespace conv_module
             return format;
         }
 
+        /// <summary>
+        /// Метод конвертации вещественного числа в строку
+        /// </summary>
+        /// <param name="number">Вещественное число</param>
+        /// <returns>Результат</returns>
         public string FloatToString(float number)
         {
             string[] number_parts = number.ToString().Split(new char[] { '.', ',' }, 2);

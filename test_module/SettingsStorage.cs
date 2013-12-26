@@ -4,24 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
-using am_classes;
+using AMClasses;
 using System.IO;
 
-namespace am_editor
+namespace AmEditor
 {
     /// <summary>
     /// Класс хранилище для настроек программы
     /// </summary>
     [Serializable()]
-    public class SettingsStorage
+    internal class SettingsStorage
     {
-        public string interface_language_prefix { get; set; }
+        public string InterfaceLanguagePrefix { get; set; }
         public List<OpenFileHistoryItem> OpenFileHistory { get; set; }  //В истории открытых файлов храним последние 20, остальные отбрасываем
 
         public SettingsStorage()
         {
             //Задаем значения по умолчанию
-            interface_language_prefix = "ru";
+            InterfaceLanguagePrefix = "ru";
             OpenFileHistory = new List<OpenFileHistoryItem>();
         }
 
@@ -76,11 +76,16 @@ namespace am_editor
     }
 
     [Serializable()]
-    public class OpenFileHistoryItem: IComparable<OpenFileHistoryItem>
+    internal class OpenFileHistoryItem: IComparable<OpenFileHistoryItem>
     {
         public string FileName { get; set; }
         public DateTime OpenDateTime { get; set; }
-        public Dictionary<string, string> command_line_params = new Dictionary<string, string>();
+        public Dictionary<string, string> CommandLineParams { get; set; }
+
+        public OpenFileHistoryItem()
+        {
+            this.CommandLineParams = new Dictionary<string, string>();
+        }
 
         #region IComparable<OpenFileHistoryItem> Members
 

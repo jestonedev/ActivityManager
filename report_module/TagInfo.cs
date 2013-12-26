@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace report_module
+namespace ReportModule
 {
     internal enum SpecTag { B, I, U, S }
     internal enum SpecTagType { OpenTag, CloseTag }

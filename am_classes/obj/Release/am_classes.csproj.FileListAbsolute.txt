@@ -1,7 +1,9 @@
 D:\Projects\Visual Studio Projects\activity_manager\am_classes\bin\Release\am_classes.dll
 D:\Projects\Visual Studio Projects\activity_manager\am_classes\bin\Release\am_classes.pdb
 D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Release\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Release\am_classes.dll
-D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Release\am_classes.pdb
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\am_classes.dll
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\am_classes.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AMClasses.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AMClasses.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AMClasses.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AMClasses.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Release\AMClasses.dll
+D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Release\AMClasses.pdb

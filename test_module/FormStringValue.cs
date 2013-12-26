@@ -6,13 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using am_classes;
+using AMClasses;
 
-namespace am_editor
+namespace AmEditor
 {
-    public partial class FormStringValue : Form
+    internal partial class FormStringValue : Form
     {
-        public string value
+        public string Value
         {
             get { return textBox1.Text; }
             set { textBox1.Text = value; }

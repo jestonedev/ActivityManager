@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace am_classes
+namespace AMClasses
 {
 	public class ActivityStepParameter
 	{
-		public string name { get; set; }
-		public string value { get; set; }
+		public string Name { get; set; }
+		public string Value { get; set; }
 		public ActivityStepParameter(string name, string value)
 		{
-			this.name = name;
-			this.value = value;
+			this.Name = name;
+			this.Value = value;
 		}
 	}
 }

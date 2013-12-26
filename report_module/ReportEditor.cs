@@ -4,59 +4,90 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.IO;
-using extended_types;
+using ExtendedTypes;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
-namespace report_module
+namespace ReportModule
 {
+    /// <summary>
+    /// Базовый класс редактора отчета
+    /// </summary>
     public class ReportEditor
     {
-        protected virtual List<ReportValue> clousers_convert(Dictionary<string, string> xml_clousers, List<ReportValue> values) {
-            List<ReportValue> tmp_values = new List<ReportValue>();
+        /// <summary>
+        /// Метод конвертации xml-замыкателей
+        /// </summary>
+        /// <param name="xmlContractors">Ассоциативный словарь унифицированных и неунифицированных замыкателей</param>
+        /// <param name="values">Список переменных отчета</param>
+        /// <returns>Возвращает список переменных отчета с неунифицированными замыкателями</returns>
+        protected virtual Collection<ReportValue> ContractorsConvert(Dictionary<string, string> xmlContractors, Collection<ReportValue> values)
+        {
+            Collection<ReportValue> tmp_values = new Collection<ReportValue>();
             foreach (ReportValue value in values)
             {
-                ReportValue tmp_value = value;
-                if (tmp_value is TableReportValue)
+                TableReportValue table_report_value = value as TableReportValue;
+                if (table_report_value != null)
                 {
-                    string xml_clouser = (tmp_value as TableReportValue).xml_clouser.ToLower();
-                    if (!xml_clousers.ContainsKey(xml_clouser))
+                    string xml_contractor = table_report_value.XmlContractor.ToLower();
+                    if (!xmlContractors.ContainsKey(xml_contractor))
                     {
-                        ApplicationException exception = new ApplicationException("XML-замыкатель {0} не поддерживается для данного типа отчета");
-                        exception.Data.Add("{0}", xml_clouser);
+                        ReportException exception = new ReportException("XML-замыкатель {0} не поддерживается для данного типа отчета");
+                        exception.Data.Add("{0}", xml_contractor);
                         throw exception;
                     }
-                    (tmp_value as TableReportValue).xml_clouser = xml_clousers[xml_clouser];
+                    table_report_value.XmlContractor = xmlContractors[xml_contractor];
                 }
-                tmp_values.Add(tmp_value);
+                tmp_values.Add(value);
             }
             return tmp_values;
         }
 
-        protected virtual void report_editing_content_file(string report_content_file, List<ReportValue> values) {
-            XDocument xdocument = XDocument.Load(report_content_file, LoadOptions.PreserveWhitespace);
+        /// <summary>
+        /// Метод, заполняющий файл отчета контентом
+        /// </summary>
+        /// <param name="reportContentFile">Основной файл отчета</param>
+        /// <param name="values">Переменные отчета</param>
+        protected virtual void ReportEditingContentFile(string reportContentFile, Collection<ReportValue> values)
+        {
+            XDocument xdocument = XDocument.Load(reportContentFile, LoadOptions.PreserveWhitespace);
             XElement root = xdocument.Root;
             foreach (ReportValue report_value in values)
-                if (report_value is StringReportValue)
-                    WriteString((StringReportValue)report_value, xdocument);
+            {
+                StringReportValue string_report_value = report_value as StringReportValue;
+                TableReportValue table_report_value = report_value as TableReportValue;
+                if (string_report_value != null)
+                    WriteString(string_report_value, xdocument);
                 else
-                if (report_value is TableReportValue)
-                    WriteTable((TableReportValue)report_value, xdocument);
-            xdocument.Save(report_content_file, SaveOptions.DisableFormatting);
+                    if (table_report_value != null)
+                        WriteTable(table_report_value, xdocument);
+            }
+            xdocument.Save(reportContentFile, SaveOptions.DisableFormatting);
         }
 
-        protected virtual void WriteString(StringReportValue report_value, XDocument xdocument)
+        /// <summary>
+        /// Метод, заменяющий строковый шаблон отчета
+        /// </summary>
+        /// <param name="reportValue">Строковая переменная отчета</param>
+        /// <param name="document">Отчет</param>
+        protected virtual void WriteString(StringReportValue reportValue, XDocument document)
         {
-            string root_string = xdocument.Root.ToString(SaveOptions.DisableFormatting);
-            root_string = root_string.Replace(report_value.pattern, report_value.value);
-            xdocument.Root.Remove();
-            xdocument.Add(XElement.Parse(root_string, LoadOptions.PreserveWhitespace));
+            string root_string = document.Root.ToString(SaveOptions.DisableFormatting);
+            root_string = root_string.Replace(reportValue.Pattern, reportValue.Value);
+            document.Root.Remove();
+            document.Add(XElement.Parse(root_string, LoadOptions.PreserveWhitespace));
         }
 
-        protected virtual void WriteTable(TableReportValue report_value, XDocument xdocument)
+        /// <summary>
+        /// Метод, заменяющий табличный шаблон отчета
+        /// </summary>
+        /// <param name="reportValue">Табличная переменная отчета</param>
+        /// <param name="document">Отчет</param>
+        protected virtual void WriteTable(TableReportValue reportValue, XDocument document)
         {
-            IEnumerable<XElement> elements = ReportHelper.find_xelements(xdocument.Root, report_value.xml_clouser);
+            IEnumerable<XElement> elements = ReportHelper.find_xelements(document.Root, reportValue.XmlContractor);
             List<string> pattern = new List<string>();
-            foreach (string column in report_value.table.Columns)
+            foreach (string column in reportValue.Table.Columns)
                 pattern.Add("$" + column + "$");
             string reg_match_pattern = ReportHelper.get_table_pattern_regex(pattern);
             foreach (XElement element in elements)
@@ -65,7 +96,7 @@ namespace report_module
                 if (Regex.IsMatch(element_value, reg_match_pattern))
                 {
                     List<XElement> new_elements = new List<XElement>();
-                    foreach (ReportRow row in report_value.table)
+                    foreach (ReportRow row in reportValue.Table)
                     {
                         string result_row = element_value;
                         for (int i = 0; i < pattern.Count; i++)
@@ -80,16 +111,30 @@ namespace report_module
             }
         }
 
-        public virtual List<ReportValue> xml_clousers_convert(List<ReportValue> values)
+        /// <summary>
+        /// Класс конвертации xml-замыкателя
+        /// </summary>
+        /// <param name="values">Список переменных, в которых надо найти унифицированные замыкатели и заменить на зависимые от типа отчета</param>
+        /// <returns>Возвращает список переменных отчета с зависимыми от типа отчета xml-замыкателями</returns>
+        public virtual Collection<ReportValue> XmlContractorsConvert(Collection<ReportValue> values)
         {
-            return clousers_convert(new Dictionary<string, string>(), values);
+            return ContractorsConvert(new Dictionary<string, string>(), values);
         }
 
-        public virtual void report_editing(string report_path, List<ReportValue> values)
+        /// <summary>
+        /// Метод, производящий замену всех шаблонов отчета на значения переменных отчета
+        /// </summary>
+        /// <param name="reportUnzipPath">Путь до файла отчета</param>
+        /// <param name="values">Список переменных</param>
+        public virtual void ReportEditing(string reportUnzipPath, Collection<ReportValue> values)
         {
-            report_editing_content_file(Path.Combine(report_path, "content.xml"), values);
+            ReportEditingContentFile(Path.Combine(reportUnzipPath, "content.xml"), values);
         }
 
-        public virtual void special_tag_editing(string report_unzip_path) { }
+        /// <summary>
+        /// Метод, производящий замену специальных тэгов в отчете
+        /// </summary>
+        /// <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
+        public virtual void SpecialTagEditing(string reportUnzipPath) { }
     }
 }

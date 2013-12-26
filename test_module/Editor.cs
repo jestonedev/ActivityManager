@@ -6,16 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using am_classes;
+using AMClasses;
 using System.IO;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 
-namespace am_editor
+namespace AmEditor
 {
-    public partial class Editor : Form
+    internal partial class Editor : Form
     {
 
         //Параметры командной строки
@@ -33,10 +33,10 @@ namespace am_editor
 
         //Путь до папки с плагинами и правила включения плагинов
         private string plugins_path = "";
-        private List<PluginIncludeRule> plugins_include_rules = new List<PluginIncludeRule>();
+        private List<PlugIncludeRule> plugins_include_rules = new List<PlugIncludeRule>();
 
         //Плагины и документация по ним
-        private List<Plugin> plugins = new List<Plugin>();
+        private List<PlugInfo> plugins = new List<PlugInfo>();
         private Dictionary<string, XDocument> plugins_doc = new Dictionary<string, XDocument>();
 
         //Конфигурация языкового пакета
@@ -65,20 +65,20 @@ namespace am_editor
             {
                 bool include = false;
                 FileInfo fi = new FileInfo(file);
-                foreach (PluginIncludeRule pir in plugins_include_rules)
+                foreach (PlugIncludeRule pir in plugins_include_rules)
                 {
-                    if ((pir.PluginNameMask == "*") || (pir.PluginNameMask == fi.Name))
+                    if ((pir.PlugNameMask == "*") || (pir.PlugNameMask == fi.Name))
                         include = pir.IncludeRule == "include";
                 }
                 if (!include)
                     continue;
                 try
                 {
-                    plugins.Add(new Plugin(file));
+                    plugins.Add(new PlugInfo(file));
                 }
-                catch (ApplicationException e)
+                catch (AMException e)
                 {
-                    throw new ApplicationException(_(e.Message));
+                    throw new AMException(_(e.Message));
                 }
             }
             string[] files_doc = Directory.GetFiles(plugins_path, "*.xml", SearchOption.TopDirectoryOnly);
@@ -100,41 +100,41 @@ namespace am_editor
             this.activity_steps.Clear();
             XDocument xdoc = XDocument.Load(fileName, LoadOptions.PreserveWhitespace);
             if (xdoc.Root.Name.LocalName != "activity")
-                throw new ApplicationException("[config.xml]" + _("Корневой элемент файла конфигурации неизвестен"));
+                throw new AMException("[config.xml]" + _("Корневой элемент файла конфигурации неизвестен"));
             //Обрабатываем элементы step
             IEnumerable<XElement> elements = xdoc.Root.Elements("step");
             foreach (XElement element in elements)
                  activity_steps.Add(ActivityStep.ConvertXElementToActivityStep(element, this.language));
             //Обрабатываем элемент plugins
-            XElement plugins = xdoc.Root.Element("plugins");
-            if (plugins != null)
+            XElement xplugins = xdoc.Root.Element("plugins");
+            if (xplugins != null)
             {
-                XAttribute plugins_path = plugins.Attribute("path");
-                if (plugins_path != null)
+                XAttribute xplugins_path = xplugins.Attribute("path");
+                if (xplugins_path != null)
                 {
-                    this.plugins_path = plugins_path.Value;
+                    this.plugins_path = xplugins_path.Value;
                     if (!Directory.Exists(this.plugins_path))
-                        throw new ApplicationException(String.Format(_("Путь до папки {0} не найден"), this.plugins_path));
+                        throw new AMException(String.Format(_("Путь до папки {0} не найден"), this.plugins_path));
                 }
-                IEnumerable<XElement> plugins_include_rules = plugins.Elements();
-                foreach (XElement plugin_include_rule in plugins_include_rules)
+                IEnumerable<XElement> xplugins_include_rules = xplugins.Elements();
+                foreach (XElement xplugin_include_rule in xplugins_include_rules)
                 {
-                    switch (plugin_include_rule.Name.LocalName)
+                    switch (xplugin_include_rule.Name.LocalName)
                     {
                         case "include":
-                        case "exclude": this.plugins_include_rules.Add(new PluginIncludeRule(
-                            plugin_include_rule.Name.LocalName,
-                            plugin_include_rule.Value));
+                        case "exclude": this.plugins_include_rules.Add(new PlugIncludeRule(
+                            xplugin_include_rule.Name.LocalName,
+                            xplugin_include_rule.Value));
                             break;
                         default:
-                            throw new ApplicationException("[config.xml]" + _("Неизвестное правило для фильтрации плагинов"));
+                            throw new AMException("[config.xml]" + _("Неизвестное правило для фильтрации плагинов"));
                     }
                 }
             }
             //Обрабатываем элемент language
-            XElement language = xdoc.Root.Element("language");
-            if (language != null)
-                this.config_language = new Language(language.Value);
+            XElement xlanguage = xdoc.Root.Element("language");
+            if (xlanguage != null)
+                this.config_language = new Language(xlanguage.Value);
         }
 
         public void PrepareConfig()
@@ -149,87 +149,87 @@ namespace am_editor
 
         public void CheckActivityVariablesSignature(ActivityStep step)
         {
-            PluginActionInfo current_action = null;
-            foreach (Plugin plugin in plugins)
-                if (step.plugin_name == plugin.PluginName)
-                    foreach (PluginActionInfo action in plugin.PluginActions)
-                        if (action.ActionName == step.action_name)
+            PlugActionInfo current_action = null;
+            foreach (PlugInfo plugin in plugins)
+                if (step.PlugName == plugin.PlugName)
+                    foreach (PlugActionInfo action in plugin.PlugActions)
+                        if (action.ActionName == step.ActionName)
                             current_action = action;
             if (current_action == null)
-                throw new ApplicationException(
-                    String.Format(_("Не удалось найти действие {0} в плагине {1}"), step.action_name, step.plugin_name));
-            if ((step.input_parameters.Count + step.output_parameters.Count) != current_action.parameters.Count)
-                throw new ApplicationException(String.Format(_("Передано неверное число параметров в действие {0} плагина {1}"), step.action_name, step.plugin_name));
-            foreach (ActivityStepParameter action_parameter in step.input_parameters)
+                throw new AMException(
+                    String.Format(_("Не удалось найти действие {0} в плагине {1}"), step.ActionName, step.PlugName));
+            if ((step.InputParameters.Count + step.OutputParameters.Count) != current_action.Parameters.Count)
+                throw new AMException(String.Format(_("Передано неверное число параметров в действие {0} плагина {1}"), step.ActionName, step.PlugName));
+            foreach (ActivityStepParameter action_parameter in step.InputParameters)
             {
                 bool finded = false;
-                foreach (PluginActionParameter plugin_parameter in current_action.parameters)
+                foreach (PlugActionParameter plugin_parameter in current_action.Parameters)
                 {
-                    if (action_parameter.name == plugin_parameter.Name)
+                    if (action_parameter.Name == plugin_parameter.Name)
                     {
                         //Нашли параметр, проверяем, чтобы он был корректен
                         finded = true;
-                        if (plugin_parameter.Direction != am_classes.ParameterDirection.Input)
-                            throw new ApplicationException(
+                        if (plugin_parameter.Direction != AMClasses.ParameterDirection.Input)
+                            throw new AMException(
                                 String.Format(_("Параметр {0} действия {1} плагина {2} предполагает возвращение, а не получение значения"),
-                                action_parameter.name, step.action_name, step.plugin_name));
+                                action_parameter.Name, step.ActionName, step.PlugName));
                         break;
                     }
                 }
                 if (!finded)
-                    throw new ApplicationException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.action_name, step.plugin_name, action_parameter.name));
+                    throw new AMException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, action_parameter.Name));
             }
-            foreach (ActivityStepParameter action_parameter in step.output_parameters)
+            foreach (ActivityStepParameter action_parameter in step.OutputParameters)
             {
                 bool finded = false;
-                foreach (PluginActionParameter plugin_parameter in current_action.parameters)
+                foreach (PlugActionParameter plugin_parameter in current_action.Parameters)
                 {
-                    if (action_parameter.name == plugin_parameter.Name)
+                    if (action_parameter.Name == plugin_parameter.Name)
                     {
                         //Нашли параметр, проверяем, чтобы он был корректен
                         finded = true;
-                        if (plugin_parameter.Direction != am_classes.ParameterDirection.Output)
-                            throw new ApplicationException(
+                        if (plugin_parameter.Direction != AMClasses.ParameterDirection.Output)
+                            throw new AMException(
                                 String.Format(_("Параметр {0} действия {1} плагина {2} предполагает получение, а не возвращение значения"),
-                                action_parameter.name, step.action_name, step.plugin_name));
+                                action_parameter.Name, step.ActionName, step.PlugName));
                         break;
                     }
                 }
                 if (!finded)
-                    throw new ApplicationException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.action_name, step.plugin_name, action_parameter.name));
+                    throw new AMException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, action_parameter.Name));
             }
         }
 
         public void CheckAndPrepareActions(ref ActivityStep step)
         {
             //Проверка и сопоставление plugin_name и action
-            if (step.plugin_name == null)
+            if (step.PlugName == null)
             {
                 bool finded = false;
-                foreach (Plugin plugin in plugins)
+                foreach (PlugInfo plugin in plugins)
                 {
-                    if (plugin.HasAction(step.action_name))
+                    if (plugin.HasAction(step.ActionName))
                     {
                         if (!finded)
                         {
-                            step.plugin_name = plugin.PluginName;
+                            step.PlugName = plugin.PlugName;
                             finded = true;
                         }
                         else
-                            throw new ApplicationException(String.Format(
+                            throw new AMException(String.Format(
                                 _("Неоднозначность определения заданного действия. Действие \"{0}\" определено в плагинах {1} и {2}. Необходимо явное указание плагина в файле конфигурации"),
-                                step.action_name, step.plugin_name, plugin.PluginName));
+                                step.ActionName, step.PlugName, plugin.PlugName));
                     }
                 }
                 if (!finded)
-                    throw new ApplicationException(String.Format(_("Не удалось найти действие {0} ни в одном из плагинов"),
-                        step.action_name));
+                    throw new AMException(String.Format(_("Не удалось найти действие {0} ни в одном из плагинов"),
+                        step.ActionName));
             }
             else
-                foreach (Plugin plugin in plugins)
-                    if ((plugin.PluginName == step.plugin_name) && (!plugin.HasAction(step.action_name)))
-                        throw new ApplicationException(String.Format(_("В плагине {0} не определено действие {1}"),
-                            plugin.PluginName, step.action_name));
+                foreach (PlugInfo plugin in plugins)
+                    if ((plugin.PlugName == step.PlugName) && (!plugin.HasAction(step.ActionName)))
+                        throw new AMException(String.Format(_("В плагине {0} не определено действие {1}"),
+                            plugin.PlugName, step.ActionName));
         }
 
         //Загрузить список этапов выполнения в DataGridView
@@ -248,7 +248,7 @@ namespace am_editor
         private void LoadPluginsComboBox()
         {
             pluginName_comboBox.Items.Clear();
-            foreach (Plugin plugin in plugins)
+            foreach (PlugInfo plugin in plugins)
                 pluginName_comboBox.Items.Add(plugin);
         }
 
@@ -262,7 +262,7 @@ namespace am_editor
             Text = _("AM-редактор");
             if (form_state == FormState.Edit)
                 Text += " [*]";
-            if (current_file_name != "")
+            if (!String.IsNullOrEmpty(current_file_name))
                 Text += String.Format(" [{0}]", current_file_name);
             pluginName_comboBox.Enabled = (dataGridViewSteps.SelectedRows.Count > 0);
             actionName_comboBox.Enabled = (dataGridViewSteps.SelectedRows.Count > 0);
@@ -295,41 +295,41 @@ namespace am_editor
             if (plugins_include_rules.Count > 0)
             {
                 XElement plugins_element = new XElement("plugins");
-                foreach (PluginIncludeRule pir in plugins_include_rules)
+                foreach (PlugIncludeRule pir in plugins_include_rules)
                 {
                     XElement include_element = new XElement(pir.IncludeRule);
-                    include_element.Value = pir.PluginNameMask;
+                    include_element.Value = pir.PlugNameMask;
                     plugins_element.Add(include_element);
                 }
                 activity_element.Add(plugins_element);
             }
-            activity_element.Add(new XElement("language", new XText(config_language.Language_prefix)));
+            activity_element.Add(new XElement("language", new XText(config_language.Prefix)));
             if (activity_steps.Count > 0)
             {
                 int i = 1;
                 foreach (ActivityStep step in activity_steps)
                 {
-                    if (step.plugin_name == null || step.action_name == null)
+                    if (step.PlugName == null || step.ActionName == null)
                     {
                         MessageBox.Show(String.Format(_("Ошибка конфигурации шага выполнения №{0}. Данные не могут быть сохранены"), i), 
                             _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
                     i++;
-                    XElement step_element = new XElement("step", new XAttribute("plugin", step.plugin_name), 
-                        new XAttribute("action", step.action_name), new XAttribute("repeat", step.repeat_count));
-                    if (step.input_parameters.Count > 0)
+                    XElement step_element = new XElement("step", new XAttribute("plugin", step.PlugName), 
+                        new XAttribute("action", step.ActionName), new XAttribute("repeat", step.RepeatCount));
+                    if (step.InputParameters.Count > 0)
                     {
                         XElement input_parameters = new XElement("input");
-                        foreach (ActivityStepParameter asp in step.input_parameters)
-                            input_parameters.Add(new XElement("parameter", new XAttribute("name", asp.name), new XText(asp.value)));
+                        foreach (ActivityStepParameter asp in step.InputParameters)
+                            input_parameters.Add(new XElement("parameter", new XAttribute("name", asp.Name), new XText(asp.Value)));
                         step_element.Add(input_parameters);
                     }
-                    if (step.output_parameters.Count > 0)
+                    if (step.OutputParameters.Count > 0)
                     {
                         XElement output_parameters = new XElement("output");
-                        foreach (ActivityStepParameter asp in step.output_parameters)
-                            output_parameters.Add(new XElement("parameter", new XAttribute("name", asp.name), new XText(asp.value)));
+                        foreach (ActivityStepParameter asp in step.OutputParameters)
+                            output_parameters.Add(new XElement("parameter", new XAttribute("name", asp.Name), new XText(asp.Value)));
                         step_element.Add(output_parameters);
                     }
                     activity_element.Add(step_element);
@@ -400,10 +400,10 @@ namespace am_editor
                 if (item.FileName == current_file_name)
                 {
                     //Если запись существует, то мы просто ее обновляем
-                    item.command_line_params.Clear();
+                    item.CommandLineParams.Clear();
                     item.OpenDateTime = current_file_open_datetime;
                     foreach (string key in command_line_params.Keys)
-                        item.command_line_params.Add(key, command_line_params[key]);
+                        item.CommandLineParams.Add(key, command_line_params[key]);
                     is_exists = true;
                 }
             if (!is_exists)
@@ -412,7 +412,7 @@ namespace am_editor
                 OpenFileHistoryItem ofhi = new OpenFileHistoryItem();
                 ofhi.FileName = current_file_name;
                 ofhi.OpenDateTime = current_file_open_datetime;
-                ofhi.command_line_params = command_line_params;
+                ofhi.CommandLineParams = command_line_params;
                 settings_storage.OpenFileHistory.Add(ofhi);
             }
         }
@@ -453,7 +453,7 @@ namespace am_editor
             settings_storage = SettingsStorage.LoadSettings();
             if (settings_storage != null)
             {
-                language = new Language(settings_storage.interface_language_prefix);
+                language = new Language(settings_storage.InterfaceLanguagePrefix);
             }
             else
                 settings_storage = new SettingsStorage();
@@ -484,17 +484,12 @@ namespace am_editor
             SaveSettings();
         }
 
-        private void выходToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void плагиныToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             FormPlugins fp = new FormPlugins(plugins_include_rules, language);
             if (fp.ShowDialog() == DialogResult.OK)
             {
-                this.plugins_include_rules = fp.plugins_include_rules;
+                this.plugins_include_rules = fp.PluginsIncludeRules;
                 try
                 {
                     LoadPlugins();
@@ -538,8 +533,8 @@ namespace am_editor
                         if (item.FileName == current_file_name)
                         {
                             item.OpenDateTime = current_file_open_datetime;
-                            foreach (string key in item.command_line_params.Keys)
-                                command_line_params.Add(key, item.command_line_params[key]);
+                            foreach (string key in item.CommandLineParams.Keys)
+                                command_line_params.Add(key, item.CommandLineParams[key]);
                             is_exists = true;
                         }
                     //Добавляем информацию об открытом файле в историю открытых файлов если его не существует
@@ -548,7 +543,7 @@ namespace am_editor
                         OpenFileHistoryItem ofhi = new OpenFileHistoryItem();
                         ofhi.FileName = current_file_name;
                         ofhi.OpenDateTime = current_file_open_datetime;
-                        ofhi.command_line_params = command_line_params;
+                        ofhi.CommandLineParams = command_line_params;
                         settings_storage.OpenFileHistory.Add(ofhi);
                     }
                 }
@@ -570,8 +565,8 @@ namespace am_editor
             if (dataGridViewSteps.SelectedRows.Count == 0)
                 return;
             ActivityStep step = ((ActivityStep)dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value);
-            string plugin_name = step.plugin_name;
-            string action_name = step.action_name;
+            string plugin_name = step.PlugName;
+            string action_name = step.ActionName;
             //Выбираем плагин из списка
             if (plugin_name == null)
             {
@@ -580,7 +575,7 @@ namespace am_editor
             }
             for (int i = 0; i < pluginName_comboBox.Items.Count; i++)
             {
-                if (((Plugin)pluginName_comboBox.Items[i]).PluginName == plugin_name)
+                if (((PlugInfo)pluginName_comboBox.Items[i]).PlugName == plugin_name)
                 {
                     pluginName_comboBox.SelectedIndex = i;
                     break;
@@ -600,7 +595,7 @@ namespace am_editor
             }
             for (int i = 0; i < actionName_comboBox.Items.Count; i++)
             {
-                if (((PluginActionInfo)actionName_comboBox.Items[i]).ActionName == action_name)
+                if (((PlugActionInfo)actionName_comboBox.Items[i]).ActionName == action_name)
                 {
                     actionName_comboBox.SelectedIndex = i;
                     break;
@@ -635,12 +630,12 @@ namespace am_editor
             actionName_comboBox.Items.Clear();
             if (pluginName_comboBox.SelectedIndex == -1)
                 return;
-            Plugin plugin = (Plugin)pluginName_comboBox.SelectedItem;
-            foreach (PluginActionInfo pai in plugin.PluginActions)
+            PlugInfo plugin = (PlugInfo)pluginName_comboBox.SelectedItem;
+            foreach (PlugActionInfo pai in plugin.PlugActions)
                 actionName_comboBox.Items.Add(pai);
             if (is_manual_change_state)
             {
-                activity_steps[dataGridViewSteps.SelectedRows[0].Index].plugin_name = plugin.PluginName;
+                activity_steps[dataGridViewSteps.SelectedRows[0].Index].PlugName = plugin.PlugName;
                 form_state = FormState.Edit;
                 ChangeFormState();
             }
@@ -648,15 +643,15 @@ namespace am_editor
 
         private void ShowActionDescription()
         {
-            PluginActionInfo pai = (PluginActionInfo)actionName_comboBox.SelectedItem;
-            Plugin plugin = (Plugin)pluginName_comboBox.SelectedItem;
+            PlugActionInfo pai = (PlugActionInfo)actionName_comboBox.SelectedItem;
+            PlugInfo plugin = (PlugInfo)pluginName_comboBox.SelectedItem;
             if (plugin == null || pai == null)
                 return;
-            string PluginName = plugin.PluginName;
+            string PluginName = plugin.PlugName;
             string ReleazeClassName = plugin.RealizeClassName();
             string ActionName = pai.ActionName;
             string ActionParametersList = "";
-            foreach (PluginActionParameter pap in pai.parameters)
+            foreach (PlugActionParameter pap in pai.Parameters)
                 ActionParametersList += pap.ParameterType.FullName.Replace("&", "@") + ",";
             ActionParametersList = ActionParametersList.Trim(new char[] { ',' });
             if (plugins_doc.ContainsKey(PluginName))
@@ -703,22 +698,20 @@ namespace am_editor
             richTextBoxDescription.Clear();
             if (actionName_comboBox.SelectedIndex == -1)
                 return;
-            PluginActionInfo pai = (PluginActionInfo)actionName_comboBox.SelectedItem;
+            PlugActionInfo pai = (PlugActionInfo)actionName_comboBox.SelectedItem;
             int i = 0;
             if (is_manual_change_state && dataGridViewSteps.SelectedRows.Count > 0)
             {
                 ActivityStep step = ((ActivityStep)dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value);
-                step.input_parameters = new List<ActivityStepParameter>();
-                step.output_parameters = new List<ActivityStepParameter>();
-                foreach (PluginActionParameter pap in pai.parameters)
+                foreach (PlugActionParameter pap in pai.Parameters)
                 {
-                    if (pap.Direction == am_classes.ParameterDirection.Input)
-                        step.input_parameters.Add(new ActivityStepParameter(pap.Name, ""));
+                    if (pap.Direction == AMClasses.ParameterDirection.Input)
+                        step.InputParameters.Add(new ActivityStepParameter(pap.Name, ""));
                     else
-                        step.output_parameters.Add(new ActivityStepParameter(pap.Name, ""));
+                        step.OutputParameters.Add(new ActivityStepParameter(pap.Name, ""));
                 }
             }
-            foreach (PluginActionParameter pap in pai.parameters)
+            foreach (PlugActionParameter pap in pai.Parameters)
             {
                 i++;
                 if (dataGridViewSteps.SelectedRows.Count == 0)
@@ -729,19 +722,19 @@ namespace am_editor
                 //Если выбран шаг, то подгрузить значения для него
                 object value = null;
                 ActivityStep step = ((ActivityStep)dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value);
-                foreach (ActivityStepParameter asp in step.input_parameters)
+                foreach (ActivityStepParameter asp in step.InputParameters)
                 {
-                    if (pap.Name == asp.name)
+                    if (pap.Name == asp.Name)
                     {
-                        value = asp.value;
+                        value = asp.Value;
                         break;
                     }
                 }
-                foreach (ActivityStepParameter asp in step.output_parameters)
+                foreach (ActivityStepParameter asp in step.OutputParameters)
                 {
-                    if (pap.Name == asp.name)
+                    if (pap.Name == asp.Name)
                     {
-                        value = asp.value;
+                        value = asp.Value;
                         break;
                     }
                 }
@@ -752,7 +745,7 @@ namespace am_editor
             //Обновить состояние формы
             if (is_manual_change_state)
             {
-                activity_steps[dataGridViewSteps.SelectedRows[0].Index].action_name = pai.ActionName;
+                activity_steps[dataGridViewSteps.SelectedRows[0].Index].ActionName = pai.ActionName;
                 form_state = FormState.Edit;
                 ChangeFormState();
             }
@@ -812,29 +805,29 @@ namespace am_editor
             List<string> global_parameters = new List<string>();
             for (int i = 0; i < step_index; i++)
             {
-                Plugin current_plugin = null;
-                foreach (Plugin plugin in plugins)
-                    if (plugin.PluginName == activity_steps[i].plugin_name)
+                PlugInfo current_plugin = null;
+                foreach (PlugInfo plugin in plugins)
+                    if (plugin.PlugName == activity_steps[i].PlugName)
                         current_plugin = plugin;
-                PluginActionInfo current_action = null;
-                foreach (PluginActionInfo pai in current_plugin.PluginActions)
-                    if (pai.ActionName == activity_steps[i].action_name)
+                PlugActionInfo current_action = null;
+                foreach (PlugActionInfo pai in current_plugin.PlugActions)
+                    if (pai.ActionName == activity_steps[i].ActionName)
                         current_action = pai;
-                foreach (PluginActionParameter param in current_action.parameters)
-                    if ((param.Direction == am_classes.ParameterDirection.Output) && (param.ParameterType.FullName.Replace("&", "") == type.FullName))
+                foreach (PlugActionParameter param in current_action.Parameters)
+                    if ((param.Direction == AMClasses.ParameterDirection.Output) && (param.ParameterType.FullName.Replace("&", "") == type.FullName))
                     {
-                        foreach (ActivityStepParameter asp in activity_steps[i].output_parameters)
-                            if (asp.name == param.Name)
+                        foreach (ActivityStepParameter asp in activity_steps[i].OutputParameters)
+                            if (asp.Name == param.Name)
                             {
-                                if (asp.value.Trim() != "")
+                                if (!String.IsNullOrEmpty(asp.Value.Trim()))
                                 {
-                                    if (!global_parameters.Contains("[" + asp.value + "]"))
-                                        global_parameters.Add("["+asp.value+"]");
+                                    if (!global_parameters.Contains("[" + asp.Value + "]"))
+                                        global_parameters.Add("["+asp.Value+"]");
                                 }
                                 else
                                 {
-                                    if (!global_parameters.Contains("[" + asp.value + "]"))
-                                        global_parameters.Add("["+asp.name+"]");
+                                    if (!global_parameters.Contains("[" + asp.Value + "]"))
+                                        global_parameters.Add("["+asp.Name+"]");
                                 }
                             }
                     }
@@ -845,15 +838,15 @@ namespace am_editor
         private void SetCurrentActiveStepParameterValue(string value)
         {
             string param_name = (string)dataGridViewParams.SelectedRows[0].Cells["ParamName"].Value;
-            for (int i = 0; i < activity_steps[dataGridViewSteps.SelectedRows[0].Index].input_parameters.Count; i++)
+            for (int i = 0; i < activity_steps[dataGridViewSteps.SelectedRows[0].Index].InputParameters.Count; i++)
             {
-                if (activity_steps[dataGridViewSteps.SelectedRows[0].Index].input_parameters[i].name == param_name)
-                    activity_steps[dataGridViewSteps.SelectedRows[0].Index].input_parameters[i].value = value;
+                if (activity_steps[dataGridViewSteps.SelectedRows[0].Index].InputParameters[i].Name == param_name)
+                    activity_steps[dataGridViewSteps.SelectedRows[0].Index].InputParameters[i].Value = value;
             }
-            for (int i = 0; i < activity_steps[dataGridViewSteps.SelectedRows[0].Index].output_parameters.Count; i++)
+            for (int i = 0; i < activity_steps[dataGridViewSteps.SelectedRows[0].Index].OutputParameters.Count; i++)
             {
-                if (activity_steps[dataGridViewSteps.SelectedRows[0].Index].output_parameters[i].name == param_name)
-                    activity_steps[dataGridViewSteps.SelectedRows[0].Index].output_parameters[i].value = value;
+                if (activity_steps[dataGridViewSteps.SelectedRows[0].Index].OutputParameters[i].Name == param_name)
+                    activity_steps[dataGridViewSteps.SelectedRows[0].Index].OutputParameters[i].Value = value;
             }
             dataGridViewParams.SelectedRows[0].Cells["ParamValue"].Value = value;
         }
@@ -869,16 +862,16 @@ namespace am_editor
                 return;
             Type param_type = (Type)dataGridViewParams.SelectedRows[0].Cells["ParamType"].Value;
             string param_name = (string)dataGridViewParams.SelectedRows[0].Cells["ParamName"].Value;
-            am_classes.ParameterDirection direction = 
-                (am_classes.ParameterDirection)dataGridViewParams.SelectedRows[0].Cells["ParamDirection"].Value;
-            if (direction == am_classes.ParameterDirection.Output)
+            AMClasses.ParameterDirection direction = 
+                (AMClasses.ParameterDirection)dataGridViewParams.SelectedRows[0].Cells["ParamDirection"].Value;
+            if (direction == AMClasses.ParameterDirection.Output)
             {
                 FormStringValue fsv = new FormStringValue(language);
                 fsv.Text = _("Задать глобальное имя") + " [" + param_name + "]";
-                fsv.value = GetCurrentActiveStepParameterValue();
+                fsv.Value = GetCurrentActiveStepParameterValue();
                 if (fsv.ShowDialog() == DialogResult.OK)
                 {
-                    SetCurrentActiveStepParameterValue(fsv.value);
+                    SetCurrentActiveStepParameterValue(fsv.Value);
                     form_state = FormState.Edit;
                     ChangeFormState();
                 }
@@ -933,10 +926,10 @@ namespace am_editor
                 values.AddRange(GlobalParametersNamesBy(type, dataGridViewSteps.SelectedRows[0].Index));
             FormSqlValue fsqlv = new FormSqlValue(values, language);
             fsqlv.Text = _("Задать значение параметра") + " [" + param_name + "]";
-            fsqlv.value = GetCurrentActiveStepParameterValue();
+            fsqlv.Value = GetCurrentActiveStepParameterValue();
             if (fsqlv.ShowDialog() == DialogResult.OK)
             {
-                SetCurrentActiveStepParameterValue(fsqlv.value);
+                SetCurrentActiveStepParameterValue(fsqlv.Value);
                 form_state = FormState.Edit;
                 ChangeFormState();
             }
@@ -968,17 +961,17 @@ namespace am_editor
         {
             if (!Save())
                 return;
-            string activity_manager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity_manager.exe");
-            if (!File.Exists(activity_manager))
+            string activityManager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ActivityManager.exe");
+            if (!File.Exists(activityManager))
             {
-                MessageBox.Show(_("Не удалось найти исполняемый файл activity_manager.exe"),_("Ошибка"),MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(_("Не удалось найти исполняемый файл ActivityManager.exe"), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             string arguments = "config=\""+current_file_name+"\"";
             foreach(string key in command_line_params.Keys)
                 arguments += " "+key+"=\""+command_line_params[key]+"\"";
             Process process = new Process();
-            ProcessStartInfo psi = new ProcessStartInfo(activity_manager, arguments);
+            ProcessStartInfo psi = new ProcessStartInfo(activityManager, arguments);
             psi.CreateNoWindow = true;
             psi.UseShellExecute = false;
             process.StartInfo = psi;
@@ -1004,14 +997,14 @@ namespace am_editor
                     languages.Add(fi.Extension.Trim(new char[] { '.' }));
             }
             fl.languages = languages;
-            fl.config_language = config_language.Language_prefix;
-            fl.interface_language = language.Language_prefix;
+            fl.config_language = config_language.Prefix;
+            fl.interface_language = language.Prefix;
             if (fl.ShowDialog() == DialogResult.OK)
             {
                 language = new Language(fl.interface_language);
-                settings_storage.interface_language_prefix = fl.interface_language;
+                settings_storage.InterfaceLanguagePrefix = fl.interface_language;
                 _ = language.Translate;
-                if (config_language.Language_prefix != fl.config_language)
+                if (config_language.Prefix != fl.config_language)
                 {
                     config_language = new Language(fl.config_language);
                     form_state = FormState.Edit;
@@ -1023,11 +1016,11 @@ namespace am_editor
 
         private void копироватьСтрокуЗапускаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string activity_manager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity_manager.exe");
+            string activityManager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ActivityManager.exe");
             string arguments = "config=\"" + current_file_name + "\"";
             foreach (string key in command_line_params.Keys)
                 arguments += " " + key + "=\"" + command_line_params[key] + "\"";
-            Clipboard.SetText(activity_manager+" "+arguments);
+            Clipboard.SetText(activityManager+" "+arguments);
             MessageBox.Show(_("Строка выполнения успешно скопирована"), _("Информация"), MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }

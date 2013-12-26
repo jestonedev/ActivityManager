@@ -5,13 +5,14 @@ using System.Text;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 
-namespace report_module
+namespace ReportModule
 {
     /// <summary>
     /// Класс со вспомогательными фунциями
     /// </summary>
     class ReportHelper
     {
+        private ReportHelper() { }
 
         /// <summary>
         /// Получить регулярное выражение по списку параметров, входящих в паттерн таблицы

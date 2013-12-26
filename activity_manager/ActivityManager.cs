@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Windows.Forms;
-using am_classes;
+using AMClasses;
 
-namespace activity_manager
+namespace ActivityManager
 {
 	class ActivityManager
 	{
@@ -21,10 +21,10 @@ namespace activity_manager
 		
 		//Путь до папки с плагинами и правила включения плагинов
 		private string plugins_path = "";
-		private List<PluginIncludeRule> plugins_include_rules = new List<PluginIncludeRule>();
+		private List<PlugIncludeRule> plugins_include_rules = new List<PlugIncludeRule>();
 
 		//Плагины
-		private List<Plugin> plugins = new List<Plugin>();
+		private List<PlugInfo> plugins = new List<PlugInfo>();
 		
 		//Конфигурация языкового пакета
 		private Language language = new Language("ru");
@@ -40,7 +40,7 @@ namespace activity_manager
 			{
 				string[] arg = args[i].Split(new char[]{'='}, 2);
 				if (arg.Length != 2)
-					throw new ApplicationException(_("Некорректный формат входной строки параметров"));
+                    throw new AMException(_("Некорректный формат входной строки параметров"));
 				global_parameters.Add(arg[0].ToLower(),arg[1]);
 			}
 
@@ -59,14 +59,14 @@ namespace activity_manager
 				//инициализируем путь до папки с плагинами по умолчанию
 				plugins_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
 			if (!Directory.Exists(plugins_path))
-				throw new ApplicationException(String.Format(_("Путь до папки {0} не найден"), plugins_path));
+                throw new AMException(String.Format(_("Путь до папки {0} не найден"), plugins_path));
 
 			//проверяем наличие обязательного параметра: config
 			if (!global_parameters.ContainsKey("config"))
-				throw new ApplicationException(_("Не передана ссылка на файл конфигурации"));
+                throw new AMException(_("Не передана ссылка на файл конфигурации"));
 			string config_filename = global_parameters["config"].ToString();
 			if (!File.Exists(config_filename))
-				throw new ApplicationException(String.Format(_("Файл {0} не найден"), config_filename));
+                throw new AMException(String.Format(_("Файл {0} не найден"), config_filename));
 		}
 
 		public void LoadConfigFile()
@@ -74,7 +74,7 @@ namespace activity_manager
 			string fileName = global_parameters["config"].ToString();
 			XDocument xdoc = XDocument.Load(fileName, LoadOptions.PreserveWhitespace);
 			if (xdoc.Root.Name.LocalName != "activity")
-				throw new ApplicationException("[config.xml]" + _("Корневой элемент файла конфигурации неизвестен"));
+                throw new AMException("[config.xml]" + _("Корневой элемент файла конфигурации неизвестен"));
 			//Обрабатываем элементы step
 			IEnumerable<XElement> elements = xdoc.Root.Elements("step");
 			foreach (XElement element in elements)
@@ -82,89 +82,38 @@ namespace activity_manager
 				activity_steps.Add(ActivityStep.ConvertXElementToActivityStep(element, this.language));
 			}
 			//Обрабатываем элемент plugins
-			XElement plugins = xdoc.Root.Element("plugins");
-			if (plugins != null)
+			XElement xplugins = xdoc.Root.Element("plugins");
+			if (xplugins != null)
 			{
-				XAttribute plugins_path = plugins.Attribute("path");
-				if ((plugins_path != null) && (!global_parameters.ContainsKey("plugins_path")))
+				XAttribute xplugins_path = xplugins.Attribute("path");
+				if ((xplugins_path != null) && (!global_parameters.ContainsKey("plugins_path")))
 				{
-					this.plugins_path = plugins_path.Value;
+					this.plugins_path = xplugins_path.Value;
 					if (!Directory.Exists(this.plugins_path))
-						throw new ApplicationException(String.Format(_("Путь до папки {0} не найден"), this.plugins_path));
+                        throw new AMException(String.Format(_("Путь до папки {0} не найден"), this.plugins_path));
 				}
-				IEnumerable<XElement> plugins_include_rules = plugins.Elements();
-				foreach (XElement plugin_include_rule in plugins_include_rules)
+				IEnumerable<XElement> xplugins_include_rules = xplugins.Elements();
+				foreach (XElement xplugin_include_rule in xplugins_include_rules)
 				{
-					switch (plugin_include_rule.Name.LocalName)
+					switch (xplugin_include_rule.Name.LocalName)
 					{
 						case "include":
-						case "exclude": this.plugins_include_rules.Add(new PluginIncludeRule(
-							plugin_include_rule.Name.LocalName,
-							plugin_include_rule.Value));
+						case "exclude": this.plugins_include_rules.Add(new PlugIncludeRule(
+							xplugin_include_rule.Name.LocalName,
+							xplugin_include_rule.Value));
 							break;
 						default:
-							throw new ApplicationException("[config.xml]" + _("Неизвестное правило для фильтрации плагинов"));
+                            throw new AMException("[config.xml]" + _("Неизвестное правило для фильтрации плагинов"));
 					}
 				}
 			}
 			//Обрабатываем элемент language
-			XElement language = xdoc.Root.Element("language");
-			if ((language != null) && (!global_parameters.ContainsKey("lang")))
+			XElement xlanguage = xdoc.Root.Element("language");
+			if ((xlanguage != null) && (!global_parameters.ContainsKey("lang")))
 			{
-				this.language = new Language(language.Value);
+				this.language = new Language(xlanguage.Value);
 				_ = this.language.Translate;
 			}
-		}
-
-		public ActivityStep ConvertXElementToActivityStep(XElement element)
-		{
-			ActivityStep activity_step = new ActivityStep();
-			//Задаем параметр plugin
-			XAttribute plugin_name = element.Attribute("plugin");
-			if (plugin_name != null)
-				activity_step.plugin_name = plugin_name.Value;
-			//Задаем параметр action
-			XAttribute action_name = element.Attribute("action");
-			if (action_name == null)
-				throw new ApplicationException("[config.xml]" + _("Не указан обязательный атрибут \"action\" элемента <step>"));
-			activity_step.action_name = action_name.Value;
-			//Задаем параметр repeat_count
-			XAttribute repeat = element.Attribute("repeat");
-			if (repeat != null)
-			{
-				int repeat_count; 
-				if (Int32.TryParse(repeat.Value, out repeat_count))
-					activity_step.repeat_count = repeat_count;
-				else
-					throw new ApplicationException(String.Format("[config.xml]" + _("Некорректное числовое значение атрибута \"repeat\" = {0}"), repeat.Value));
-			}
-			XElement input = element.Element("input");
-            if (input != null)
-            {
-                IEnumerable<XElement> input_parameters = input.Elements("parameter");
-                foreach (XElement input_parameter in input_parameters)
-                {
-                    XAttribute attribute = input_parameter.Attribute("name");
-                    if (attribute == null)
-                        throw new ApplicationException(String.Format("[config.xml]" + _("Не указан обязательный атрибут \"name\" элемента <parameter>")));
-                    string value = input_parameter.Value;
-                    activity_step.AddInputParameter(attribute.Value, value);
-                }
-            }
-			XElement output = element.Element("output");
-            if (output != null)
-            {
-                IEnumerable<XElement> output_parameters = output.Elements("parameter");
-                foreach (XElement output_parameter in output_parameters)
-                {
-                    XAttribute attribute = output_parameter.Attribute("name");
-                    if (attribute == null)
-                        throw new ApplicationException(String.Format("[config.xml]" + _("Не указан обязательный атрибут \"name\" элемента <parameter>")));
-                    string value = output_parameter.Value;
-                    activity_step.AddOutputParameter(attribute.Value, value);
-                }
-            }
-			return activity_step;
 		}
 
 		public void PrepareConfig()
@@ -179,80 +128,80 @@ namespace activity_manager
 
 		public void CheckActivityVariablesSignature(ActivityStep step)
 		{
-			PluginActionInfo current_action = null;
-			foreach (Plugin plugin in plugins)
-				if (step.plugin_name == plugin.PluginName)
-					foreach (PluginActionInfo action in plugin.PluginActions)
-						if (action.ActionName == step.action_name)
+			PlugActionInfo current_action = null;
+			foreach (PlugInfo plugin in plugins)
+				if (step.PlugName == plugin.PlugName)
+					foreach (PlugActionInfo action in plugin.PlugActions)
+						if (action.ActionName == step.ActionName)
 							current_action = action;
 			if (current_action == null)
-				throw new ApplicationException(
-					String.Format(_("Не удалось найти действие {0} в плагине {1}"), step.action_name, step.plugin_name));
-            if ((step.input_parameters.Count + step.output_parameters.Count) != current_action.parameters.Count)
-                throw new ApplicationException(String.Format(_("Передано неверное число параметров в действие {0} плагина {1}"), step.action_name, step.plugin_name));
-			foreach (ActivityStepParameter action_parameter in step.input_parameters)
+                throw new AMException(
+					String.Format(_("Не удалось найти действие {0} в плагине {1}"), step.ActionName, step.PlugName));
+            if ((step.InputParameters.Count + step.OutputParameters.Count) != current_action.Parameters.Count)
+                throw new AMException(String.Format(_("Передано неверное число параметров в действие {0} плагина {1}"), step.ActionName, step.PlugName));
+			foreach (ActivityStepParameter action_parameter in step.InputParameters)
 			{
 				bool finded = false;
-				foreach (PluginActionParameter plugin_parameter in current_action.parameters)
+				foreach (PlugActionParameter plugin_parameter in current_action.Parameters)
 				{
-					if (action_parameter.name == plugin_parameter.Name)
+					if (action_parameter.Name == plugin_parameter.Name)
 					{
 						//Нашли параметр, проверяем, чтобы он был корректен
 						finded = true;
 						if (plugin_parameter.Direction != ParameterDirection.Input)
-							throw new ApplicationException(
+                            throw new AMException(
 								String.Format(_("Параметр {0} действия {1} плагина {2} предполагает возвращение, а не получение значения"), 
-								action_parameter.name, step.action_name, step.plugin_name));
+								action_parameter.Name, step.ActionName, step.PlugName));
 						break;
 					}
 				}
 				if (!finded)
-					throw new ApplicationException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"),step.action_name, step.plugin_name, action_parameter.name));
+                    throw new AMException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, action_parameter.Name));
 			}
-			foreach (ActivityStepParameter action_parameter in step.output_parameters)
+			foreach (ActivityStepParameter action_parameter in step.OutputParameters)
 			{
 				bool finded = false;
-				foreach (PluginActionParameter plugin_parameter in current_action.parameters)
+				foreach (PlugActionParameter plugin_parameter in current_action.Parameters)
 				{
-					if (action_parameter.name == plugin_parameter.Name)
+					if (action_parameter.Name == plugin_parameter.Name)
 					{
 						//Нашли параметр, проверяем, чтобы он был корректен
 						finded = true;
 						if (plugin_parameter.Direction != ParameterDirection.Output)
-							throw new ApplicationException(
+                            throw new AMException(
 								String.Format(_("Параметр {0} действия {1} плагина {2} предполагает получение, а не возвращение значения"),
-								action_parameter.name, step.action_name, step.plugin_name));
+								action_parameter.Name, step.ActionName, step.PlugName));
 						break;
 					}
 				}
 				if (!finded)
-					throw new ApplicationException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.action_name, step.plugin_name, action_parameter.name));
+                    throw new AMException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, action_parameter.Name));
 			}
 		}
 
 		public void CheckActivityVariablesValues(ActivityStep step)
 		{
-			PluginActionInfo current_action = null;
-			foreach (Plugin plugin in plugins)
-				if (step.plugin_name == plugin.PluginName)
-					foreach (PluginActionInfo action in plugin.PluginActions)
-						if (action.ActionName == step.action_name)
+			PlugActionInfo current_action = null;
+			foreach (PlugInfo plugin in plugins)
+				if (step.PlugName == plugin.PlugName)
+					foreach (PlugActionInfo action in plugin.PlugActions)
+						if (action.ActionName == step.ActionName)
 							current_action = action;
 			if (current_action == null)
-				throw new ApplicationException(
-					String.Format(_("Не удалось найти действие {0} в плагине {1}"), step.action_name, step.plugin_name));
-			foreach (ActivityStepParameter action_parameter in step.input_parameters)
+                throw new AMException(
+					String.Format(_("Не удалось найти действие {0} в плагине {1}"), step.ActionName, step.PlugName));
+			foreach (ActivityStepParameter action_parameter in step.InputParameters)
 			{
 				bool finded = false;
-				foreach (PluginActionParameter plugin_parameter in current_action.parameters)
+				foreach (PlugActionParameter plugin_parameter in current_action.Parameters)
 				{
-					if (action_parameter.name == plugin_parameter.Name)
+					if (action_parameter.Name == plugin_parameter.Name)
 					{
 						//Нашли параметр значения
 						finded = true;
 						try
 						{
-							object value = action_parameter.value;
+							object value = action_parameter.Value;
 							//Заменяем все шаблоны [variable] на значения
 							Match match = Regex.Match(value.ToString(), @"\[[\w]*\]");
 							while (match.Success)
@@ -273,48 +222,48 @@ namespace activity_manager
 							Convert.ChangeType(value, plugin_parameter.ParameterType);
 							break;
 						}
-						catch(InvalidCastException)
+						catch(Exception)
 						{
-							throw new ApplicationException(String.Format(_("Ошибка преобразования значения \"{0}\" параметра {1} к типу {2}, требуемому действием {3} плагина {4}"),
-                                action_parameter.value, action_parameter.name, plugin_parameter.ParameterType.ToString(), step.action_name, step.plugin_name));
+                            throw new AMException(String.Format(_("Ошибка преобразования значения \"{0}\" параметра {1} к типу {2}, требуемому действием {3} плагина {4}"),
+                                action_parameter.Value, action_parameter.Name, plugin_parameter.ParameterType.ToString(), step.ActionName, step.PlugName));
 						}
 					}
 				}
 				if (!finded)
-					throw new ApplicationException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.action_name, step.plugin_name, action_parameter.name));
+                    throw new AMException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, action_parameter.Name));
 			}
 		}
 
 		public void CheckAndPrepareActions(ref ActivityStep step)
 		{
 			//Проверка и сопоставление plugin_name и action
-			if (step.plugin_name == null)
+			if (step.PlugName == null)
 			{
 				bool finded = false;
-				foreach (Plugin plugin in plugins)
+				foreach (PlugInfo plugin in plugins)
 				{
-					if (plugin.HasAction(step.action_name))
+					if (plugin.HasAction(step.ActionName))
 					{
 						if (!finded)
 						{
-							step.plugin_name = plugin.PluginName;
+							step.PlugName = plugin.PlugName;
 							finded = true;
 						}
 						else
-							throw new ApplicationException(String.Format(
+                            throw new AMException(String.Format(
                                 _("Неоднозначность определения заданного действия. Действие \"{0}\" определено в плагинах {1} и {2}. Необходимо явное указание плагина в файле конфигурации"),
-								step.action_name, step.plugin_name, plugin.PluginName));
+								step.ActionName, step.PlugName, plugin.PlugName));
 					}
 				}
 				if (!finded)
-					throw new ApplicationException(String.Format(_("Не удалось найти действие {0} ни в одном из плагинов"),
-						step.action_name));
+                    throw new AMException(String.Format(_("Не удалось найти действие {0} ни в одном из плагинов"),
+						step.ActionName));
 			}
 			else
-				foreach (Plugin plugin in plugins)
-					if ((plugin.PluginName == step.plugin_name) && (!plugin.HasAction(step.action_name)))
-						throw new ApplicationException(String.Format(_("В плагине {0} не определено действие {1}"),
-							plugin.PluginName, step.action_name));
+				foreach (PlugInfo plugin in plugins)
+					if ((plugin.PlugName == step.PlugName) && (!plugin.HasAction(step.ActionName)))
+                        throw new AMException(String.Format(_("В плагине {0} не определено действие {1}"),
+							plugin.PlugName, step.ActionName));
 		}
 
 		public void LoadPlugins()
@@ -324,20 +273,20 @@ namespace activity_manager
 			{
 				bool include = false;
 				FileInfo fi = new FileInfo(file);
-				foreach (PluginIncludeRule pir in plugins_include_rules)
+				foreach (PlugIncludeRule pir in plugins_include_rules)
 				{
-					if ((pir.PluginNameMask == "*") || (pir.PluginNameMask == fi.Name))
+					if ((pir.PlugNameMask == "*") || (pir.PlugNameMask == fi.Name))
 						include = pir.IncludeRule == "include";
 				}
 				if (!include)
 					continue;
 				try
 				{
-					plugins.Add(new Plugin(file));
+					plugins.Add(new PlugInfo(file));
 				}
 				catch (ApplicationException e)
 				{
-					throw new ApplicationException(_(e.Message));
+                    throw new AMException(_(e.Message));
 				}
 			}
 		}
@@ -350,15 +299,15 @@ namespace activity_manager
                 step_num++;
 				CheckActivityVariablesValues(step);
 				//Получаем ссылку на плагин
-				Plugin current_plugin = null;
-				foreach (Plugin plugin in plugins)
-					if (step.plugin_name == plugin.PluginName)
+				PlugInfo current_plugin = null;
+				foreach (PlugInfo plugin in plugins)
+					if (step.PlugName == plugin.PlugName)
 						current_plugin = plugin;
 				//Получаем список входных параметров
-				object[] input_parameters = new object[step.input_parameters.Count];
+				object[] input_parameters = new object[step.InputParameters.Count];
 				for (int i = 0; i < input_parameters.Length; i++)
                 {
-                    object value = step.input_parameters[i].value;
+                    object value = step.InputParameters[i].Value;
                     Match match = Regex.Match(value.ToString(), @"\[[\w]*\]");
                     while (match.Success)
                     {
@@ -376,23 +325,23 @@ namespace activity_manager
 				object[] output_parameters = null;
 				try
 				{
-                    for (int i = 0; i < step.repeat_count; i++)
-                        current_plugin.ExecuteAction(step.action_name, input_parameters, out output_parameters);
+                    for (int i = 0; i < step.RepeatCount; i++)
+                        current_plugin.ExecuteAction(step.ActionName, input_parameters, out output_parameters);
 				}
 				catch (ApplicationException e)
 				{
                     string message = _(e.InnerException.Message);
                     foreach (string key in e.InnerException.Data.Keys)
                         message = message.Replace(key, e.InnerException.Data[key].ToString());
-                    throw new ApplicationException(String.Format(_("[Шаг {0}]")+": ", step_num) + message);
+                    throw new AMException(String.Format(_("[Шаг {0}]") + ": ", step_num) + message);
 				}
 				for (int i = 0; i < output_parameters.Length; i++)
 				{
                     string param_name = "";
-                    if (step.output_parameters[i].value.Trim() != "")
-                        param_name = step.output_parameters[i].value;
+                    if (!String.IsNullOrEmpty(step.OutputParameters[i].Value.Trim()))
+                        param_name = step.OutputParameters[i].Value;
                     else
-                        param_name = step.output_parameters[i].name;
+                        param_name = step.OutputParameters[i].Name;
                     if (global_parameters.ContainsKey(param_name))
                         global_parameters[param_name] = output_parameters[i];
                     else
@@ -401,6 +350,7 @@ namespace activity_manager
 			}
 		}
 
+        [STAThread()]
 		public static void Main(string[] args)
 		{
             try
@@ -411,7 +361,7 @@ namespace activity_manager
                 manager.PrepareConfig();
                 manager.Execute();
             }
-            catch(Exception e)
+            catch (AMException e)
             {
                 MessageBox.Show(e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

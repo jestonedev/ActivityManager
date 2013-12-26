@@ -4,20 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace conv_module
+namespace ConvertModule
 {
-
+    /// <summary>
+    /// Именительный падеж
+    /// </summary>
     public class NominativeCaseClass : TextCaseClass
     {
+        /// <summary>
+        /// Метод-переводчик в именительный падеж из именительного
+        /// </summary>
+        /// <param name="text">Текст, который необходимо перевести</param>
+        /// <returns>Результат перевода</returns>
         public override string Translate(string text)
         {
             return text;
         }
     }
 
+    /// <summary>
+    /// Родительный падеж
+    /// </summary>
     public class GenitiveCaseClass : TextCaseClass
     {
-        Dictionary<string, string> words = new Dictionary<string, string>() {
+        private Dictionary<string, string> words = new Dictionary<string, string>() {
         {"ноль","нуля"},
         {"один","одного"},
         {"одна","одной"},
@@ -100,6 +110,11 @@ namespace conv_module
         {"часов", "часов"}
         };
 
+        /// <summary>
+        /// Метод-переводчик в родительный падеж из именительного
+        /// </summary>
+        /// <param name="text">Текст, который необходимо перевести</param>
+        /// <returns>Результат перевода</returns>
         public override string Translate(string text)
         {
             if (words.ContainsKey(text))
@@ -118,9 +133,12 @@ namespace conv_module
         }
     }
 
+    /// <summary>
+    /// Дательный падеж
+    /// </summary>
     public class DativeCaseClass : TextCaseClass
     {
-        Dictionary<string, string> words = new Dictionary<string, string>() {
+        private Dictionary<string, string> words = new Dictionary<string, string>() {
         {"ноль","нулю"},
         {"один","одному"},
         {"одна","одной"},
@@ -214,6 +232,11 @@ namespace conv_module
         {"десятых","десятым"}
         };
 
+        /// <summary>
+        /// Метод-переводчик в дательный падеж из именительного
+        /// </summary>
+        /// <param name="text">Текст, который необходимо перевести</param>
+        /// <returns>Результат перевода</returns>
         public override string Translate(string text)
         {
             if (words.ContainsKey(text))
@@ -232,9 +255,12 @@ namespace conv_module
         }
     }
 
+    /// <summary>
+    /// Винительный падеж
+    /// </summary>
     public class AccusativeCaseClass : TextCaseClass
     {
-        Dictionary<string, string> words = new Dictionary<string, string>() {
+        private Dictionary<string, string> words = new Dictionary<string, string>() {
         {"одна","одну"},
         {"тысяча","тысячу"},
         {"копейка","копейку"},
@@ -245,6 +271,11 @@ namespace conv_module
         {"минута", "минуту"}
         };
 
+        /// <summary>
+        /// Метод-переводчик в винительный падеж из именительного
+        /// </summary>
+        /// <param name="text">Текст, который необходимо перевести</param>
+        /// <returns>Результат перевода</returns>
         public override string Translate(string text)
         {
             if (words.ContainsKey(text))
@@ -263,9 +294,12 @@ namespace conv_module
         }
     }
 
+    /// <summary>
+    /// Творительный падеж
+    /// </summary>
     public class InstrumentalCaseClass : TextCaseClass
     {
-        Dictionary<string, string> words = new Dictionary<string, string>() {
+        private Dictionary<string, string> words = new Dictionary<string, string>() {
         {"ноль","нулем"},
         {"один","одним"},
         {"одна","одной"},
@@ -359,6 +393,11 @@ namespace conv_module
         {"десятых","десятыми"}
         };
 
+        /// <summary>
+        /// Метод-переводчик в творительный падеж из именительного
+        /// </summary>
+        /// <param name="text">Текст, который необходимо перевести</param>
+        /// <returns>Результат перевода</returns>
         public override string Translate(string text)
         {
             if (words.ContainsKey(text))
@@ -377,9 +416,12 @@ namespace conv_module
         }
     }
 
+    /// <summary>
+    /// Предложный падеж
+    /// </summary>
     public class PrepositionalCaseClass : TextCaseClass
     {
-        Dictionary<string, string> words = new Dictionary<string, string>() {
+        private Dictionary<string, string> words = new Dictionary<string, string>() {
         {"ноль","нуле"},
         {"один","одном"},
         {"одна","одной"},
@@ -471,6 +513,11 @@ namespace conv_module
         {"часов", "часах"}
         };
 
+        /// <summary>
+        /// Метод-переводчик в предложный падеж из именительного
+        /// </summary>
+        /// <param name="text">Текст, который необходимо перевести</param>
+        /// <returns>Результат перевода</returns>
         public override string Translate(string text)
         {
             if (words.ContainsKey(text))
@@ -489,8 +536,16 @@ namespace conv_module
         }
     }
 
+    /// <summary>
+    /// Класс падежа
+    /// </summary>
     public abstract class TextCaseClass
     {
+        /// <summary>
+        /// Абстрактный метод-переводчик в необходимый падеж из именительного
+        /// </summary>
+        /// <param name="text">Текст, который необходимо перевести</param>
+        /// <returns>Результат перевода</returns>
         public abstract string Translate(string text);
     }
 }

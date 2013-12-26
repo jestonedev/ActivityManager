@@ -1,4 +1,4 @@
-﻿namespace am_editor
+﻿namespace AmEditor
 {
     partial class Editor
     {
@@ -524,7 +524,7 @@
             // buttonUp
             // 
             this.buttonUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUp.Image = global::am_editor.Properties.Resources.new_go_up_5892013514;
+            this.buttonUp.Image = global::AmEditor.Properties.Resources.up;
             this.buttonUp.Location = new System.Drawing.Point(154, 442);
             this.buttonUp.Name = "buttonUp";
             this.buttonUp.Size = new System.Drawing.Size(44, 39);
@@ -535,7 +535,7 @@
             // buttonDel
             // 
             this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonDel.Image = global::am_editor.Properties.Resources.list_remove_5921719056;
+            this.buttonDel.Image = global::AmEditor.Properties.Resources.minus;
             this.buttonDel.Location = new System.Drawing.Point(60, 442);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(44, 39);
@@ -546,7 +546,7 @@
             // buttonAdd
             // 
             this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonAdd.Image = global::am_editor.Properties.Resources.insert_object_5929516005;
+            this.buttonAdd.Image = global::AmEditor.Properties.Resources.plus;
             this.buttonAdd.Location = new System.Drawing.Point(10, 442);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(44, 39);
@@ -565,7 +565,7 @@
             // buttonDown
             // 
             this.buttonDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDown.Image = global::am_editor.Properties.Resources.new_go_down_5895517224;
+            this.buttonDown.Image = global::AmEditor.Properties.Resources.down;
             this.buttonDown.Location = new System.Drawing.Point(204, 442);
             this.buttonDown.Name = "buttonDown";
             this.buttonDown.Size = new System.Drawing.Size(44, 39);

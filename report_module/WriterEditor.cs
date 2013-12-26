@@ -5,12 +5,13 @@ using System.Text;
 using System.Xml.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
-namespace report_module
+namespace ReportModule
 {
     class WriterEditor: ReportEditor
     {
-        private Dictionary<string, string> xml_clousers = new Dictionary<string, string>() {
+        private Dictionary<string, string> xml_contractors = new Dictionary<string, string>() {
         {"table","table"},
         {"row","table-row"},
         {"cell","table-cell"},
@@ -22,12 +23,12 @@ namespace report_module
         /// </summary>
         private List<Style> styles = new List<Style>();
 
-        public override List<ReportValue> xml_clousers_convert(List<ReportValue> values)
+        public override Collection<ReportValue> XmlContractorsConvert(Collection<ReportValue> values)
         {
-            return clousers_convert(xml_clousers, values);
+            return ContractorsConvert(xml_contractors, values);
         }
 
-        private Style get_style_by_spec_tag(SpecTag spec_tag)
+        private static Style get_style_by_spec_tag(SpecTag spec_tag)
         {
             switch (spec_tag)
             {
@@ -39,7 +40,7 @@ namespace report_module
             }
         }
 
-        private void prepair_paragraph(XElement xelement, OOStyleSheet style_sheet)
+        private static void prepair_paragraph(XElement xelement, OOStyleSheet style_sheet)
         {
             XElement new_paragraph = new XElement(xelement);
             new_paragraph.RemoveNodes();
@@ -48,13 +49,13 @@ namespace report_module
                 if (xnode.NodeType == System.Xml.XmlNodeType.Text)
                 {
                     string content = ((XText)xnode).Value;
-                    XElement span = new XElement(XName.Get("span", OOStyleSheet.xmlns_text),
+                    XElement span = new XElement(XName.Get("span", OOStyleSheet.XmlnsText),
                            new XText(content));
-                    if (xelement.Attribute(XName.Get("style-name", OOStyleSheet.xmlns_text)) != null)
+                    if (xelement.Attribute(XName.Get("style-name", OOStyleSheet.XmlnsText)) != null)
                     {
                         string style_name = style_sheet.CopyStyle(
-                            xelement.Attribute(XName.Get("style-name", OOStyleSheet.xmlns_text)).Value, "text");
-                        span.Add(new XAttribute(XName.Get("style-name", OOStyleSheet.xmlns_text), style_name));
+                            xelement.Attribute(XName.Get("style-name", OOStyleSheet.XmlnsText)).Value, "text");
+                        span.Add(new XAttribute(XName.Get("style-name", OOStyleSheet.XmlnsText), style_name));
                     }
                     new_paragraph.Add(span);
                 } else
@@ -64,7 +65,7 @@ namespace report_module
             xelement.ReplaceNodes(new_paragraph.Nodes());
         }
 
-        private SortedDictionary<int, TagInfo> get_style_tags(string text)
+        private static SortedDictionary<int, TagInfo> get_style_tags(string text)
         {
             SortedDictionary<int, TagInfo> dic = new SortedDictionary<int, TagInfo>();
             foreach (string spec_tag in Enum.GetNames(typeof(SpecTag)))
@@ -137,24 +138,24 @@ namespace report_module
                             styles.Remove(get_style_by_spec_tag(spec_tag_info.tag));
                     }
                     i++;
-                    if (value == "")
+                    if (String.IsNullOrEmpty(value))
                         continue;
                     XElement new_element = new XElement(xelement);
                     new_element.Value = value;
                     string style_name = "";
                     if (new_element.Attribute(
-                            XName.Get("style-name", OOStyleSheet.xmlns_text)) != null)
+                            XName.Get("style-name", OOStyleSheet.XmlnsText)) != null)
                     {
                         style_name = style_sheet.CopyStyle(new_element.Attribute(
-                            XName.Get("style-name", OOStyleSheet.xmlns_text)).Value, "text");
+                            XName.Get("style-name", OOStyleSheet.XmlnsText)).Value, "text");
                         new_element.Attribute(XName.Get("style-name",
-                            OOStyleSheet.xmlns_text)).Value = style_name;
+                            OOStyleSheet.XmlnsText)).Value = style_name;
                     }
                     else
                     {
                         style_name = style_sheet.CreateStyle("text");
                         new_element.Add(new XAttribute(XName.Get("style-name",
-                            OOStyleSheet.xmlns_text), style_name));
+                            OOStyleSheet.XmlnsText), style_name));
                     }
                     foreach (Style style in styles)
                         style_sheet.ApplyStyle(style_name, style);
@@ -166,12 +167,12 @@ namespace report_module
                 XElement new_element = new XElement(xelement);
                 string style_name = "";
                 if (new_element.Attribute(
-                        XName.Get("style-name", OOStyleSheet.xmlns_text)) != null)
+                        XName.Get("style-name", OOStyleSheet.XmlnsText)) != null)
                 {
                     style_name = style_sheet.CopyStyle(new_element.Attribute(
-                        XName.Get("style-name", OOStyleSheet.xmlns_text)).Value, "text");
+                        XName.Get("style-name", OOStyleSheet.XmlnsText)).Value, "text");
                     new_element.Attribute(XName.Get("style-name",
-                        OOStyleSheet.xmlns_text)).Value = style_name;
+                        OOStyleSheet.XmlnsText)).Value = style_name;
                     foreach (Style style in styles)
                         style_sheet.ApplyStyle(style_name, style);
                 }
@@ -188,7 +189,7 @@ namespace report_module
             xroot.ReplaceNodes(new_xroot.Nodes());
         }
 
-        private void parse_br_tags(XElement xroot)
+        private static void parse_br_tags(XElement xroot)
         {
             XElement new_xroot = new XElement(xroot);
             new_xroot.RemoveAll();
@@ -212,10 +213,10 @@ namespace report_module
                     }
                     else
                     {
-                        if (xroot.Attribute(XName.Get("style-name", OOStyleSheet.xmlns_text)) != null)
+                        if (xroot.Attribute(XName.Get("style-name", OOStyleSheet.XmlnsText)) != null)
                         {
-                            new_xroot.Add(new XAttribute(XName.Get("style-name", OOStyleSheet.xmlns_text),
-                                xroot.Attribute(XName.Get("style-name", OOStyleSheet.xmlns_text)).Value));
+                            new_xroot.Add(new XAttribute(XName.Get("style-name", OOStyleSheet.XmlnsText),
+                                xroot.Attribute(XName.Get("style-name", OOStyleSheet.XmlnsText)).Value));
                         }
                         xroot.AddBeforeSelf(new_xroot);
                         new_xroot = new XElement(xroot);
@@ -230,7 +231,11 @@ namespace report_module
             xroot.ReplaceNodes(new_xroot.Nodes());
         }
 
-        public override void special_tag_editing(string report_unzip_path)
+        /// <summary>
+        /// Метод, производящий замену специальных тэгов в отчете
+        /// </summary>
+        /// <param name="report_unzip_path">Путь до файлов отчета во временной директории</param>
+        public override void SpecialTagEditing(string report_unzip_path)
         {
             XDocument xdocument = XDocument.Load(Path.Combine(report_unzip_path, "content.xml"), 
                 LoadOptions.PreserveWhitespace);

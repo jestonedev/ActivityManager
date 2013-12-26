@@ -1,0 +1,17 @@
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AmEditor.exe.config
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AmEditor.exe
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AmEditor.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AmEditor.exe.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AmEditor.exe.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.Editor.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormComboBoxValue.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormCommandLineParams.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormLanguage.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormPlugins.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormSqlValue.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormStringValue.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.Properties.Resources.resources
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.csproj.GenerateResource.Cache
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.exe
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.pdb

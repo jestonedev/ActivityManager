@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 
-namespace extended_types
+namespace ExtendedTypes
 {
     /// <summary>
     /// Ячейка таблицы отчета
@@ -15,36 +16,36 @@ namespace extended_types
         private ReportRow row;
         public ReportRow Row { get { return row; } }
 
-        public ReportCell(ReportRow Row)
+        public ReportCell(ReportRow row)
         {
-            this.row = Row;
+            this.row = row;
         }
 
-        public ReportCell(ReportRow Row, string Value)
+        public ReportCell(ReportRow row, string value)
         {
-            this.Value = Value;
-            this.row = Row;
+            this.Value = value;
+            this.row = row;
         }
     }
 
     /// <summary>
     /// Строка таблицы отчета
     /// </summary>
-    public class ReportRow : List<ReportCell>
+    public class ReportRow : Collection<ReportCell>
     {
         private ReportTable table;
         public ReportTable Table { get { return table; } }
 
-        public ReportRow(ReportTable Table)
+        public ReportRow(ReportTable table)
         {
-            this.table = Table;
+            this.table = table;
         }
 
-        public ReportCell this[string column_name]
+        public ReportCell this[string columnName]
         {
             get
             {
-                return this[this.table.Columns.IndexOf(column_name)];
+                return this[this.table.Columns.IndexOf(columnName)];
             }
         }
     }
@@ -52,13 +53,18 @@ namespace extended_types
     /// <summary>
     /// Таблица отчета
     /// </summary>
-    public class ReportTable : List<ReportRow>
+    public class ReportTable : Collection<ReportRow>
     {
-        public List<string> Columns { get; set; }
+        private Collection<string> columns = new Collection<string>();
+        public Collection<string> Columns { get { return columns; } }
+
+        public void SetColumns(Collection<string> columnsNames)
+        {
+            this.columns = columnsNames;
+        }
 
         public ReportTable()
         {
-            Columns = new List<string>();
         }
     }
 }

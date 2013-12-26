@@ -2,40 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using extended_types;
+using ExtendedTypes;
 using FSLib.Declension;
+using System.Runtime.Serialization;
 
 //Модуль специальных функций программы Мена
-namespace mena_module
+namespace MenaModule
 {
-    //Доступный из-вне интерфейс плагина
-    public interface IPlugin
-    {
-        void mena_signers_table_convert(ReportTable in_table, out ReportTable out_table);
-        void mena_floor_template(ReportRow in_row, string column_floor_name, out ReportRow out_row);
-    }
-
-    public class MenaPlugin: IPlugin
+    /// <summary>
+    /// Доступный из-вне интерфейс плагина
+    /// </summary>
+    public interface IPlug
     {
         /// <summary>
         /// Специфичный метод конвертации таблицы подписчиков соглашения
         /// </summary>
-        /// <param name="in_table">Входная таблица</param>
-        /// <param name="out_table">Выходная таблица</param>
-        public void mena_signers_table_convert(ReportTable in_table, out ReportTable out_table)
+        /// <param name="inTable">Входная таблица</param>
+        /// <param name="outTable">Выходная таблица</param>
+        void MenaSignersTableConvert(ReportTable inTable, out ReportTable outTable);
+
+        /// <summary>
+        /// Специфический метод конвертации этажа. Исключает фразы вроде "нулевом этаже".
+        /// </summary>
+        /// <param name="inRow">Строка параметров отчета, в которой производится замена</param>
+        /// <param name="columnFloorName">Имя колонки с строковым наименованием этажа</param>
+        /// <param name="outRow">Выходная строка параметров отчета</param>
+        void MenaFloorTemplate(ReportRow inRow, string columnFloorName, out ReportRow outRow);
+    }
+
+    /// <summary>
+    /// Клас, реализующий интерфейс плагина
+    /// </summary>
+    public class MenaPlug: IPlug
+    {
+        /// <summary>
+        /// Специфичный метод конвертации таблицы подписчиков соглашения
+        /// </summary>
+        /// <param name="inTable">Входная таблица</param>
+        /// <param name="outTable">Выходная таблица</param>
+        public void MenaSignersTableConvert(ReportTable inTable, out ReportTable outTable)
         {
             ReportTable tmp_table = new ReportTable();
-            foreach(string column in in_table.Columns)
+            foreach(string column in inTable.Columns)
                 if (column != "text_case" && column != "warrant_fio")
                 {
                     tmp_table.Columns.Add(column);
                 }
-            foreach (ReportRow rr in in_table)
+            foreach (ReportRow rr in inTable)
             {
                 ReportRow tmp_row = new ReportRow(tmp_table);
                 string fio = "";
                 string template = rr["person_warrant"].Value;
-                if (rr["warrant_fio"].Value.Trim() != "")
+                if (!String.IsNullOrEmpty(rr["warrant_fio"].Value.Trim()))
                 {
                     if (rr["text_case"].Value == "Nominative")
                         fio = Declension1251.GetNominativeDeclension(rr["warrant_fio"].Value);
@@ -44,7 +62,7 @@ namespace mena_module
                     string[] fio_arr = fio.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (fio_arr.Length != 3)
                     {
-                        ApplicationException exception = new ApplicationException("Имя участника договора {0} задано не полностью или не в корректном формате");
+                        MenaException exception = new MenaException("Имя участника договора {0} задано не полностью или не в корректном формате");
                         exception.Data.Add("{0}", fio);
                         throw exception;
                     }
@@ -55,22 +73,54 @@ namespace mena_module
                 tmp_row.Add(new ReportCell(tmp_row, rr["person_fio_short"].Value));
                 tmp_table.Add(tmp_row);
             }
-            out_table = tmp_table;
+            outTable = tmp_table;
         }
 
         /// <summary>
         /// Специфический метод конвертации этажа. Исключает фразы вроде "нулевом этаже".
         /// </summary>
-        /// <param name="in_row">Строка параметров отчета, в которой производится замена</param>
-        /// <param name="column_floor_name">Имя колонки с строковым наименованием этажа</param>
-        /// <param name="out_row">Выходная строка параметров отчета</param>
-        public void mena_floor_template(ReportRow in_row, string column_floor_name, out ReportRow out_row)
+        /// <param name="inRow">Строка параметров отчета, в которой производится замена</param>
+        /// <param name="columnFloorName">Имя колонки с строковым наименованием этажа</param>
+        /// <param name="outRow">Выходная строка параметров отчета</param>
+        public void MenaFloorTemplate(ReportRow inRow, string columnFloorName, out ReportRow outRow)
         {
-            if (in_row[column_floor_name].Value == "нулевом")
-                in_row[column_floor_name].Value = " ";
+            if (inRow[columnFloorName].Value == "нулевом")
+                inRow[columnFloorName].Value = " ";
             else
-                in_row[column_floor_name].Value = " расположена на " + in_row[column_floor_name].Value + " этаже, ";
-            out_row = in_row;
+                inRow[columnFloorName].Value = " расположена на " + inRow[columnFloorName].Value + " этаже, ";
+            outRow = inRow;
         }
+    }
+
+    /// <summary>
+    /// Класс исключения модуля MenaPlugin
+    /// </summary>
+    [Serializable()]
+    public class MenaException : Exception
+    {
+        /// <summary>
+        /// Конструктор класса исключения MenaException
+        /// </summary>
+        public MenaException() : base() { }
+
+        /// <summary>
+        /// Конструктор класса исключения MenaException
+        /// </summary>
+        /// <param name="message">Сообщение об ошибке</param>
+        public MenaException(string message) : base(message) { }
+
+        /// <summary>
+        /// Конструктор класса исключения MenaException
+        /// </summary>
+        /// <param name="message">Сообщение об ошибке</param>
+        /// <param name="innerException">Вложенное исключение</param>
+        public MenaException(string message, Exception innerException) : base(message, innerException) { }
+
+        /// <summary>
+        /// Конструктор класса исключения MenaException
+        /// </summary>
+        /// <param name="info">Информация сериализации</param>
+        /// <param name="context">Контекст потока</param>
+        protected MenaException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

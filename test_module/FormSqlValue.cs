@@ -6,23 +6,23 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using am_classes;
+using AMClasses;
 
-namespace am_editor
+namespace AmEditor
 {
-    public partial class FormSqlValue : Form
+    internal partial class FormSqlValue : Form
     {
-        public string value
+        public string Value
         {
             get { return scintilla1.Text; }
             set { scintilla1.Text = value; }
         }
 
-        public FormSqlValue(List<string> global_variables, Language language)
+        public FormSqlValue(List<string> globalVariables, Language language)
         {
             InitializeComponent();
-            foreach (string global_variable in global_variables)
-                comboBoxValues.Items.Add(global_variable);
+            foreach (string GlobalVariable in globalVariables)
+                comboBoxValues.Items.Add(GlobalVariable);
             button1.Text = language.Translate(button1.Text);
             button2.Text = language.Translate(button2.Text);
             button4.Text = language.Translate(button4.Text);

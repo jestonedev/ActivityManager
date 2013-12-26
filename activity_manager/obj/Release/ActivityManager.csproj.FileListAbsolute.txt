@@ -1,0 +1,12 @@
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\ScintillaNET.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\ScintillaNET.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\ScintillaNET.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\AMClasses.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\ActivityManager.exe.config
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\ActivityManager.exe
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\ActivityManager.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\ActivityManager.exe.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\ActivityManager.exe.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Release\ActivityManager.exe
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Release\ActivityManager.pdb

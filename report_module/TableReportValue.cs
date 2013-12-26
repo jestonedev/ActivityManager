@@ -4,19 +4,35 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
-using extended_types;
+using ExtendedTypes;
 
-namespace report_module
+namespace ReportModule
 {
+    /// <summary>
+    /// Табличная переменная отчета
+    /// </summary>
 	public class TableReportValue : ReportValue
 	{
-		public ReportTable table { get; set; }
-		public string xml_clouser { get; set; }
+        private ReportTable table;
+        /// <summary>
+        /// Таблица отчета
+        /// </summary>
+        public ReportTable Table { get { return table; } }
 
-		public TableReportValue(ReportTable table, string xml_clouser)
+        /// <summary>
+        /// XML-замыкатель
+        /// </summary>
+		public string XmlContractor { get; set; }
+
+        /// <summary>
+        /// Конструктор класса TableReportValue
+        /// </summary>
+        /// <param name="table">Таблица, которая будет вставлена в отчет</param>
+        /// <param name="xmlContractor">XML-замыкатель</param>
+		public TableReportValue(ReportTable table, string xmlContractor)
 		{
 			this.table = table;
-			this.xml_clouser = xml_clouser;
+			this.XmlContractor = xmlContractor;
 		}
 	}
 }

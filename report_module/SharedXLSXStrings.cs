@@ -4,52 +4,86 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.IO;
+using System.Collections.ObjectModel;
 
-namespace report_module
+namespace ReportModule
 {
-    public class SharedXLSXStrings
+    /// <summary>
+    /// Класс работы с shared-строками отчета Excel
+    /// </summary>
+    public class SharedExcelStrings
     {
-        public int count { get; set; }
-        public int uniqueCount { get; set; }
-        public List<XElement> shared_strings { get; set; }
+        /// <summary>
+        /// Число shared-строк
+        /// </summary>
+        public int Count { get; set; }
 
-        public SharedXLSXStrings(string file_name)
+        /// <summary>
+        /// Число уникальных shared-строк
+        /// </summary>
+        public int UniqueCount { get; set; }
+
+
+        private Collection<XElement> sharedStrings = new Collection<XElement>();
+        /// <summary>
+        /// Список shared-строк
+        /// </summary>
+        public Collection<XElement> SharedStrings { get { return sharedStrings; } }
+
+        /// <summary>
+        /// Конструктор класса SharedXLSXStrings
+        /// </summary>
+        /// <param name="fileName">Путь до файла с shared-строками</param>
+        public SharedExcelStrings(string fileName)
         {
-            XDocument sharedStrings = XDocument.Load(file_name);
-            shared_strings = sharedStrings.Root.Elements().ToList<XElement>();
-            count = Int32.Parse(sharedStrings.Root.Attribute("count").Value);
-            uniqueCount = Int32.Parse(sharedStrings.Root.Attribute("uniqueCount").Value);
+            XDocument sharedStrings_document = XDocument.Load(fileName);
+
+            sharedStrings.Clear();
+            foreach (XElement element in sharedStrings_document.Root.Elements().ToList<XElement>())
+                sharedStrings.Add(element);
+
+            Count = Int32.Parse(sharedStrings_document.Root.Attribute("count").Value);
+            UniqueCount = Int32.Parse(sharedStrings_document.Root.Attribute("uniqueCount").Value);
         }
 
-        public int Add(string shared_string)
+        /// <summary>
+        /// Добавить shared-строку
+        /// </summary>
+        /// <param name="value">Shared-строка</param>
+        /// <returns>возвращает индекс добавленной строки</returns>
+        public int Add(string value)
         {
-            count++;
+            Count++;
             bool is_containt = false;
-            XElement ss = XElement.Parse(shared_string, LoadOptions.PreserveWhitespace);
-            for (int i = 0; i < shared_strings.Count; i++)
-                if (shared_strings[i] == ss)
+            XElement ss = XElement.Parse(value, LoadOptions.PreserveWhitespace);
+            for (int i = 0; i < SharedStrings.Count; i++)
+                if (SharedStrings[i] == ss)
                 {
                     is_containt = true;
                     return i;
                 }
             if (!is_containt)
             {
-                shared_strings.Add(ss);
-                uniqueCount++;
-                return shared_strings.Count - 1;
+                SharedStrings.Add(ss);
+                UniqueCount++;
+                return SharedStrings.Count - 1;
             }
-            throw new ApplicationException("Неизвестная ошибка при добавлении строки в sharedStrings.xml");
+            throw new ReportException("Неизвестная ошибка при добавлении строки в sharedStrings.xml");
         }
 
-        public void Save(string file_name)
+        /// <summary>
+        /// Сохранить список shared-строк в файл
+        /// </summary>
+        /// <param name="fileName">Имя файла</param>
+        public void Save(string fileName)
         {
-            XDocument sharedStrings = XDocument.Load(file_name);
-            sharedStrings.Root.RemoveNodes();
-            sharedStrings.Root.SetAttributeValue("count", count);
-            sharedStrings.Root.SetAttributeValue("uniqueCount", uniqueCount);
-            foreach (XElement element in shared_strings)
-                sharedStrings.Root.Add(element);
-            sharedStrings.Save(file_name);
+            XDocument sharedStringsDocument = XDocument.Load(fileName);
+            sharedStringsDocument.Root.RemoveNodes();
+            sharedStringsDocument.Root.SetAttributeValue("count", Count);
+            sharedStringsDocument.Root.SetAttributeValue("uniqueCount", UniqueCount);
+            foreach (XElement element in SharedStrings)
+                sharedStringsDocument.Root.Add(element);
+            sharedStringsDocument.Save(fileName);
         }
     }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace am_editor.Properties {
+namespace AmEditor.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace am_editor.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("am_editor.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AmEditor.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,44 +60,37 @@ namespace am_editor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap insert_object_5929516005 {
+        internal static System.Drawing.Bitmap apply {
             get {
-                object obj = ResourceManager.GetObject("insert-object-5929516005", resourceCulture);
+                object obj = ResourceManager.GetObject("apply", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap list_remove_5921719056 {
+        internal static System.Drawing.Bitmap down {
             get {
-                object obj = ResourceManager.GetObject("list-remove-5921719056", resourceCulture);
+                object obj = ResourceManager.GetObject("down", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap new_go_down_5895517224 {
+        internal static System.Drawing.Bitmap minus {
             get {
-                object obj = ResourceManager.GetObject("new-go-down-5895517224", resourceCulture);
+                object obj = ResourceManager.GetObject("minus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap new_go_up_5892013514 {
+        internal static System.Drawing.Bitmap plus {
             get {
-                object obj = ResourceManager.GetObject("new-go-up-5892013514", resourceCulture);
+                object obj = ResourceManager.GetObject("plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap new_go_up_5892019571 {
+        internal static System.Drawing.Bitmap up {
             get {
-                object obj = ResourceManager.GetObject("new-go-up-5892019571", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap package_installed_updated {
-            get {
-                object obj = ResourceManager.GetObject("package-installed-updated", resourceCulture);
+                object obj = ResourceManager.GetObject("up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

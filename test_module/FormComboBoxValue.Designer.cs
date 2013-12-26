@@ -1,4 +1,4 @@
-﻿namespace am_editor
+﻿namespace AmEditor
 {
     partial class FormComboBoxValue
     {

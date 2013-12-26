@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using am_classes;
+using AMClasses;
 
-namespace am_editor
+namespace AmEditor
 {
-    public partial class FormCommandLineParams : Form
+    internal partial class FormCommandLineParams : Form
     {
         private Language language { get; set; }
 

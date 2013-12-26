@@ -1,0 +1,10 @@
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\ActivityManager.exe.config
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\ActivityManager.exe
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\ActivityManager.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\ScintillaNET.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\ScintillaNET.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\ScintillaNET.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\AMClasses.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Debug\ActivityManager.exe
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\obj\Debug\ActivityManager.pdb

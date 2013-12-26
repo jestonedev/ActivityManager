@@ -15,3 +15,4 @@ D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\am_edi
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\am_editor.FormPlugins.resources
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\am_editor.FormSqlValue.resources
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Debug\am_editor.FormStringValue.resources
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\AmEditor.exe.config

@@ -5,17 +5,32 @@ using System.Text;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 
-namespace report_module
+namespace ReportModule
 {
+    /// <summary>
+    /// Строковая переменная отчета
+    /// </summary>
 	public class StringReportValue: ReportValue
 	{
-		public string pattern { get; set; }
-		public string value { get; set; }
+        /// <summary>
+        /// Шаблон в отчете, который будет заменяться на значение переменной
+        /// </summary>
+		public string Pattern { get; set; }
+        
+        /// <summary>
+        /// Значение переменной
+        /// </summary>
+		public string Value { get; set; }
 		
+        /// <summary>
+        /// Конструктор класса StringReportValue
+        /// </summary>
+        /// <param name="pattern">Шаблон замены. Автоматически обрамляется знаками "$"</param>
+        /// <param name="value">Значение переменной</param>
 		public StringReportValue(string pattern, string value)
 		{
-			this.pattern = "$"+pattern+"$";
-			this.value = value;
+			this.Pattern = "$"+pattern+"$";
+			this.Value = value;
 		}
 	}
 }

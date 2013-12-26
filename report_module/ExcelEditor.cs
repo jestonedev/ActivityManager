@@ -5,96 +5,126 @@ using System.Text;
 using System.IO;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
-using extended_types;
+using ExtendedTypes;
+using System.Collections.ObjectModel;
 
-namespace report_module
+namespace ReportModule
 {
+    /// <summary>
+    /// Редактор отчетов Excel
+    /// </summary>
     public class ExcelEditor: ReportEditor
     {
-        private SharedXLSXStrings shared_strings;
+        private SharedExcelStrings shared_strings;
 
-        private Dictionary<string, string> xml_clousers = new Dictionary<string, string>() {
+        private Dictionary<string, string> xml_contractors = new Dictionary<string, string>() {
         {"row","row"},
         {"cell","c"}
         };
 
-        public override List<ReportValue> xml_clousers_convert(List<ReportValue> values)
+        /// <summary>
+        /// Метод конвертации xml-замыкателя
+        /// </summary>
+        /// <param name="values">Список переменных, в которых надо найти унифицированные замыкатели и заменить на зависимые от типа отчета</param>
+        /// <returns>Возвращает список переменных отчета с зависимыми от типа отчета xml-замыкателями</returns>
+        public override Collection<ReportValue> XmlContractorsConvert(Collection<ReportValue> values)
         {
-            return clousers_convert(xml_clousers, values);
+            return ContractorsConvert(xml_contractors, values);
         }
 
-        public override void report_editing(string report_unzip_path, List<ReportValue> values)
+        /// <summary>
+        /// Метод, производящий замену всех шаблонов отчета на значения переменных отчета
+        /// </summary>
+        /// <param name="reportUnzipPath">Путь до файла отчета</param>
+        /// <param name="values">Список переменных</param>
+        public override void ReportEditing(string reportUnzipPath, Collection<ReportValue> values)
         {
-            string xl_path = Path.Combine(report_unzip_path, "xl");
-            shared_strings = new SharedXLSXStrings(Path.Combine(xl_path, "sharedStrings.xml"));
+            string xl_path = Path.Combine(reportUnzipPath, "xl");
+            shared_strings = new SharedExcelStrings(Path.Combine(xl_path, "sharedStrings.xml"));
             string[] sheets = Directory.GetFiles(Path.Combine(xl_path, "worksheets"), "*.xml");
             List<XDocument> xdoc_sheets = new List<XDocument>();
             foreach (string sheet in sheets)
                 xdoc_sheets.Add(XDocument.Load(sheet));
             foreach (ReportValue report_value in values)
             {
+                StringReportValue string_report_value = report_value as StringReportValue;
+                TableReportValue table_report_value = report_value as TableReportValue;
                 foreach (XDocument sheet in xdoc_sheets)
-                    if (report_value is StringReportValue)
-                        WriteString((StringReportValue)report_value, sheet);
-                    else
-                    if (report_value is TableReportValue)
-                        WriteTable((TableReportValue)report_value, sheet);
+                if (string_report_value != null)    
+                    WriteString(string_report_value, sheet);
+                else
+                if (table_report_value != null)
+                    WriteTable(table_report_value, sheet);
             }
             for (int i = 0; i < sheets.Length; i++)
                 xdoc_sheets[i].Save(sheets[i]);
             shared_strings.Save(Path.Combine(xl_path, "sharedStrings.xml"));
         }
 
-        public override void special_tag_editing(string report_unzip_path)
+        /// <summary>
+        /// Метод, производящий замену специальных тэгов в отчете
+        /// </summary>
+        /// <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
+        public override void SpecialTagEditing(string reportUnzipPath)
         {
-            base.special_tag_editing(report_unzip_path);
+            base.SpecialTagEditing(reportUnzipPath);
         }
 
-        protected override void WriteString(StringReportValue report_value, XDocument xdocument)
+        /// <summary>
+        /// Метод, заменяющий строковый шаблон отчета
+        /// </summary>
+        /// <param name="reportValue">Строковая переменная отчета</param>
+        /// <param name="document">Отчет</param>
+        protected override void WriteString(StringReportValue reportValue, XDocument document)
         {
-            foreach (XElement element in shared_strings.shared_strings)
+            foreach (XElement element in shared_strings.SharedStrings)
             {
                 XElement t_element = element.Elements().First();
                 string t_element_str = t_element.ToString(SaveOptions.DisableFormatting);
-                if (Regex.IsMatch(t_element_str, Regex.Escape(report_value.pattern)))
+                if (Regex.IsMatch(t_element_str, Regex.Escape(reportValue.Pattern)))
                 {
-                    t_element_str = t_element_str.Replace(report_value.pattern, report_value.value);
+                    t_element_str = t_element_str.Replace(reportValue.Pattern, reportValue.Value);
                     t_element.ReplaceWith(XElement.Parse(t_element_str, LoadOptions.PreserveWhitespace));
                 }
             }
         }
 
-        protected override void WriteTable(TableReportValue report_value, XDocument xdocument)
+        /// <summary>
+        /// Метод, заменяющий табличный шаблон отчета
+        /// </summary>
+        /// <param name="reportValue">Табличная переменная отчета</param>
+        /// <param name="document">Отчет</param>
+        protected override void WriteTable(TableReportValue reportValue, XDocument document)
         {
             List<int> excel_templates_ss_indexes = new List<int>();
-            foreach (string template in report_value.table.Columns)
+            foreach (string template in reportValue.Table.Columns)
                 excel_templates_ss_indexes.Add(ss_index("$" + template + "$", shared_strings));
             List<string> excel_templates = new List<string>();
             foreach (int ss_index in excel_templates_ss_indexes)
                 excel_templates.Add("<v>" + ss_index.ToString() + "</v>");
             string reg_match_pattern = ReportHelper.get_table_pattern_regex(excel_templates);
 
-            List<XElement> xml_clouser_elements = ReportHelper.find_xelements(xdocument.Root, report_value.xml_clouser);
+            List<XElement> xml_contractor_elements = ReportHelper.find_xelements(document.Root, reportValue.XmlContractor);
             int x_increment = 0;        //Инкремент адреса столбца
             int y_increment = 0;        //Инкремент адреса строки
 
-            foreach (XElement element in xml_clouser_elements)
+            foreach (XElement element in xml_contractor_elements)
             {
                 recalculate_xelement_address(element, x_increment, y_increment);
                 string element_value = element.ToString(SaveOptions.DisableFormatting);
                 if (Regex.IsMatch(element_value, reg_match_pattern))
                 {
                     List<XElement> new_elements = new List<XElement>();
-                    foreach (ReportRow row in report_value.table)
+                    foreach (ReportRow row in reportValue.Table)
                     {
                         string result_row = element_value;
-                        for (int i = 0; i < report_value.table.Columns.Count; i++)
+                        for (int i = 0; i < reportValue.Table.Columns.Count; i++)
                         {
                             result_row = result_row.Replace(
-                                "<v>" + ss_index("$" + report_value.table.Columns[i] + "$", shared_strings).ToString() + "</v>",
+                                "<v>" + ss_index("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString() + "</v>",
                                 "<v>" + shared_strings.Add(
-                                ss_element("$" + report_value.table.Columns[i] + "$", shared_strings).ToString(SaveOptions.DisableFormatting).
-                                Replace("$" + report_value.table.Columns[i] + "$", row[i].Value).ToString()) + "</v>");
+                                ss_element("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(SaveOptions.DisableFormatting).
+                                Replace("$" + reportValue.Table.Columns[i] + "$", row[i].Value).ToString()) + "</v>");
                         }
                         XElement new_element = XElement.Parse(result_row, LoadOptions.PreserveWhitespace);
                         new_elements.Add(new_element);
@@ -111,7 +141,7 @@ namespace report_module
                     }
                     element.Remove();
                     string address = element.Elements().First().Attribute("r").Value;
-                    recalculate_merge_cells(xdocument, address, x_increment, y_increment);
+                    recalculate_merge_cells(document, address, y_increment);
                 }
             }
         }
@@ -120,23 +150,23 @@ namespace report_module
         /// Получить элемент в файле sharedStrings.xml Excel-отчета
         /// </summary>
         /// <param name="shared_string">Искомая строка</param>
-        /// <param name="shared_strings">Класс-обертка sharedStrings.xml</param>
+        /// <param name="shared_strings_list">Класс-обертка sharedStrings.xml</param>
         /// <returns>Найденый элемент. Если ничего не найдено - вызывается исключение</returns>
-        private XElement ss_element(string shared_string, SharedXLSXStrings shared_strings)
+        private static XElement ss_element(string shared_string, SharedExcelStrings shared_strings_list)
         {
-            for (int i = 0; i < shared_strings.shared_strings.Count; i++)
+            for (int i = 0; i < shared_strings_list.SharedStrings.Count; i++)
             {
-                foreach (XElement r in shared_strings.shared_strings[i].Elements(XName.Get("r", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")))
+                foreach (XElement r in shared_strings_list.SharedStrings[i].Elements(XName.Get("r", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")))
                 {
                     if (r.Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
                         First().Value == shared_string)
-                        return shared_strings.shared_strings[i];
+                        return shared_strings_list.SharedStrings[i];
                 }
-                if (shared_strings.shared_strings[i].Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
+                if (shared_strings_list.SharedStrings[i].Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
                         First().Value == shared_string)
-                    return shared_strings.shared_strings[i];
+                    return shared_strings_list.SharedStrings[i];
             }
-            ApplicationException exception = new ApplicationException("Подставляемая строка \"{0}\" не найдена в файле шаблона");
+            ReportException exception = new ReportException("Подставляемая строка \"{0}\" не найдена в файле шаблона");
             exception.Data.Add("{0}", shared_string);
             throw exception;
         }
@@ -145,23 +175,23 @@ namespace report_module
         /// Получить индекс строки в файле sharedStrings.xml Excel-отчета
         /// </summary>
         /// <param name="shared_string">Искомая строка</param>
-        /// <param name="shared_strings">Класс-обертка sharedStrings.xml</param>
+        /// <param name="shared_strings_list">Класс-обертка sharedStrings.xml</param>
         /// <returns>Индекс найденного элемента. Если ничего не найдено - вызывается исключение</returns>
-        private int ss_index(string shared_string, SharedXLSXStrings shared_strings)
+        private static int ss_index(string shared_string, SharedExcelStrings shared_strings_list)
         {
-            for (int i = 0; i < shared_strings.shared_strings.Count; i++)
+            for (int i = 0; i < shared_strings_list.SharedStrings.Count; i++)
             {
-                foreach (XElement r in shared_strings.shared_strings[i].Elements(XName.Get("r", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")))
+                foreach (XElement r in shared_strings_list.SharedStrings[i].Elements(XName.Get("r", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")))
                 {
                     if (r.Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
                         First().Value == shared_string)
                         return i;
                 }
-                if (shared_strings.shared_strings[i].Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
+                if (shared_strings_list.SharedStrings[i].Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
                         First().Value == shared_string)
                     return i;
             }
-            ApplicationException exception = new ApplicationException("Подставляемая строка \"{0}\" не найдена в файле шаблона");
+            ReportException exception = new ReportException("Подставляемая строка \"{0}\" не найдена в файле шаблона");
             exception.Data.Add("{0}", shared_string);
             throw exception;
         }
@@ -173,7 +203,7 @@ namespace report_module
         /// <param name="y_increment">Инкремент по строкам</param>
         /// <param name="address">Исходный адрес ячейки</param>
         /// <returns>Полученный адресс ячейки</returns>
-        private string ca_increment(int x_increment, int y_increment, string address)
+        private static string ca_increment(int x_increment, int y_increment, string address)
         {
             Match match_row = Regex.Match(address, "[0-9]+$");
             string row_address = match_row.Value;
@@ -204,9 +234,8 @@ namespace report_module
         /// </summary>
         /// <param name="sheet">Excel-лист</param>
         /// <param name="address">Адрес ячейки, относительно которой производится смещение</param>
-        /// <param name="x_increment">Смещение по столбцам</param>
         /// <param name="y_increment">Смещение по строкам</param>
-        private void recalculate_merge_cells(XDocument sheet, string address, int x_increment, int y_increment)
+        private static void recalculate_merge_cells(XDocument sheet, string address, int y_increment)
         {
             XElement merge_cells_element = null;
             foreach (XElement element in sheet.Root.Elements())
@@ -248,7 +277,7 @@ namespace report_module
             }
         }
 
-        private void recalculate_xelement_address(XElement element, int x_increment, int y_increment)
+        private static void recalculate_xelement_address(XElement element, int x_increment, int y_increment)
         {
             if (element.Name.LocalName == "row")
             {
@@ -268,7 +297,7 @@ namespace report_module
                 }
                 else
                 {
-                    ApplicationException exception = new ApplicationException("Неподдерживаемый тип элемента {0}");
+                    ReportException exception = new ReportException("Неподдерживаемый тип элемента {0}");
                     exception.Data.Add("{0}", element.Name.LocalName);
                     throw exception;
                 }

@@ -7,32 +7,30 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using am_classes;
+using AMClasses;
 
-namespace am_editor
+namespace AmEditor
 {
-    public partial class FormPlugins : Form
+    internal partial class FormPlugins : Form
     {
-        private List<PluginIncludeRule> _plugins_include_rules;
-        private Language language;
+        private List<PlugIncludeRule> _plugins_include_rules;
 
-        public List<PluginIncludeRule> plugins_include_rules
+        public List<PlugIncludeRule> PluginsIncludeRules
         {
             get
             {
-                List<PluginIncludeRule> pir = new List<PluginIncludeRule>();
+                List<PlugIncludeRule> pir = new List<PlugIncludeRule>();
                 foreach (string item in checkedListBoxPlugins.CheckedItems)
-                    pir.Add(new PluginIncludeRule("include", item));
+                    pir.Add(new PlugIncludeRule("include", item));
                 return pir;
             }
             set { _plugins_include_rules = value; }
         }
 
-        public FormPlugins(List<PluginIncludeRule> plugins_include_rules, Language language)
+        public FormPlugins(List<PlugIncludeRule> PluginsIncludeRules, Language language)
         {
             InitializeComponent();
-            this.plugins_include_rules = plugins_include_rules;
-            this.language = language;
+            this.PluginsIncludeRules = PluginsIncludeRules;
             Text = language.Translate("Плагины");
             button1.Text = language.Translate(button1.Text);
             button2.Text = language.Translate(button2.Text);
@@ -45,12 +43,12 @@ namespace am_editor
             foreach (string file in files)
             {
                 FileInfo fi = new FileInfo(file);
-                if (Plugin.IsPlugin(file))
+                if (PlugInfo.IsPlug(file))
                 {
                     bool include = false;
-                    foreach (PluginIncludeRule pir in _plugins_include_rules)
+                    foreach (PlugIncludeRule pir in _plugins_include_rules)
                     {
-                        if ((pir.PluginNameMask == "*") || (pir.PluginNameMask == fi.Name))
+                        if ((pir.PlugNameMask == "*") || (pir.PlugNameMask == fi.Name))
                             include = pir.IncludeRule == "include";
                     }
                     checkedListBoxPlugins.Items.Add(fi.Name, include);

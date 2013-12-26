@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace am_classes
+namespace AMClasses
 {
 	//Класс-переводчик
 	public class Language
 	{
         private Dictionary<string, string> dictionary = new Dictionary<string, string>();
-        private string language_prefix;
-        public string Language_prefix { get { return language_prefix; } }
+        private string prefix;
+        public string Prefix { get { return prefix; } }
 
         public Language(string lang)
         {
-            language_prefix = lang;
+            prefix = lang;
             string lang_dir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lang");
             string[] files = Directory.GetFiles(lang_dir, "*." + lang);
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -26,9 +26,9 @@ namespace am_classes
                     string text = sr.ReadLine();
                     string[] text_parts = text.Split(new char[] {':'});
                     if (text_parts.Length != 2)
-                        throw new ApplicationException(String.Format(this.Translate("Некорректный формат файла \"{0}\" языковой поддержки"),file));
+                        throw new AMException(String.Format(this.Translate("Некорректный формат файла \"{0}\" языковой поддержки"), file));
                     if (!dictionary.ContainsKey(text_parts[0]))
-                        dictionary.Add(text_parts[0], (text_parts[1].Trim() == "") ? text_parts[0] : text_parts[1]);
+                        dictionary.Add(text_parts[0], String.IsNullOrEmpty(text_parts[1].Trim()) ? text_parts[0] : text_parts[1]);
                 }
                 sr.Close();
             }
