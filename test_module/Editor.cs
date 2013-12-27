@@ -703,6 +703,8 @@ namespace AmEditor
             if (is_manual_change_state && dataGridViewSteps.SelectedRows.Count > 0)
             {
                 ActivityStep step = ((ActivityStep)dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value);
+                step.InputParameters.Clear();
+                step.OutputParameters.Clear();
                 foreach (PlugActionParameter pap in pai.Parameters)
                 {
                     if (pap.Direction == AMClasses.ParameterDirection.Input)
