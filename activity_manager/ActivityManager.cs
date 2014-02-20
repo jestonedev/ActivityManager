@@ -41,7 +41,7 @@ namespace ActivityManager
 				string[] arg = args[i].Split(new char[]{'='}, 2);
 				if (arg.Length != 2)
                     throw new AMException(_("Некорректный формат входной строки параметров"));
-				global_parameters.Add(arg[0].ToLower(),arg[1]);
+				global_parameters.Add(arg[0],arg[1]);
 			}
 
 			//проверяем наличие необязательного конфигурационного параметра: lang

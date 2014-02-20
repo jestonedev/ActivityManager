@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>config="D:\Projects\Visual Studio Projects\Мена\reports\contract.xml" id_contract=6 connection_string="Dsn=mena;uid={PWR\IGNVV}" contract_path="D:\Projects\Visual Studio Projects\Мена\reports\\" report_path="\\nas\mena\reports\\"</StartArguments>
+    <StartArguments>config="C:\Users\IgnVV\Desktop\1.xml" IDDepartment="1"</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
