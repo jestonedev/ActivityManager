@@ -6,7 +6,7 @@
    <Modules>
     <Module Name="ameditor.exe">
      <Messages>
-      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2014-02-20 05:47:49Z" FixCategory="NonBreaking">
+      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2014-02-20 06:10:52Z" FixCategory="NonBreaking">
        <Issue Name="NoStrongName" Certainty="95" Level="CriticalError">Sign 'AmEditor.exe' with a strong name key.</Issue>
       </Message>
      </Messages>
@@ -17,31 +17,46 @@
          <Members>
           <Member Name="#LoadPlugins()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 05:47:49Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 06:10:52Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="Editor.cs" Line="93">Modify 'Editor.LoadPlugins()' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#SaveFile(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 05:47:49Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 06:10:52Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="Editor.cs" Line="343">Modify 'Editor.SaveFile(string)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#открытьToolStripMenuItem_Click(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 05:47:49Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 06:10:52Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="Editor.cs" Line="550">Modify 'Editor.открытьToolStripMenuItem_Click(object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#плагиныToolStripMenuItem2_Click(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 05:47:49Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 06:10:52Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="Editor.cs" Line="500">Modify 'Editor.плагиныToolStripMenuItem2_Click(object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
             </Message>
            </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="FormCommandLineParams" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#command_line_params" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Accessors>
+            <Accessor Name="#get_command_line_params()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+             <Messages>
+              <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Status="Active" Created="2014-02-20 06:10:52Z" FixCategory="NonBreaking">
+               <Issue Name="IsNullOrEmpty" Certainty="95" Level="Warning" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="FormCommandLineParams.cs" Line="21">Replace the call to 'string.operator !=(string, string)' in 'FormCommandLineParams.command_line_params.get()' with a call to 'String.IsNullOrEmpty'.</Issue>
+              </Message>
+             </Messages>
+            </Accessor>
+           </Accessors>
           </Member>
          </Members>
         </Type>
@@ -49,14 +64,14 @@
          <Members>
           <Member Name="#LoadSettings()" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 05:47:49Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 06:10:52Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="SettingsStorage.cs" Line="71">Modify 'SettingsStorage.LoadSettings()' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#SaveSettings(AmEditor.SettingsStorage)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 05:47:49Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-20 06:10:52Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="SettingsStorage.cs" Line="45">Modify 'SettingsStorage.SaveSettings(SettingsStorage)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
             </Message>
            </Messages>
@@ -90,6 +105,16 @@
    <Email>[none]</Email>
    <MessageLevel Certainty="95">CriticalError</MessageLevel>
    <File Name="DesignRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820">
+   <Name>Test for empty strings using string length</Name>
+   <Description>To test for empty strings, check if String.Length is equal to zero. Constructs such as "".Equals(someString) and String.Empty.Equals(someString) are less efficient than testing the string length. Replace these with checks for someString.Length == 0.</Description>
+   <Resolution Name="IsNullOrEmpty">Replace the call to {0} in {1} with a call to 'String.IsNullOrEmpty'.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182279(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="PerformanceRules.dll" Version="9.0.0.0" />
   </Rule>
  </Rules>
  <Localized>
