@@ -37,7 +37,7 @@ namespace ReportModule
         public override void ReportEditing(string reportUnzipPath, Collection<ReportValue> values)
         {
             ReportEditingContentFile(Path.Combine(reportUnzipPath, 
-                Path.DirectorySeparatorChar+"word"+Path.DirectorySeparatorChar+"document.xml"), values);
+                "word"+Path.DirectorySeparatorChar+"document.xml"), values);
         }
 
         /// <summary>

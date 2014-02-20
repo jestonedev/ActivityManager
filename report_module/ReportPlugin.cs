@@ -210,7 +210,7 @@ namespace ReportModule
             if (File.Exists(Path.Combine(report_unzip_path, "content.xml")) && (extension == ".ods"))
                 editor = new CalcEditor();
             else
-            if (File.Exists(Path.Combine(report_unzip_path, @"word\document.xml")))
+                if (File.Exists(Path.Combine(report_unzip_path, @"word" + Path.DirectorySeparatorChar + "document.xml")))
                 editor = new WordEditor();
             else
             if (Directory.Exists(Path.Combine(report_unzip_path, "xl")))
