@@ -691,30 +691,28 @@ namespace ConvertModule
                     dec_case = DeclensionCase.Imenit;
                     break;
             }
-            Gender gender = Declension1251.GetGender(nameIn);
+            Gender gender = Declension1251.GetGender(nameIn.Trim());
             string snp_tmp = "";
             if (gender != Gender.NotDefind)
-                snp_tmp = Declension1251.GetSNPDeclension(nameIn, Declension1251.GetGender(nameIn), dec_case);
+                snp_tmp = Declension1251.GetSNPDeclension(nameIn, Declension1251.GetGender(nameIn.Trim()), dec_case);
             else
-                snp_tmp = nameIn;
+                snp_tmp = nameIn.Trim();
             string[] snp_array = snp_tmp.Split(new char[] { ' ' });
-            if (snp_array.Length < 3)
-            {
-                ConvertException exception = new ConvertException("Некорректно заданы ФИО {0}");
-                exception.Data.Add("{0}", nameIn);
-                throw exception;
-            }
-            if (Regex.IsMatch(format, "ss"))
+            //Если входная строка пустая
+            if (snp_array.Length == 0)
+                nameOut = nameIn;
+            //Заменяем шаблонные строки
+            if (Regex.IsMatch(format, "ss") && (snp_array.Length > 0))
                 format = Regex.Replace(format, "ss", snp_array[0]);
-            if (Regex.IsMatch(format, "s"))
+            if (Regex.IsMatch(format, "s") && (snp_array.Length > 0))
                 format = Regex.Replace(format, "s", snp_array[0][0].ToString());
-            if (Regex.IsMatch(format, "nn"))
+            if (Regex.IsMatch(format, "nn") && (snp_array.Length > 1))
                 format = Regex.Replace(format, "nn", snp_array[1]);
-            if (Regex.IsMatch(format, "n"))
+            if (Regex.IsMatch(format, "n") && (snp_array.Length > 1))
                 format = Regex.Replace(format, "n", snp_array[1][0].ToString());
-            if (Regex.IsMatch(format, "pp"))
+            if (Regex.IsMatch(format, "pp") && (snp_array.Length > 2))
                 format = Regex.Replace(format, "pp", snp_array[2]);
-            if (Regex.IsMatch(format, "p"))
+            if (Regex.IsMatch(format, "p") && (snp_array.Length > 2))
                 format = Regex.Replace(format, "p", snp_array[2][0].ToString());
             nameOut = format;
         }
