@@ -28,6 +28,12 @@
             <param name="fileName">Путь до программы или документа</param>
             <param name="arguments">Аргументы командной строки</param>
         </member>
+        <member name="M:IOModule.IOPlug.IODebugMessage(System.String)">
+            <summary>
+            Вывод отладочного сообщения
+            </summary>
+            <param name="message">Текст сообщения</param>
+        </member>
         <member name="T:IOModule.IOException">
             <summary>
             Класс исключения модуля IOPlug

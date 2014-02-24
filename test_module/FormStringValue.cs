@@ -25,5 +25,11 @@ namespace AmEditor
             button2.Text = language.Translate(button2.Text);
             label1.Text = language.Translate(label1.Text);
         }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                DialogResult = DialogResult.OK;
+        }
     }
 }

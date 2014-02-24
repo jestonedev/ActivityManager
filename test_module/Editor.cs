@@ -1025,5 +1025,14 @@ namespace AmEditor
             Clipboard.SetText(activityManager+" "+arguments);
             MessageBox.Show(_("Строка выполнения успешно скопирована"), _("Информация"), MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void dataGridViewParams_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                dataGridViewParams_DoubleClick(sender, e);
+                e.Handled = true;
+            }
+        }
     }
 }

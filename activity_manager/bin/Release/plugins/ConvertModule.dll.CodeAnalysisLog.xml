@@ -8,155 +8,144 @@
      <Namespaces>
       <Namespace Name="ConvertModule">
        <Types>
-        <Type Name="ConvertPlug" Kind="Class" Accessibility="Public" ExternallyVisible="True">
-         <Members>
-          <Member Name="#ConvertNameToCase(System.String,System.String,ConvertModule.TextCase,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\conv_module" File="ConvertPlugin.cs" Line="707">Modify 'ConvertPlug.ConvertNameToCase(string, string, TextCase, out string)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-         </Members>
-        </Type>
         <Type Name="IPlug" Kind="Interface" Accessibility="Public" ExternallyVisible="True">
          <Members>
           <Member Name="#ColumnConcat(ExtendedTypes.ReportTable,System.String,System.String,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outValue' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertCurrencyCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportRow&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="7#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="7#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outRow' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertCurrencyColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportTable&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="7#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="7#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outTable' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertCurrencyToString(System.Double,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="6#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="6#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'words' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertDataRowToReportRow(System.Data.DataRow,ExtendedTypes.ReportRow&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'reportRow' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertDataTableToReportTable(System.Data.DataTable,ExtendedTypes.ReportTable&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'reportTable' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertDateTimeCellToString(ExtendedTypes.ReportRow,System.String,System.String,System.Boolean,ExtendedTypes.ReportRow&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outRow' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertDateTimeColToString(ExtendedTypes.ReportTable,System.String,System.String,System.Boolean,ExtendedTypes.ReportTable&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outTable' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertDateTimeToString(System.DateTime,System.String,System.Boolean,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'words' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertFloatCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,System.Boolean,ExtendedTypes.ReportRow&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outRow' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertFloatColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,System.Boolean,ExtendedTypes.ReportTable&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outTable' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertFloatToString(System.Single,ConvertModule.TextCase,System.Boolean,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'words' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertIntCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,ConvertModule.Sex,System.Boolean,System.Boolean,ExtendedTypes.ReportRow&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="6#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="6#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outRow' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertIntColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,ConvertModule.Sex,System.Boolean,System.Boolean,ExtendedTypes.ReportTable&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="6#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="6#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outTable' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertIntToString(System.Int64,ConvertModule.TextCase,ConvertModule.Sex,System.Boolean,System.Boolean,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="5#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="5#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'words' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertNameCellToCase(ExtendedTypes.ReportRow,System.String,System.String,ConvertModule.TextCase,ExtendedTypes.ReportRow&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outRow' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertNameColToCase(ExtendedTypes.ReportTable,System.String,System.String,ConvertModule.TextCase,ExtendedTypes.ReportTable&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outTable' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ConvertNameToCase(System.String,System.String,ConvertModule.TextCase,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'nameOut' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#RowConcat(ExtendedTypes.ReportRow,System.String,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="2#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="2#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outValue' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#TableConcat(ExtendedTypes.ReportTable,System.String,System.String,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-21 03:01:19Z" FixCategory="Breaking">
+            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:34Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outValue' be an out parameter.</Issue>
             </Message>
            </Messages>
@@ -179,16 +168,6 @@
    <Url>http://msdn2.microsoft.com/ms182131(VS.90).aspx</Url>
    <Email>[none]</Email>
    <MessageLevel Certainty="50">Warning</MessageLevel>
-   <File Name="DesignRules.dll" Version="9.0.0.0" />
-  </Rule>
-  <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
-   <Name>Do not catch general exception types</Name>
-   <Description>You should not catch Exception or SystemException. Catching generic exception types can hide run-time problems from the library user, and can complicate debugging. You should catch only those exceptions that you can handle gracefully.</Description>
-   <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/ms182137(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="95">CriticalError</MessageLevel>
    <File Name="DesignRules.dll" Version="9.0.0.0" />
   </Rule>
  </Rules>

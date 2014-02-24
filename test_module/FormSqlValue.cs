@@ -14,8 +14,8 @@ namespace AmEditor
     {
         public string Value
         {
-            get { return scintilla1.Text; }
-            set { scintilla1.Text = value; }
+            get { return scintillaEditor.Text; }
+            set { scintillaEditor.Text = value; }
         }
 
         public FormSqlValue(List<string> globalVariables, Language language)
@@ -30,7 +30,51 @@ namespace AmEditor
 
         private void button4_Click(object sender, EventArgs e)
         {
-            scintilla1.Selection.Text = comboBoxValues.Text;
+            scintillaEditor.Selection.Text = comboBoxValues.Text;
+        }
+
+        private void отменитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scintillaEditor.UndoRedo.Undo();
+        }
+
+        private void повторитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            scintillaEditor.UndoRedo.Redo();
+        }
+
+        private void копироватьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(scintillaEditor.Selection.Text);
+        }
+
+        private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(scintillaEditor.Selection.Text);
+            scintillaEditor.Selection.Text = "";
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scintillaEditor.Selection.Text = "";
+        }
+
+        private void буферОбменаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scintillaEditor.Selection.Text = Clipboard.GetText();
+        }
+
+        private void путьДоФайлаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogInsert.ShowDialog() == DialogResult.OK)
+                scintillaEditor.Selection.Text = openFileDialogInsert.FileName;
+        }
+
+        private void путьДоПапкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialogInsert.ShowDialog() == DialogResult.OK)
+                scintillaEditor.Selection.Text = folderBrowserDialogInsert.SelectedPath;
         }
     }
 }

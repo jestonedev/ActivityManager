@@ -420,6 +420,8 @@ namespace ConvertModule
         /// ffx - копейки (центы) в виде строки
         /// rx - слово "рубль" ("доллар", "евро")
         /// kx - словок "копейка" ("цент")
+        /// nn - слово "минус ", если число отрицательное. Если число положительное, то пустая строка. Пробел после слова минус ставится автоматически.
+        /// n - знак "-", если число отрицательное. Если число положительное, то знак не ставится. Пробел после знака "-" автоматически НЕ ставится.
         /// Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
         /// </param>
         /// <param name="thousandSeparator">Разделитель порядков</param>
@@ -562,6 +564,8 @@ namespace ConvertModule
         /// ffx - копейки (центы) в виде строки
         /// rx - слово "рубль" ("доллар", "евро")
         /// kx - словок "копейка" ("цент")
+        /// nn - слово "минус ", если число отрицательное. Если число положительное, то пустая строка. Пробел после слова минус ставится автоматически.
+        /// n - знак "-", если число отрицательное. Если число положительное, то знак не ставится. Пробел после знака "-" автоматически НЕ ставится.
         /// Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
         /// </param>
         /// <param name="thousandSeparator">Разделитель порядков</param>
@@ -595,6 +599,8 @@ namespace ConvertModule
         /// ffx - копейки (центы) в виде строки
         /// rx - слово "рубль" ("доллар", "евро")
         /// kx - словок "копейка" ("цент")
+        /// nn - слово "минус ", если число отрицательное. Если число положительное, то пустая строка. Пробел после слова минус ставится автоматически.
+        /// n - знак "-", если число отрицательное. Если число положительное, то знак не ставится. Пробел после знака "-" автоматически НЕ ставится.
         /// Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
         /// </param>
         /// <param name="thousandSeparator">Разделитель порядков</param>
@@ -672,8 +678,9 @@ namespace ConvertModule
         /// <param name="nameOut">Выходная строка с ФИО</param>
         public void ConvertNameToCase(string nameIn, string format, TextCase textCase, out string nameOut)
         {
-            //Если входная строка пустая, то вернуть ее без изменений
-            if (String.IsNullOrEmpty(nameIn.Trim()))
+            //Если входная строка не соответствует шаблону ФИО, то вернуть как есть
+            string[] nameInParts = nameIn.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (nameInParts.Length != 3)
             {
                 nameOut = nameIn;
                 return;
@@ -697,46 +704,28 @@ namespace ConvertModule
                     dec_case = DeclensionCase.Imenit;
                     break;
             }
-            Gender gender = Declension1251.GetGender(nameIn.Trim());
-            string snp_tmp = "";
+            //Формирует входную строку ФИО, исключая лишние пробелы
+            string nameInTrimSpaces = String.Join(" ", nameInParts);
+            Gender gender = Declension1251.GetGender(nameInTrimSpaces);
+            string nameInGender = "";
             if (gender != Gender.NotDefind)
-                try
-                {
-                    snp_tmp = Declension1251.GetSNPDeclension(nameIn, Declension1251.GetGender(nameIn.Trim()), dec_case);
-                }
-                catch
-                {
-                    nameOut = nameIn;
-                    return;
-                }
+                nameInGender = Declension1251.GetSNPDeclension(nameInTrimSpaces, gender, dec_case);
             else
-                snp_tmp = nameIn.Trim();
-            string[] snp_array = snp_tmp.Split(new char[] { ' ' });
+                nameInGender = nameInTrimSpaces;
+            string[] nameInGenderParts = nameInGender.Split(new char[] { ' ' });
             //Заменяем шаблонные строки
-            if (Regex.IsMatch(format, "ss") && (snp_array.Length > 0))
-                format = Regex.Replace(format, "ss", snp_array[0]);
-            else
-                format = Regex.Replace(format, "ss", "");
-            if (Regex.IsMatch(format, "s") && (snp_array.Length > 0) && (snp_array[0].Length > 0))
-                format = Regex.Replace(format, "s", snp_array[0][0].ToString());
-            else
-                format = Regex.Replace(format, "s", "");
-            if (Regex.IsMatch(format, "nn") && (snp_array.Length > 1))
-                format = Regex.Replace(format, "nn", snp_array[1]);
-            else
-                format = Regex.Replace(format, "nn", "");
-            if (Regex.IsMatch(format, "n") && (snp_array.Length > 1) && (snp_array[1].Length > 0))
-                format = Regex.Replace(format, "n", snp_array[1][0].ToString());
-            else
-                format = Regex.Replace(format, "n", "");
-            if (Regex.IsMatch(format, "pp") && (snp_array.Length > 2))
-                format = Regex.Replace(format, "pp", snp_array[2]);
-            else
-                format = Regex.Replace(format, "pp", "");
-            if (Regex.IsMatch(format, "p") && (snp_array.Length > 2) && (snp_array[2].Length > 0))
-                format = Regex.Replace(format, "p", snp_array[2][0].ToString());
-            else
-                format = Regex.Replace(format, "p", "");
+            if (Regex.IsMatch(format, "ss"))
+                format = Regex.Replace(format, "ss", nameInGenderParts[0]);
+            if (Regex.IsMatch(format, "s"))
+                format = Regex.Replace(format, "s", nameInGenderParts[0][0].ToString());
+            if (Regex.IsMatch(format, "nn"))
+                format = Regex.Replace(format, "nn", nameInGenderParts[1]);
+            if (Regex.IsMatch(format, "n"))
+                format = Regex.Replace(format, "n", nameInGenderParts[1][0].ToString());
+            if (Regex.IsMatch(format, "pp"))
+                format = Regex.Replace(format, "pp", nameInGenderParts[2]);
+            if (Regex.IsMatch(format, "p"))
+                format = Regex.Replace(format, "p", nameInGenderParts[2][0].ToString());
             nameOut = format;
         }
 

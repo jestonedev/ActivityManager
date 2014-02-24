@@ -6,6 +6,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Runtime.Serialization;
+using System.Windows.Forms;
 
 //Плагин для работы с вводом-выводом
 namespace IOModule
@@ -22,6 +23,8 @@ namespace IOModule
         /// <param name="arguments">Аргументы командной строки</param>
         [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
         void IOOpenFile(string fileName, string arguments);
+
+        void IODebugMessage(string message);
     }
 
     /// <summary>
@@ -48,6 +51,15 @@ namespace IOModule
             proc.StartInfo.Arguments = arguments;
             proc.StartInfo.UseShellExecute = true;
             proc.Start();
+        }
+
+        /// <summary>
+        /// Вывод отладочного сообщения
+        /// </summary>
+        /// <param name="message">Текст сообщения</param>
+        public void IODebugMessage(string message)
+        {
+            MessageBox.Show(message, "Отладка", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 

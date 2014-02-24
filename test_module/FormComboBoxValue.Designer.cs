@@ -41,6 +41,7 @@
             this.comboBoxValue.Name = "comboBoxValue";
             this.comboBoxValue.Size = new System.Drawing.Size(233, 21);
             this.comboBoxValue.TabIndex = 0;
+            this.comboBoxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBoxValue_KeyDown);
             // 
             // button1
             // 

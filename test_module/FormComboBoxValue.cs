@@ -25,5 +25,12 @@ namespace AmEditor
             button2.Text = language.Translate(button2.Text);
             label2.Text = language.Translate(label2.Text);
         }
+
+        private void comboBoxValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                DialogResult = DialogResult.OK;
+        }
+
     }
 }

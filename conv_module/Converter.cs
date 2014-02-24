@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace ConvertModule
 {
@@ -240,6 +241,12 @@ namespace ConvertModule
         private string CardinalToText(long number)
         {
             string result = "";
+            bool negative = false;
+            if (number < 0)
+            {
+                number = Math.Abs(number);
+                negative = true;
+            }
             if (number > Math.Pow(10, 15))
                 return "";
             int i = 0;
@@ -287,12 +294,20 @@ namespace ConvertModule
                     result += " ";
                 result = result + textcase.Translate(parts[i]);
             }
+            if (negative)
+                result = "минус " + result;
             return result;
         }
 
         private string OrdinalToText(long number)
         {
             string result = "";
+            bool negative = false;
+            if (number < 0)
+            {
+                number = Math.Abs(number);
+                negative = true;
+            }
             if (number > Math.Pow(10, 15))
                 return "";
             int i = 0;
@@ -339,6 +354,8 @@ namespace ConvertModule
             }
             if (result.Length == 0)
                 result = textcase.Translate(sex.Translate("нулевой"));
+            if (negative)
+                result = "минус " + result;
             return result;
         }
 
@@ -641,7 +658,12 @@ namespace ConvertModule
             long integral = long.Parse(currency_parts[0]);
             long fractional = 0;
             if (currency_parts.Length > 1)
-                fractional = long.Parse(currency_parts[1].Substring(0,2));
+            {
+                if (currency_parts[1].Length == 1)
+                    fractional = long.Parse(currency_parts[1][0] + "0");
+                else
+                    fractional = long.Parse(currency_parts[1].Substring(0, 2));
+            }
             string integral_postfix = GetIntegralPart(currencyType, isOrdinal, integral);
             string fractional_postfix = GetFractionalPart(currencyType, isOrdinal, fractional);
             return new List<string>() { integral_postfix, fractional_postfix };
@@ -660,6 +682,8 @@ namespace ConvertModule
         /// ffx - копейки (центы) в виде строки
         /// rx - слово "рубль" ("доллар", "евро")
         /// kx - словок "копейка" ("цент")
+        /// nn - слово "минус ", если число отрицательное. Если число положительное, то пустая строка. Пробел после слова минус ставится автоматически.
+        /// n - знак "-", если число отрицательное. Если число положительное, то знак не ставится. Пробел после знака "-" автоматически НЕ ставится.
         /// Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
         /// </param>
         /// <param name="thousandSeparator">Разделитель порядков</param>
@@ -667,8 +691,14 @@ namespace ConvertModule
         /// <returns>Возвращает строковое представление суммы</returns>
         public string CurrencyToString(double currency, CurrencyType currencyType, string format, string thousandSeparator, bool isOrdinal)
         {
+            bool negative = false;
+            if (currency < 0)
+            {
+                currency = Math.Abs(currency);
+                negative = true;
+            }
             List<string> currency_types = GetCurrenctyPostfix(currencyType, currency, isOrdinal);
-            string[] currency_parts = currency.ToString().Split(new char[] { '.', ',' }, 2);
+            string[] currency_parts = currency.ToString().Split(new char[] { '.', ',' }, 2, StringSplitOptions.RemoveEmptyEntries);
             long integral = long.Parse(currency_parts[0]);
             if (currencyType == CurrencyType.Euro)
                 this.sex = new NeuterClass();
@@ -691,7 +721,12 @@ namespace ConvertModule
             }
             long fractional = 0;
             if (currency_parts.Length > 1)
-                fractional = long.Parse(currency_parts[1].Substring(0, 2));
+            {
+                if (currency_parts[1].Length == 1)
+                    fractional = long.Parse(currency_parts[1][0]+"0");
+                else
+                    fractional = long.Parse(currency_parts[1].Substring(0, 2));
+            }
             if (currencyType == CurrencyType.Ruble)
                 this.sex = new FemaleClass();
             else
@@ -733,6 +768,13 @@ namespace ConvertModule
             if (fractional_str.Length == 1)
                 fractional_str = "0" + fractional_str;
             format = format.Replace("ff", fractional_str);
+            if (negative)
+            {
+                format = format.Replace("nn", "минус ");
+                format = format.Replace("n", "-");
+            }
+            else
+                format = format.Replace("n", "");
             return format;
         }
 
@@ -743,7 +785,13 @@ namespace ConvertModule
         /// <returns>Результат</returns>
         public string FloatToString(float number)
         {
-            string[] number_parts = number.ToString().Split(new char[] { '.', ',' }, 2);
+            bool negative = false;
+            if (number < 0)
+            {
+                number = Math.Abs(number);
+                negative = true;
+            }
+            string[] number_parts = number.ToString().Split(new char[] { '.', ',' }, 2, StringSplitOptions.RemoveEmptyEntries);
             long integral = long.Parse(number_parts[0]);
             long fractional = 0;
             if (number_parts.Length > 1)
@@ -765,6 +813,8 @@ namespace ConvertModule
             if (fractional != 0)
                 full_text = full_text + " " + this.textcase.Translate(integral_postfix) 
                     + " " + fractional_part + " " + this.textcase.Translate(fractional_postfix);
+            if (negative)
+                full_text = "минус " + full_text;
             return full_text;
         }
     }
