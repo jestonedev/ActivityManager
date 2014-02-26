@@ -16,6 +16,25 @@
             <param name="fileName">Путь до программы или документа</param>
             <param name="arguments">Аргументы командной строки</param>
         </member>
+        <member name="M:IOModule.IPlug.IODebugMessage(System.String)">
+            <summary>
+            Вывод отладочного сообщения
+            </summary>
+            <param name="message">Текст сообщения</param>
+        </member>
+        <member name="M:IOModule.IPlug.IOIfCondititonToStep(System.Boolean,System.Int32)">
+            <summary>
+            Условный переход на указанный шаг
+            </summary>
+            <param name="condition">Если true - то переходить, если false - пропустить</param>
+            <param name="step">Шаг, на который необходимо перейти</param>
+        </member>
+        <member name="M:IOModule.IPlug.IOIfCondititonExit(System.Boolean)">
+            <summary>
+            Условный переход на конец программы
+            </summary>
+            <param name="condition">Если true - то переходить, если false - пропустить</param>
+        </member>
         <member name="T:IOModule.IOPlug">
             <summary>
             Класс, реализующий интерфейс IPlug
@@ -33,6 +52,19 @@
             Вывод отладочного сообщения
             </summary>
             <param name="message">Текст сообщения</param>
+        </member>
+        <member name="M:IOModule.IOPlug.IOIfCondititonToStep(System.Boolean,System.Int32)">
+            <summary>
+            Условный переход на указанный шаг
+            </summary>
+            <param name="condition">Если true - то переходить, если false - пропустить</param>
+            <param name="step">Шаг, на который необходимо перейти</param>
+        </member>
+        <member name="M:IOModule.IOPlug.IOIfCondititonExit(System.Boolean)">
+            <summary>
+            Условный переход на конец программы
+            </summary>
+            <param name="condition">Если true - то переходить, если false - пропустить</param>
         </member>
         <member name="T:IOModule.IOException">
             <summary>
@@ -58,6 +90,36 @@
             <param name="innerException">Вложенное исключение</param>
         </member>
         <member name="M:IOModule.IOException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Конструктор класса исключения IOException
+            </summary>
+            <param name="info">Информация сериализации</param>
+            <param name="context">Контекст потока</param>
+        </member>
+        <member name="T:IOModule.IfConditionException">
+            <summary>
+            Класс исключения - прерывание и смена контекста выполнения
+            </summary>
+        </member>
+        <member name="M:IOModule.IfConditionException.#ctor">
+            <summary>
+            Конструктор класса исключения IOException
+            </summary>
+        </member>
+        <member name="M:IOModule.IfConditionException.#ctor(System.String)">
+            <summary>
+            Конструктор класса исключения IOException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+        </member>
+        <member name="M:IOModule.IfConditionException.#ctor(System.String,System.Exception)">
+            <summary>
+            Конструктор класса исключения IOException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+            <param name="innerException">Вложенное исключение</param>
+        </member>
+        <member name="M:IOModule.IfConditionException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
             Конструктор класса исключения IOException
             </summary>

@@ -4,7 +4,7 @@
  <Namespaces>
   <Namespace Name="MenaModule">
    <Messages>
-    <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-24 01:17:33Z" FixCategory="Breaking">
+    <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-26 00:40:57Z" FixCategory="Breaking">
      <Issue Name="Namespace" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Mena' in namespace name 'MenaModule'.</Issue>
     </Message>
    </Messages>
@@ -15,7 +15,7 @@
    <Modules>
     <Module Name="menamodule.dll">
      <Messages>
-      <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-24 01:17:33Z" FixCategory="Breaking">
+      <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-26 00:40:57Z" FixCategory="Breaking">
        <Issue Name="Assembly" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Mena' in assembly name 'MenaModule.dll'.</Issue>
       </Message>
      </Messages>
@@ -26,20 +26,20 @@
          <Members>
           <Member Name="#MenaFloorTemplate(ExtendedTypes.ReportRow,System.String,ExtendedTypes.ReportRow&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="2#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:33Z" FixCategory="Breaking">
+            <Message Id="2#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-26 00:40:57Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outRow' be an out parameter.</Issue>
             </Message>
-            <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-24 01:17:33Z" FixCategory="Breaking">
+            <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-26 00:40:57Z" FixCategory="Breaking">
              <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Mena' in member name 'IPlug.MenaFloorTemplate(ReportRow, string, out ReportRow)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#MenaSignersTableConvert(ExtendedTypes.ReportTable,ExtendedTypes.ReportTable&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-24 01:17:33Z" FixCategory="Breaking">
+            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-26 00:40:57Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'outTable' be an out parameter.</Issue>
             </Message>
-            <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-24 01:17:33Z" FixCategory="Breaking">
+            <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-26 00:40:57Z" FixCategory="Breaking">
              <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Mena' in member name 'IPlug.MenaSignersTableConvert(ReportTable, out ReportTable)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
             </Message>
            </Messages>
@@ -48,14 +48,14 @@
         </Type>
         <Type Name="MenaException" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-24 01:17:33Z" FixCategory="Breaking">
+          <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-26 00:40:57Z" FixCategory="Breaking">
            <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Mena' in type name 'MenaException'.</Issue>
           </Message>
          </Messages>
         </Type>
         <Type Name="MenaPlug" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-24 01:17:33Z" FixCategory="Breaking">
+          <Message Id="Mena" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-26 00:40:57Z" FixCategory="Breaking">
            <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Mena' in type name 'MenaPlug'.</Issue>
           </Message>
          </Messages>

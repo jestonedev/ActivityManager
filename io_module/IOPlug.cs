@@ -24,7 +24,24 @@ namespace IOModule
         [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
         void IOOpenFile(string fileName, string arguments);
 
+        /// <summary>
+        /// Вывод отладочного сообщения
+        /// </summary>
+        /// <param name="message">Текст сообщения</param>
         void IODebugMessage(string message);
+
+        /// <summary>
+        /// Условный переход на указанный шаг
+        /// </summary>
+        /// <param name="condition">Если true - то переходить, если false - пропустить</param>
+        /// <param name="step">Шаг, на который необходимо перейти</param>
+        void IOIfCondititonToStep(bool condition, int step);
+
+        /// <summary>
+        /// Условный переход на конец программы
+        /// </summary>
+        /// <param name="condition">Если true - то переходить, если false - пропустить</param>
+        void IOIfCondititonExit(bool condition);
     }
 
     /// <summary>
@@ -61,6 +78,35 @@ namespace IOModule
         {
             MessageBox.Show(message, "Отладка", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        /// <summary>
+        /// Условный переход на указанный шаг
+        /// </summary>
+        /// <param name="condition">Если true - то переходить, если false - пропустить</param>
+        /// <param name="step">Шаг, на который необходимо перейти</param>
+        public void IOIfCondititonToStep(bool condition, int step)
+        {
+            if (condition)
+            {
+                IfConditionException exception = new IfConditionException();
+                exception.Data.Add("step", step);
+                throw exception;
+            }
+        }
+
+        /// <summary>
+        /// Условный переход на конец программы
+        /// </summary>
+        /// <param name="condition">Если true - то переходить, если false - пропустить</param>
+        public void IOIfCondititonExit(bool condition)
+        {
+            if (condition)
+            {
+                IfConditionException exception = new IfConditionException();
+                exception.Data.Add("step", Int32.MaxValue);
+                throw exception;
+            }
+        }
     }
 
     /// <summary>
@@ -93,5 +139,37 @@ namespace IOModule
         /// <param name="info">Информация сериализации</param>
         /// <param name="context">Контекст потока</param>
         protected IOException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+
+    /// <summary>
+    /// Класс исключения - прерывание и смена контекста выполнения
+    /// </summary>
+    [Serializable()]
+    public class IfConditionException : IOException
+    {
+        /// <summary>
+        /// Конструктор класса исключения IOException
+        /// </summary>
+        public IfConditionException() : base() { }
+
+        /// <summary>
+        /// Конструктор класса исключения IOException
+        /// </summary>
+        /// <param name="message">Сообщение об ошибке</param>
+        public IfConditionException(string message) : base(message) { }
+
+        /// <summary>
+        /// Конструктор класса исключения IOException
+        /// </summary>
+        /// <param name="message">Сообщение об ошибке</param>
+        /// <param name="innerException">Вложенное исключение</param>
+        public IfConditionException(string message, Exception innerException) : base(message, innerException) { }
+
+        /// <summary>
+        /// Конструктор класса исключения IOException
+        /// </summary>
+        /// <param name="info">Информация сериализации</param>
+        /// <param name="context">Контекст потока</param>
+        protected IfConditionException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

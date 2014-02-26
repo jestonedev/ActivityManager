@@ -76,6 +76,15 @@
             <param name="rowNumber">Номер строки начиная с 0</param>
             <param name="row">Результирующая строка</param>
         </member>
+        <member name="M:SqlModule.IPlug.SqlGetCell(System.Data.DataTable,System.Int32,System.Int32,System.Object@)">
+            <summary>
+            Получить значение ячейки таблицы по указанному номеру
+            </summary>
+            <param name="table">Таблица, из которой выбирается значение ячейки</param>
+            <param name="rowNumber">Номер строки начиная с 0</param>
+            <param name="columnNumber">Номер столбца начиная с 0</param>
+            <param name="value">Результирующее значение</param>
+        </member>
         <member name="T:SqlModule.SqlPlug">
             <summary>
             Класс, реализующий интерфейс IPlug
@@ -146,6 +155,15 @@
             <param name="table">Таблица, из которой выбирается строка</param>
             <param name="rowNumber">Номер строки начиная с 0</param>
             <param name="row">Результирующая строка</param>
+        </member>
+        <member name="M:SqlModule.SqlPlug.SqlGetCell(System.Data.DataTable,System.Int32,System.Int32,System.Object@)">
+            <summary>
+            Получить значение ячейки таблицы по указанному номеру
+            </summary>
+            <param name="table">Таблица, из которой выбирается значение ячейки</param>
+            <param name="rowNumber">Номер строки начиная с 0</param>
+            <param name="columnNumber">Номер столбца начиная с 0</param>
+            <param name="value">Результирующее значение</param>
         </member>
         <member name="M:SqlModule.SqlPlug.SqlSetProvider(System.String)">
             <summary>

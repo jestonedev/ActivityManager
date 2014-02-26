@@ -81,6 +81,15 @@ namespace SqlModule
         /// <param name="rowNumber">Номер строки начиная с 0</param>
         /// <param name="row">Результирующая строка</param>
         void SqlGetRow(DataTable table, int rowNumber, out DataRow row);
+
+        /// <summary>
+        /// Получить значение ячейки таблицы по указанному номеру
+        /// </summary>
+        /// <param name="table">Таблица, из которой выбирается значение ячейки</param>
+        /// <param name="rowNumber">Номер строки начиная с 0</param>
+        /// <param name="columnNumber">Номер столбца начиная с 0</param>
+        /// <param name="value">Результирующее значение</param>
+        void SqlGetCell(DataTable table, int rowNumber, int columnNumber, out object value);
     }
 
     /// <summary>
@@ -261,6 +270,30 @@ namespace SqlModule
                 exception.Data.Add("{1}",rowNumber.ToString());
             }
             row = table.Rows[rowNumber];
+        }
+
+        /// <summary>
+        /// Получить значение ячейки таблицы по указанному номеру
+        /// </summary>
+        /// <param name="table">Таблица, из которой выбирается значение ячейки</param>
+        /// <param name="rowNumber">Номер строки начиная с 0</param>
+        /// <param name="columnNumber">Номер столбца начиная с 0</param>
+        /// <param name="value">Результирующее значение</param>
+        public void SqlGetCell(DataTable table, int rowNumber, int columnNumber, out object value)
+        {
+            if (table.Rows.Count <= rowNumber)
+            {
+                SqlException exception = new SqlException("В таблице {0} отсутствует запрашиваемая строка № {1}");
+                exception.Data.Add("{0}", table.TableName);
+                exception.Data.Add("{1}", rowNumber.ToString());
+            }
+            if (table.Columns.Count <= columnNumber)
+            {
+                SqlException exception = new SqlException("В таблице {0} отсутствует запрашиваемый столбец № {1}");
+                exception.Data.Add("{0}", table.TableName);
+                exception.Data.Add("{1}", columnNumber.ToString());
+            }
+            value = table.Rows[rowNumber][columnNumber];
         }
 
         /// <summary>
