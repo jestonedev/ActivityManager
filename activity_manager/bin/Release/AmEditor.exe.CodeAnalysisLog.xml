@@ -6,7 +6,7 @@
    <Modules>
     <Module Name="ameditor.exe">
      <Messages>
-      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2014-02-25 08:23:18Z" FixCategory="NonBreaking">
+      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
        <Issue Name="NoStrongName" Certainty="95" Level="CriticalError">Sign 'AmEditor.exe' with a strong name key.</Issue>
       </Message>
      </Messages>
@@ -17,28 +17,28 @@
          <Members>
           <Member Name="#LoadPlugins()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-25 08:23:18Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="Editor.cs" Line="93">Modify 'Editor.LoadPlugins()' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#SaveFile(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-25 08:23:18Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="Editor.cs" Line="343">Modify 'Editor.SaveFile(string)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#открытьToolStripMenuItem_Click(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-25 08:23:18Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="Editor.cs" Line="550">Modify 'Editor.открытьToolStripMenuItem_Click(object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#плагиныToolStripMenuItem2_Click(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-25 08:23:18Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="Editor.cs" Line="500">Modify 'Editor.плагиныToolStripMenuItem2_Click(object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
             </Message>
            </Messages>
@@ -51,7 +51,7 @@
            <Accessors>
             <Accessor Name="#get_command_line_params()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
              <Messages>
-              <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Status="Active" Created="2014-02-25 08:23:18Z" FixCategory="NonBreaking">
+              <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
                <Issue Name="IsNullOrEmpty" Certainty="95" Level="Warning" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="FormCommandLineParams.cs" Line="21">Replace the call to 'string.operator !=(string, string)' in 'FormCommandLineParams.command_line_params.get()' with a call to 'String.IsNullOrEmpty'.</Issue>
               </Message>
              </Messages>
@@ -60,18 +60,38 @@
           </Member>
          </Members>
         </Type>
+        <Type Name="FormMultiValue" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#setEditorLanguage(System.Object,System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
+             <Issue Name="Local" Certainty="95" Level="Warning" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="FormMultiValue.cs" Line="87">'menu', a variable, is cast to type 'ToolStripMenuItem' multiple times in method 'FormMultiValue.setEditorLanguage(object, string)'. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant castclass instruction.</Issue>
+             <Issue Name="Parameter" Certainty="95" Level="Warning" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="FormMultiValue.cs" Line="97">'sender', a parameter, is cast to type 'ToolStripMenuItem' multiple times in method 'FormMultiValue.setEditorLanguage(object, string)'. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant castclass instruction.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#безПодсветкиToolStripMenuItem_Click(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
+             <Issue Name="Local" Certainty="95" Level="Warning" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="FormMultiValue.cs" Line="115">'menu', a variable, is cast to type 'ToolStripMenuItem' multiple times in method 'FormMultiValue.безПодсветкиToolStripMenuItem_Click(object, EventArgs)'. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant castclass instruction.</Issue>
+             <Issue Name="Parameter" Certainty="95" Level="Warning" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="FormMultiValue.cs" Line="118">'sender', a parameter, is cast to type 'ToolStripMenuItem' multiple times in method 'FormMultiValue.безПодсветкиToolStripMenuItem_Click(object, EventArgs)'. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant castclass instruction.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
         <Type Name="SettingsStorage" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
          <Members>
           <Member Name="#LoadSettings()" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-25 08:23:18Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="SettingsStorage.cs" Line="71">Modify 'SettingsStorage.LoadSettings()' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#SaveSettings(AmEditor.SettingsStorage)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-25 08:23:18Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-02-26 05:18:44Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="D:\Projects\Visual Studio Projects\activity_manager\test_module" File="SettingsStorage.cs" Line="45">Modify 'SettingsStorage.SaveSettings(SettingsStorage)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
             </Message>
            </Messages>
@@ -95,6 +115,17 @@
    <Email>[none]</Email>
    <MessageLevel Certainty="95">CriticalError</MessageLevel>
    <File Name="DesignRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800">
+   <Name>Do not cast unnecessarily</Name>
+   <Description>Avoid duplicate casts where possible, since there is a cost associated with them.</Description>
+   <Resolution Name="Local">{0}, a variable, is cast to type {1} multiple times in method {2}. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant {3} instruction.</Resolution>
+   <Resolution Name="Parameter">{0}, a parameter, is cast to type {1} multiple times in method {2}. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant {3} instruction.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182271(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="PerformanceRules.dll" Version="9.0.0.0" />
   </Rule>
   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
    <Name>Do not catch general exception types</Name>

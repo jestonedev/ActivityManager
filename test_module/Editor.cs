@@ -926,7 +926,7 @@ namespace AmEditor
             //Если тип является строкой или не известен
             foreach (Type type in ComboBoxValueTypes)
                 values.AddRange(GlobalParametersNamesBy(type, dataGridViewSteps.SelectedRows[0].Index));
-            FormSqlValue fsqlv = new FormSqlValue(values, language);
+            FormMultiValue fsqlv = new FormMultiValue(values, language);
             fsqlv.Text = _("Задать значение параметра") + " [" + param_name + "]";
             fsqlv.Value = GetCurrentActiveStepParameterValue();
             if (fsqlv.ShowDialog() == DialogResult.OK)

@@ -9,9 +9,9 @@ D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEd
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormCommandLineParams.resources
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormLanguage.resources
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormPlugins.resources
-D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormSqlValue.resources
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormStringValue.resources
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.Properties.Resources.resources
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.csproj.GenerateResource.Cache
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.exe
 D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.pdb
+D:\Projects\Visual Studio Projects\activity_manager\test_module\obj\Release\AmEditor.FormMultiValue.resources

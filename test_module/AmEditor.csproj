@@ -103,11 +103,11 @@
     <Compile Include="FormPlugins.Designer.cs">
       <DependentUpon>FormPlugins.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSqlValue.cs">
+    <Compile Include="FormMultiValue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSqlValue.Designer.cs">
-      <DependentUpon>FormSqlValue.cs</DependentUpon>
+    <Compile Include="FormMultiValue.Designer.cs">
+      <DependentUpon>FormMultiValue.cs</DependentUpon>
     </Compile>
     <Compile Include="FormStringValue.cs">
       <SubType>Form</SubType>
@@ -132,8 +132,8 @@
     <EmbeddedResource Include="FormPlugins.resx">
       <DependentUpon>FormPlugins.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSqlValue.resx">
-      <DependentUpon>FormSqlValue.cs</DependentUpon>
+    <EmbeddedResource Include="FormMultiValue.resx">
+      <DependentUpon>FormMultiValue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormStringValue.resx">
       <DependentUpon>FormStringValue.cs</DependentUpon>
