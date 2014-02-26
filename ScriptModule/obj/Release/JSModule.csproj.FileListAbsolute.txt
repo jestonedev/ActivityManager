@@ -1,0 +1,8 @@
+D:\Projects\Visual Studio Projects\activity_manager\ScriptModule\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\JSModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\JSModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\JSModule.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\JSModule.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\ScriptModule\obj\Release\JSModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\ScriptModule\obj\Release\JSModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\JSModule.xml

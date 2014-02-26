@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AMClasses;
+using System.IO;
 
 namespace AmEditor
 {
-    internal partial class FormSqlValue : Form
+    internal partial class FormMultiValue : Form
     {
         public string Value
         {
@@ -18,7 +19,7 @@ namespace AmEditor
             set { scintillaEditor.Text = value; }
         }
 
-        public FormSqlValue(List<string> globalVariables, Language language)
+        public FormMultiValue(List<string> globalVariables, Language language)
         {
             InitializeComponent();
             foreach (string GlobalVariable in globalVariables)
@@ -26,6 +27,7 @@ namespace AmEditor
             button1.Text = language.Translate(button1.Text);
             button2.Text = language.Translate(button2.Text);
             button4.Text = language.Translate(button4.Text);
+            setEditorLanguage(mSSQLToolStripMenuItem, "mssql");
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -75,6 +77,45 @@ namespace AmEditor
         {
             if (folderBrowserDialogInsert.ShowDialog() == DialogResult.OK)
                 scintillaEditor.Selection.Text = folderBrowserDialogInsert.SelectedPath;
+        }
+
+        private void setEditorLanguage(object sender, string language)
+        {
+            ToolStripMenuItem parent = (ToolStripMenuItem)((ToolStripMenuItem)sender).OwnerItem;
+            foreach (var menu in parent.DropDown.Items)
+                if (menu is ToolStripMenuItem)
+                    ((ToolStripMenuItem)menu).Checked = false;
+            scintillaEditor.AutoComplete.ListString = "";
+            scintillaEditor.ConfigurationManager.Language = language;
+            if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, language+".synax")))
+            {
+                StreamReader sr = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, language + ".synax"));
+                string autoComplete = sr.ReadToEnd();
+                autoComplete = autoComplete.Replace(Environment.NewLine, " ");
+                scintillaEditor.AutoComplete.ListString = autoComplete;
+            }
+            ((ToolStripMenuItem)sender).Checked = true;
+        }
+
+        private void mSSQLToolStripMenuItem_Click(object sender, EventArgs e)
+        {          
+            setEditorLanguage(sender, "mssql");
+        }
+
+        private void javaScriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setEditorLanguage(sender, "js");
+        }
+
+        private void безПодсветкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem parent = (ToolStripMenuItem)((ToolStripMenuItem)sender).OwnerItem;
+            foreach (var menu in parent.DropDown.Items)
+                if (menu is ToolStripMenuItem)
+                    ((ToolStripMenuItem)menu).Checked = false;
+            scintillaEditor.AutoComplete.ListString = "";
+            scintillaEditor.ConfigurationManager.Language = "";
+            ((ToolStripMenuItem)sender).Checked = true;
         }
     }
 }

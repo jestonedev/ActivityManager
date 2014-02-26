@@ -1,6 +1,6 @@
 ﻿namespace AmEditor
 {
-    partial class FormSqlValue
+    partial class FormMultiValue
     {
         /// <summary>
         /// Required designer variable.
@@ -47,6 +47,12 @@
             this.button4 = new System.Windows.Forms.Button();
             this.folderBrowserDialogInsert = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialogInsert = new System.Windows.Forms.OpenFileDialog();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.синтаксисToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mSSQLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.javaScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.безПодсветкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.scintillaEditor)).BeginInit();
             this.contextMenuStripSQLEditor.SuspendLayout();
             this.SuspendLayout();
@@ -57,8 +63,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.scintillaEditor.AutoComplete.IsCaseSensitive = false;
-            this.scintillaEditor.AutoComplete.ListString = "AND AS BEGIN BY CREATE CROSS END FROM FULL FUNCTION GROUP HAVING INNER JOIN LIMIT" +
-                " OR ORDER OUTER PROCEDURE SELECT SET TABLE TOP TRIGGER VIEW WHERE";
+            this.scintillaEditor.AutoComplete.ListString = "";
             this.scintillaEditor.ConfigurationManager.Language = "mssql";
             this.scintillaEditor.ContextMenuStrip = this.contextMenuStripSQLEditor;
             this.scintillaEditor.LineWrapping.Mode = ScintillaNET.LineWrappingMode.Word;
@@ -71,6 +76,8 @@
             // contextMenuStripSQLEditor
             // 
             this.contextMenuStripSQLEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.синтаксисToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.отменитьToolStripMenuItem,
             this.повторитьToolStripMenuItem,
             this.toolStripMenuItem1,
@@ -79,13 +86,13 @@
             this.вставитьToolStripMenuItem,
             this.удалитьToolStripMenuItem});
             this.contextMenuStripSQLEditor.Name = "contextMenuStripSQLEditor";
-            this.contextMenuStripSQLEditor.Size = new System.Drawing.Size(182, 142);
+            this.contextMenuStripSQLEditor.Size = new System.Drawing.Size(197, 192);
             // 
             // отменитьToolStripMenuItem
             // 
             this.отменитьToolStripMenuItem.Name = "отменитьToolStripMenuItem";
             this.отменитьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.отменитьToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.отменитьToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.отменитьToolStripMenuItem.Text = "Отменить";
             this.отменитьToolStripMenuItem.Click += new System.EventHandler(this.отменитьToolStripMenuItem_Click);
             // 
@@ -93,20 +100,20 @@
             // 
             this.повторитьToolStripMenuItem.Name = "повторитьToolStripMenuItem";
             this.повторитьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.повторитьToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.повторитьToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.повторитьToolStripMenuItem.Text = "Повторить";
             this.повторитьToolStripMenuItem.Click += new System.EventHandler(this.повторитьToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(178, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(193, 6);
             // 
             // вырезатьToolStripMenuItem
             // 
             this.вырезатьToolStripMenuItem.Name = "вырезатьToolStripMenuItem";
             this.вырезатьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.вырезатьToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.вырезатьToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.вырезатьToolStripMenuItem.Text = "Вырезать";
             this.вырезатьToolStripMenuItem.Click += new System.EventHandler(this.вырезатьToolStripMenuItem_Click);
             // 
@@ -114,7 +121,7 @@
             // 
             this.копироватьToolStripMenuItem1.Name = "копироватьToolStripMenuItem1";
             this.копироватьToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.копироватьToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
+            this.копироватьToolStripMenuItem1.Size = new System.Drawing.Size(196, 22);
             this.копироватьToolStripMenuItem1.Text = "Копировать";
             this.копироватьToolStripMenuItem1.Click += new System.EventHandler(this.копироватьToolStripMenuItem1_Click);
             // 
@@ -126,14 +133,14 @@
             this.путьДоПапкиToolStripMenuItem});
             this.вставитьToolStripMenuItem.Name = "вставитьToolStripMenuItem";
             this.вставитьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.вставитьToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.вставитьToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.вставитьToolStripMenuItem.Text = "Вставить";
             // 
             // буферОбменаToolStripMenuItem
             // 
             this.буферОбменаToolStripMenuItem.Name = "буферОбменаToolStripMenuItem";
             this.буферОбменаToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.буферОбменаToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.буферОбменаToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.буферОбменаToolStripMenuItem.Text = "Буфер обмена";
             this.буферОбменаToolStripMenuItem.Click += new System.EventHandler(this.буферОбменаToolStripMenuItem_Click);
             // 
@@ -159,7 +166,7 @@
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
             this.удалитьToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
@@ -210,7 +217,51 @@
             // 
             this.openFileDialogInsert.FileName = "openFileDialog1";
             // 
-            // FormSqlValue
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 6);
+            // 
+            // синтаксисToolStripMenuItem
+            // 
+            this.синтаксисToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mSSQLToolStripMenuItem,
+            this.javaScriptToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.безПодсветкиToolStripMenuItem});
+            this.синтаксисToolStripMenuItem.Name = "синтаксисToolStripMenuItem";
+            this.синтаксисToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.синтаксисToolStripMenuItem.Text = "Подсветка синтаксиса";
+            // 
+            // mSSQLToolStripMenuItem
+            // 
+            this.mSSQLToolStripMenuItem.Checked = true;
+            this.mSSQLToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mSSQLToolStripMenuItem.Name = "mSSQLToolStripMenuItem";
+            this.mSSQLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mSSQLToolStripMenuItem.Text = "SQL";
+            this.mSSQLToolStripMenuItem.Click += new System.EventHandler(this.mSSQLToolStripMenuItem_Click);
+            // 
+            // javaScriptToolStripMenuItem
+            // 
+            this.javaScriptToolStripMenuItem.Name = "javaScriptToolStripMenuItem";
+            this.javaScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.javaScriptToolStripMenuItem.Text = "JavaScript";
+            this.javaScriptToolStripMenuItem.Click += new System.EventHandler(this.javaScriptToolStripMenuItem_Click);
+            // 
+            // безПодсветкиToolStripMenuItem
+            // 
+            this.безПодсветкиToolStripMenuItem.Name = "безПодсветкиToolStripMenuItem";
+            this.безПодсветкиToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.безПодсветкиToolStripMenuItem.Text = "Без подсветки";
+            this.безПодсветкиToolStripMenuItem.Click += new System.EventHandler(this.безПодсветкиToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+            // 
+            // FormMultiValue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -222,7 +273,7 @@
             this.Controls.Add(this.scintillaEditor);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(630, 321);
-            this.Name = "FormSqlValue";
+            this.Name = "FormMultiValue";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Задать значение";
             ((System.ComponentModel.ISupportInitialize)(this.scintillaEditor)).EndInit();
@@ -251,5 +302,11 @@
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogInsert;
         private System.Windows.Forms.OpenFileDialog openFileDialogInsert;
+        private System.Windows.Forms.ToolStripMenuItem синтаксисToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem mSSQLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem javaScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem безПодсветкиToolStripMenuItem;
     }
 }
