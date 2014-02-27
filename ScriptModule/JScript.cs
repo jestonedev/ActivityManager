@@ -7,7 +7,7 @@ using Noesis.Javascript;
 //Модуль запуска скриптов
 namespace JSModule
 {
-     /// <summary>
+    /// <summary>
     /// Доступный из-вне интерфейс плагина
     /// </summary>
     public interface IPlug

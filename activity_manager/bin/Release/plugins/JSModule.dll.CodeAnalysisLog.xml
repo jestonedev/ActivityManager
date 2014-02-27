@@ -6,10 +6,7 @@
    <Modules>
     <Module Name="jsmodule.dll">
      <Messages>
-      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2014-02-26 05:51:46Z" FixCategory="NonBreaking">
-       <Issue Name="NoStrongName" Certainty="95" Level="CriticalError">Sign 'JSModule.dll' with a strong name key.</Issue>
-      </Message>
-      <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Status="Active" Created="2014-02-26 05:51:46Z" FixCategory="NonBreaking">
+      <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Status="Active" Created="2014-02-27 06:17:32Z" FixCategory="NonBreaking">
        <Issue Certainty="95" Level="Error">Mark 'JSModule.dll' with CLSCompliant(true) because it exposes externally visible types.</Issue>
       </Message>
      </Messages>
@@ -20,10 +17,10 @@
          <Members>
           <Member Name="#JSRun(System.String,System.Object&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-26 05:51:46Z" FixCategory="Breaking">
+            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-02-27 06:17:32Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'result' be an out parameter.</Issue>
             </Message>
-            <Message TypeName="UseGenericsWhereAppropriate" Category="Microsoft.Design" CheckId="CA1007" Status="Active" Created="2014-02-26 05:51:46Z" FixCategory="Breaking">
+            <Message TypeName="UseGenericsWhereAppropriate" Category="Microsoft.Design" CheckId="CA1007" Status="Active" Created="2014-02-27 06:17:32Z" FixCategory="Breaking">
              <Issue Certainty="95" Level="CriticalError">Consider using generics instead of a reference to System.Object in 'IPlug.JSRun(string, out object)'.</Issue>
             </Message>
            </Messages>
@@ -38,16 +35,6 @@
   </Target>
  </Targets>
  <Rules>
-  <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
-   <Name>Assemblies should have valid strong names</Name>
-   <Description>Either the assembly has no strong name, an invalid one, or the strong name is valid only because of the computer configuration. The assembly should not be deployed in this state. The most common causes of this are: 1) The assembly's contents were modified after it was signed. 2) The signing process failed. 3) The assembly was delay-signed. 4) A registry key existed that allowed the check to pass (where it would not have otherwise).</Description>
-   <Resolution Name="NoStrongName">Sign {0} with a strong name key.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/ms182127(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="95">CriticalError</MessageLevel>
-   <File Name="DesignRules.dll" Version="9.0.0.0" />
-  </Rule>
   <Rule TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021">
    <Name>Avoid out parameters</Name>
    <Description>Using out parameters might indicate a design flaw. Although there are legitimate times to use out parameters, their use frequently indicates a design that does not conform to the design guidelines for managed code.</Description>

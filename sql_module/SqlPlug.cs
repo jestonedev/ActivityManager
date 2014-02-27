@@ -87,9 +87,9 @@ namespace SqlModule
         /// </summary>
         /// <param name="table">Таблица, из которой выбирается значение ячейки</param>
         /// <param name="rowNumber">Номер строки начиная с 0</param>
-        /// <param name="columnNumber">Номер столбца начиная с 0</param>
+        /// <param name="columnName">Имя столбца</param>
         /// <param name="value">Результирующее значение</param>
-        void SqlGetCell(DataTable table, int rowNumber, int columnNumber, out object value);
+        void SqlGetCell(DataTable table, int rowNumber, string columnName, out object value);
     }
 
     /// <summary>
@@ -277,9 +277,9 @@ namespace SqlModule
         /// </summary>
         /// <param name="table">Таблица, из которой выбирается значение ячейки</param>
         /// <param name="rowNumber">Номер строки начиная с 0</param>
-        /// <param name="columnNumber">Номер столбца начиная с 0</param>
+        /// <param name="columnName">Имя столбца</param>
         /// <param name="value">Результирующее значение</param>
-        public void SqlGetCell(DataTable table, int rowNumber, int columnNumber, out object value)
+        public void SqlGetCell(DataTable table, int rowNumber, string columnName, out object value)
         {
             if (table.Rows.Count <= rowNumber)
             {
@@ -287,13 +287,13 @@ namespace SqlModule
                 exception.Data.Add("{0}", table.TableName);
                 exception.Data.Add("{1}", rowNumber.ToString());
             }
-            if (table.Columns.Count <= columnNumber)
+            if (!table.Columns.Contains(columnName))
             {
-                SqlException exception = new SqlException("В таблице {0} отсутствует запрашиваемый столбец № {1}");
+                SqlException exception = new SqlException("В таблице {0} отсутствует запрашиваемый столбец {1}");
                 exception.Data.Add("{0}", table.TableName);
-                exception.Data.Add("{1}", columnNumber.ToString());
+                exception.Data.Add("{1}", columnName);
             }
-            value = table.Rows[rowNumber][columnNumber];
+            value = table.Rows[rowNumber][columnName];
         }
 
         /// <summary>
