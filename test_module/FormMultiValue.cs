@@ -48,12 +48,14 @@ namespace AmEditor
 
         private void копироватьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(scintillaEditor.Selection.Text);
+            if (scintillaEditor.Selection.Text != "")
+                Clipboard.SetText(scintillaEditor.Selection.Text);
         }
 
         private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(scintillaEditor.Selection.Text);
+            if (scintillaEditor.Selection.Text != "")
+                Clipboard.SetText(scintillaEditor.Selection.Text);
             scintillaEditor.Selection.Text = "";
         }
 
@@ -89,10 +91,12 @@ namespace AmEditor
             scintillaEditor.ConfigurationManager.Language = language;
             if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, language+".synax")))
             {
-                StreamReader sr = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, language + ".synax"));
-                string autoComplete = sr.ReadToEnd();
-                autoComplete = autoComplete.Replace(Environment.NewLine, " ");
-                scintillaEditor.AutoComplete.ListString = autoComplete;
+                using (StreamReader sr = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, language + ".synax")))
+                {
+                    string autoComplete = sr.ReadToEnd();
+                    autoComplete = autoComplete.Replace(Environment.NewLine, " ");
+                    scintillaEditor.AutoComplete.ListString = autoComplete;
+                }
             }
             ((ToolStripMenuItem)sender).Checked = true;
         }

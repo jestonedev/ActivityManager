@@ -109,13 +109,6 @@ namespace AmEditor
             XElement xplugins = xdoc.Root.Element("plugins");
             if (xplugins != null)
             {
-                XAttribute xplugins_path = xplugins.Attribute("path");
-                if (xplugins_path != null)
-                {
-                    this.plugins_path = xplugins_path.Value;
-                    if (!Directory.Exists(this.plugins_path))
-                        throw new AMException(String.Format(_("Путь до папки {0} не найден"), this.plugins_path));
-                }
                 IEnumerable<XElement> xplugins_include_rules = xplugins.Elements();
                 foreach (XElement xplugin_include_rule in xplugins_include_rules)
                 {

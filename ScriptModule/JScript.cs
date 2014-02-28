@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Noesis.Javascript;
+using Jint;
+using System.IO;
 
 //Модуль запуска скриптов
 namespace JSModule
@@ -32,12 +33,16 @@ namespace JSModule
         /// <param name="result">Возвращаемое значение</param>
         public void JSRun(string script, out object result)
         {
-            using (JavascriptContext context = new JavascriptContext())
-            { 
-                context.SetParameter("result", null);
-                context.Run(script);
-                result = context.GetParameter("result");
-            }
+            string jsExtensionFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins" + Path.DirectorySeparatorChar + "JSModule_extension.js");
+            JintEngine jingEngine = new JintEngine(Options.Strict | Options.Ecmascript5);
+            if (File.Exists(jsExtensionFile))
+            {
+                using (StreamReader sr = new StreamReader(jsExtensionFile))
+                {
+                    jingEngine.Run(sr.ReadToEnd());
+                }
+            }   
+            result = jingEngine.Run(script);
         }
     }
 }

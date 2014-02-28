@@ -51,13 +51,9 @@ namespace ActivityManager
 				_ = language.Translate;
 			}
 
-			//проверяем наличие необязательного конфигурационного параметра: plugins_path
-			if (global_parameters.ContainsKey("plugins_path"))
-			{
-				plugins_path = global_parameters["plugins_path"].ToString();
-			} else
-				//инициализируем путь до папки с плагинами по умолчанию
-				plugins_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
+			//инициализируем путь до папки с плагинами
+			plugins_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
+
 			if (!Directory.Exists(plugins_path))
                 throw new AMException(String.Format(_("Путь до папки {0} не найден"), plugins_path));
 
@@ -85,13 +81,6 @@ namespace ActivityManager
 			XElement xplugins = xdoc.Root.Element("plugins");
 			if (xplugins != null)
 			{
-				XAttribute xplugins_path = xplugins.Attribute("path");
-				if ((xplugins_path != null) && (!global_parameters.ContainsKey("plugins_path")))
-				{
-					this.plugins_path = xplugins_path.Value;
-					if (!Directory.Exists(this.plugins_path))
-                        throw new AMException(String.Format(_("Путь до папки {0} не найден"), this.plugins_path));
-				}
 				IEnumerable<XElement> xplugins_include_rules = xplugins.Elements();
 				foreach (XElement xplugin_include_rule in xplugins_include_rules)
 				{

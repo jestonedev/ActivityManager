@@ -9,6 +9,6 @@
     </ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>config="D:\Projects\Visual Studio Projects\LicenseAlcohol\LicenseAlcohol\bin\Release\reports\lic_paymants.xml" connection_string="Dsn=license_import" report_file="D:\Projects\Visual Studio Projects\LicenseAlcohol\LicenseAlcohol\bin\Release\reports\lic_paymants.odt" start_date="01.01.2013" end_date="10.12.2013" id_signer=1</StartArguments>
+    <StartArguments>config="C:\Users\IgnVV\Desktop\Dogovor.xml" ProcessID="00010BCCB4E0"</StartArguments>
   </PropertyGroup>
 </Project>
