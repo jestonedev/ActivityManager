@@ -7,6 +7,9 @@ using System.Data;
 using FSLib.Declension;
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
+using System.Diagnostics;
+using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace ConvertModule
 {

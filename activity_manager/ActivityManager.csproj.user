@@ -9,6 +9,6 @@
     </ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>config="C:\Users\IgnVV\Desktop\Dogovor.xml" ProcessID="00010BCCB4E0"</StartArguments>
+    <StartArguments>config="\\itc00\exchange\Dogovor.xml" ProcessID="00010BFD4FBC"</StartArguments>
   </PropertyGroup>
 </Project>
