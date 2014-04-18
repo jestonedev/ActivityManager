@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>config="C:\Users\IgnVV\Desktop\1.xml" IDDepartment="1"</StartArguments>
+    <StartArguments>config="D:\Projects\Visual Studio Projects\activity_manager\1.xml"</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
