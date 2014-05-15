@@ -46,7 +46,19 @@ namespace ReportModule
                 foreach (XElement child_element in child_elements)
                     elements.Add(child_element);
             }
+            elements.Sort(new XComparer()); 
             return elements;
+        }
+    }
+
+    /// <summary>
+    /// Компаратор классов XElement
+    /// </summary>
+    internal class XComparer : IComparer<XElement>
+    {
+        public int Compare(XElement x, XElement y)
+        {
+            return y.ToString().CompareTo(x.ToString());
         }
     }
 }

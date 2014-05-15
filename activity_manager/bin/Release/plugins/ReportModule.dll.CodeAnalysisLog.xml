@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#ReportGenerate(System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="0#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-05-15 01:17:30Z" FixCategory="Breaking">
+            <Message Id="0#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-05-15 06:49:54Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'fileName' be an out parameter.</Issue>
             </Message>
            </Messages>
