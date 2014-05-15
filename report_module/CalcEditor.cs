@@ -240,6 +240,37 @@ namespace ReportModule
             xroot.ReplaceNodes(new_xroot.Nodes());
         }
 
+        private static void parse_sbr_tags(XElement xroot)
+        {
+            XElement new_xroot = new XElement(xroot);
+            new_xroot.RemoveAll();
+            foreach (XElement xelement in xroot.Elements())
+            {
+                string[] values = xelement.Value.Split(new string[] { @"$sbr$", @"$SBR$" }, StringSplitOptions.None);
+                if (values.Length == 1)
+                {
+                    XElement new_element = new XElement(xelement);
+                    new_xroot.Add(new_element);
+                    continue;
+                }
+                XElement new_xelement = new XElement(xelement);
+                new_xelement.Value = "";
+                int i = 0;
+                foreach (string value in values)
+                {
+                    if (i != 0)
+                    {
+                        XElement break_element = new XElement(XName.Get("line-break", OOStyleSheet.XmlnsText));
+                        new_xelement.Add(break_element);
+                    }
+                    new_xelement.Add(new XText(value));
+                    i++;
+                }
+                new_xroot.Add(new_xelement);
+            }
+            xroot.ReplaceNodes(new_xroot.Nodes());
+        }
+
         /// <summary>
         /// Метод, производящий замену специальных тэгов в отчете
         /// </summary>
@@ -255,6 +286,7 @@ namespace ReportModule
                 prepair_paragraph(xelement, style_sheet);
                 parse_style_tags(xelement, style_sheet);
                 parse_br_tags(xelement);
+                parse_sbr_tags(xelement);
             }
             xdocument.Save(Path.Combine(reportUnzipPath, "content.xml"), SaveOptions.DisableFormatting);
         }

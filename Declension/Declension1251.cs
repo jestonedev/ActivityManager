@@ -378,7 +378,7 @@ namespace FSLib.Declension
             }
             finally
             {
-                //Marshal.FreeHGlobal(ptr);
+                Marshal.FreeHGlobal(ptr);
             }
         }
 
@@ -616,10 +616,10 @@ namespace FSLib.Declension
             Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("Padeg.dll", EntryPoint = "GetSex")]
-        public static extern Int32 decGetSex(IntPtr patronimic);
+        private static extern Int32 decGetSex(IntPtr patronimic);
 
         [DllImport("Padeg.dll", EntryPoint = "GetPadegId")]
-        public static extern Int32 decGetPadegId(IntPtr surnameNamePatronimic);
+        private static extern Int32 decGetPadegId(IntPtr surnameNamePatronimic);
 
         [StructLayout(LayoutKind.Sequential)]
         private struct FIOParts

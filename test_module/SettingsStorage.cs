@@ -55,8 +55,9 @@ namespace AmEditor
                 BinaryFormatter bf = new BinaryFormatter();
                 if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "am_editor.dat")))
                     return null;
+                string file_name = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 FileStream fs = new FileStream(
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "am_editor.dat"), FileMode.Open);
+                    Path.Combine(file_name, "am_editor.dat"), FileMode.Open);
                 SettingsStorage ss = null;
                 try
                 {

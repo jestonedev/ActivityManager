@@ -37,7 +37,7 @@ namespace JSModule
             {
                 context.SetParameter("result", null);
                 context.Run(script);
-                result = context.GetParameter("result").ToString();
+                result = context.GetParameter("result");
             }
         }
     }

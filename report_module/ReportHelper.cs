@@ -41,7 +41,7 @@ namespace ReportModule
             foreach (XElement element in xelement.Elements())
             {
                 List<XElement> child_elements = ReportHelper.find_xelements(element, xml_tag);
-                if ((element.Name.LocalName == xml_tag) && (child_elements.Count == 0))
+                if ((element.Name.LocalName == xml_tag))
                     elements.Add(element);
                 foreach (XElement child_element in child_elements)
                     elements.Add(child_element);
