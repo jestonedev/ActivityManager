@@ -5,4 +5,3 @@ D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release
 D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ConvertModule.dll.lastcodeanalysissucceeded
 D:\Projects\Visual Studio Projects\activity_manager\conv_module\obj\Release\ConvertModule.dll
 D:\Projects\Visual Studio Projects\activity_manager\conv_module\obj\Release\ConvertModule.pdb
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ConvertModule.xml
