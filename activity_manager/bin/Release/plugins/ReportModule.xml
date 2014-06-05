@@ -126,6 +126,11 @@
             <param name="xml_tag">XML-тэг искомого элемента</param>
             <returns>Список найденных элементов</returns>
         </member>
+        <member name="T:ReportModule.XComparer">
+            <summary>
+            Компаратор классов XElement
+            </summary>
+        </member>
         <member name="F:ReportModule.WriterEditor.styles">
             <summary>
             Список стилей, которые необходимо применить к каждому последующему элементу

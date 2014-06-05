@@ -5,3 +5,4 @@ D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release
 D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\SQLModule.dll.lastcodeanalysissucceeded
 D:\Projects\Visual Studio Projects\activity_manager\sql_module\obj\Release\SQLModule.dll
 D:\Projects\Visual Studio Projects\activity_manager\sql_module\obj\Release\SQLModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\SqlModule.xml

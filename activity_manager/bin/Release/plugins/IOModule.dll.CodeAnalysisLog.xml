@@ -12,17 +12,17 @@
          <Members>
           <Member Name="#IOIfCondititonExit(System.Boolean)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="Condititon" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-26 00:51:32Z" FixCategory="Breaking">
+            <Message Id="Condititon" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-06-05 07:46:35Z" FixCategory="Breaking">
              <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Condititon' in member name 'IPlug.IOIfCondititonExit(bool)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#IOIfCondititonToStep(System.Boolean,System.Int32)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="Condititon" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-02-26 00:51:32Z" FixCategory="Breaking">
+            <Message Id="Condititon" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-06-05 07:46:35Z" FixCategory="Breaking">
              <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Condititon' in member name 'IPlug.IOIfCondititonToStep(bool, int)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
             </Message>
-            <Message Id="Step" TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716" Status="Active" Created="2014-02-26 00:51:32Z" FixCategory="Breaking">
+            <Message Id="Step" TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716" Status="Active" Created="2014-06-05 07:46:35Z" FixCategory="Breaking">
              <Issue Name="MemberParameter" Certainty="95" Level="Error">In virtual/interface member 'IPlug.IOIfCondititonToStep(bool, int)', rename parameter 'step' so that it no longer conflicts with the reserved language keyword 'Step'. Using a reserved keyword as the name of a parameter on a virtual/interface member makes it harder for consumers in other languages to override/implement the member.</Issue>
             </Message>
            </Messages>
