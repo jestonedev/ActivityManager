@@ -520,7 +520,11 @@ namespace ConvertModule
             {
                 string words = inRow[i].Value;
                 if (tmp_row.Table.Columns[i] == column)
-                    ConvertDateTimeToString(DateTime.Parse(words), format, firstCapital, out words);
+                {
+                    DateTime value;
+                    if (DateTime.TryParse(words, out value))
+                        ConvertDateTimeToString(value, format, firstCapital, out words);
+                }
                 tmp_row.Add(new ReportCell(tmp_row, words));
             }
             outRow = tmp_row;
