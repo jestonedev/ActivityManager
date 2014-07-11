@@ -461,7 +461,11 @@ namespace ConvertModule
             {
                 string words = inRow[i].Value;
                 if (tmp_row.Table.Columns[i] == column)
-                    ConvertIntToString(long.Parse(words.Split(new char[] {'.',','})[0]), textCase, sex, firstCapital, isOrdinal, out words);
+                {
+                    long value;
+                    if (long.TryParse(words.Split(new char[] { '.', ',' })[0], out value))
+                        ConvertIntToString(value, textCase, sex, firstCapital, isOrdinal, out words);
+                }
                 tmp_row.Add(new ReportCell(tmp_row, words));
             }
             outRow = tmp_row;
@@ -582,8 +586,12 @@ namespace ConvertModule
             {
                 string words = inRow[i].Value;
                 if (tmp_row.Table.Columns[i] == column)
-                    ConvertCurrencyToString(double.Parse(words), currencyType, format, thousandSeparator, firstCapital, isOrdinal, 
-                        out words);
+                {
+                    double currency;
+                    if (double.TryParse(words, out currency))
+                        ConvertCurrencyToString(currency, currencyType, format, thousandSeparator, firstCapital, isOrdinal,
+                            out words);
+                }
                 tmp_row.Add(new ReportCell(tmp_row, words));
             }
             outRow = tmp_row;
@@ -638,7 +646,11 @@ namespace ConvertModule
             {
                 string words = inRow[i].Value;
                 if (tmp_row.Table.Columns[i] == column)
-                    ConvertFloatToString(float.Parse(words), textCase, firstCapital, out words);
+                {
+                    float value;
+                    if (float.TryParse(words, out value))
+                        ConvertFloatToString(value, textCase, firstCapital, out words);
+                }
                 tmp_row.Add(new ReportCell(tmp_row, words));
             }
             outRow = tmp_row;
