@@ -1,0 +1,6 @@
+Соединение с базой данных прервано по неизвестным причинам:Connection with database canceled for unknown reasons
+Запрос к базе данных не вернул результат:Query to database does not return a result
+Нельзя переназначить провайдера на открытом соединении:Can't change provider, because connection is opened
+Провайдер {0} не найден:Provider {0} not found
+В таблице {0} отсутствует запрашиваемая строка № {1}: A row № {1} not found in table {1}
+В таблице {0} отсутствует запрашиваемый столбец {1}: A column {1} not found in table {1}

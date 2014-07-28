@@ -1,0 +1,5 @@
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\ConvertModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\ConvertModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\conv_module\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\conv_module\obj\Debug\ConvertModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\conv_module\obj\Debug\ConvertModule.pdb

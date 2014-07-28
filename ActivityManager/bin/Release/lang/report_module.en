@@ -1,0 +1,10 @@
+Указанный файл "{0}" шаблона отчета не существует:Selected file "{0}" of report template doesn't exists
+Неверный формат шаблона {0}:Incorrect pattern format {0}
+Необходимо задать xml-замыкатель:You must specify the xml-clouser
+Задан некорректный замыкатель {0}. Для неунифицированных xml-замыкателей используйте функцию report_set_table_value_raw:Specified incorrect xml-clouser {0}. For non-standardized xml-clousers use function report_set_table_value_raw
+Подставляемая строка "{0}" не найдена в файле шаблона:Substitute the string "{0}" is not fuound in the template file
+Неподдерживаемый тип элемента {0}:Not supported element type
+Неизвестная ошибка при добавлении строки в sharedStrings.xml:Unknown error when adding a string to sharedStrings.xml
+Заданный шаблон {0} не найден в конечном отчете:Pattern {0} not found in report
+Формат файла шаблона некорректный:Incorrect format of template file
+Ошибка приведения. Число строк в таблице данных должно быть равно одной:Conversion error. String count in the table must be equal one

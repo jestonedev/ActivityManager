@@ -1,0 +1,7 @@
+D:\Projects\Visual Studio Projects\activity_manager\am_classes\bin\Debug\am_classes.dll
+D:\Projects\Visual Studio Projects\activity_manager\am_classes\bin\Debug\am_classes.pdb
+D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Debug\am_classes.dll
+D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Debug\am_classes.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\am_classes.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\am_classes.pdb

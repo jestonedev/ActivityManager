@@ -1,7 +1,0 @@
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ReportModule.dll
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ReportModule.pdb
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ReportModule.dll.CodeAnalysisLog.xml
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ReportModule.dll.lastcodeanalysissucceeded
-D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Release\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Release\ReportModule.dll
-D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Release\ReportModule.pdb

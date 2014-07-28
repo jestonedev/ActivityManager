@@ -1,0 +1,8 @@
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ScriptModule.XML
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ScriptModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ScriptModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ScriptModule.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\ScriptModule.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\ScriptModule\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\ScriptModule\obj\Release\ScriptModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\ScriptModule\obj\Release\ScriptModule.pdb

@@ -1,5 +1,0 @@
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\ReportModule.dll
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\ReportModule.pdb
-D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Debug\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Debug\ReportModule.dll
-D:\Projects\Visual Studio Projects\activity_manager\report_module\obj\Debug\ReportModule.pdb

@@ -1,0 +1,10 @@
+D:\Projects\Visual Studio Projects\activity_manager\sql_module\bin\Release\sql_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\sql_module\bin\Release\sql_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\sql_module\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\sql_module\obj\Release\sql_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\sql_module\obj\Release\sql_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\sql_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\sql_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\sql_module.XML
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\sql_module.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\sql_module.dll.lastcodeanalysissucceeded

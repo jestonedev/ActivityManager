@@ -1,0 +1,8 @@
+D:\Projects\Visual Studio Projects\activity_manager\CSVModule\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\CSVModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\CSVModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\CSVModule.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\CSVModule.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\CSVModule\obj\Release\CSVModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\CSVModule\obj\Release\CSVModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\CSVModule.xml

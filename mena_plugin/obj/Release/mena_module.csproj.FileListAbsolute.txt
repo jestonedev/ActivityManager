@@ -1,6 +1,0 @@
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\mena_module.dll
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\mena_module.pdb
-D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Release\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Release\mena_module.dll
-D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Release\mena_module.pdb
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\mena_module.XML

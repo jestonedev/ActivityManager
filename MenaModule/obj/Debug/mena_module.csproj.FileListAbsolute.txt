@@ -1,0 +1,5 @@
+D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\mena_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\mena_module.pdb
+D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Debug\mena_module.dll
+D:\Projects\Visual Studio Projects\activity_manager\mena_plugin\obj\Debug\mena_module.pdb

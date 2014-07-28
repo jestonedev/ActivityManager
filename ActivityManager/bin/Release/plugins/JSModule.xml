@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JSModule</name>
+    </assembly>
+    <members>
+        <member name="T:JSModule.IPlug">
+            <summary>
+            Доступный из-вне интерфейс плагина
+            </summary>
+        </member>
+        <member name="M:JSModule.IPlug.JSRun(System.String,System.Object@)">
+            <summary>
+            Выполнить JavaScript
+            </summary>
+            <param name="script">Скрипт на языке JavaScript</param>
+            <param name="result">Возвращаемое значение</param>
+        </member>
+        <member name="T:JSModule.JSPlug">
+            <summary>
+            Класс, реализующий интерфейс IPlug
+            </summary>
+        </member>
+        <member name="M:JSModule.JSPlug.JSRun(System.String,System.Object@)">
+            <summary>
+            Выполнить JavaScript
+            </summary>
+            <param name="script">Скрипт на языке JavaScript</param>
+            <param name="result">Возвращаемое значение</param>
+        </member>
+    </members>
+</doc>

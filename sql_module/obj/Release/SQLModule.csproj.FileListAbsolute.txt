@@ -1,7 +1,0 @@
-D:\Projects\Visual Studio Projects\activity_manager\sql_module\obj\Release\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\SQLModule.dll
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\SQLModule.pdb
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\SQLModule.dll.CodeAnalysisLog.xml
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Release\plugins\SQLModule.dll.lastcodeanalysissucceeded
-D:\Projects\Visual Studio Projects\activity_manager\sql_module\obj\Release\SQLModule.dll
-D:\Projects\Visual Studio Projects\activity_manager\sql_module\obj\Release\SQLModule.pdb

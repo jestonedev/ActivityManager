@@ -1,5 +1,0 @@
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\IOModule.dll
-D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\plugins\IOModule.pdb
-D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\IOModule.dll
-D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\IOModule.pdb

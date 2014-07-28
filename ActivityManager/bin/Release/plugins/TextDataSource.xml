@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TextDataSource</name>
+    </assembly>
+    <members>
+        <member name="T:TextDataSource.IPlug">
+            <summary>
+            Доступный из-вне интерфейс плагина
+            </summary>
+        </member>
+        <member name="M:TextDataSource.IPlug.TextSelectTable(System.String,System.String,System.String,System.Boolean,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из текстового файла
+            </summary>
+            <param name="query">Запрос к текстовому файлу в формате Sql</param>
+            <param name="columnSeparator">Разделитель колонок</param>
+            <param name="rowSeparator">Разделитель строк</param>
+            <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:TextDataSource.IPlug.TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Object@)">
+            <summary>
+            Выборка скалярного значения из базы данных
+            </summary>
+            <param name="query">Запрос на выполнение</param>
+            <param name="columnSeparator">Разделитель колонок</param>
+            <param name="rowSeparator">Разделитель строк</param>
+            <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="M:TextDataSource.IPlug.TextModifyQuery(System.String,System.String,System.String,System.Boolean,System.Int32@)">
+            <summary>
+            Запрос на внесение изменений в текстовом файле
+            </summary>
+            <param name="query">Запрос на выполнение</param>
+            <param name="columnSeparator">Разделитель колонок</param>
+            <param name="rowSeparator">Разделитель строк</param>
+            <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="rowsAffected">Число измененных строк</param>
+        </member>
+        <member name="T:TextDataSource.TextDataSourcePlug">
+            <summary>
+            Класс, реализующий интерфейс плагина
+            </summary>
+        </member>
+        <member name="M:TextDataSource.TextDataSourcePlug.TextSelectTable(System.String,System.String,System.String,System.Boolean,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из базы данных
+            </summary>
+            <param name="query">Запрос к базе данных в формате Sql</param>
+            <param name="columnSeparator">Разделитель колонок</param>
+            <param name="rowSeparator">Разделитель строк. По умолчанию перенос строки</param>
+            <param name="firstRowHeader">Является ли первая строка файла(ов) источника(ов) заголовком</param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:TextDataSource.TextDataSourcePlug.TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Object@)">
+            <summary>
+            Выборка скалярного значения из базы данных
+            </summary>
+            <param name="query">Запрос на выполнение</param>
+            <param name="columnSeparator">Разделитель колонок</param>
+            <param name="rowSeparator">Разделитель строк</param>
+            <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="M:TextDataSource.TextDataSourcePlug.TextModifyQuery(System.String,System.String,System.String,System.Boolean,System.Int32@)">
+            <summary>
+            Запрос на внесение изменений в текстовом файле
+            </summary>
+            <param name="query">Запрос на выполнение</param>
+            <param name="columnSeparator">Разделитель колонок</param>
+            <param name="rowSeparator">Разделитель строк</param>
+            <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="rowsAffected">Число измененных строк</param>
+        </member>
+        <member name="T:TextDataSource.TextDataSourceException">
+            <summary>
+            Класс исключения модуля CSVModule
+            </summary>
+        </member>
+        <member name="M:TextDataSource.TextDataSourceException.#ctor">
+            <summary>
+            Конструктор класса исключения CSVException
+            </summary>
+        </member>
+        <member name="M:TextDataSource.TextDataSourceException.#ctor(System.String)">
+            <summary>
+            Конструктор класса исключения CSVException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+        </member>
+        <member name="M:TextDataSource.TextDataSourceException.#ctor(System.String,System.Exception)">
+            <summary>
+            Конструктор класса исключения CSVException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+            <param name="innerException">Вложенное исключение</param>
+        </member>
+        <member name="M:TextDataSource.TextDataSourceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Конструктор класса исключения CSVException
+            </summary>
+            <param name="info">Информация сериализации</param>
+            <param name="context">Контекст потока</param>
+        </member>
+    </members>
+</doc>

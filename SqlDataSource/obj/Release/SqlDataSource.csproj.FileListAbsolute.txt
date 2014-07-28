@@ -1,0 +1,14 @@
+D:\Projects\Visual Studio Projects\activity_manager_tst\activity_manager\bin\Release\plugins\SqlDataSource.dll
+D:\Projects\Visual Studio Projects\activity_manager_tst\activity_manager\bin\Release\plugins\SqlDataSource.pdb
+D:\Projects\Visual Studio Projects\activity_manager_tst\activity_manager\bin\Release\plugins\SqlDataSource.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager_tst\activity_manager\bin\Release\plugins\SqlDataSource.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager_tst\sql_module\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager_tst\sql_module\obj\Release\SqlDataSource.dll
+D:\Projects\Visual Studio Projects\activity_manager_tst\sql_module\obj\Release\SqlDataSource.pdb
+D:\Projects\Visual Studio Projects\activity_manager_tst\SqlDataSource\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager_tst\SqlDataSource\obj\Release\SqlDataSource.dll
+D:\Projects\Visual Studio Projects\activity_manager_tst\SqlDataSource\obj\Release\SqlDataSource.pdb
+D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\SqlDataSource.dll
+D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\SqlDataSource.pdb
+D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\SqlDataSource.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\SqlDataSource.dll.lastcodeanalysissucceeded
