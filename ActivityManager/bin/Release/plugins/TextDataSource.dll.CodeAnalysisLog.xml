@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="1.36">
  <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\TextDataSource.dll">
+  <Target Name="D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\TextDataSource.dll">
    <Modules>
     <Module Name="textdatasource.dll">
      <Namespaces>
@@ -12,24 +12,24 @@
          <Members>
           <Member Name="#TextModifyQuery(System.String,System.String,System.String,System.Boolean,System.Int32&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-07-28 06:30:34Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-08-01 00:11:42Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'rowsAffected' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Object&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-07-28 06:30:34Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-08-01 00:11:42Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'result' be an out parameter.</Issue>
             </Message>
-            <Message TypeName="UseGenericsWhereAppropriate" Category="Microsoft.Design" CheckId="CA1007" Status="Active" Created="2014-07-28 06:30:34Z" FixCategory="Breaking">
+            <Message TypeName="UseGenericsWhereAppropriate" Category="Microsoft.Design" CheckId="CA1007" Status="Active" Created="2014-08-01 00:11:42Z" FixCategory="Breaking">
              <Issue Certainty="95" Level="CriticalError">Consider using generics instead of a reference to System.Object in 'IPlug.TextSelectScalar(string, string, string, bool, out object)'.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#TextSelectTable(System.String,System.String,System.String,System.Boolean,ExtendedTypes.ReportTable&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-07-28 06:30:34Z" FixCategory="Breaking">
+            <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-08-01 00:11:42Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'table' be an out parameter.</Issue>
             </Message>
            </Messages>

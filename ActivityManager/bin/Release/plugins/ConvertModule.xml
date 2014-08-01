@@ -4,54 +4,6 @@
         <name>ConvertModule</name>
     </assembly>
     <members>
-        <member name="T:ConvertModule.MaleClass">
-            <summary>
-            Мужской пол
-            </summary>
-        </member>
-        <member name="T:ConvertModule.SexClass">
-            <summary>
-            Класс пола
-            </summary>
-        </member>
-        <member name="M:ConvertModule.SexClass.Translate(System.String)">
-            <summary>
-            Абстрактный метод-переводчик в нужный пол из мужского
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="M:ConvertModule.MaleClass.Translate(System.String)">
-            <summary>
-            Метод-заглушка: переводит из мужского пола в мужской, по факту возвращает строку как она есть
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.FemaleClass">
-            <summary>
-            Женский пол
-            </summary>
-        </member>
-        <member name="M:ConvertModule.FemaleClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в женский пол из мужского
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.NeuterClass">
-            <summary>
-            Средний пол
-            </summary>
-        </member>
-        <member name="M:ConvertModule.NeuterClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в средний пол из мужского
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
         <member name="T:ConvertModule.NominativeCaseClass">
             <summary>
             Именительный падеж
@@ -886,6 +838,54 @@
             </summary>
             <param name="number">Вещественное число</param>
             <returns>Результат</returns>
+        </member>
+        <member name="T:ConvertModule.MaleClass">
+            <summary>
+            Мужской пол
+            </summary>
+        </member>
+        <member name="T:ConvertModule.SexClass">
+            <summary>
+            Класс пола
+            </summary>
+        </member>
+        <member name="M:ConvertModule.SexClass.Translate(System.String)">
+            <summary>
+            Абстрактный метод-переводчик в нужный пол из мужского
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="M:ConvertModule.MaleClass.Translate(System.String)">
+            <summary>
+            Метод-заглушка: переводит из мужского пола в мужской, по факту возвращает строку как она есть
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.FemaleClass">
+            <summary>
+            Женский пол
+            </summary>
+        </member>
+        <member name="M:ConvertModule.FemaleClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в женский пол из мужского
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.NeuterClass">
+            <summary>
+            Средний пол
+            </summary>
+        </member>
+        <member name="M:ConvertModule.NeuterClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в средний пол из мужского
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
         </member>
     </members>
 </doc>

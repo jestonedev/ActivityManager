@@ -13,3 +13,11 @@ D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Rele
 D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\TextDataSource.pdb
 D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\TextDataSource.dll.CodeAnalysisLog.xml
 D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\TextDataSource.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\TextDataSource.xml
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\TextDataSource.dll
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\TextDataSource.pdb
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\TextDataSource.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\TextDataSource.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\TextDataSource\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\TextDataSource\obj\Release\TextDataSource.dll
+D:\Projects\Visual Studio Projects\activity_manager\TextDataSource\obj\Release\TextDataSource.pdb

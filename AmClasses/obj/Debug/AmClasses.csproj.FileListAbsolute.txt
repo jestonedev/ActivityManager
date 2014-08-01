@@ -3,3 +3,13 @@ D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\A
 D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Debug\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Debug\AMClasses.dll
 D:\Projects\Visual Studio Projects\activity_manager\am_classes\obj\Debug\AMClasses.pdb
+D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Debug\AMClasses.dll
+D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Debug\AMClasses.pdb
+D:\Projects\Visual Studio Projects\activity_manager_tst\AmClasses\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager_tst\AmClasses\obj\Debug\AMClasses.dll
+D:\Projects\Visual Studio Projects\activity_manager_tst\AmClasses\obj\Debug\AMClasses.pdb
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Debug\AMClasses.dll
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Debug\AMClasses.pdb
+D:\Projects\Visual Studio Projects\activity_manager\AmClasses\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\AmClasses\obj\Debug\AMClasses.dll
+D:\Projects\Visual Studio Projects\activity_manager\AmClasses\obj\Debug\AMClasses.pdb

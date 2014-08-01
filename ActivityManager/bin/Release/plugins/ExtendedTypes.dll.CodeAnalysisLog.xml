@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="1.36">
  <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\ExtendedTypes.dll">
+  <Target Name="D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\ExtendedTypes.dll">
    <Modules>
     <Module Name="extendedtypes.dll">
      <Namespaces>
@@ -10,14 +10,14 @@
        <Types>
         <Type Name="ReportRow" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-07-24 02:39:01Z" FixCategory="Breaking">
+          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-08-01 00:11:36Z" FixCategory="Breaking">
            <Issue Certainty="95" Level="Error">Rename 'ReportRow' to end in 'Collection'.</Issue>
           </Message>
          </Messages>
         </Type>
         <Type Name="ReportTable" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-07-24 02:39:01Z" FixCategory="Breaking">
+          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-08-01 00:11:36Z" FixCategory="Breaking">
            <Issue Certainty="95" Level="Error">Rename 'ReportTable' to end in 'Collection'.</Issue>
           </Message>
          </Messages>

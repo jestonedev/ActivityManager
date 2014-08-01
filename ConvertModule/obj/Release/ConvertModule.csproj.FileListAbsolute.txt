@@ -19,3 +19,11 @@ D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Rele
 D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\ConvertModule.pdb
 D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\ConvertModule.dll.CodeAnalysisLog.xml
 D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\ConvertModule.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\ConvertModule.xml
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\ConvertModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\ConvertModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\ConvertModule.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\ConvertModule.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\activity_manager\ConvertModule\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\ConvertModule\obj\Release\ConvertModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\ConvertModule\obj\Release\ConvertModule.pdb

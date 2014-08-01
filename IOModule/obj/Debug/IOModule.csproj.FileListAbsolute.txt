@@ -3,3 +3,13 @@ D:\Projects\Visual Studio Projects\activity_manager\activity_manager\bin\Debug\p
 D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\IOModule.dll
 D:\Projects\Visual Studio Projects\activity_manager\io_module\obj\Debug\IOModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Debug\plugins\IOModule.dll
+D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Debug\plugins\IOModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager_tst\IOModule\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager_tst\IOModule\obj\Debug\IOModule.dll
+D:\Projects\Visual Studio Projects\activity_manager_tst\IOModule\obj\Debug\IOModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Debug\plugins\IOModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Debug\plugins\IOModule.pdb
+D:\Projects\Visual Studio Projects\activity_manager\IOModule\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\activity_manager\IOModule\obj\Debug\IOModule.dll
+D:\Projects\Visual Studio Projects\activity_manager\IOModule\obj\Debug\IOModule.pdb
