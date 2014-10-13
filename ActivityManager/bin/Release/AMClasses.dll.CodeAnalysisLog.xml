@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="1.36">
  <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\AMClasses.dll">
+  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AMClasses.dll">
    <Modules>
     <Module Name="amclasses.dll">
      <Namespaces>
@@ -12,11 +12,11 @@
          <Members>
           <Member Name="#FindPlugAction(System.Collections.Generic.List`1&lt;AMClasses.PlugInfo&gt;,AMClasses.ActivityStep)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2014-08-01 00:11:34Z" FixCategory="Breaking">
-             <Issue Certainty="95" Level="Error" Path="D:\Projects\Visual Studio Projects\activity_manager\AmClasses" File="PlugActionHelper.cs" Line="34">Change 'List&lt;PlugInfo&gt;' in 'PlugActionHelper.FindPlugAction(List&lt;PlugInfo&gt;, ActivityStep)' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2014-10-13 03:41:12Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionHelper.cs" Line="34">Change 'List&lt;PlugInfo&gt;' in 'PlugActionHelper.FindPlugAction(List&lt;PlugInfo&gt;, ActivityStep)' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
             </Message>
-            <Message Id="plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-08-01 00:11:34Z" FixCategory="Breaking">
-             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="D:\Projects\Visual Studio Projects\activity_manager\AmClasses" File="PlugActionHelper.cs" Line="34">In method 'PlugActionHelper.FindPlugAction(List&lt;PlugInfo&gt;, ActivityStep)', correct the spelling of 'plugins' in parameter name 'plugins' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            <Message Id="plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-10-13 03:41:12Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionHelper.cs" Line="34">In method 'PlugActionHelper.FindPlugAction(List&lt;PlugInfo&gt;, ActivityStep)', correct the spelling of 'plugins' in parameter name 'plugins' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -26,15 +26,15 @@
          <Members>
           <Member Name="#.ctor(AMClasses.PlugInfo,System.Reflection.MethodInfo,System.Reflection.ParameterInfo[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-08-01 00:11:34Z" FixCategory="Breaking">
-             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="D:\Projects\Visual Studio Projects\activity_manager\AmClasses" File="PlugActionInfo.cs" Line="12">In method 'PlugActionInfo.PlugActionInfo(PlugInfo, MethodInfo, ParameterInfo[])', correct the spelling of 'plugin' in parameter name 'plugin' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-10-13 03:41:12Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionInfo.cs" Line="12">In method 'PlugActionInfo.PlugActionInfo(PlugInfo, MethodInfo, ParameterInfo[])', correct the spelling of 'plugin' in parameter name 'plugin' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#Execute(System.Object[],System.Object[]&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-08-01 00:11:34Z" FixCategory="Breaking">
-             <Issue Certainty="50" Level="Warning" Path="D:\Projects\Visual Studio Projects\activity_manager\AmClasses" File="PlugActionInfo.cs" Line="36">Consider a design that does not require that 'outputParameters' be an out parameter.</Issue>
+            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-10-13 03:41:12Z" FixCategory="Breaking">
+             <Issue Certainty="50" Level="Warning" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionInfo.cs" Line="36">Consider a design that does not require that 'outputParameters' be an out parameter.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -44,8 +44,8 @@
          <Members>
           <Member Name="#.ctor(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="System.Reflection.Assembly.LoadFile" TypeName="AvoidCallingProblematicMethods" Category="Microsoft.Reliability" CheckId="CA2001" Status="Active" Created="2014-08-01 00:11:34Z" FixCategory="NonBreaking">
-             <Issue Name="System.Reflection.Assembly.LoadFile" Certainty="75" Level="Error" Path="D:\Projects\Visual Studio Projects\activity_manager\AmClasses" File="PlugInfo.cs" Line="33">Remove the call to Assembly.LoadFile from 'PlugInfo.PlugInfo(string)'.</Issue>
+            <Message Id="System.Reflection.Assembly.LoadFile" TypeName="AvoidCallingProblematicMethods" Category="Microsoft.Reliability" CheckId="CA2001" Status="Active" Created="2014-10-13 03:41:12Z" FixCategory="NonBreaking">
+             <Issue Name="System.Reflection.Assembly.LoadFile" Certainty="75" Level="Error" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugInfo.cs" Line="33">Remove the call to Assembly.LoadFile from 'PlugInfo.PlugInfo(string)'.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -53,8 +53,8 @@
            <Accessors>
             <Accessor Name="#set_instance(System.Object)" Kind="Method" Static="False" Accessibility="Assembly" ExternallyVisible="False">
              <Messages>
-              <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2014-08-01 00:11:34Z" FixCategory="NonBreaking">
-               <Issue Certainty="75" Level="Warning" Path="D:\Projects\Visual Studio Projects\activity_manager\AmClasses" File="PlugInfo.cs" Line="27">'PlugInfo.instance.set(object)' appears to have no upstream public or protected callers.</Issue>
+              <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2014-10-13 03:41:12Z" FixCategory="NonBreaking">
+               <Issue Certainty="75" Level="Warning" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugInfo.cs" Line="27">'PlugInfo.instance.set(object)' appears to have no upstream public or protected callers.</Issue>
               </Message>
              </Messages>
             </Accessor>

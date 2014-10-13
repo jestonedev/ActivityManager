@@ -77,6 +77,33 @@
             </summary>
             <param name="report_unzip_path">Путь до файлов отчета во временной директории</param>
         </member>
+        <member name="T:ReportModule.TableReportValue">
+            <summary>
+            Табличная переменная отчета
+            </summary>
+        </member>
+        <member name="T:ReportModule.ReportValue">
+            <summary>
+            Абстрактный класс значения переменной отчета
+            </summary>
+        </member>
+        <member name="M:ReportModule.TableReportValue.#ctor(ExtendedTypes.ReportTable,System.String)">
+            <summary>
+            Конструктор класса TableReportValue
+            </summary>
+            <param name="table">Таблица, которая будет вставлена в отчет</param>
+            <param name="xmlContractor">XML-замыкатель</param>
+        </member>
+        <member name="P:ReportModule.TableReportValue.Table">
+            <summary>
+            Таблица отчета
+            </summary>
+        </member>
+        <member name="P:ReportModule.TableReportValue.XmlContractor">
+            <summary>
+            XML-замыкатель
+            </summary>
+        </member>
         <member name="T:ReportModule.XmlContractor">
             <summary>
             Перечисление XML-замыкателей. Определяет правила формирования таблиц отчетов.
@@ -234,6 +261,45 @@
             <param name="info">Информация сериализации</param>
             <param name="context">Контекст потока</param>
         </member>
+        <member name="T:ReportModule.SharedExcelStrings">
+            <summary>
+            Класс работы с shared-строками отчета Excel
+            </summary>
+        </member>
+        <member name="M:ReportModule.SharedExcelStrings.#ctor(System.String)">
+            <summary>
+            Конструктор класса SharedXLSXStrings
+            </summary>
+            <param name="fileName">Путь до файла с shared-строками</param>
+        </member>
+        <member name="M:ReportModule.SharedExcelStrings.Add(System.String)">
+            <summary>
+            Добавить shared-строку
+            </summary>
+            <param name="value">Shared-строка</param>
+            <returns>возвращает индекс добавленной строки</returns>
+        </member>
+        <member name="M:ReportModule.SharedExcelStrings.Save(System.String)">
+            <summary>
+            Сохранить список shared-строк в файл
+            </summary>
+            <param name="fileName">Имя файла</param>
+        </member>
+        <member name="P:ReportModule.SharedExcelStrings.Count">
+            <summary>
+            Число shared-строк
+            </summary>
+        </member>
+        <member name="P:ReportModule.SharedExcelStrings.UniqueCount">
+            <summary>
+            Число уникальных shared-строк
+            </summary>
+        </member>
+        <member name="P:ReportModule.SharedExcelStrings.SharedStrings">
+            <summary>
+            Список shared-строк
+            </summary>
+        </member>
         <member name="T:ReportModule.ExcelEditor">
             <summary>
             Редактор отчетов Excel
@@ -306,9 +372,26 @@
             <param name="address">Адрес ячейки, относительно которой производится смещение</param>
             <param name="y_increment">Смещение по строкам</param>
         </member>
-        <member name="T:ReportModule.ReportValue">
+        <member name="T:ReportModule.StringReportValue">
             <summary>
-            Абстрактный класс значения переменной отчета
+            Строковая переменная отчета
+            </summary>
+        </member>
+        <member name="M:ReportModule.StringReportValue.#ctor(System.String,System.String)">
+            <summary>
+            Конструктор класса StringReportValue
+            </summary>
+            <param name="pattern">Шаблон замены. Автоматически обрамляется знаками "$"</param>
+            <param name="value">Значение переменной</param>
+        </member>
+        <member name="P:ReportModule.StringReportValue.Pattern">
+            <summary>
+            Шаблон в отчете, который будет заменяться на значение переменной
+            </summary>
+        </member>
+        <member name="P:ReportModule.StringReportValue.Value">
+            <summary>
+            Значение переменной
             </summary>
         </member>
         <member name="T:ReportModule.WordEditor">
@@ -335,90 +418,6 @@
             Метод, производящий замену специальных тэгов в отчете
             </summary>
             <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
-        </member>
-        <member name="T:ReportModule.CalcEditor">
-            <summary>
-            Редактор отчетов OpenOffice Calc
-            </summary>
-        </member>
-        <member name="F:ReportModule.CalcEditor.styles">
-            <summary>
-            Список стилей, которые необходимо применить к каждому последующему элементу
-            </summary>
-        </member>
-        <member name="M:ReportModule.CalcEditor.XmlContractorsConvert(System.Collections.ObjectModel.Collection{ReportModule.ReportValue})">
-            <summary>
-            Метод конвертации xml-замыкателя
-            </summary>
-            <param name="values">Список переменных, в которых надо найти унифицированные замыкатели и заменить на зависимые от типа отчета</param>
-            <returns>Возвращает список переменных отчета с зависимыми от типа отчета xml-замыкателями</returns>
-        </member>
-        <member name="M:ReportModule.CalcEditor.SpecialTagEditing(System.String)">
-            <summary>
-            Метод, производящий замену специальных тэгов в отчете
-            </summary>
-            <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
-        </member>
-        <member name="T:ReportModule.SharedExcelStrings">
-            <summary>
-            Класс работы с shared-строками отчета Excel
-            </summary>
-        </member>
-        <member name="M:ReportModule.SharedExcelStrings.#ctor(System.String)">
-            <summary>
-            Конструктор класса SharedXLSXStrings
-            </summary>
-            <param name="fileName">Путь до файла с shared-строками</param>
-        </member>
-        <member name="M:ReportModule.SharedExcelStrings.Add(System.String)">
-            <summary>
-            Добавить shared-строку
-            </summary>
-            <param name="value">Shared-строка</param>
-            <returns>возвращает индекс добавленной строки</returns>
-        </member>
-        <member name="M:ReportModule.SharedExcelStrings.Save(System.String)">
-            <summary>
-            Сохранить список shared-строк в файл
-            </summary>
-            <param name="fileName">Имя файла</param>
-        </member>
-        <member name="P:ReportModule.SharedExcelStrings.Count">
-            <summary>
-            Число shared-строк
-            </summary>
-        </member>
-        <member name="P:ReportModule.SharedExcelStrings.UniqueCount">
-            <summary>
-            Число уникальных shared-строк
-            </summary>
-        </member>
-        <member name="P:ReportModule.SharedExcelStrings.SharedStrings">
-            <summary>
-            Список shared-строк
-            </summary>
-        </member>
-        <member name="T:ReportModule.StringReportValue">
-            <summary>
-            Строковая переменная отчета
-            </summary>
-        </member>
-        <member name="M:ReportModule.StringReportValue.#ctor(System.String,System.String)">
-            <summary>
-            Конструктор класса StringReportValue
-            </summary>
-            <param name="pattern">Шаблон замены. Автоматически обрамляется знаками "$"</param>
-            <param name="value">Значение переменной</param>
-        </member>
-        <member name="P:ReportModule.StringReportValue.Pattern">
-            <summary>
-            Шаблон в отчете, который будет заменяться на значение переменной
-            </summary>
-        </member>
-        <member name="P:ReportModule.StringReportValue.Value">
-            <summary>
-            Значение переменной
-            </summary>
         </member>
         <member name="T:ReportModule.Style">
             <summary>
@@ -503,27 +502,28 @@
             <param name="styleName">Имя стиля</param>
             <param name="style">Стилевое дополнение (жирный, курсив, подчеркивание, зачеркивание)</param>
         </member>
-        <member name="T:ReportModule.TableReportValue">
+        <member name="T:ReportModule.CalcEditor">
             <summary>
-            Табличная переменная отчета
+            Редактор отчетов OpenOffice Calc
             </summary>
         </member>
-        <member name="M:ReportModule.TableReportValue.#ctor(ExtendedTypes.ReportTable,System.String)">
+        <member name="F:ReportModule.CalcEditor.styles">
             <summary>
-            Конструктор класса TableReportValue
-            </summary>
-            <param name="table">Таблица, которая будет вставлена в отчет</param>
-            <param name="xmlContractor">XML-замыкатель</param>
-        </member>
-        <member name="P:ReportModule.TableReportValue.Table">
-            <summary>
-            Таблица отчета
+            Список стилей, которые необходимо применить к каждому последующему элементу
             </summary>
         </member>
-        <member name="P:ReportModule.TableReportValue.XmlContractor">
+        <member name="M:ReportModule.CalcEditor.XmlContractorsConvert(System.Collections.ObjectModel.Collection{ReportModule.ReportValue})">
             <summary>
-            XML-замыкатель
+            Метод конвертации xml-замыкателя
             </summary>
+            <param name="values">Список переменных, в которых надо найти унифицированные замыкатели и заменить на зависимые от типа отчета</param>
+            <returns>Возвращает список переменных отчета с зависимыми от типа отчета xml-замыкателями</returns>
+        </member>
+        <member name="M:ReportModule.CalcEditor.SpecialTagEditing(System.String)">
+            <summary>
+            Метод, производящий замену специальных тэгов в отчете
+            </summary>
+            <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
         </member>
         <member name="T:ReportModule.ReportHelper">
             <summary>

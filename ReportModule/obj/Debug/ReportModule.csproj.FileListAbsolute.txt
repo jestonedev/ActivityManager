@@ -13,3 +13,8 @@ D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Debug\pl
 D:\Projects\Visual Studio Projects\activity_manager\ReportModule\obj\Debug\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\ReportModule\obj\Debug\ReportModule.dll
 D:\Projects\Visual Studio Projects\activity_manager\ReportModule\obj\Debug\ReportModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\ReportModule.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\ReportModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ReportModule\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\ActivityManager\ReportModule\obj\Debug\ReportModule.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ReportModule\obj\Debug\ReportModule.pdb

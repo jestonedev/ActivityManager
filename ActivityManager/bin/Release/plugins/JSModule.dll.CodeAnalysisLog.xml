@@ -2,11 +2,11 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="1.36">
  <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\JSModule.dll">
+  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\JSModule.dll">
    <Modules>
     <Module Name="jsmodule.dll">
      <Messages>
-      <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Status="Active" Created="2014-08-01 00:11:39Z" FixCategory="NonBreaking">
+      <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Status="Active" Created="2014-10-13 03:41:17Z" FixCategory="NonBreaking">
        <Issue Certainty="95" Level="Error">Mark 'JSModule.dll' with CLSCompliant(true) because it exposes externally visible types.</Issue>
       </Message>
      </Messages>
@@ -17,10 +17,10 @@
          <Members>
           <Member Name="#JSRun(System.String,System.Object&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-08-01 00:11:39Z" FixCategory="Breaking">
+            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-10-13 03:41:17Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'result' be an out parameter.</Issue>
             </Message>
-            <Message TypeName="UseGenericsWhereAppropriate" Category="Microsoft.Design" CheckId="CA1007" Status="Active" Created="2014-08-01 00:11:39Z" FixCategory="Breaking">
+            <Message TypeName="UseGenericsWhereAppropriate" Category="Microsoft.Design" CheckId="CA1007" Status="Active" Created="2014-10-13 03:41:17Z" FixCategory="Breaking">
              <Issue Certainty="95" Level="CriticalError">Consider using generics instead of a reference to System.Object in 'IPlug.JSRun(string, out object)'.</Issue>
             </Message>
            </Messages>

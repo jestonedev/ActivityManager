@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="1.36">
  <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\ReportModule.dll">
+  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
    <Modules>
     <Module Name="reportmodule.dll">
      <Namespaces>
@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#ReportGenerate(System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="0#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-08-01 00:11:49Z" FixCategory="Breaking">
+            <Message Id="0#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-10-13 03:41:27Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'fileName' be an out parameter.</Issue>
             </Message>
            </Messages>
@@ -25,7 +25,7 @@
            <Accessors>
             <Accessor Name="#get_IsStartingPatternNode()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
              <Messages>
-              <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2014-08-01 00:11:49Z" FixCategory="NonBreaking">
+              <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2014-10-13 03:41:27Z" FixCategory="NonBreaking">
                <Issue Certainty="75" Level="Warning">'PatternNodeInfo.IsStartingPatternNode.get()' appears to have no upstream public or protected callers.</Issue>
               </Message>
              </Messages>

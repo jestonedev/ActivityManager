@@ -26,3 +26,10 @@ D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\
 D:\Projects\Visual Studio Projects\activity_manager\ExtendedTypes\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\ExtendedTypes\obj\Release\ExtendedTypes.dll
 D:\Projects\Visual Studio Projects\activity_manager\ExtendedTypes\obj\Release\ExtendedTypes.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ExtendedTypes.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ExtendedTypes.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ExtendedTypes.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ExtendedTypes.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\ActivityManager\ExtendedTypes\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\ActivityManager\ExtendedTypes\obj\Release\ExtendedTypes.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ExtendedTypes\obj\Release\ExtendedTypes.pdb

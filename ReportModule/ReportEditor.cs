@@ -154,6 +154,7 @@ namespace ReportModule
         public virtual void ReportEditing(string reportUnzipPath, Collection<ReportValue> values)
         {
             ReportEditingContentFile(Path.Combine(reportUnzipPath, "content.xml"), values);
+            ReportEditingContentFile(Path.Combine(reportUnzipPath, "styles.xml"), values);
         }
 
         /// <summary>

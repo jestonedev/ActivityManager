@@ -13,3 +13,8 @@ D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Debug\pl
 D:\Projects\Visual Studio Projects\activity_manager\ConvertModule\obj\Debug\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\ConvertModule\obj\Debug\ConvertModule.dll
 D:\Projects\Visual Studio Projects\activity_manager\ConvertModule\obj\Debug\ConvertModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\ConvertModule.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\ConvertModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ConvertModule\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\ActivityManager\ConvertModule\obj\Debug\ConvertModule.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ConvertModule\obj\Debug\ConvertModule.pdb

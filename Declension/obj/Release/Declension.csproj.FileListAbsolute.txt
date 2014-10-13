@@ -12,3 +12,8 @@ D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Rele
 D:\Projects\Visual Studio Projects\activity_manager_tst\ActivityManager\bin\Release\plugins\Declension.pdb
 D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\Declension.dll
 D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\plugins\Declension.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\Declension.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\Declension.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\Declension\obj\Release\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\ActivityManager\Declension\obj\Release\Declension.dll
+D:\Projects\Visual Studio Projects\ActivityManager\Declension\obj\Release\Declension.pdb

@@ -13,3 +13,8 @@ D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Debug\pl
 D:\Projects\Visual Studio Projects\activity_manager\ExtendedTypes\obj\Debug\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\ExtendedTypes\obj\Debug\ExtendedTypes.dll
 D:\Projects\Visual Studio Projects\activity_manager\ExtendedTypes\obj\Debug\ExtendedTypes.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\ExtendedTypes.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\ExtendedTypes.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ExtendedTypes\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\ActivityManager\ExtendedTypes\obj\Debug\ExtendedTypes.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ExtendedTypes\obj\Debug\ExtendedTypes.pdb

@@ -19,3 +19,10 @@ D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Debug\pl
 D:\Projects\Visual Studio Projects\activity_manager\JSModule\obj\Debug\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\JSModule\obj\Debug\JSModule.dll
 D:\Projects\Visual Studio Projects\activity_manager\JSModule\obj\Debug\JSModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\JSModule.dll
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\JSModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\JSModule.dll.CodeAnalysisLog.xml
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Debug\plugins\JSModule.dll.lastcodeanalysissucceeded
+D:\Projects\Visual Studio Projects\ActivityManager\JSModule\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Visual Studio Projects\ActivityManager\JSModule\obj\Debug\JSModule.dll
+D:\Projects\Visual Studio Projects\ActivityManager\JSModule\obj\Debug\JSModule.pdb
