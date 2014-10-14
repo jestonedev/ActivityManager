@@ -27,7 +27,6 @@ D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\
 D:\Projects\Visual Studio Projects\activity_manager\ReportModule\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\ReportModule\obj\Release\ReportModule.dll
 D:\Projects\Visual Studio Projects\activity_manager\ReportModule\obj\Release\ReportModule.pdb
-D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.xml
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.pdb
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll.CodeAnalysisLog.xml

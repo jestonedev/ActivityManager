@@ -20,7 +20,6 @@ D:\Projects\Visual Studio Projects\activity_manager\ActivityManager\bin\Release\
 D:\Projects\Visual Studio Projects\activity_manager\SqlDataSource\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\activity_manager\SqlDataSource\obj\Release\SqlDataSource.dll
 D:\Projects\Visual Studio Projects\activity_manager\SqlDataSource\obj\Release\SqlDataSource.pdb
-D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\SqlDataSource.xml
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\SqlDataSource.dll
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\SqlDataSource.pdb
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\SqlDataSource.dll.CodeAnalysisLog.xml
