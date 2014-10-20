@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>config="D:\work\naim\outSrok.xml" id_contract="3282,8683" connectionString="SERVER=b520; PORT=3306; DATABASE=socnaim; UID=PWR\KRIVV; PASSWORD=Aeris; DRIVER=MySQL ODBC 5.2 ANSI Driver;" Zam="Zam" Ispl="Ispl" Phone="Phone" reportPath="d:\work\naim\\"</StartArguments>
+    <StartArguments>config="C:\test\test.xml"</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
