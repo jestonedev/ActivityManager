@@ -42,6 +42,12 @@ namespace IOModule
         /// </summary>
         /// <param name="condition">Если true - то переходить, если false - пропустить</param>
         void IOIfCondititonExit(bool condition);
+
+        /// <summary>
+        /// Вывод в консоль
+        /// </summary>
+        /// <param name="text">Текст, который необходимо выводить в консоль</param>
+        void IOConsole(string text);
     }
 
     /// <summary>
@@ -106,6 +112,15 @@ namespace IOModule
                 exception.Data.Add("step", Int32.MaxValue);
                 throw exception;
             }
+        }
+
+        /// <summary>
+        /// Вывод в консоль
+        /// </summary>
+        /// <param name="text">Текст, который необходимо выводить в консоль</param>
+        public void IOConsole(string text)
+        {
+            Console.WriteLine(text);
         }
     }
 

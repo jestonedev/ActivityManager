@@ -35,6 +35,12 @@
             </summary>
             <param name="condition">Если true - то переходить, если false - пропустить</param>
         </member>
+        <member name="M:IOModule.IPlug.IOConsole(System.String)">
+            <summary>
+            Вывод в консоль
+            </summary>
+            <param name="text">Текст, который необходимо выводить в консоль</param>
+        </member>
         <member name="T:IOModule.IOPlug">
             <summary>
             Класс, реализующий интерфейс IPlug
@@ -65,6 +71,12 @@
             Условный переход на конец программы
             </summary>
             <param name="condition">Если true - то переходить, если false - пропустить</param>
+        </member>
+        <member name="M:IOModule.IOPlug.IOConsole(System.String)">
+            <summary>
+            Вывод в консоль
+            </summary>
+            <param name="text">Текст, который необходимо выводить в консоль</param>
         </member>
         <member name="T:IOModule.IOException">
             <summary>

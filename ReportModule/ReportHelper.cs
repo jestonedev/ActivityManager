@@ -138,18 +138,18 @@ namespace ReportModule
             if (node.NodeType == System.Xml.XmlNodeType.Text)
                 ListPNIC = GetTextNodePatternPartInfo(node as XText, pattern, ListPNIC);
             else
-            if (node.NodeType == System.Xml.XmlNodeType.Element)
-            {
-                //Если элемент имеет дочерние, то входим в дочерний элемент и обрабатываем его
-                foreach (XNode child_node in (node as XElement).Nodes())
+                if (node.NodeType == System.Xml.XmlNodeType.Element)
                 {
-                    if (child_node.NodeType == System.Xml.XmlNodeType.Element)
-                        ListPNIC = GetNodePatternPartsInfo(child_node, pattern, ListPNIC);
-                    else
-                        if (child_node.NodeType == System.Xml.XmlNodeType.Text)
-                            ListPNIC = GetTextNodePatternPartInfo(child_node as XText, pattern, ListPNIC);
+                    //Если элемент имеет дочерние, то входим в дочерний элемент и обрабатываем его
+                    foreach (XNode child_node in (node as XElement).Nodes())
+                    {
+                        if (child_node.NodeType == System.Xml.XmlNodeType.Element)
+                            ListPNIC = GetNodePatternPartsInfo(child_node, pattern, ListPNIC);
+                        else
+                            if (child_node.NodeType == System.Xml.XmlNodeType.Text)
+                                ListPNIC = GetTextNodePatternPartInfo(child_node as XText, pattern, ListPNIC);
+                    }
                 }
-            }
             return ListPNIC;
         }
 

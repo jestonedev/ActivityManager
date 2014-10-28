@@ -9,6 +9,6 @@
     </ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>config="\\nas\media$\KUMIREPORT\ActivityManager\new\config\ReceiptBankONFB850.xml" RentContracProcessOID="00010016D1A2"</StartArguments>
+    <StartArguments>config="C:\1.xml"</StartArguments>
   </PropertyGroup>
 </Project>
