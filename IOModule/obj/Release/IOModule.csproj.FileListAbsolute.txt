@@ -34,3 +34,4 @@ D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\p
 D:\Projects\Visual Studio Projects\ActivityManager\IOModule\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\ActivityManager\IOModule\obj\Release\IOModule.dll
 D:\Projects\Visual Studio Projects\ActivityManager\IOModule\obj\Release\IOModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\IOModule.xml

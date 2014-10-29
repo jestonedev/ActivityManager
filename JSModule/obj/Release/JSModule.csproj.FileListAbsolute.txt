@@ -34,3 +34,4 @@ D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\p
 D:\Projects\Visual Studio Projects\ActivityManager\JSModule\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\ActivityManager\JSModule\obj\Release\JSModule.dll
 D:\Projects\Visual Studio Projects\ActivityManager\JSModule\obj\Release\JSModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\JSModule.xml

@@ -49,9 +49,9 @@ D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\A
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\ActivityManager.pdb
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\ActivityManager.exe.CodeAnalysisLog.xml
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\ActivityManager.exe.lastcodeanalysissucceeded
-D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\ScintillaNET.pdb
-D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\ScintillaNET.xml
-D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AMClasses.pdb
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\obj\Release\ActivityManager.exe
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\obj\Release\ActivityManager.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\ScintillaNET.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\ScintillaNET.xml
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AMClasses.pdb

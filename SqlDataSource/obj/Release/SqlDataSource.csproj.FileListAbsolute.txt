@@ -27,3 +27,4 @@ D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\p
 D:\Projects\Visual Studio Projects\ActivityManager\SqlDataSource\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\ActivityManager\SqlDataSource\obj\Release\SqlDataSource.dll
 D:\Projects\Visual Studio Projects\ActivityManager\SqlDataSource\obj\Release\SqlDataSource.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\SqlDataSource.xml

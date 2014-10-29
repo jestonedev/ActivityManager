@@ -10,14 +10,14 @@
        <Types>
         <Type Name="ReportRow" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-10-13 03:41:14Z" FixCategory="Breaking">
+          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-10-29 09:08:11Z" FixCategory="Breaking">
            <Issue Certainty="95" Level="Error">Rename 'ReportRow' to end in 'Collection'.</Issue>
           </Message>
          </Messages>
         </Type>
         <Type Name="ReportTable" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-10-13 03:41:14Z" FixCategory="Breaking">
+          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-10-29 09:08:11Z" FixCategory="Breaking">
            <Issue Certainty="95" Level="Error">Rename 'ReportTable' to end in 'Collection'.</Issue>
           </Message>
          </Messages>
