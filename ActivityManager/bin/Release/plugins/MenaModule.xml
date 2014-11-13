@@ -26,7 +26,7 @@
         </member>
         <member name="T:MenaModule.MenaPlug">
             <summary>
-            Клас, реализующий интерфейс плагина
+            Класс, реализующий интерфейс плагина
             </summary>
         </member>
         <member name="M:MenaModule.MenaPlug.MenaSignersTableConvert(ExtendedTypes.ReportTable,ExtendedTypes.ReportTable@)">

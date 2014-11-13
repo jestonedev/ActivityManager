@@ -92,6 +92,8 @@ namespace AmEditor
 
         public int CompareTo(OpenFileHistoryItem other)
         {
+            if (other == null)
+                throw new ArgumentNullException("other","Не задана ссылка на параметр");
             return this.OpenDateTime.CompareTo(other.OpenDateTime); //Сравниваем объекты по дате открытия, сортируем соответственно по ней же
         }
 

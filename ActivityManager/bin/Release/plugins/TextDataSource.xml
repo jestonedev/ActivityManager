@@ -9,7 +9,7 @@
             Доступный из-вне интерфейс плагина
             </summary>
         </member>
-        <member name="M:TextDataSource.IPlug.TextSelectTable(System.String,System.String,System.String,System.Boolean,ExtendedTypes.ReportTable@)">
+        <member name="M:TextDataSource.IPlug.TextSelectTable(System.String,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
             Выборка данных из текстового файла
             </summary>
@@ -17,9 +17,10 @@
             <param name="columnSeparator">Разделитель колонок</param>
             <param name="rowSeparator">Разделитель строк</param>
             <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
             <param name="table">Результат запроса</param>
         </member>
-        <member name="M:TextDataSource.IPlug.TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Object@)">
+        <member name="M:TextDataSource.IPlug.TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Object@)">
             <summary>
             Выборка скалярного значения из базы данных
             </summary>
@@ -27,9 +28,10 @@
             <param name="columnSeparator">Разделитель колонок</param>
             <param name="rowSeparator">Разделитель строк</param>
             <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
             <param name="result">Возврат скалярного значения</param>
         </member>
-        <member name="M:TextDataSource.IPlug.TextModifyQuery(System.String,System.String,System.String,System.Boolean,System.Int32@)">
+        <member name="M:TextDataSource.IPlug.TextModifyQuery(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Int32@)">
             <summary>
             Запрос на внесение изменений в текстовом файле
             </summary>
@@ -37,6 +39,7 @@
             <param name="columnSeparator">Разделитель колонок</param>
             <param name="rowSeparator">Разделитель строк</param>
             <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
             <param name="rowsAffected">Число измененных строк</param>
         </member>
         <member name="T:TextDataSource.TextDataSourcePlug">
@@ -44,7 +47,7 @@
             Класс, реализующий интерфейс плагина
             </summary>
         </member>
-        <member name="M:TextDataSource.TextDataSourcePlug.TextSelectTable(System.String,System.String,System.String,System.Boolean,ExtendedTypes.ReportTable@)">
+        <member name="M:TextDataSource.TextDataSourcePlug.TextSelectTable(System.String,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
             Выборка данных из базы данных
             </summary>
@@ -52,9 +55,10 @@
             <param name="columnSeparator">Разделитель колонок</param>
             <param name="rowSeparator">Разделитель строк. По умолчанию перенос строки</param>
             <param name="firstRowHeader">Является ли первая строка файла(ов) источника(ов) заголовком</param>
+            <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
             <param name="table">Результат запроса</param>
         </member>
-        <member name="M:TextDataSource.TextDataSourcePlug.TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Object@)">
+        <member name="M:TextDataSource.TextDataSourcePlug.TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Object@)">
             <summary>
             Выборка скалярного значения из базы данных
             </summary>
@@ -62,9 +66,10 @@
             <param name="columnSeparator">Разделитель колонок</param>
             <param name="rowSeparator">Разделитель строк</param>
             <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
             <param name="result">Возврат скалярного значения</param>
         </member>
-        <member name="M:TextDataSource.TextDataSourcePlug.TextModifyQuery(System.String,System.String,System.String,System.Boolean,System.Int32@)">
+        <member name="M:TextDataSource.TextDataSourcePlug.TextModifyQuery(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Int32@)">
             <summary>
             Запрос на внесение изменений в текстовом файле
             </summary>
@@ -72,6 +77,7 @@
             <param name="columnSeparator">Разделитель колонок</param>
             <param name="rowSeparator">Разделитель строк</param>
             <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+            <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
             <param name="rowsAffected">Число измененных строк</param>
         </member>
         <member name="T:TextDataSource.TextDataSourceException">

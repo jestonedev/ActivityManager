@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace AMClasses
 {
@@ -16,6 +17,10 @@ namespace AMClasses
 
 		public PlugActionInfo(PlugInfo plugin, MethodInfo mi, ParameterInfo[] pis)
 		{
+            if (mi == null)
+                throw new AMException("Не заданна ссылка на метаданные метода");
+            if (pis == null)
+                throw new AMException("Не заданна ссылка на метаданные параметров");
             this.plugin = plugin;
 			method_info = mi;
 			ActionName = mi.Name;
@@ -32,6 +37,10 @@ namespace AMClasses
 
 		public void Execute(object[] inputParameters, out object[] outputParameters)
 		{
+            if (inputParameters == null)
+                throw new AMException("Не заданна ссылка на массив входных параметров");
+            if (inputParameters == null)
+                throw new AMException("Не заданна ссылка на массив выходных параметров");
 			//Выполняем проверку числа параметров
 			int input_parameters_count = 0;
 			int output_parameters_count = 0;
@@ -54,7 +63,7 @@ namespace AMClasses
                     {
                         if (ParameterType.IsEnum && (inputParameters[j] is string))
                             inputParameters[j] = Enum.Parse(ParameterType, inputParameters[j].ToString(), true);
-                        exec_parameters[i] = Convert.ChangeType(inputParameters[j], ParameterType);
+                        exec_parameters[i] = Convert.ChangeType(inputParameters[j], ParameterType, CultureInfo.CurrentCulture);
                     }
                     catch(Exception e)
                     {

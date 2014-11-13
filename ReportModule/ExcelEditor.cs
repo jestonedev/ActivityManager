@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using ExtendedTypes;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace ReportModule
 {
@@ -39,12 +40,16 @@ namespace ReportModule
         /// <param name="values">Список переменных</param>
         public override void ReportEditing(string reportUnzipPath, Collection<ReportValue> values)
         {
+            if (values == null)
+                throw new ReportException("Не задана ссылка на список переменных");
             string xl_path = Path.Combine(reportUnzipPath, "xl");
             shared_strings = new SharedExcelStrings(Path.Combine(xl_path, "sharedStrings.xml"));
             string[] sheets = Directory.GetFiles(Path.Combine(xl_path, "worksheets"), "*.xml");
             List<XDocument> xdoc_sheets = new List<XDocument>();
+            Console.WriteLine("Загружаем файлы отчета");
             foreach (string sheet in sheets)
                 xdoc_sheets.Add(XDocument.Load(sheet));
+            Console.WriteLine("Заполняем файлы отчета данными");
             foreach (ReportValue report_value in values)
             {
                 StringReportValue string_report_value = report_value as StringReportValue;
@@ -56,6 +61,7 @@ namespace ReportModule
                 if (table_report_value != null)
                     WriteTable(table_report_value, sheet);
             }
+            Console.WriteLine("Сохраняем файлы отчета во временную директорию");
             for (int i = 0; i < sheets.Length; i++)
                 xdoc_sheets[i].Save(sheets[i]);
             shared_strings.Save(Path.Combine(xl_path, "sharedStrings.xml"));
@@ -77,6 +83,10 @@ namespace ReportModule
         /// <param name="document">Отчет</param>
         protected override void WriteString(StringReportValue reportValue, XDocument document)
         {
+            if (reportValue == null)
+                throw new ReportException("Не задана ссылка на строковую переменную отчета");
+            if (document == null)
+                throw new ReportException("Не задана ссылка на документ шаблона");
             foreach (XElement element in shared_strings.SharedStrings)
             {
                 XElement t_element = element.Elements().First();
@@ -96,12 +106,16 @@ namespace ReportModule
         /// <param name="document">Отчет</param>
         protected override void WriteTable(TableReportValue reportValue, XDocument document)
         {
+            if (reportValue == null)
+                throw new ReportException("Не задана ссылка на табличную переменную отчета");
+            if (document == null)
+                throw new ReportException("Не задана ссылка на документ шаблона");
             List<int> excel_templates_ss_indexes = new List<int>();
             foreach (string template in reportValue.Table.Columns)
                 excel_templates_ss_indexes.Add(ss_index("$" + template + "$", shared_strings));
             List<string> excel_templates = new List<string>();
             foreach (int ss_index in excel_templates_ss_indexes)
-                excel_templates.Add("<v>" + ss_index.ToString() + "</v>");
+                excel_templates.Add("<v>" + ss_index.ToString(CultureInfo.CurrentCulture) + "</v>");
             string reg_match_pattern = ReportHelper.get_table_pattern_regex(excel_templates);
 
             List<XElement> xml_contractor_elements = ReportHelper.FindElementsByTag(document.Root, reportValue.XmlContractor);
@@ -115,13 +129,17 @@ namespace ReportModule
                 if (Regex.IsMatch(element_value, reg_match_pattern))
                 {
                     List<XElement> new_elements = new List<XElement>();
+                    int count = 0;
                     foreach (ReportRow row in reportValue.Table)
                     {
+                        count++;
+                        if (count % 500 == 0)
+                            Console.WriteLine(String.Format(CultureInfo.CurrentCulture,"Заполнено {0} из {1} строк", count, reportValue.Table.Count));
                         string result_row = element_value;
                         for (int i = 0; i < reportValue.Table.Columns.Count; i++)
                         {
                             result_row = result_row.Replace(
-                                "<v>" + ss_index("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString() + "</v>",
+                                "<v>" + ss_index("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(CultureInfo.CurrentCulture) + "</v>",
                                 "<v>" + shared_strings.Add(
                                 ss_element("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(SaveOptions.DisableFormatting).
                                 Replace("$" + reportValue.Table.Columns[i] + "$", row[i].Value).ToString()) + "</v>");
@@ -207,7 +225,7 @@ namespace ReportModule
         {
             Match match_row = Regex.Match(address, "[0-9]+$");
             string row_address = match_row.Value;
-            row_address = (Int32.Parse(row_address) + y_increment).ToString();
+            row_address = (Int32.Parse(row_address, CultureInfo.CurrentCulture) + y_increment).ToString(CultureInfo.CurrentCulture);
             Match match_col = Regex.Match(address, "^[A-Z]+");
             string col_address = match_col.Value;
             int base_index = 26;
@@ -265,13 +283,13 @@ namespace ReportModule
                 Match match_merge_end_col = Regex.Match(range_parts[1], "^[A-Z]+");
                 string merge_end_col_address = match_merge_end_col.Value;
 
-                if (Int32.Parse(merge_start_row_address) > Int32.Parse(row_address))
+                if (Int32.Parse(merge_start_row_address, CultureInfo.CurrentCulture) > Int32.Parse(row_address, CultureInfo.CurrentCulture))
                 {
-                    merge_start_row_address = (Int32.Parse(merge_start_row_address) + y_increment).ToString();
+                    merge_start_row_address = (Int32.Parse(merge_start_row_address, CultureInfo.CurrentCulture) + y_increment).ToString(CultureInfo.CurrentCulture);
                 }
-                if (Int32.Parse(merge_end_row_address) > Int32.Parse(row_address))
+                if (Int32.Parse(merge_end_row_address, CultureInfo.CurrentCulture) > Int32.Parse(row_address, CultureInfo.CurrentCulture))
                 {
-                    merge_end_row_address = (Int32.Parse(merge_end_row_address) + y_increment).ToString();
+                    merge_end_row_address = (Int32.Parse(merge_end_row_address, CultureInfo.CurrentCulture) + y_increment).ToString(CultureInfo.CurrentCulture);
                 }
                 mergeCell.Attribute("ref").SetValue(merge_start_col_address + merge_start_row_address + ":" + merge_end_col_address + merge_end_row_address);
             }
@@ -281,7 +299,7 @@ namespace ReportModule
         {
             if (element.Name.LocalName == "row")
             {
-                element.SetAttributeValue("r", Int32.Parse(element.Attribute("r").Value) + y_increment);
+                element.SetAttributeValue("r", Int32.Parse(element.Attribute("r").Value, CultureInfo.CurrentCulture) + y_increment);
                 List<XElement> c_elements = element.Elements().ToList<XElement>();
                 foreach (XElement c_element in c_elements)
                 {

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Windows.Forms;
 using AMClasses;
+using System.Globalization;
 
 namespace ActivityManager
 {
@@ -55,14 +56,14 @@ namespace ActivityManager
 			plugins_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
 
 			if (!Directory.Exists(plugins_path))
-                throw new AMException(String.Format(_("Путь до папки {0} не найден"), plugins_path));
+                throw new AMException(String.Format(CultureInfo.CurrentCulture,_("Путь до папки {0} не найден"), plugins_path));
 
 			//проверяем наличие обязательного параметра: config
 			if (!global_parameters.ContainsKey("config"))
                 throw new AMException(_("Не передана ссылка на файл конфигурации"));
 			string config_filename = global_parameters["config"].ToString();
 			if (!File.Exists(config_filename))
-                throw new AMException(String.Format(_("Файл {0} не найден"), config_filename));
+                throw new AMException(String.Format(CultureInfo.CurrentCulture,_("Файл {0} не найден"), config_filename));
 		}
 
 		public void LoadConfigFile()
@@ -119,7 +120,7 @@ namespace ActivityManager
             PlugActionInfo current_action = PlugActionHelper.FindPlugAction(plugins, step);
 			if (current_action == null)
                 throw new AMException(
-					String.Format(_("Не удалось найти действие {0} в плагине {1}"), step.ActionName, step.PlugName));
+					String.Format(CultureInfo.CurrentCulture,_("Не удалось найти действие {0} в плагине {1}"), step.ActionName, step.PlugName));
 			foreach (ActivityStepParameter action_parameter in step.InputParameters)
 			{
 				bool finded = false;
@@ -149,18 +150,20 @@ namespace ActivityManager
                             if (plugin_parameter.ParameterType.IsEnum && (value is string))
                                 value = Enum.Parse(plugin_parameter.ParameterType, value.ToString(), true);
 							//Пробуем конвертировать тип данных
-							Convert.ChangeType(value, plugin_parameter.ParameterType);
+                            Convert.ChangeType(value, plugin_parameter.ParameterType, CultureInfo.CurrentCulture);
 							break;
 						}
 						catch(Exception)
 						{
-                            throw new AMException(String.Format(_("Ошибка преобразования значения \"{0}\" параметра {1} к типу {2}, требуемому действием {3} плагина {4}"),
+                            throw new AMException(
+                                String.Format(CultureInfo.CurrentCulture,_("Ошибка преобразования значения \"{0}\" параметра {1} к типу {2}, требуемому действием {3} плагина {4}"),
                                 action_parameter.Value, action_parameter.Name, plugin_parameter.ParameterType.ToString(), step.ActionName, step.PlugName));
 						}
 					}
 				}
 				if (!finded)
-                    throw new AMException(String.Format(_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, action_parameter.Name));
+                    throw new AMException(
+                        String.Format(CultureInfo.CurrentCulture,_("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, action_parameter.Name));
 			}
 		}
 
@@ -181,13 +184,13 @@ namespace ActivityManager
 							finded = true;
 						}
 						else
-                            throw new AMException(String.Format(
+                            throw new AMException(String.Format(CultureInfo.CurrentCulture,
                                 _("Неоднозначность определения заданного действия. Действие \"{0}\" определено в плагинах {1} и {2}. Необходимо явное указание плагина в файле конфигурации"),
 								step.ActionName, step.PlugName, plugin.PlugName));
 					}
 				}
 				if (!finded)
-                    throw new AMException(String.Format(_("Не удалось найти действие {0} ни в одном из плагинов"),
+                    throw new AMException(String.Format(CultureInfo.CurrentCulture,_("Не удалось найти действие {0} ни в одном из плагинов"),
 						step.ActionName));
 			}
 			else
@@ -195,7 +198,7 @@ namespace ActivityManager
                 {
                     if ((plugin.PlugName == step.PlugName) && (!plugin.HasAction(step.ActionName, 
                         PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters))))
-                        throw new AMException(String.Format(_("В плагине {0} не определено действие {1}"),
+                        throw new AMException(String.Format(CultureInfo.CurrentCulture,_("В плагине {0} не определено действие {1}"),
                             plugin.PlugName, step.ActionName));
                 }
 		}
@@ -277,7 +280,7 @@ namespace ActivityManager
                     string message = _(e.InnerException.Message);
                     foreach (string key in e.InnerException.Data.Keys)
                         message = message.Replace(key, e.InnerException.Data[key].ToString());
-                    throw new AMException(String.Format(_("[Шаг {0}]") + ": ", step_num) + message);
+                    throw new AMException(String.Format(CultureInfo.CurrentCulture,_("[Шаг {0}]") + ": ", step_num) + message);
                 }
                 for (int i = 0; i < output_parameters.Length; i++)
                 {

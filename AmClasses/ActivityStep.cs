@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace AMClasses
 {
@@ -34,6 +35,10 @@ namespace AMClasses
 
         public static ActivityStep ConvertXElementToActivityStep(XElement element, Language lang)
         {
+            if (lang == null)
+                throw new AMException("Не задана ссылка на язык перевода");
+            if (element == null)
+                throw new AMException("Не задана ссылка на xml-элемент");
             ActivityStep activity_step = new ActivityStep();
             //Задаем параметр plugin
             XAttribute plugin_name = element.Attribute("plugin");
@@ -52,7 +57,8 @@ namespace AMClasses
                 if (Int32.TryParse(repeat.Value, out repeat_count))
                     activity_step.RepeatCount = repeat_count;
                 else
-                    throw new AMException(String.Format("[config.xml]" + lang.Translate("Некорректное числовое значение атрибута \"repeat\" = {0}"), repeat.Value));
+                    throw new AMException(String.Format(CultureInfo.CurrentCulture,"[config.xml]" + 
+                        lang.Translate("Некорректное числовое значение атрибута \"repeat\" = {0}"), repeat.Value));
             }
             XElement input = element.Element("input");
             if (input != null)
@@ -62,7 +68,9 @@ namespace AMClasses
                 {
                     XAttribute attribute = input_parameter.Attribute("name");
                     if (attribute == null)
-                        throw new AMException(String.Format("[config.xml]" + lang.Translate("Не указан обязательный атрибут \"name\" элемента <parameter>")));
+                        throw new AMException(
+                            String.Format(CultureInfo.CurrentCulture, 
+                            "[config.xml]" + lang.Translate("Не указан обязательный атрибут \"name\" элемента <parameter>")));
                     string value = input_parameter.Value;
                     activity_step.AddInputParameter(attribute.Value, value);
                 }
@@ -75,7 +83,7 @@ namespace AMClasses
                 {
                     XAttribute attribute = output_parameter.Attribute("name");
                     if (attribute == null)
-                        throw new AMException(String.Format("[config.xml]" + lang.Translate("Не указан обязательный атрибут \"name\" элемента <parameter>")));
+                        throw new AMException(String.Format(CultureInfo.CurrentCulture,"[config.xml]" + lang.Translate("Не указан обязательный атрибут \"name\" элемента <parameter>")));
                     string value = output_parameter.Value;
                     activity_step.AddOutputParameter(attribute.Value, value);
                 }

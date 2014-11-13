@@ -165,6 +165,7 @@
             // 
             // dataGridViewSteps
             // 
+            this.dataGridViewSteps.AllowDrop = true;
             this.dataGridViewSteps.AllowUserToAddRows = false;
             this.dataGridViewSteps.AllowUserToDeleteRows = false;
             this.dataGridViewSteps.AllowUserToResizeRows = false;
@@ -190,6 +191,9 @@
             this.dataGridViewSteps.Size = new System.Drawing.Size(253, 433);
             this.dataGridViewSteps.TabIndex = 0;
             this.dataGridViewSteps.SelectionChanged += new System.EventHandler(this.dataGridViewSteps_SelectionChanged);
+            this.dataGridViewSteps.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridViewSteps_DragDrop);
+            this.dataGridViewSteps.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridViewSteps_DragEnter);
+            this.dataGridViewSteps.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewSteps_MouseClick);
             // 
             // NumStep
             // 

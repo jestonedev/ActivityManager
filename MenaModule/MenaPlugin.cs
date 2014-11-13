@@ -31,7 +31,7 @@ namespace MenaModule
     }
 
     /// <summary>
-    /// Клас, реализующий интерфейс плагина
+    /// Класс, реализующий интерфейс плагина
     /// </summary>
     public class MenaPlug: IPlug
     {
@@ -42,6 +42,8 @@ namespace MenaModule
         /// <param name="outTable">Выходная таблица</param>
         public void MenaSignersTableConvert(ReportTable inTable, out ReportTable outTable)
         {
+            if (inTable == null)
+                throw new MenaException("Входная таблица не задана");
             ReportTable tmp_table = new ReportTable();
             foreach(string column in inTable.Columns)
                 if (column != "text_case" && column != "warrant_fio")
@@ -84,6 +86,8 @@ namespace MenaModule
         /// <param name="outRow">Выходная строка параметров отчета</param>
         public void MenaFloorTemplate(ReportRow inRow, string columnFloorName, out ReportRow outRow)
         {
+            if (inRow == null)
+                throw new MenaException("Входная строка не задана");
             if (inRow[columnFloorName].Value == "нулевом")
                 inRow[columnFloorName].Value = " ";
             else

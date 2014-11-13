@@ -7,6 +7,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
 using ExtendedTypes;
+using System.Globalization;
 
 //Плагин для доступа к данным баз данных
 namespace SqlDataSource
@@ -146,25 +147,28 @@ namespace SqlDataSource
             }
             DbDataAdapter adapter = factory.CreateDataAdapter();
             adapter.SelectCommand = command;
-            DataSet ds = new DataSet();
-            adapter.Fill(ds);
-            if (ds.Tables.Count > 0)
+            using (DataSet ds = new DataSet())
             {
-                //Конвертируем таблицу DataTable в ReportTable
-                ReportTable tmp_table = new ReportTable();
-                for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
-                    tmp_table.Columns.Add(ds.Tables[0].Columns[i].ColumnName);
-                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                ds.Locale = CultureInfo.CurrentCulture;
+                adapter.Fill(ds);
+                if (ds.Tables.Count > 0)
                 {
-                    ReportRow row = new ReportRow(tmp_table);
-                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
-                        row.Add(new ReportCell(row, ds.Tables[0].Rows[i][j].ToString()));
-                    tmp_table.Add(row);
+                    //Конвертируем таблицу DataTable в ReportTable
+                    ReportTable tmp_table = new ReportTable();
+                    for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
+                        tmp_table.Columns.Add(ds.Tables[0].Columns[i].ColumnName);
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        ReportRow row = new ReportRow(tmp_table);
+                        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                            row.Add(new ReportCell(row, ds.Tables[0].Rows[i][j].ToString()));
+                        tmp_table.Add(row);
+                    }
+                    table = tmp_table;
                 }
-                table = tmp_table;
+                else
+                    throw new SqlException("Запрос к базе данных не вернул результат");
             }
-            else
-                throw new SqlException("Запрос к базе данных не вернул результат");
             if (!permanent_connection)
                 connection.Close();
         }

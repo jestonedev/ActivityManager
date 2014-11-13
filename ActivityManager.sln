@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityManager", "ActivityManager\ActivityManager.csproj", "{350D16B2-470A-44B4-AE65-29AE582CE109}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportModule", "ReportModule\ReportModule.csproj", "{A1DB2572-4DA5-4179-A0A7-0ED0010F20CF}"

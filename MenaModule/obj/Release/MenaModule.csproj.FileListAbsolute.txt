@@ -31,7 +31,7 @@ D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\p
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\MenaModule.pdb
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\MenaModule.dll.CodeAnalysisLog.xml
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\MenaModule.dll.lastcodeanalysissucceeded
-D:\Projects\Visual Studio Projects\ActivityManager\MenaModule\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\ActivityManager\MenaModule\obj\Release\MenaModule.dll
 D:\Projects\Visual Studio Projects\ActivityManager\MenaModule\obj\Release\MenaModule.pdb
+D:\Projects\Visual Studio Projects\ActivityManager\MenaModule\obj\Release\MenaModule.csprojResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\MenaModule.xml

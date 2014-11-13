@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace ConvertModule
 {
@@ -304,7 +305,7 @@ namespace ConvertModule
     /// <summary>
     /// Плагин, реализующий интерфейс IPlug
     /// </summary>
-    public class ConvertPlug: IPlug
+    public class ConvertPlug : IPlug
     {
 
         /// <summary>
@@ -324,8 +325,8 @@ namespace ConvertModule
                 return;
             if (firstCapital)
             {
-                string first = words[0].ToString().ToUpper();
-                words = first + words.Substring(1);     
+                string first = words[0].ToString().ToUpper(CultureInfo.CurrentCulture);
+                words = first + words.Substring(1);
             }
         }
 
@@ -344,7 +345,7 @@ namespace ConvertModule
                 return;
             if (firstCapital)
             {
-                string first = words[0].ToString().ToUpper();
+                string first = words[0].ToString().ToUpper(CultureInfo.CurrentCulture);
                 words = first + words.Substring(1);
             }
         }
@@ -375,7 +376,7 @@ namespace ConvertModule
                 return;
             if (firstCapital)
             {
-                string first = words[0].ToString().ToUpper();
+                string first = words[0].ToString().ToUpper(CultureInfo.CurrentCulture);
                 words = first + words.Substring(1);
             }
         }
@@ -400,7 +401,8 @@ namespace ConvertModule
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
         /// <param name="isOrdinal">Если true, то порядковое числительно, если false, то количественное</param>
         /// <param name="words">Возвращаемый текст</param>
-        public void ConvertCurrencyToString(double currency, CurrencyType currencyType, string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out string words)
+        public void ConvertCurrencyToString(double currency, CurrencyType currencyType, string format, 
+            string thousandSeparator, bool firstCapital, bool isOrdinal, out string words)
         {
             Converter conv = new Converter(TextCase.Nominative, Sex.Neuter);
             words = conv.CurrencyToString(currency, currencyType, format, thousandSeparator, isOrdinal);
@@ -408,7 +410,7 @@ namespace ConvertModule
                 return;
             if (firstCapital)
             {
-                string first = words[0].ToString().ToUpper();
+                string first = words[0].ToString().ToUpper(CultureInfo.CurrentCulture);
                 words = first + words.Substring(1);
             }
         }
@@ -425,6 +427,8 @@ namespace ConvertModule
         /// <param name="outRow">Выходная строка</param>
         public void ConvertIntCellToString(ReportRow inRow, string column, TextCase textCase, Sex sex, bool firstCapital, bool isOrdinal, out ReportRow outRow)
         {
+            if (inRow == null)
+                throw new ConvertException("Не задана входная строка");
             ReportRow tmp_row = new ReportRow(inRow.Table);
             for (int i = 0; i < inRow.Count; i++)
             {
@@ -452,6 +456,8 @@ namespace ConvertModule
         /// <param name="outTable">Выходная таблица</param>
         public void ConvertIntColToString(ReportTable inTable, string column, TextCase textCase, Sex sex, bool firstCapital, bool isOrdinal, out ReportTable outTable)
         {
+            if (inTable == null)
+                throw new ConvertException("Не задана входная таблица");
             ReportTable tmp_table = new ReportTable();
             tmp_table.SetColumns(inTable.Columns);
             foreach (ReportRow row in inTable)
@@ -484,6 +490,8 @@ namespace ConvertModule
         /// <param name="outRow">Выходная строка</param>
         public void ConvertDateTimeCellToString(ReportRow inRow, string column, string format, bool firstCapital, out ReportRow outRow)
         {
+            if (inRow == null)
+                throw new ConvertException("Не задана входная строка");
             ReportRow tmp_row = new ReportRow(inRow.Table);
             for (int i = 0; i < inRow.Count; i++)
             {
@@ -520,6 +528,8 @@ namespace ConvertModule
         /// <param name="outTable">Выходная таблица</param>
         public void ConvertDateTimeColToString(ReportTable inTable, string column, string format, bool firstCapital, out ReportTable outTable)
         {
+            if (inTable == null)
+                throw new ConvertException("Не задана входная таблица");
             ReportTable tmp_table = new ReportTable();
             tmp_table.SetColumns(inTable.Columns);
             foreach (ReportRow row in inTable)
@@ -552,8 +562,11 @@ namespace ConvertModule
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
         /// <param name="isOrdinal">Если true, то порядковое числительно, если false, то количественное</param>
         /// <param name="outRow">Выходная строка</param>
-        public void ConvertCurrencyCellToString(ReportRow inRow, string column, CurrencyType currencyType, string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out ReportRow outRow)
+        public void ConvertCurrencyCellToString(ReportRow inRow, string column, CurrencyType currencyType, 
+            string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out ReportRow outRow)
         {
+            if (inRow == null)
+                throw new ConvertException("Не задана входная строка");
             ReportRow tmp_row = new ReportRow(inRow.Table);
             for (int i = 0; i < inRow.Count; i++)
             {
@@ -591,8 +604,11 @@ namespace ConvertModule
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
         /// <param name="isOrdinal">Если true, то порядковое числительно, если false, то количественное</param>
         /// <param name="outTable">Выходная таблица</param>
-        public void ConvertCurrencyColToString(ReportTable inTable, string column, CurrencyType currencyType, string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out ReportTable outTable)
+        public void ConvertCurrencyColToString(ReportTable inTable, string column, 
+            CurrencyType currencyType, string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out ReportTable outTable)
         {
+            if (inTable == null)
+                throw new ConvertException("Не задана входная таблица");
             ReportTable tmp_table = new ReportTable();
             tmp_table.SetColumns(inTable.Columns);
             foreach (ReportRow row in inTable)
@@ -614,6 +630,8 @@ namespace ConvertModule
         /// <param name="outRow">Выходная строка</param>
         public void ConvertFloatCellToString(ReportRow inRow, string column, TextCase textCase, bool firstCapital, out ReportRow outRow)
         {
+            if (inRow == null)
+                throw new ConvertException("Не задана входная строка");
             ReportRow tmp_row = new ReportRow(inRow.Table);
             for (int i = 0; i < inRow.Count; i++)
             {
@@ -639,6 +657,8 @@ namespace ConvertModule
         /// <param name="outTable">Выходная таблица</param>
         public void ConvertFloatColToString(ReportTable inTable, string column, TextCase textCase, bool firstCapital, out ReportTable outTable)
         {
+            if (inTable == null)
+                throw new ConvertException("Не задана входная таблица");
             ReportTable tmp_table = new ReportTable();
             tmp_table.SetColumns(inTable.Columns);
             foreach (ReportRow row in inTable)
@@ -666,6 +686,11 @@ namespace ConvertModule
         /// <param name="nameOut">Выходная строка с ФИО</param>
         public void ConvertNameToCase(string nameIn, string format, TextCase textCase, out string nameOut)
         {
+            if (nameIn == null)
+            {
+                nameOut = "";
+                return;
+            }
             //Если входная строка не соответствует шаблону ФИО, то вернуть как есть
             string[] nameInParts = nameIn.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (nameInParts.Length != 3)
@@ -734,6 +759,8 @@ namespace ConvertModule
         /// <param name="outRow">Выходная строка</param>
         public void ConvertNameCellToCase(ReportRow inRow, string column, string format, TextCase textCase, out ReportRow outRow)
         {
+            if (inRow == null)
+                throw new ConvertException("Не задана входная строка");
             ReportRow tmp_row = new ReportRow(inRow.Table);
             for (int i = 0; i < inRow.Count; i++)
             {
@@ -762,6 +789,8 @@ namespace ConvertModule
         /// <param name="outTable">Выходная таблица</param>
         public void ConvertNameColToCase(ReportTable inTable, string column, string format, TextCase textCase, out ReportTable outTable)
         {
+            if (inTable == null)
+                throw new ConvertException("Не задана входная таблица");
             ReportTable tmp_table = new ReportTable();
             tmp_table.SetColumns(inTable.Columns);
             foreach (ReportRow row in inTable)
@@ -781,6 +810,8 @@ namespace ConvertModule
         /// <param name="outValue">Результирующая строка</param>
         public void RowConcat(ReportRow inRow, string separator, out string outValue)
         {
+            if (inRow == null)
+                throw new ConvertException("Входная строка не задана");
             string result = "";
             for (int i = 0; i < inRow.Count; i++)
             {
@@ -800,6 +831,8 @@ namespace ConvertModule
         /// <param name="outValue">Результирующая строка</param>
         public void ColumnConcat(ReportTable inTable, string column, string separator, out string outValue)
         {
+            if (inTable == null)
+                throw new ConvertException("Не задана входная таблица");
             string result = "";
             for (int i = 0; i < inTable.Count; i++)
             {
@@ -819,6 +852,8 @@ namespace ConvertModule
         /// <param name="outValue">Выходная строка</param>
         public void TableConcat(ReportTable inTable, string rowSeparator, string cellSeparator, out string outValue)
         {
+            if (inTable == null)
+                throw new ConvertException("Входная таблица не задана");
             string result = "";
             for (int i = 0; i < inTable.Count; i++)
             {
@@ -839,10 +874,13 @@ namespace ConvertModule
         /// <param name="row">Результирующая строка</param>
         public void GetRow(ReportTable table, int rowNumber, out ReportRow row)
         {
+            if (table == null)
+                throw new ConvertException("Входная таблица не задана");
             if (table.Count <= rowNumber)
             {
                 ConvertException exception = new ConvertException("В таблице отсутствует запрашиваемая строка № {0}");
-                exception.Data.Add("{0}", rowNumber.ToString());
+                exception.Data.Add("{0}", rowNumber.ToString(CultureInfo.CurrentCulture));
+                throw exception;
             }
             row = table[rowNumber];
         }
@@ -856,15 +894,19 @@ namespace ConvertModule
         /// <param name="value">Результирующее значение</param>
         public void GetCell(ReportTable table, int rowNumber, string columnName, out object value)
         {
+            if (table == null)
+                throw new ConvertException("Входная таблица не задана");
             if (table.Count <= rowNumber)
             {
                 ConvertException exception = new ConvertException("В таблице отсутствует запрашиваемая строка № {0}");
-                exception.Data.Add("{0}", rowNumber.ToString());
+                exception.Data.Add("{0}", rowNumber.ToString(CultureInfo.CurrentCulture));
+                throw exception;
             }
             if (!table.Columns.Contains(columnName))
             {
                 ConvertException exception = new ConvertException("В таблице отсутствует запрашиваемый столбец {0}");
                 exception.Data.Add("{0}", columnName);
+                throw exception;
             }
             value = table[rowNumber][columnName].Value;
         }

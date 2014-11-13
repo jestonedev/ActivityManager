@@ -15,6 +15,10 @@ namespace AMClasses
         public static Collection<PlugActionParameter> ConvertActivityStepToPlugParameters(Collection<ActivityStepParameter> inputParameters,
             Collection<ActivityStepParameter> outputParameters)
         {
+            if (inputParameters == null)
+                throw new AMException("Не заданна ссылка на список входных параметров");
+            if (outputParameters == null)
+                throw new AMException("Не заданна ссылка на список выходных параметров");
             Collection<PlugActionParameter> parameters = new Collection<PlugActionParameter>();
             foreach (ActivityStepParameter action_parameter in inputParameters)
             {
@@ -31,6 +35,10 @@ namespace AMClasses
 
         public static PlugActionInfo FindPlugAction(List<PlugInfo> plugins, ActivityStep step)
         {
+            if (step == null)
+                throw new AMException("Не заданна ссылка на шаг прохода ActivityStep");
+            if (plugins == null)
+                throw new AMException("Не заданна ссылка на список загруженных плагинов");
             Collection<PlugActionParameter> chk_parameters = PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters);
             foreach (PlugInfo plugin in plugins)
                 if (step.PlugName == plugin.PlugName)

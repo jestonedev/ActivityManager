@@ -1,46 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
-<FxCopReport Version="1.36">
- <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ExtendedTypes.dll">
-   <Modules>
-    <Module Name="extendedtypes.dll">
-     <Namespaces>
-      <Namespace Name="ExtendedTypes">
-       <Types>
-        <Type Name="ReportRow" Kind="Class" Accessibility="Public" ExternallyVisible="True">
-         <Messages>
-          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-10-29 09:08:11Z" FixCategory="Breaking">
-           <Issue Certainty="95" Level="Error">Rename 'ReportRow' to end in 'Collection'.</Issue>
-          </Message>
-         </Messages>
-        </Type>
-        <Type Name="ReportTable" Kind="Class" Accessibility="Public" ExternallyVisible="True">
-         <Messages>
-          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2014-10-29 09:08:11Z" FixCategory="Breaking">
-           <Issue Certainty="95" Level="Error">Rename 'ReportTable' to end in 'Collection'.</Issue>
-          </Message>
-         </Messages>
-        </Type>
-       </Types>
-      </Namespace>
-     </Namespaces>
-    </Module>
-   </Modules>
-  </Target>
- </Targets>
- <Rules>
-  <Rule TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710">
-   <Name>Identifiers should have correct suffix</Name>
-   <Description>Types that extend certain base types have specified name suffixes. Types that extend Attribute, for example, should be suffixed in 'Attribute', as in ObsoleteAttribute. This rules checks types that extend several base types, including Attribute, Exception, EventArgs, IMembershipPermission, Stream, and others.</Description>
-   <Resolution Name="Default">Rename {0} to end in '{1}'.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/ms182244(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="95">Error</MessageLevel>
-   <File Name="NamingRules.dll" Version="9.0.0.0" />
-  </Rule>
- </Rules>
+<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 11.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="11.0">
  <Localized>
   <String Key="Category">Category</String>
   <String Key="Certainty">Certainty</String>

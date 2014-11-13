@@ -73,7 +73,6 @@ D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\A
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AmEditor.pdb
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AmEditor.exe.CodeAnalysisLog.xml
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AmEditor.exe.lastcodeanalysissucceeded
-D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\AmEditor.Editor.resources
 D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\AmEditor.FormComboBoxValue.resources
 D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\AmEditor.FormCommandLineParams.resources
@@ -83,3 +82,4 @@ D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\AmEditor
 D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\AmEditor.FormStringValue.resources
 D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\AmEditor.Properties.Resources.resources
 D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\AmEditor.csproj.GenerateResource.Cache
+D:\Projects\Visual Studio Projects\ActivityManager\AmEditor\obj\Release\AmEditor.csprojResolveAssemblyReference.cache

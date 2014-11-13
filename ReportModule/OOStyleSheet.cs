@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Globalization;
 
 namespace ReportModule
 {
@@ -83,7 +84,7 @@ namespace ReportModule
 
         private string get_style_name()
         {
-            string style_name = "T"+next_style_num.ToString();
+            string style_name = "T"+next_style_num.ToString(CultureInfo.CurrentCulture);
             next_style_num++;
             return style_name;
         }
@@ -94,6 +95,8 @@ namespace ReportModule
         /// <param name="document">Документ OpenOffice, из которого загружаются стили</param>
         public OOStyleSheet(XDocument document)
         {
+            if (document == null)
+                throw new ReportException("Не задана ссылка на документ шаблона");
             this.document = document;
             styles = ReportHelper.FindElementsByTag(document.Root, "style");
             foreach (XElement style in styles)
@@ -101,7 +104,7 @@ namespace ReportModule
                 string name = style.Attribute(XName.Get("name", XmlnsStyle)).Value;
                 if (name[0] == 'T')
                 {
-                    int style_number = Int32.Parse(name.TrimStart(new Char[] {'T'}));
+                    int style_number = Int32.Parse(name.TrimStart(new Char[] { 'T' }), CultureInfo.CurrentCulture);
                     if (style_number > next_style_num)
                         next_style_num = style_number;
                 }

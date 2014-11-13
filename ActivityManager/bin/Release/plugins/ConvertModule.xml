@@ -4,281 +4,6 @@
         <name>ConvertModule</name>
     </assembly>
     <members>
-        <member name="T:ConvertModule.MaleClass">
-            <summary>
-            Мужской пол
-            </summary>
-        </member>
-        <member name="T:ConvertModule.SexClass">
-            <summary>
-            Класс пола
-            </summary>
-        </member>
-        <member name="M:ConvertModule.SexClass.Translate(System.String)">
-            <summary>
-            Абстрактный метод-переводчик в нужный пол из мужского
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="M:ConvertModule.MaleClass.Translate(System.String)">
-            <summary>
-            Метод-заглушка: переводит из мужского пола в мужской, по факту возвращает строку как она есть
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.FemaleClass">
-            <summary>
-            Женский пол
-            </summary>
-        </member>
-        <member name="M:ConvertModule.FemaleClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в женский пол из мужского
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.NeuterClass">
-            <summary>
-            Средний пол
-            </summary>
-        </member>
-        <member name="M:ConvertModule.NeuterClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в средний пол из мужского
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.NominativeCaseClass">
-            <summary>
-            Именительный падеж
-            </summary>
-        </member>
-        <member name="T:ConvertModule.TextCaseClass">
-            <summary>
-            Класс падежа
-            </summary>
-        </member>
-        <member name="M:ConvertModule.TextCaseClass.Translate(System.String)">
-            <summary>
-            Абстрактный метод-переводчик в необходимый падеж из именительного
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="M:ConvertModule.NominativeCaseClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в именительный падеж из именительного
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.GenitiveCaseClass">
-            <summary>
-            Родительный падеж
-            </summary>
-        </member>
-        <member name="M:ConvertModule.GenitiveCaseClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в родительный падеж из именительного
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.DativeCaseClass">
-            <summary>
-            Дательный падеж
-            </summary>
-        </member>
-        <member name="M:ConvertModule.DativeCaseClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в дательный падеж из именительного
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.AccusativeCaseClass">
-            <summary>
-            Винительный падеж
-            </summary>
-        </member>
-        <member name="M:ConvertModule.AccusativeCaseClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в винительный падеж из именительного
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.InstrumentalCaseClass">
-            <summary>
-            Творительный падеж
-            </summary>
-        </member>
-        <member name="M:ConvertModule.InstrumentalCaseClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в творительный падеж из именительного
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.PrepositionalCaseClass">
-            <summary>
-            Предложный падеж
-            </summary>
-        </member>
-        <member name="M:ConvertModule.PrepositionalCaseClass.Translate(System.String)">
-            <summary>
-            Метод-переводчик в предложный падеж из именительного
-            </summary>
-            <param name="text">Текст, который необходимо перевести</param>
-            <returns>Результат перевода</returns>
-        </member>
-        <member name="T:ConvertModule.TextCase">
-            <summary>
-            Падеж
-            </summary>
-        </member>
-        <member name="F:ConvertModule.TextCase.Nominative">
-            <summary>
-            Кто? Что?
-            </summary>
-        </member>
-        <member name="F:ConvertModule.TextCase.Genitive">
-            <summary>
-            Кого? Чего?
-            </summary>
-        </member>
-        <member name="F:ConvertModule.TextCase.Dative">
-            <summary>
-            Кому? Чему?
-            </summary>
-        </member>
-        <member name="F:ConvertModule.TextCase.Accusative">
-            <summary>
-            Кого? Что?
-            </summary>
-        </member>
-        <member name="F:ConvertModule.TextCase.Instrumental">
-            <summary>
-            Кем? Чем?
-            </summary>
-        </member>
-        <member name="F:ConvertModule.TextCase.Prepositional">
-            <summary>
-            О ком? О чём?
-            </summary>
-        </member>
-        <member name="T:ConvertModule.Sex">
-            <summary>
-            Пол
-            </summary>
-        </member>
-        <member name="F:ConvertModule.Sex.Male">
-            <summary>
-            Мужской
-            </summary>
-        </member>
-        <member name="F:ConvertModule.Sex.Female">
-            <summary>
-            Женский
-            </summary>
-        </member>
-        <member name="F:ConvertModule.Sex.Neuter">
-            <summary>
-            Средний
-            </summary>
-        </member>
-        <member name="T:ConvertModule.CurrencyType">
-            <summary>
-            Тип валюты
-            </summary>
-        </member>
-        <member name="F:ConvertModule.CurrencyType.Ruble">
-            <summary>
-            Рубли
-            </summary>
-        </member>
-        <member name="F:ConvertModule.CurrencyType.Dollar">
-            <summary>
-            Доллары
-            </summary>
-        </member>
-        <member name="F:ConvertModule.CurrencyType.Euro">
-            <summary>
-            Евро
-            </summary>
-        </member>
-        <member name="T:ConvertModule.Converter">
-            <summary>
-            Базовый класс конвертации
-            </summary>
-        </member>
-        <member name="M:ConvertModule.Converter.#ctor(ConvertModule.TextCase,ConvertModule.Sex)">
-            <summary>
-            Конструктор класса конвертации
-            </summary>
-            <param name="textCase">Падеж по умолчанию, в который мы планируем конвертировать</param>
-            <param name="sex">Пол по умолчанию, в который мы планируем конвертировать</param>
-        </member>
-        <member name="M:ConvertModule.Converter.NumberToText(System.Int64,System.Boolean)">
-            <summary>
-            Метод конвертации числа в текст
-            </summary>
-            <param name="number">Число</param>
-            <param name="isOrdinal">Если true - порядковое числительное, если false - количественное числительное</param>
-            <returns>Строковое представление числа</returns>
-        </member>
-        <member name="M:ConvertModule.Converter.DateTimeToText(System.DateTime,System.String)">
-            <summary>
-            Метод конвертации даты в текст
-            </summary>
-            <param name="dateTime">Дата</param>
-            <param name="format">
-            Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
-            ddx - день месяца в виде текста
-            MMx - месяц в виде текста
-            yyx - год в формате двухзначного числа в виде текста
-            yyyyx - год в формате четырехзначного числа в виде текста
-            hhx - время от 1 до 12 в виде текста
-            HHx - время от 0 до 23 в виде текста
-            mmx - минуты в виде текста
-            ssx - секунды в виде текста
-            Буква "х" во всех расширенных форматах - первая буква падежа n,g,d,a,i,p
-            </param>
-            <returns>Строковое представление даты</returns>
-        </member>
-        <member name="M:ConvertModule.Converter.CurrencyToString(System.Double,ConvertModule.CurrencyType,System.String,System.String,System.Boolean)">
-            <summary>
-            Метод конвертации суммы в строку
-            </summary>
-            <param name="currency">Сумма</param>
-            <param name="currencyType">Тип валюты</param>
-            <param name="format">
-            Формат строки вывода суммы:
-            ii - рубли (доллары, евро) в виде числа
-            ff - копейки (центы) в виде числа
-            iix - рубли (доллары, евро) в виде строки
-            ffx - копейки (центы) в виде строки
-            rx - слово "рубль" ("доллар", "евро")
-            kx - словок "копейка" ("цент")
-            nn - слово "минус ", если число отрицательное. Если число положительное, то пустая строка. Пробел после слова минус ставится автоматически.
-            n - знак "-", если число отрицательное. Если число положительное, то знак не ставится. Пробел после знака "-" автоматически НЕ ставится.
-            Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
-            </param>
-            <param name="thousandSeparator">Разделитель порядков</param>
-            <param name="isOrdinal">Если true - порядковое числительное (первый рубль), если false - количественное числительное (один рубль)</param>
-            <returns>Возвращает строковое представление суммы</returns>
-        </member>
-        <member name="M:ConvertModule.Converter.FloatToString(System.Single)">
-            <summary>
-            Метод конвертации вещественного числа в строку
-            </summary>
-            <param name="number">Вещественное число</param>
-            <returns>Результат</returns>
-        </member>
         <member name="T:ConvertModule.IPlug">
             <summary>
             Доступный из-вне интерфейс плагина
@@ -886,6 +611,281 @@
             </summary>
             <param name="info">Информация сериализации</param>
             <param name="context">Контекст потока</param>
+        </member>
+        <member name="T:ConvertModule.TextCase">
+            <summary>
+            Падеж
+            </summary>
+        </member>
+        <member name="F:ConvertModule.TextCase.Nominative">
+            <summary>
+            Кто? Что?
+            </summary>
+        </member>
+        <member name="F:ConvertModule.TextCase.Genitive">
+            <summary>
+            Кого? Чего?
+            </summary>
+        </member>
+        <member name="F:ConvertModule.TextCase.Dative">
+            <summary>
+            Кому? Чему?
+            </summary>
+        </member>
+        <member name="F:ConvertModule.TextCase.Accusative">
+            <summary>
+            Кого? Что?
+            </summary>
+        </member>
+        <member name="F:ConvertModule.TextCase.Instrumental">
+            <summary>
+            Кем? Чем?
+            </summary>
+        </member>
+        <member name="F:ConvertModule.TextCase.Prepositional">
+            <summary>
+            О ком? О чём?
+            </summary>
+        </member>
+        <member name="T:ConvertModule.Sex">
+            <summary>
+            Пол
+            </summary>
+        </member>
+        <member name="F:ConvertModule.Sex.Male">
+            <summary>
+            Мужской
+            </summary>
+        </member>
+        <member name="F:ConvertModule.Sex.Female">
+            <summary>
+            Женский
+            </summary>
+        </member>
+        <member name="F:ConvertModule.Sex.Neuter">
+            <summary>
+            Средний
+            </summary>
+        </member>
+        <member name="T:ConvertModule.CurrencyType">
+            <summary>
+            Тип валюты
+            </summary>
+        </member>
+        <member name="F:ConvertModule.CurrencyType.Ruble">
+            <summary>
+            Рубли
+            </summary>
+        </member>
+        <member name="F:ConvertModule.CurrencyType.Dollar">
+            <summary>
+            Доллары
+            </summary>
+        </member>
+        <member name="F:ConvertModule.CurrencyType.Euro">
+            <summary>
+            Евро
+            </summary>
+        </member>
+        <member name="T:ConvertModule.Converter">
+            <summary>
+            Базовый класс конвертации
+            </summary>
+        </member>
+        <member name="M:ConvertModule.Converter.#ctor(ConvertModule.TextCase,ConvertModule.Sex)">
+            <summary>
+            Конструктор класса конвертации
+            </summary>
+            <param name="textCase">Падеж по умолчанию, в который мы планируем конвертировать</param>
+            <param name="sex">Пол по умолчанию, в который мы планируем конвертировать</param>
+        </member>
+        <member name="M:ConvertModule.Converter.NumberToText(System.Int64,System.Boolean)">
+            <summary>
+            Метод конвертации числа в текст
+            </summary>
+            <param name="number">Число</param>
+            <param name="isOrdinal">Если true - порядковое числительное, если false - количественное числительное</param>
+            <returns>Строковое представление числа</returns>
+        </member>
+        <member name="M:ConvertModule.Converter.DateTimeToText(System.DateTime,System.String)">
+            <summary>
+            Метод конвертации даты в текст
+            </summary>
+            <param name="dateTime">Дата</param>
+            <param name="format">
+            Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
+            ddx - день месяца в виде текста
+            MMx - месяц в виде текста
+            yyx - год в формате двухзначного числа в виде текста
+            yyyyx - год в формате четырехзначного числа в виде текста
+            hhx - время от 1 до 12 в виде текста
+            HHx - время от 0 до 23 в виде текста
+            mmx - минуты в виде текста
+            ssx - секунды в виде текста
+            Буква "х" во всех расширенных форматах - первая буква падежа n,g,d,a,i,p
+            </param>
+            <returns>Строковое представление даты</returns>
+        </member>
+        <member name="M:ConvertModule.Converter.CurrencyToString(System.Double,ConvertModule.CurrencyType,System.String,System.String,System.Boolean)">
+            <summary>
+            Метод конвертации суммы в строку
+            </summary>
+            <param name="currency">Сумма</param>
+            <param name="currencyType">Тип валюты</param>
+            <param name="format">
+            Формат строки вывода суммы:
+            ii - рубли (доллары, евро) в виде числа
+            ff - копейки (центы) в виде числа
+            iix - рубли (доллары, евро) в виде строки
+            ffx - копейки (центы) в виде строки
+            rx - слово "рубль" ("доллар", "евро")
+            kx - словок "копейка" ("цент")
+            nn - слово "минус ", если число отрицательное. Если число положительное, то пустая строка. Пробел после слова минус ставится автоматически.
+            n - знак "-", если число отрицательное. Если число положительное, то знак не ставится. Пробел после знака "-" автоматически НЕ ставится.
+            Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
+            </param>
+            <param name="thousandSeparator">Разделитель порядков</param>
+            <param name="isOrdinal">Если true - порядковое числительное (первый рубль), если false - количественное числительное (один рубль)</param>
+            <returns>Возвращает строковое представление суммы</returns>
+        </member>
+        <member name="M:ConvertModule.Converter.FloatToString(System.Single)">
+            <summary>
+            Метод конвертации вещественного числа в строку
+            </summary>
+            <param name="number">Вещественное число</param>
+            <returns>Результат</returns>
+        </member>
+        <member name="T:ConvertModule.MaleClass">
+            <summary>
+            Мужской пол
+            </summary>
+        </member>
+        <member name="T:ConvertModule.SexClass">
+            <summary>
+            Класс пола
+            </summary>
+        </member>
+        <member name="M:ConvertModule.SexClass.Translate(System.String)">
+            <summary>
+            Абстрактный метод-переводчик в нужный пол из мужского
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="M:ConvertModule.MaleClass.Translate(System.String)">
+            <summary>
+            Метод-заглушка: переводит из мужского пола в мужской, по факту возвращает строку как она есть
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.FemaleClass">
+            <summary>
+            Женский пол
+            </summary>
+        </member>
+        <member name="M:ConvertModule.FemaleClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в женский пол из мужского
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.NeuterClass">
+            <summary>
+            Средний пол
+            </summary>
+        </member>
+        <member name="M:ConvertModule.NeuterClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в средний пол из мужского
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.NominativeCaseClass">
+            <summary>
+            Именительный падеж
+            </summary>
+        </member>
+        <member name="T:ConvertModule.TextCaseClass">
+            <summary>
+            Класс падежа
+            </summary>
+        </member>
+        <member name="M:ConvertModule.TextCaseClass.Translate(System.String)">
+            <summary>
+            Абстрактный метод-переводчик в необходимый падеж из именительного
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="M:ConvertModule.NominativeCaseClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в именительный падеж из именительного
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.GenitiveCaseClass">
+            <summary>
+            Родительный падеж
+            </summary>
+        </member>
+        <member name="M:ConvertModule.GenitiveCaseClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в родительный падеж из именительного
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.DativeCaseClass">
+            <summary>
+            Дательный падеж
+            </summary>
+        </member>
+        <member name="M:ConvertModule.DativeCaseClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в дательный падеж из именительного
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.AccusativeCaseClass">
+            <summary>
+            Винительный падеж
+            </summary>
+        </member>
+        <member name="M:ConvertModule.AccusativeCaseClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в винительный падеж из именительного
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.InstrumentalCaseClass">
+            <summary>
+            Творительный падеж
+            </summary>
+        </member>
+        <member name="M:ConvertModule.InstrumentalCaseClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в творительный падеж из именительного
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
+        </member>
+        <member name="T:ConvertModule.PrepositionalCaseClass">
+            <summary>
+            Предложный падеж
+            </summary>
+        </member>
+        <member name="M:ConvertModule.PrepositionalCaseClass.Translate(System.String)">
+            <summary>
+            Метод-переводчик в предложный падеж из именительного
+            </summary>
+            <param name="text">Текст, который необходимо перевести</param>
+            <returns>Результат перевода</returns>
         </member>
     </members>
 </doc>
