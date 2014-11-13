@@ -1,90 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
-<FxCopReport Version="1.36">
- <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
-   <Modules>
-    <Module Name="reportmodule.dll">
-     <Namespaces>
-      <Namespace Name="ReportModule">
-       <Types>
-        <Type Name="IPlug" Kind="Interface" Accessibility="Public" ExternallyVisible="True">
-         <Members>
-          <Member Name="#ReportGenerate(System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message Id="0#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-10-29 09:08:21Z" FixCategory="Breaking">
-             <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'fileName' be an out parameter.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-         </Members>
-        </Type>
-        <Type Name="PatternNodeInfo" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
-         <Members>
-          <Member Name="#IsStartingPatternNode" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="False">
-           <Accessors>
-            <Accessor Name="#get_IsStartingPatternNode()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
-             <Messages>
-              <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2014-10-29 09:08:21Z" FixCategory="NonBreaking">
-               <Issue Certainty="75" Level="Warning">'PatternNodeInfo.IsStartingPatternNode.get()' appears to have no upstream public or protected callers.</Issue>
-              </Message>
-             </Messages>
-            </Accessor>
-           </Accessors>
-          </Member>
-         </Members>
-        </Type>
-       </Types>
-      </Namespace>
-     </Namespaces>
-    </Module>
-   </Modules>
-  </Target>
- </Targets>
- <Rules>
-  <Rule TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021">
-   <Name>Avoid out parameters</Name>
-   <Description>Using out parameters might indicate a design flaw. Although there are legitimate times to use out parameters, their use frequently indicates a design that does not conform to the design guidelines for managed code.</Description>
-   <Resolution Name="Default">Consider a design that does not require that {0} be an out parameter.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/ms182131(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="50">Warning</MessageLevel>
-   <File Name="DesignRules.dll" Version="9.0.0.0" />
-  </Rule>
-  <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
-   <Name>Avoid uncalled private code</Name>
-   <Description>There is uncalled code that is not externally visible and is not a known runtime entry point. If this violation fires in error, please send a problem report to the Visual Studio Code Analysis team.</Description>
-   <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/ms182264(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="75">Warning</MessageLevel>
-   <File Name="PerformanceRules.dll" Version="9.0.0.0" />
-  </Rule>
- </Rules>
+<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 10.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="10.0">
  <Localized>
-  <String Key="Category">Category</String>
-  <String Key="Certainty">Certainty</String>
-  <String Key="CollapseAll">Collapse All</String>
-  <String Key="CheckId">Check Id</String>
-  <String Key="Error">Error</String>
-  <String Key="Errors">error(s)</String>
-  <String Key="ExpandAll">Expand All</String>
-  <String Key="Help">Help</String>
-  <String Key="Line">Line</String>
-  <String Key="Messages">message(s)</String>
-  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
-  <String Key="Project">Project</String>
-  <String Key="Resolution">Resolution</String>
-  <String Key="Rule">Rule</String>
-  <String Key="RuleFile">Rule File</String>
-  <String Key="RuleDescription">Rule Description</String>
-  <String Key="Source">Source</String>
-  <String Key="Status">Status</String>
-  <String Key="Target">Target</String>
-  <String Key="Warning">Warning</String>
-  <String Key="Warnings">warning(s)</String>
-  <String Key="ReportTitle">Code Analysis Report</String>
+  <String Key="Category">Категория</String>
+  <String Key="Certainty">Достоверность</String>
+  <String Key="CollapseAll">Свернуть все</String>
+  <String Key="CheckId">ИД проверки</String>
+  <String Key="Error">Ошибка</String>
+  <String Key="Errors">ошибки</String>
+  <String Key="ExpandAll">Развернуть все</String>
+  <String Key="Help">Справка</String>
+  <String Key="Line">Строка</String>
+  <String Key="Messages">сообщения</String>
+  <String Key="LocationNotStoredInPdb">[расположение не сохранено в PDB]</String>
+  <String Key="Project">Проект</String>
+  <String Key="Resolution">Разрешение</String>
+  <String Key="Rule">Правило</String>
+  <String Key="RuleFile">Файл правил</String>
+  <String Key="RuleDescription">Описание правила</String>
+  <String Key="Source">Источник</String>
+  <String Key="Status">Состояние</String>
+  <String Key="Target">Цель</String>
+  <String Key="Warning">Предупреждение</String>
+  <String Key="Warnings">предупреждения</String>
+  <String Key="ReportTitle">Отчет по анализу кода</String>
  </Localized>
 </FxCopReport>

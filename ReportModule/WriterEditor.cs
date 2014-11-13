@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace ReportModule
 {
@@ -105,13 +106,13 @@ namespace ReportModule
                 {
                     if (spec_tag.Value.tag_type == SpecTagType.OpenTag)
                     {
-                        spliters[i] = @"$" + spec_tag.Value.tag.ToString().ToLower() + @"$";
-                        spliters[i + 1] = @"$" + spec_tag.Value.tag.ToString().ToUpper() + @"$";
+                        spliters[i] = @"$" + spec_tag.Value.tag.ToString().ToLower(CultureInfo.CurrentCulture) + @"$";
+                        spliters[i + 1] = @"$" + spec_tag.Value.tag.ToString().ToUpper(CultureInfo.CurrentCulture) + @"$";
                     }
                     else
                     {
-                        spliters[i] = @"$/" + spec_tag.Value.tag.ToString().ToLower() + @"$";
-                        spliters[i + 1] = @"$/" + spec_tag.Value.tag.ToString().ToUpper() + @"$";
+                        spliters[i] = @"$/" + spec_tag.Value.tag.ToString().ToLower(CultureInfo.CurrentCulture) + @"$";
+                        spliters[i + 1] = @"$/" + spec_tag.Value.tag.ToString().ToUpper(CultureInfo.CurrentCulture) + @"$";
                     }
                     i = i + 2;
                 }

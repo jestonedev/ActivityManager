@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace ReportModule
 {
@@ -42,8 +43,8 @@ namespace ReportModule
             foreach (XElement element in sharedStrings_document.Root.Elements().ToList<XElement>())
                 sharedStrings.Add(element);
 
-            Count = Int32.Parse(sharedStrings_document.Root.Attribute("count").Value);
-            UniqueCount = Int32.Parse(sharedStrings_document.Root.Attribute("uniqueCount").Value);
+            Count = Int32.Parse(sharedStrings_document.Root.Attribute("count").Value, CultureInfo.CurrentCulture);
+            UniqueCount = Int32.Parse(sharedStrings_document.Root.Attribute("uniqueCount").Value, CultureInfo.CurrentCulture);
         }
 
         /// <summary>

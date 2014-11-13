@@ -87,6 +87,8 @@ namespace AMClasses
 
         public bool HasAction(string actionName, Collection<PlugActionParameter> parameters)
         {
+            if (parameters == null)
+                throw new AMException("Не заданна ссылка на список параметров");
             foreach (PlugActionInfo action in PlugActions)
                 if (action.ActionName == actionName)
                 {

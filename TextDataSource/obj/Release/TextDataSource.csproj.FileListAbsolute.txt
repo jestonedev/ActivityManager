@@ -25,7 +25,6 @@ D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\p
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\TextDataSource.pdb
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\TextDataSource.dll.CodeAnalysisLog.xml
 D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\TextDataSource.dll.lastcodeanalysissucceeded
-D:\Projects\Visual Studio Projects\ActivityManager\TextDataSource\obj\Release\ResolveAssemblyReference.cache
 D:\Projects\Visual Studio Projects\ActivityManager\TextDataSource\obj\Release\TextDataSource.dll
 D:\Projects\Visual Studio Projects\ActivityManager\TextDataSource\obj\Release\TextDataSource.pdb
-D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\TextDataSource.xml
+D:\Projects\Visual Studio Projects\ActivityManager\TextDataSource\obj\Release\TextDataSource.csprojResolveAssemblyReference.cache

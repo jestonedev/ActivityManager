@@ -48,13 +48,13 @@ namespace AmEditor
 
         private void копироватьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (scintillaEditor.Selection.Text != "")
+            if (!String.IsNullOrEmpty(scintillaEditor.Selection.Text))
                 Clipboard.SetText(scintillaEditor.Selection.Text);
         }
 
         private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (scintillaEditor.Selection.Text != "")
+            if (!String.IsNullOrEmpty(scintillaEditor.Selection.Text))
                 Clipboard.SetText(scintillaEditor.Selection.Text);
             scintillaEditor.Selection.Text = "";
         }
@@ -83,10 +83,14 @@ namespace AmEditor
 
         private void setEditorLanguage(object sender, string language)
         {
-            ToolStripMenuItem parent = (ToolStripMenuItem)((ToolStripMenuItem)sender).OwnerItem;
-            foreach (var menu in parent.DropDown.Items)
-                if (menu is ToolStripMenuItem)
-                    ((ToolStripMenuItem)menu).Checked = false;
+            ToolStripMenuItem current = sender as ToolStripMenuItem;
+            ToolStripMenuItem parent = (ToolStripMenuItem)current.OwnerItem;
+            foreach (var item in parent.DropDown.Items)
+            {
+                ToolStripMenuItem menu = item as ToolStripMenuItem;
+                if (menu != null)
+                    menu.Checked = false;
+            }
             scintillaEditor.AutoComplete.ListString = "";
             scintillaEditor.ConfigurationManager.Language = language;
             if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, language+".synax")))
@@ -98,7 +102,7 @@ namespace AmEditor
                     scintillaEditor.AutoComplete.ListString = autoComplete;
                 }
             }
-            ((ToolStripMenuItem)sender).Checked = true;
+            current.Checked = true;
         }
 
         private void mSSQLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -113,13 +117,17 @@ namespace AmEditor
 
         private void безПодсветкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem parent = (ToolStripMenuItem)((ToolStripMenuItem)sender).OwnerItem;
-            foreach (var menu in parent.DropDown.Items)
-                if (menu is ToolStripMenuItem)
-                    ((ToolStripMenuItem)menu).Checked = false;
+            ToolStripMenuItem current = ((ToolStripMenuItem)sender);
+            ToolStripMenuItem parent = (ToolStripMenuItem)current.OwnerItem;
+            foreach (var item in parent.DropDown.Items)
+            {
+                ToolStripMenuItem menu = item as ToolStripMenuItem;
+                if (menu != null)
+                    menu.Checked = false;
+            }
             scintillaEditor.AutoComplete.ListString = "";
             scintillaEditor.ConfigurationManager.Language = "";
-            ((ToolStripMenuItem)sender).Checked = true;
+            current.Checked = true;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
-<FxCopReport Version="1.36">
+<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 10.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="10.0">
  <Targets>
   <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AMClasses.dll">
    <Modules>
@@ -12,53 +12,10 @@
          <Members>
           <Member Name="#FindPlugAction(System.Collections.Generic.List`1&lt;AMClasses.PlugInfo&gt;,AMClasses.ActivityStep)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2014-10-29 09:06:29Z" FixCategory="Breaking">
-             <Issue Certainty="95" Level="Error" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionHelper.cs" Line="34">Change 'List&lt;PlugInfo&gt;' in 'PlugActionHelper.FindPlugAction(List&lt;PlugInfo&gt;, ActivityStep)' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
-            </Message>
-            <Message Id="plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-10-29 09:06:29Z" FixCategory="Breaking">
-             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionHelper.cs" Line="34">In method 'PlugActionHelper.FindPlugAction(List&lt;PlugInfo&gt;, ActivityStep)', correct the spelling of 'plugins' in parameter name 'plugins' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2014-11-13 02:29:30Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionHelper.cs" Line="38">Измените 'List&lt;PlugInfo&gt;' в 'PlugActionHelper.FindPlugAction(List&lt;PlugInfo&gt;, ActivityStep)' так, чтобы использовать Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; или KeyedCollection&lt;K,V&gt;</Issue>
             </Message>
            </Messages>
-          </Member>
-         </Members>
-        </Type>
-        <Type Name="PlugActionInfo" Kind="Class" Accessibility="Public" ExternallyVisible="True">
-         <Members>
-          <Member Name="#.ctor(AMClasses.PlugInfo,System.Reflection.MethodInfo,System.Reflection.ParameterInfo[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2014-10-29 09:06:29Z" FixCategory="Breaking">
-             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionInfo.cs" Line="12">In method 'PlugActionInfo.PlugActionInfo(PlugInfo, MethodInfo, ParameterInfo[])', correct the spelling of 'plugin' in parameter name 'plugin' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-          <Member Name="#Execute(System.Object[],System.Object[]&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-10-29 09:06:29Z" FixCategory="Breaking">
-             <Issue Certainty="50" Level="Warning" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugActionInfo.cs" Line="36">Consider a design that does not require that 'outputParameters' be an out parameter.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-         </Members>
-        </Type>
-        <Type Name="PlugInfo" Kind="Class" Accessibility="Public" ExternallyVisible="True">
-         <Members>
-          <Member Name="#.ctor(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message Id="System.Reflection.Assembly.LoadFile" TypeName="AvoidCallingProblematicMethods" Category="Microsoft.Reliability" CheckId="CA2001" Status="Active" Created="2014-10-29 09:06:29Z" FixCategory="NonBreaking">
-             <Issue Name="System.Reflection.Assembly.LoadFile" Certainty="75" Level="Error" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugInfo.cs" Line="33">Remove the call to Assembly.LoadFile from 'PlugInfo.PlugInfo(string)'.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-          <Member Name="#instance" Kind="Property" Static="False" Accessibility="Assembly" ExternallyVisible="False">
-           <Accessors>
-            <Accessor Name="#set_instance(System.Object)" Kind="Method" Static="False" Accessibility="Assembly" ExternallyVisible="False">
-             <Messages>
-              <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2014-10-29 09:06:29Z" FixCategory="NonBreaking">
-               <Issue Certainty="75" Level="Warning" Path="D:\Projects\Visual Studio Projects\ActivityManager\AmClasses" File="PlugInfo.cs" Line="27">'PlugInfo.instance.set(object)' appears to have no upstream public or protected callers.</Issue>
-              </Message>
-             </Messages>
-            </Accessor>
-           </Accessors>
           </Member>
          </Members>
         </Type>
@@ -70,79 +27,39 @@
   </Target>
  </Targets>
  <Rules>
-  <Rule TypeName="AvoidCallingProblematicMethods" Category="Microsoft.Reliability" CheckId="CA2001">
-   <Name>Avoid calling problematic methods</Name>
-   <Description>Avoid making unnecessary and potentially dangerous method calls.</Description>
-   <Resolution Name="System.Reflection.Assembly.LoadFile">Remove the call to Assembly.LoadFile from {0}.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/bb385973(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="75">Error</MessageLevel>
-   <File Name="ReliabilityRules.dll" Version="9.0.0.0" />
-  </Rule>
-  <Rule TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021">
-   <Name>Avoid out parameters</Name>
-   <Description>Using out parameters might indicate a design flaw. Although there are legitimate times to use out parameters, their use frequently indicates a design that does not conform to the design guidelines for managed code.</Description>
-   <Resolution Name="Default">Consider a design that does not require that {0} be an out parameter.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/ms182131(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="50">Warning</MessageLevel>
-   <File Name="DesignRules.dll" Version="9.0.0.0" />
-  </Rule>
-  <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
-   <Name>Avoid uncalled private code</Name>
-   <Description>There is uncalled code that is not externally visible and is not a known runtime entry point. If this violation fires in error, please send a problem report to the Visual Studio Code Analysis team.</Description>
-   <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/ms182264(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="75">Warning</MessageLevel>
-   <File Name="PerformanceRules.dll" Version="9.0.0.0" />
-  </Rule>
   <Rule TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002">
-   <Name>Do not expose generic lists</Name>
-   <Description>Do not expose List&lt;T&gt; in object models. Use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt; instead. List&lt;T&gt; is meant to be used from implementation, not in object model API. List&lt;T&gt; is optimized for performance at the cost of long term versioning. For example, if you return List&lt;T&gt; to the client code, you will not ever be able to receive notifications when client code modifies the collection.</Description>
-   <Resolution Name="Default">Change {0} in {1} to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Resolution>
+   <Name>Не предоставляйте универсальные списки</Name>
+   <Description>Не предоставляйте List&lt;T&gt; в объектных моделях. Вместо этого используйте Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; или KeyedCollection&lt;K,V&gt;. List&lt;T&gt; предназначен для использования из реализации, но не в API объектной модели. List&lt;T&gt; оптимизирован с точки зрения производительности, но за счет более длительного отслеживания версий. Например, если вы возвратите List&lt;T&gt; в клиентский код, то никогда не сможете получить уведомление, когда клиентский код изменит коллекцию.</Description>
+   <Resolution Name="Default">Измените {0} в {1} так, чтобы использовать Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; или KeyedCollection&lt;K,V&gt;</Resolution>
    <Owner />
-   <Url>http://msdn2.microsoft.com/ms182142(VS.90).aspx</Url>
+   <Url>http://msdn.microsoft.com/library/ms182142(VS.100).aspx</Url>
    <Email>[none]</Email>
    <MessageLevel Certainty="95">Error</MessageLevel>
-   <File Name="DesignRules.dll" Version="9.0.0.0" />
-  </Rule>
-  <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
-   <Name>Identifiers should be spelled correctly</Name>
-   <Description>The individual words that make up an identifier should not be abbreviated and should be spelled correctly. If this rule generates a false positive on a term that should be recognized, add the word to the FxCop custom dictionary.</Description>
-   <Resolution Name="MemberParameter">In method {0}, correct the spelling of '{1}' in parameter name {2} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
-   <Owner />
-   <Url>http://msdn2.microsoft.com/bb264492(VS.90).aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="75">CriticalWarning</MessageLevel>
-   <File Name="NamingRules.dll" Version="9.0.0.0" />
+   <File Name="designrules.dll" Version="10.0.0.0" />
   </Rule>
  </Rules>
  <Localized>
-  <String Key="Category">Category</String>
-  <String Key="Certainty">Certainty</String>
-  <String Key="CollapseAll">Collapse All</String>
-  <String Key="CheckId">Check Id</String>
-  <String Key="Error">Error</String>
-  <String Key="Errors">error(s)</String>
-  <String Key="ExpandAll">Expand All</String>
-  <String Key="Help">Help</String>
-  <String Key="Line">Line</String>
-  <String Key="Messages">message(s)</String>
-  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
-  <String Key="Project">Project</String>
-  <String Key="Resolution">Resolution</String>
-  <String Key="Rule">Rule</String>
-  <String Key="RuleFile">Rule File</String>
-  <String Key="RuleDescription">Rule Description</String>
-  <String Key="Source">Source</String>
-  <String Key="Status">Status</String>
-  <String Key="Target">Target</String>
-  <String Key="Warning">Warning</String>
-  <String Key="Warnings">warning(s)</String>
-  <String Key="ReportTitle">Code Analysis Report</String>
+  <String Key="Category">Категория</String>
+  <String Key="Certainty">Достоверность</String>
+  <String Key="CollapseAll">Свернуть все</String>
+  <String Key="CheckId">ИД проверки</String>
+  <String Key="Error">Ошибка</String>
+  <String Key="Errors">ошибки</String>
+  <String Key="ExpandAll">Развернуть все</String>
+  <String Key="Help">Справка</String>
+  <String Key="Line">Строка</String>
+  <String Key="Messages">сообщения</String>
+  <String Key="LocationNotStoredInPdb">[расположение не сохранено в PDB]</String>
+  <String Key="Project">Проект</String>
+  <String Key="Resolution">Разрешение</String>
+  <String Key="Rule">Правило</String>
+  <String Key="RuleFile">Файл правил</String>
+  <String Key="RuleDescription">Описание правила</String>
+  <String Key="Source">Источник</String>
+  <String Key="Status">Состояние</String>
+  <String Key="Target">Цель</String>
+  <String Key="Warning">Предупреждение</String>
+  <String Key="Warnings">предупреждения</String>
+  <String Key="ReportTitle">Отчет по анализу кода</String>
  </Localized>
 </FxCopReport>

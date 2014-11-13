@@ -69,11 +69,13 @@ namespace IOModule
                 exception.Data.Add("{0}", fileName);
                 throw exception;
             }
-            Process proc = new Process();
-            proc.StartInfo.FileName = fileName;
-            proc.StartInfo.Arguments = arguments;
-            proc.StartInfo.UseShellExecute = true;
-            proc.Start();
+            using (Process proc = new Process())
+            {
+                proc.StartInfo.FileName = fileName;
+                proc.StartInfo.Arguments = arguments;
+                proc.StartInfo.UseShellExecute = true;
+                proc.Start();
+            }
         }
 
         /// <summary>

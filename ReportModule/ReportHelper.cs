@@ -246,7 +246,7 @@ namespace ReportModule
     {
         public int Compare(XElement x, XElement y)
         {
-            return y.ToString().CompareTo(x.ToString());
+            return String.Compare(y == null ? "" : y.ToString(), x == null ? "" : x.ToString(), StringComparison.Ordinal);
         }
     }
 }

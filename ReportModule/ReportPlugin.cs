@@ -116,7 +116,8 @@ namespace ReportModule
                     File.Delete(file);
             string[] directories = Directory.GetDirectories(report_module_path);
             foreach (string directory in directories)
-                Directory.Delete(directory, true);
+                if (Directory.GetCreationTime(directory).AddDays(7) < DateTime.Now)
+                    Directory.Delete(directory, true);
             this.temporary_path = report_module_path;
         }
 
@@ -155,6 +156,8 @@ namespace ReportModule
         /// <param name="values">Список подставляемых значений</param>
         public void ReportSetStringValues(ReportRow values)
         {
+            if (values == null)
+                throw new ReportException("Не задана ссылка на список подставляемых значений шаблона");
             for (int i = 0; i < values.Count; i++)
                 this.Values.Add(new StringReportValue(values[i].Row.Table.Columns[i], (values[i].Value == null) ? "" : values[i].Value));
         }
@@ -186,10 +189,12 @@ namespace ReportModule
             //Распаковываем файл шаблона во временную директорию
             FastZip zip = new FastZip();
             string report_unzip_path = Path.Combine(temporary_path, report_filename);
+            Console.WriteLine("Распаковываем файл шаблона во временную директорию");
             zip.ExtractZip(template_file, report_unzip_path, "");
             //Формируем отчет
             ReportEditing(report_unzip_path, template_file_info.Extension);
             //Запаковываем файл шаблона и удаляем временную директорию отчета
+            Console.WriteLine("Запаковываем файл отчета и удаляем временную директорию шаблона");
             string report_full_filename = Path.Combine(temporary_path, report_filename + template_file_info.Extension);
             zip.CreateZip(report_full_filename, report_unzip_path, true, "");
             Directory.Delete(report_unzip_path, true);

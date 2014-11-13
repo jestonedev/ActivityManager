@@ -18,8 +18,10 @@ namespace AmEditor
         public Dictionary<string, string> command_line_params { get {
             Dictionary<string, string> cl_params = new Dictionary<string, string>();
             foreach (DataGridViewRow row in dataGridView1.Rows)
-                if ((!row.IsNewRow) && (row.Cells[0].Value != null) && (row.Cells[0].Value.ToString().Trim() != ""))
-                    cl_params.Add(row.Cells[0].Value.ToString().Trim(), row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString().Trim());
+                if ((!row.IsNewRow) && (row.Cells[0].Value != null) && 
+                    (!String.IsNullOrEmpty(row.Cells[0].Value.ToString().Trim())))
+                    cl_params.Add(row.Cells[0].Value.ToString().Trim(), row.Cells[1].Value == null ? "" : 
+                        row.Cells[1].Value.ToString().Trim());
             return cl_params;
         }
             set {

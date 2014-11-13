@@ -23,8 +23,9 @@ namespace TextDataSource
         /// <param name="columnSeparator">Разделитель колонок</param>
         /// <param name="rowSeparator">Разделитель строк</param>
         /// <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+        /// <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
         /// <param name="table">Результат запроса</param>
-        void TextSelectTable(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, out ReportTable table);
+        void TextSelectTable(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, bool ignoreDataTypes, out ReportTable table);
 
         /// <summary>
         /// Выборка скалярного значения из базы данных
@@ -33,8 +34,9 @@ namespace TextDataSource
         /// <param name="columnSeparator">Разделитель колонок</param>
         /// <param name="rowSeparator">Разделитель строк</param>
         /// <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+        /// <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
         /// <param name="result">Возврат скалярного значения</param>
-        void TextSelectScalar(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, out Object result);
+        void TextSelectScalar(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, bool ignoreDataTypes, out Object result);
 
         /// <summary>
         /// Запрос на внесение изменений в текстовом файле
@@ -43,8 +45,9 @@ namespace TextDataSource
         /// <param name="columnSeparator">Разделитель колонок</param>
         /// <param name="rowSeparator">Разделитель строк</param>
         /// <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+        /// <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
         /// <param name="rowsAffected">Число измененных строк</param>
-        void TextModifyQuery(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, out int rowsAffected);
+        void TextModifyQuery(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, bool ignoreDataTypes, out int rowsAffected);
     }
 
     /// <summary>
@@ -59,10 +62,11 @@ namespace TextDataSource
         /// <param name="columnSeparator">Разделитель колонок</param>
         /// <param name="rowSeparator">Разделитель строк. По умолчанию перенос строки</param>
         /// <param name="firstRowHeader">Является ли первая строка файла(ов) источника(ов) заголовком</param>
+        /// <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
         /// <param name="table">Результат запроса</param>
-        public void TextSelectTable(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, out ReportTable table)
+        public void TextSelectTable(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, bool ignoreDataTypes, out ReportTable table)
         {
-            QueryExecutor executor = new QueryExecutor(columnSeparator, rowSeparator, firstRowHeader);
+            QueryExecutor executor = new QueryExecutor(columnSeparator, rowSeparator, firstRowHeader, ignoreDataTypes);
             TableJoin resultJoin = executor.Execute(query);
             //Конвертируем результат в ReportTable
             ReportTable resultTable = new ReportTable();
@@ -94,10 +98,11 @@ namespace TextDataSource
         /// <param name="columnSeparator">Разделитель колонок</param>
         /// <param name="rowSeparator">Разделитель строк</param>
         /// <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+        /// <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
         /// <param name="result">Возврат скалярного значения</param>
-        public void TextSelectScalar(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, out Object result)
+        public void TextSelectScalar(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, bool ignoreDataTypes, out Object result)
         {
-            QueryExecutor executor = new QueryExecutor(columnSeparator, rowSeparator, firstRowHeader);
+            QueryExecutor executor = new QueryExecutor(columnSeparator, rowSeparator, firstRowHeader, ignoreDataTypes);
             TableJoin resultJoin = executor.Execute(query);
             if ((resultJoin.Columns.Count != 1) && (resultJoin.Rows.Count != 1))
             {
@@ -115,10 +120,11 @@ namespace TextDataSource
         /// <param name="columnSeparator">Разделитель колонок</param>
         /// <param name="rowSeparator">Разделитель строк</param>
         /// <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
+        /// <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
         /// <param name="rowsAffected">Число измененных строк</param>
-        public void TextModifyQuery(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, out int rowsAffected)
+        public void TextModifyQuery(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, bool ignoreDataTypes, out int rowsAffected)
         {
-            QueryExecutor executor = new QueryExecutor(columnSeparator, rowSeparator, firstRowHeader);
+            QueryExecutor executor = new QueryExecutor(columnSeparator, rowSeparator, firstRowHeader, ignoreDataTypes);
             executor.Execute(query);
             rowsAffected = executor.RowsAffected;
         }

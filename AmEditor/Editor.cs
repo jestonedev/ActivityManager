@@ -155,20 +155,21 @@ namespace AmEditor
                             finded = true;
                         }
                         else
-                            throw new AMException(String.Format(
+                            throw new AMException(String.Format(CultureInfo.CurrentCulture,
                                 _("Неоднозначность определения заданного действия. Действие \"{0}\" определено в плагинах {1} и {2}. Необходимо явное указание плагина в файле конфигурации"),
                                 step.ActionName, step.PlugName, plugin.PlugName));
                     }
                 }
                 if (!finded)
-                    throw new AMException(String.Format(_("Не удалось найти действие {0} ни в одном из плагинов"),
+                    throw new AMException(String.Format(CultureInfo.CurrentCulture,_("Не удалось найти действие {0} ни в одном из плагинов"),
                         step.ActionName));
             }
             else
                 foreach (PlugInfo plugin in plugins)
                 {
-                    if ((plugin.PlugName == step.PlugName) && (!plugin.HasAction(step.ActionName, PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters))))
-                        throw new AMException(String.Format(_("В плагине {0} не определено действие {1}"),
+                    if ((plugin.PlugName == step.PlugName) && 
+                        (!plugin.HasAction(step.ActionName, PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters))))
+                        throw new AMException(String.Format(CultureInfo.CurrentCulture,_("В плагине {0} не определено действие {1}"),
                             plugin.PlugName, step.ActionName));
                 }
         }
@@ -204,7 +205,7 @@ namespace AmEditor
             if (form_state == FormState.Edit)
                 Text += " [*]";
             if (!String.IsNullOrEmpty(current_file_name))
-                Text += String.Format(" [{0}]", current_file_name);
+                Text += String.Format(CultureInfo.CurrentCulture," [{0}]", current_file_name);
             pluginName_comboBox.Enabled = (dataGridViewSteps.SelectedRows.Count > 0);
             actionName_comboBox.Enabled = (dataGridViewSteps.SelectedRows.Count > 0);
         }
@@ -252,7 +253,7 @@ namespace AmEditor
                 {
                     if (step.PlugName == null || step.ActionName == null)
                     {
-                        MessageBox.Show(String.Format(_("Ошибка конфигурации шага выполнения №{0}. Данные не могут быть сохранены"), i), 
+                        MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Ошибка конфигурации шага выполнения №{0}. Данные не могут быть сохранены"), i), 
                             _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
@@ -405,7 +406,7 @@ namespace AmEditor
             plugins_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
             if (!Directory.Exists(plugins_path))
             {
-                MessageBox.Show(String.Format(_("Путь до папки {0} не найден"), plugins_path), _("Ошибка"),
+                MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Путь до папки {0} не найден"), plugins_path), _("Ошибка"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
                 return;
@@ -427,22 +428,22 @@ namespace AmEditor
 
         private void плагиныToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            FormPlugins fp = new FormPlugins(plugins_include_rules, language);
-            if (fp.ShowDialog() == DialogResult.OK)
-            {
-                this.plugins_include_rules = fp.PluginsIncludeRules;
-                try
+            using (FormPlugins fp = new FormPlugins(plugins_include_rules, language))
+                if (fp.ShowDialog() == DialogResult.OK)
                 {
-                    LoadPlugins();
-                    LoadPluginsComboBox();
-                    form_state = FormState.Edit;
-                    ChangeFormState();
+                    this.plugins_include_rules = fp.PluginsIncludeRules;
+                    try
+                    {
+                        LoadPlugins();
+                        LoadPluginsComboBox();
+                        form_state = FormState.Edit;
+                        ChangeFormState();
+                    }
+                    catch (Exception err)
+                    {
+                        MessageBox.Show(err.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch (Exception err)
-                {
-                    MessageBox.Show(err.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
         }
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -524,7 +525,7 @@ namespace AmEditor
             }
             if (pluginName_comboBox.SelectedIndex == -1)
             {
-                MessageBox.Show(String.Format(_("Неизвестный плагин {0}"), plugin_name), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Неизвестный плагин {0}"), plugin_name), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 is_manual_change_state = true;
                 return;
             }
@@ -570,7 +571,7 @@ namespace AmEditor
             is_manual_change_state = true;
             if (actionName_comboBox.SelectedIndex == -1)
             {
-                MessageBox.Show(String.Format(_("Неизвестное действие {0}"), action_name), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Неизвестное действие {0}"), action_name), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
         }
@@ -646,10 +647,12 @@ namespace AmEditor
                         richTextBoxDescription.SelectionFont = new Font(richTextBoxDescription.Font, FontStyle.Bold);
                         foreach (string key in params_names.Keys)
                         {
-                            richTextBoxDescription.Select(richTextBoxDescription.Text.IndexOf(_("Параметр") + " [" + key + "]: "),
+                            richTextBoxDescription.Select(
+                                richTextBoxDescription.Text.IndexOf(_("Параметр") + " [" + key + "]: ", StringComparison.CurrentCulture),
                                 (_("Параметр") + " [" + key + "]: ").Length);
                             richTextBoxDescription.SelectionFont = new Font(richTextBoxDescription.Font, FontStyle.Bold);
-                            richTextBoxDescription.Select(richTextBoxDescription.Text.IndexOf("[" + key + "]"), ("[" + key + "]").Length);
+                            richTextBoxDescription.Select(
+                                richTextBoxDescription.Text.IndexOf("[" + key + "]", StringComparison.CurrentCulture), ("[" + key + "]").Length);
                             richTextBoxDescription.SelectionColor = Color.Blue;
                         }
                     }
@@ -722,9 +725,13 @@ namespace AmEditor
         private void button1_Click(object sender, EventArgs e)
         {
             ActivityStep step = new ActivityStep();
-            activity_steps.Add(step);
+            int rowIndex = 0;
+            if (dataGridViewSteps.CurrentCell != null)
+                rowIndex = dataGridViewSteps.CurrentCell.RowIndex + 1;
+            activity_steps.Insert(rowIndex, step);
             LoadDataGridViewSteps();
-            dataGridViewSteps.Rows[dataGridViewSteps.Rows.Count - 1].Selected = true;
+            dataGridViewSteps.Rows[rowIndex].Selected = true;
+            dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[rowIndex].Cells[0];
             form_state = FormState.Edit;
             ChangeFormState();
         }
@@ -738,7 +745,11 @@ namespace AmEditor
             activity_steps.Remove(step);
             LoadDataGridViewSteps();
             if (dataGridViewSteps.RowCount > 0)
-            dataGridViewSteps.Rows[index > (dataGridViewSteps.Rows.Count - 1) ? (dataGridViewSteps.Rows.Count - 1) : index].Selected = true;
+            {
+                dataGridViewSteps.Rows[index > (dataGridViewSteps.Rows.Count - 1) ? (dataGridViewSteps.Rows.Count - 1) : index].Selected = true;
+                dataGridViewSteps.CurrentCell = dataGridViewSteps.
+                    Rows[index > (dataGridViewSteps.Rows.Count - 1) ? (dataGridViewSteps.Rows.Count - 1) : index].Cells[0];
+            }
             form_state = FormState.Edit;
             ChangeFormState();
         }
@@ -751,6 +762,7 @@ namespace AmEditor
             activity_steps[index - 1] = step;
             LoadDataGridViewSteps();
             dataGridViewSteps.Rows[index - 1].Selected = true;
+            dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[index - 1].Cells[0];
             form_state = FormState.Edit;
             ChangeFormState();
         }
@@ -763,8 +775,49 @@ namespace AmEditor
             activity_steps[index + 1] = step;
             LoadDataGridViewSteps();
             dataGridViewSteps.Rows[index + 1].Selected = true;
+            dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[index +1].Cells[0];
             form_state = FormState.Edit;
             ChangeFormState();
+        }
+
+        int rowIndexFromMouseDown;
+        DataGridViewRow rw;
+
+        private void dataGridViewSteps_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (dataGridViewSteps.SelectedRows.Count == 1)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    rw = dataGridViewSteps.SelectedRows[0];
+                    rowIndexFromMouseDown = dataGridViewSteps.SelectedRows[0].Index;
+                    dataGridViewSteps.DoDragDrop(rw, DragDropEffects.Move);
+                }
+            }
+        }
+
+        private void dataGridViewSteps_DragDrop(object sender, DragEventArgs e)
+        {
+            int rowIndexOfItemUnderMouseToDrop;
+            Point clientPoint = dataGridViewSteps.PointToClient(new Point(e.X, e.Y));
+            rowIndexOfItemUnderMouseToDrop = dataGridViewSteps.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
+            if ((e.Effect == DragDropEffects.Move) && (rowIndexOfItemUnderMouseToDrop != -1) && (rowIndexOfItemUnderMouseToDrop != rowIndexFromMouseDown))
+            {
+                ActivityStep step = activity_steps[rowIndexFromMouseDown];
+                activity_steps.Remove(step);
+                activity_steps.Insert(rowIndexOfItemUnderMouseToDrop, step);
+                LoadDataGridViewSteps();
+                dataGridViewSteps.Rows[rowIndexOfItemUnderMouseToDrop].Selected = true;
+                dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[rowIndexOfItemUnderMouseToDrop].Cells[0];
+                form_state = FormState.Edit;
+                ChangeFormState();
+            }
+        }
+
+        private void dataGridViewSteps_DragEnter(object sender, DragEventArgs e)
+        {
+            if (dataGridViewSteps.SelectedRows.Count > 0)
+                e.Effect = DragDropEffects.Move;
         }
 
         //Поиск списка видимых глобальных параметров указанного типа на данном шаге выполнения
@@ -834,14 +887,16 @@ namespace AmEditor
                 (AMClasses.ParameterDirection)dataGridViewParams.SelectedRows[0].Cells["ParamDirection"].Value;
             if (direction == AMClasses.ParameterDirection.Output)
             {
-                FormStringValue fsv = new FormStringValue(language);
-                fsv.Text = _("Задать глобальное имя") + " [" + param_name + "]";
-                fsv.Value = GetCurrentActiveStepParameterValue();
-                if (fsv.ShowDialog() == DialogResult.OK)
+                using (FormStringValue fsv = new FormStringValue(language))
                 {
-                    SetCurrentActiveStepParameterValue(fsv.Value);
-                    form_state = FormState.Edit;
-                    ChangeFormState();
+                    fsv.Text = _("Задать глобальное имя") + " [" + param_name + "]";
+                    fsv.Value = GetCurrentActiveStepParameterValue();
+                    if (fsv.ShowDialog() == DialogResult.OK)
+                    {
+                        SetCurrentActiveStepParameterValue(fsv.Value);
+                        form_state = FormState.Edit;
+                        ChangeFormState();
+                    }
                 }
                 return;
             }
@@ -855,14 +910,16 @@ namespace AmEditor
                 string[] names = Enum.GetNames(param_type);
                 foreach (string name in names)
                     values.Add(name);
-                FormComboBoxValue fcbv = new FormComboBoxValue(values, language);
-                fcbv.Text = _("Задать значение параметра")+" ["+param_name+"]";
-                fcbv.value = GetCurrentActiveStepParameterValue();
-                if (fcbv.ShowDialog() == DialogResult.OK)
+                using (FormComboBoxValue fcbv = new FormComboBoxValue(values, language))
                 {
-                    SetCurrentActiveStepParameterValue(fcbv.value);
-                    form_state = FormState.Edit;
-                    ChangeFormState();
+                    fcbv.Text = _("Задать значение параметра") + " [" + param_name + "]";
+                    fcbv.value = GetCurrentActiveStepParameterValue();
+                    if (fcbv.ShowDialog() == DialogResult.OK)
+                    {
+                        SetCurrentActiveStepParameterValue(fcbv.value);
+                        form_state = FormState.Edit;
+                        ChangeFormState();
+                    }
                 }
                 return;
             }
@@ -878,40 +935,46 @@ namespace AmEditor
                     values.Add("true");
                     values.Add("false");
                 }
-                FormComboBoxValue fcbv = new FormComboBoxValue(values, language);
-                fcbv.Text = _("Задать значение параметра") + " [" + param_name + "]";
-                fcbv.value = GetCurrentActiveStepParameterValue();
-                if (fcbv.ShowDialog() == DialogResult.OK)
+                using (FormComboBoxValue fcbv = new FormComboBoxValue(values, language))
                 {
-                    SetCurrentActiveStepParameterValue(fcbv.value);
-                    form_state = FormState.Edit;
-                    ChangeFormState();
+                    fcbv.Text = _("Задать значение параметра") + " [" + param_name + "]";
+                    fcbv.value = GetCurrentActiveStepParameterValue();
+                    if (fcbv.ShowDialog() == DialogResult.OK)
+                    {
+                        SetCurrentActiveStepParameterValue(fcbv.value);
+                        form_state = FormState.Edit;
+                        ChangeFormState();
+                    }
                 }
                 return;
             }
             //Если тип является строкой или не известен
             foreach (Type type in ComboBoxValueTypes)
                 values.AddRange(GlobalParametersNamesBy(type, dataGridViewSteps.SelectedRows[0].Index));
-            FormMultiValue fsqlv = new FormMultiValue(values, language);
-            fsqlv.Text = _("Задать значение параметра") + " [" + param_name + "]";
-            fsqlv.Value = GetCurrentActiveStepParameterValue();
-            if (fsqlv.ShowDialog() == DialogResult.OK)
+            using (FormMultiValue fsqlv = new FormMultiValue(values, language))
             {
-                SetCurrentActiveStepParameterValue(fsqlv.Value);
-                form_state = FormState.Edit;
-                ChangeFormState();
+                fsqlv.Text = _("Задать значение параметра") + " [" + param_name + "]";
+                fsqlv.Value = GetCurrentActiveStepParameterValue();
+                if (fsqlv.ShowDialog() == DialogResult.OK)
+                {
+                    SetCurrentActiveStepParameterValue(fsqlv.Value);
+                    form_state = FormState.Edit;
+                    ChangeFormState();
+                }
             }
         }
 
         private void параметрыКоманднойСтрокиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormCommandLineParams fclp = new FormCommandLineParams(language);
-            fclp.command_line_params = command_line_params;
-            if (fclp.ShowDialog() == DialogResult.OK)
+            using (FormCommandLineParams fclp = new FormCommandLineParams(language))
             {
-                command_line_params = fclp.command_line_params;
-                form_state = FormState.Edit;
-                ChangeFormState();
+                fclp.command_line_params = command_line_params;
+                if (fclp.ShowDialog() == DialogResult.OK)
+                {
+                    command_line_params = fclp.command_line_params;
+                    form_state = FormState.Edit;
+                    ChangeFormState();
+                }
             }
         }
 
@@ -932,18 +995,21 @@ namespace AmEditor
             string activityManager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ActivityManager.exe");
             if (!File.Exists(activityManager))
             {
-                MessageBox.Show(_("Не удалось найти исполняемый файл ActivityManager.exe"), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(_("Не удалось найти исполняемый файл ActivityManager.exe"),
+                    _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             string arguments = "config=\""+current_file_name+"\"";
             foreach(string key in command_line_params.Keys)
                 arguments += " "+key+"=\""+command_line_params[key]+"\"";
-            Process process = new Process();
-            ProcessStartInfo psi = new ProcessStartInfo(activityManager, arguments);
-            psi.CreateNoWindow = true;
-            psi.UseShellExecute = false;
-            process.StartInfo = psi;
-            process.Start();
+            using (Process process = new Process())
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(activityManager, arguments);
+                psi.CreateNoWindow = true;
+                psi.UseShellExecute = false;
+                process.StartInfo = psi;
+                process.Start();
+            }
         }
 
         private void выходToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -953,32 +1019,34 @@ namespace AmEditor
 
         private void языкToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            FormLanguage fl = new FormLanguage(language);
-            string lang_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"lang");
-            string[] files = Directory.GetFiles(lang_path);
-            List<string> languages = new List<string>();
-            languages.Add("ru");    //Язык по умолчанию
-            foreach (string file in files)
+            using (FormLanguage fl = new FormLanguage(language))
             {
-                FileInfo fi = new FileInfo(file);
-                if (!languages.Contains(fi.Extension.Trim(new char[] {'.'})))
-                    languages.Add(fi.Extension.Trim(new char[] { '.' }));
-            }
-            fl.languages = languages;
-            fl.config_language = config_language.Prefix;
-            fl.interface_language = language.Prefix;
-            if (fl.ShowDialog() == DialogResult.OK)
-            {
-                language = new Language(fl.interface_language);
-                settings_storage.InterfaceLanguagePrefix = fl.interface_language;
-                _ = language.Translate;
-                if (config_language.Prefix != fl.config_language)
+                string lang_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lang");
+                string[] files = Directory.GetFiles(lang_path);
+                List<string> languages = new List<string>();
+                languages.Add("ru");    //Язык по умолчанию
+                foreach (string file in files)
                 {
-                    config_language = new Language(fl.config_language);
-                    form_state = FormState.Edit;
-                    ChangeFormState();
+                    FileInfo fi = new FileInfo(file);
+                    if (!languages.Contains(fi.Extension.Trim(new char[] { '.' })))
+                        languages.Add(fi.Extension.Trim(new char[] { '.' }));
                 }
-                InterfaceLanguageReload();
+                fl.languages = languages;
+                fl.config_language = config_language.Prefix;
+                fl.interface_language = language.Prefix;
+                if (fl.ShowDialog() == DialogResult.OK)
+                {
+                    language = new Language(fl.interface_language);
+                    settings_storage.InterfaceLanguagePrefix = fl.interface_language;
+                    _ = language.Translate;
+                    if (config_language.Prefix != fl.config_language)
+                    {
+                        config_language = new Language(fl.config_language);
+                        form_state = FormState.Edit;
+                        ChangeFormState();
+                    }
+                    InterfaceLanguageReload();
+                }
             }
         }
 
