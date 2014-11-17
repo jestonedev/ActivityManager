@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SqlDataSource</name>
+    </assembly>
+    <members>
+        <member name="T:SqlDataSource.IPlug">
+            <summary>
+            Доступный из-вне интерфейс плагина
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlSetProvider(System.String)">
+            <summary>
+            Установить провайдера баз данных
+            </summary>
+            <param name="name">Краткое или полное инвариантное имя провайдера базы данных</param>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlSetConnectionString(System.String)">
+            <summary>
+            Установка строки соединения
+            </summary>
+            <param name="connectionString">Строка соединения</param>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlOpenConnection">
+            <summary>
+            Открыть перманентное соединение с базой данных. 
+            Позволяет оптимизировать производительность в случае большого количества запросов
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlCloseConnection">
+            <summary>
+            Закрыть перманентное соединение с базой данных
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlSelectTable(System.String,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из базы данных
+            </summary>
+            <param name="query">Запрос к базе данных в формате Sql</param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlSelectScalar(System.String,System.Object@)">
+            <summary>
+            Выборка скалярного значения из базы данных
+            </summary>
+            <param name="query">Запрос на выполнение</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlModifyQuery(System.String,System.Int32@)">
+            <summary>
+            Запрос на внесение изменений в базу данных
+            </summary>
+            <param name="query">Запрос на выполнение</param>
+            <param name="rowsAffected">Число измененных строк</param>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlBeginTransaction">
+            <summary>
+            Начать выполнение транзакции
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlCommitTransaction">
+            <summary>
+            Подтверждение транзакции
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.IPlug.SqlRollbackTransaction">
+            <summary>
+            Откат транзакции
+            </summary>
+        </member>
+        <member name="T:SqlDataSource.SqlDataSourcePlug">
+            <summary>
+            Класс, реализующий интерфейс IPlug
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlSetConnectionString(System.String)">
+            <summary>
+            Установка строки соединения
+            </summary>
+            <param name="connectionString">Строка соединения</param>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlOpenConnection">
+            <summary>
+            Открыть перманентное соединение с базой данных. 
+            Позволяет оптимизировать производительность в случае большого количества запросов
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlCloseConnection">
+            <summary>
+            Закрыть перманентное соединение с базой данных
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlSelectTable(System.String,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из базы данных
+            </summary>
+            <param name="query">Запрос к базе данных в формате Sql</param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlSelectScalar(System.String,System.Object@)">
+            <summary>
+            Выборка скалярного значения из базы данных
+            </summary>
+            <param name="query">Запрос на выполнение</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlModifyQuery(System.String,System.Int32@)">
+            <summary>
+            Запрос на внесение изменений в базу данных
+            </summary>
+            <param name="query">Запрос на выполнение</param>
+            <param name="rowsAffected">Число измененных строк</param>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlBeginTransaction">
+            <summary>
+            Начать выполнение транзакции
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlCommitTransaction">
+            <summary>
+            Подтверждение транзакции
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlRollbackTransaction">
+            <summary>
+            Откат транзакции
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.SqlSetProvider(System.String)">
+            <summary>
+            Установить провайдера баз данных
+            </summary>
+            <param name="name">Краткое или полное инвариантное имя провайдера базы данных</param>
+        </member>
+        <member name="M:SqlDataSource.SqlDataSourcePlug.ParseProviderName(System.String)">
+            <summary>
+            Поиск инвариантного имени провайдера по имени, переданному пользователем
+            </summary>
+            <param name="name">Имя провайдера, переданное пользователем</param>
+            <returns>Полное инвариантное имя провайдера</returns>
+        </member>
+        <member name="T:SqlDataSource.SqlException">
+            <summary>
+            Класс исключения модуля SqlModule
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlException.#ctor">
+            <summary>
+            Конструктор класса исключения SqlException
+            </summary>
+        </member>
+        <member name="M:SqlDataSource.SqlException.#ctor(System.String)">
+            <summary>
+            Конструктор класса исключения SqlException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+        </member>
+        <member name="M:SqlDataSource.SqlException.#ctor(System.String,System.Exception)">
+            <summary>
+            Конструктор класса исключения SqlException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+            <param name="innerException">Вложенное исключение</param>
+        </member>
+        <member name="M:SqlDataSource.SqlException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Конструктор класса исключения SqlException
+            </summary>
+            <param name="info">Информация сериализации</param>
+            <param name="context">Контекст потока</param>
+        </member>
+    </members>
+</doc>
