@@ -1,7 +1,0 @@
-D:\Projects\Visual Studio Projects\activity_manager_tst\CSVModule\obj\Release\ResolveAssemblyReference.cache
-D:\Projects\Visual Studio Projects\activity_manager_tst\activity_manager\bin\Release\plugins\PlainTextModule.dll
-D:\Projects\Visual Studio Projects\activity_manager_tst\activity_manager\bin\Release\plugins\PlainTextModule.pdb
-D:\Projects\Visual Studio Projects\activity_manager_tst\activity_manager\bin\Release\plugins\PlainTextModule.dll.CodeAnalysisLog.xml
-D:\Projects\Visual Studio Projects\activity_manager_tst\activity_manager\bin\Release\plugins\PlainTextModule.dll.lastcodeanalysissucceeded
-D:\Projects\Visual Studio Projects\activity_manager_tst\CSVModule\obj\Release\PlainTextModule.dll
-D:\Projects\Visual Studio Projects\activity_manager_tst\CSVModule\obj\Release\PlainTextModule.pdb
