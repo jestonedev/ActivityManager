@@ -83,8 +83,8 @@ namespace ReportModule
                     if (currentPatternIndex == 0)
                         pni.IsStartingPatternNode = true;
                     if (pni.StartIndex == -1)
-                        pni.StartIndex = i;
-                    pni.EndIndex = i;
+                        pni.StartIndex = text.Length - i;
+                    pni.EndIndex = text.Length - i;
                     currentPatternIndex++;
                     if (pattern.Length == currentPatternIndex)
                     {
@@ -104,8 +104,8 @@ namespace ReportModule
                         currentPatternIndex = 1;
                         pni = new PatternNodeInfo(textNode);
                         pni.IsStartingPatternNode = true;
-                        pni.StartIndex = i;
-                        pni.EndIndex = i;
+                        pni.StartIndex = text.Length - i;
+                        pni.EndIndex = text.Length - i;
                         pnic = new PatternNodeInfoCollection();
                         isNewPNIC = true;
                     }
@@ -113,16 +113,34 @@ namespace ReportModule
                     {
                         currentPatternIndex = 0;
                         pni = new PatternNodeInfo(textNode);
-                        pnic = new PatternNodeInfoCollection();
+                        if (!isNewPNIC)
+                        {
+                            for (int j = pnic.Items.Count - 1; j >= 0; j++)
+                            {
+                                if (!pnic.Items[j].IsStartingPatternNode)
+                                    pnic.Items.Remove(pnic.Items[j]);
+                                else
+                                if (pnic.Items[j].IsStartingPatternNode)
+                                {
+                                    pnic.Items.Remove(pnic.Items[j]);
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                            pnic = new PatternNodeInfoCollection();
                         isNewPNIC = true;
                     }
             }
-            if ((pni.StartIndex != -1) && (pni.StartIndex <= pni.EndIndex))
+            if ((pni.StartIndex != -1) && (pni.StartIndex >= pni.EndIndex))
             {
                 pnic.Items.Add(pni);
                 if (isNewPNIC)
                     ListPNIC.Add(pnic);
             }
+            for (int i = ListPNIC.Count - 1; i >= 0; i--)
+                if (ListPNIC[i].Items.Count == 0)
+                    ListPNIC.Remove(ListPNIC[i]);
             return ListPNIC;
         }
 
@@ -172,11 +190,11 @@ namespace ReportModule
         }
 
         /// <summary>
-        /// Заменяет
+        /// Метод заменяет шаблон переданным значением
         /// </summary>
         /// <param name="pnic">Информация о блоке замены</param>
         /// <param name="value">Значение, на которое производится замена</param>
-        public static void ReplaceNodePatternPart(PatternNodeInfo pnic, string value)
+        public static XNode ReplaceNodePatternPart(PatternNodeInfo pnic, string value)
         {
             string text = "";
             string leftTextPart = "";
@@ -184,16 +202,38 @@ namespace ReportModule
             if (pnic.Node.NodeType == System.Xml.XmlNodeType.Text)
                 text = (pnic.Node as XText).Value;
             else
-                if (pnic.Node.NodeType == System.Xml.XmlNodeType.Element)
-                    text = (pnic.Node as XElement).Value;
-            leftTextPart = text.Substring(0, pnic.StartIndex);
-            rightTextPart = text.Substring(pnic.EndIndex + 1);
+                throw new ReportException("Тип xml-узла неизвестен");
+            if (pnic.Node.Parent as XElement == null)
+                throw new ReportException("Тип родительского xml-узла неизвестен");
+                /*if (pnic.Node.NodeType == System.Xml.XmlNodeType.Element)
+                    text = (pnic.Node as XElement).Value;*/
+            leftTextPart = text.Substring(0, text.Length - pnic.StartIndex);
+            rightTextPart = text.Substring(text.Length - pnic.EndIndex + 1);
             text = leftTextPart + value + rightTextPart;
-            if (pnic.Node.NodeType == System.Xml.XmlNodeType.Text)
-                (pnic.Node as XText).ReplaceWith(new XText(text));
-            else
-                if (pnic.Node.NodeType == System.Xml.XmlNodeType.Element)
-                    (pnic.Node as XElement).SetValue(text);
+            //if (pnic.Node.NodeType == System.Xml.XmlNodeType.Text)
+            XText node = new XText(text);
+            
+            /*XNode parent = pnic.Node.Parent;
+            pnic.Node.Remove();
+            (parent as XElement).Add(node);*/
+            (pnic.Node as XText).ReplaceWith(node);
+            return node;
+            //else
+                /*if (pnic.Node.NodeType == System.Xml.XmlNodeType.Element)
+                    (pnic.Node as XElement).SetValue(text);*/
+        }
+
+        /// <summary>
+        /// Метод выполняет перепривязку ноды после замены
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="ppis"></param>
+        public static void RebindNodePatternPartsInfo(XNode newNode, XNode oldNode, List<PatternNodeInfoCollection> ppis)
+        {
+            for (int i = 0; i < ppis.Count; i++)
+                for (int j = 0; j < ppis[i].Items.Count; j++)
+                    if (ppis[i].Items[j].Node == oldNode)
+                        ppis[i].Items[j].Node = newNode;
         }
     }
 
@@ -209,7 +249,7 @@ namespace ReportModule
             {
                 int length = 0;
                 foreach (PatternNodeInfo item in Items)
-                    length += item.EndIndex - item.StartIndex + 1;
+                    length += item.StartIndex - item.EndIndex + 1;
                 return length;
             } 
         }

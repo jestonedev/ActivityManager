@@ -292,10 +292,17 @@
         </member>
         <member name="M:ReportModule.ReportHelper.ReplaceNodePatternPart(ReportModule.PatternNodeInfo,System.String)">
             <summary>
-            Заменяет
+            Метод заменяет шаблон переданным значением
             </summary>
             <param name="pnic">Информация о блоке замены</param>
             <param name="value">Значение, на которое производится замена</param>
+        </member>
+        <member name="M:ReportModule.ReportHelper.RebindNodePatternPartsInfo(System.Xml.Linq.XNode,System.Xml.Linq.XNode,System.Collections.Generic.List{ReportModule.PatternNodeInfoCollection})">
+            <summary>
+            Метод выполняет перепривязку ноды после замены
+            </summary>
+            <param name="node"></param>
+            <param name="ppis"></param>
         </member>
         <member name="T:ReportModule.PatternNodeInfoCollection">
             <summary>

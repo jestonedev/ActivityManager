@@ -108,9 +108,13 @@ namespace ReportModule
             {
                 if (ppis[i].Items[ppis[i].Items.Count - 1].IsClosingPatternNode)
                 {
-                    ReportHelper.ReplaceNodePatternPart(ppis[i].Items[0], value);
+                    XNode newNode = ReportHelper.ReplaceNodePatternPart(ppis[i].Items[0], value);
+                    ReportHelper.RebindNodePatternPartsInfo(newNode, ppis[i].Items[0].Node, ppis);
                     for (int j = 1; j < ppis[i].Items.Count; j++)
-                        ReportHelper.ReplaceNodePatternPart(ppis[i].Items[j], "");
+                    {
+                        newNode = ReportHelper.ReplaceNodePatternPart(ppis[i].Items[j], "");
+                        ReportHelper.RebindNodePatternPartsInfo(newNode, ppis[i].Items[j].Node, ppis);
+                    }
                 }
             }
         }
@@ -138,7 +142,7 @@ namespace ReportModule
                     if (ReportHelper.MatchesPattern(element, pattern) > 0)
                         pattern_match_count++;
 
-                if (pattern_match_count > 0 && (patterns.Count / 2) <= pattern_match_count)
+                if (pattern_match_count > 0 && ((double)(patterns.Count) / 2) <= pattern_match_count)
                 {
                     List<XElement> new_elements = new List<XElement>();
                     Console.WriteLine("Заполняем табличные данные отчета");
