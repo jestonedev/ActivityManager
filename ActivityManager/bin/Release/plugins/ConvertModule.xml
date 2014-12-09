@@ -168,7 +168,7 @@
             <param name="isOrdinal">Если true, то порядковое числительно, если false, то количественное</param>
             <param name="outTable">Выходная таблица</param>
         </member>
-        <member name="M:ConvertModule.IPlug.ConvertFloatToString(System.Single,ConvertModule.TextCase,System.Boolean,System.String@)">
+        <member name="M:ConvertModule.IPlug.ConvertFloatToString(System.Double,ConvertModule.TextCase,System.Boolean,System.String@)">
             <summary>
             Функция конвертации вещественного числа в текст
             </summary>
@@ -306,7 +306,7 @@
             <param name="isOrdinal">Если true, то порядковое числительно, если false, то количественное</param>
             <param name="words">Возвращаемый текст</param>
         </member>
-        <member name="M:ConvertModule.ConvertPlug.ConvertFloatToString(System.Single,ConvertModule.TextCase,System.Boolean,System.String@)">
+        <member name="M:ConvertModule.ConvertPlug.ConvertFloatToString(System.Double,ConvertModule.TextCase,System.Boolean,System.String@)">
             <summary>
             Функция конвертации вещественного числа в текст
             </summary>
@@ -748,7 +748,7 @@
             <param name="isOrdinal">Если true - порядковое числительное (первый рубль), если false - количественное числительное (один рубль)</param>
             <returns>Возвращает строковое представление суммы</returns>
         </member>
-        <member name="M:ConvertModule.Converter.FloatToString(System.Single)">
+        <member name="M:ConvertModule.Converter.FloatToString(System.Double)">
             <summary>
             Метод конвертации вещественного числа в строку
             </summary>

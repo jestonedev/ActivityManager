@@ -186,7 +186,7 @@ namespace ConvertModule
         /// <param name="textCase">Падеж</param>
         /// <param name="firstCapital">Ставить первую букву прописной</param>
         /// <param name="words">Возвращаемый текст</param>
-        void ConvertFloatToString(float number, TextCase textCase, bool firstCapital, out string words);
+        void ConvertFloatToString(double number, TextCase textCase, bool firstCapital, out string words);
 
         /// <summary>
         /// Метод конвертации значения ячейки с вещественным числом в троку
@@ -337,7 +337,7 @@ namespace ConvertModule
         /// <param name="textCase">Падеж</param>
         /// <param name="firstCapital">Ставить первую букву прописной</param>
         /// <param name="words">Возвращаемый текст</param>
-        public void ConvertFloatToString(float number, TextCase textCase, bool firstCapital, out string words)
+        public void ConvertFloatToString(double number, TextCase textCase, bool firstCapital, out string words)
         {
             Converter conv = new Converter(textCase, Sex.Female);
             words = conv.FloatToString(number);

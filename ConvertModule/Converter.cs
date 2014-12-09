@@ -786,7 +786,7 @@ namespace ConvertModule
         /// </summary>
         /// <param name="number">Вещественное число</param>
         /// <returns>Результат</returns>
-        public string FloatToString(float number)
+        public string FloatToString(double number)
         {
             bool negative = false;
             if (number < 0)
