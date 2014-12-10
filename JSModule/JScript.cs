@@ -36,7 +36,8 @@ namespace JSModule
             using (JavascriptContext context = new JavascriptContext())
             {
                 context.SetParameter("result", null);
-                context.Run(script);
+                string v = "function main() { var result = null; "+script+"; return result; }; var result = main();";
+                context.Run(v);
                 result = context.GetParameter("result");
             }
         }
