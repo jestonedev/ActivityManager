@@ -150,7 +150,8 @@ namespace ActivityManager
                             if (plugin_parameter.ParameterType.IsEnum && (value is string))
                                 value = Enum.Parse(plugin_parameter.ParameterType, value.ToString(), true);
 							//Пробуем конвертировать тип данных
-                            Convert.ChangeType(value, plugin_parameter.ParameterType, CultureInfo.CurrentCulture);
+                            if (plugin_parameter.ParameterType != typeof(System.String))
+                                Convert.ChangeType(value, plugin_parameter.ParameterType, CultureInfo.CurrentCulture);
 							break;
 						}
 						catch(Exception)

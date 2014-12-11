@@ -63,7 +63,10 @@ namespace AMClasses
                     {
                         if (ParameterType.IsEnum && (inputParameters[j] is string))
                             inputParameters[j] = Enum.Parse(ParameterType, inputParameters[j].ToString(), true);
-                        exec_parameters[i] = Convert.ChangeType(inputParameters[j], ParameterType, CultureInfo.CurrentCulture);
+                        if (ParameterType == typeof(System.String))
+                            exec_parameters[i] = inputParameters[j].ToString();
+                        else
+                            exec_parameters[i] = Convert.ChangeType(inputParameters[j], ParameterType, CultureInfo.CurrentCulture);
                     }
                     catch(Exception e)
                     {

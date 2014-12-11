@@ -48,6 +48,18 @@ namespace ExtendedTypes
                 return this[this.table.Columns.IndexOf(columnName)];
             }
         }
+
+        public override string ToString()
+        {
+            string result = "";
+            for (int i = 0; i < this.Count; i++)
+            {
+                result += "\"" + this.table.Columns[i].Replace("\"", "\\\"") + "\":\"" + this[i].Value.Replace("\"", "\\\"") + "\"";
+                if (i != this.Count - 1)
+                    result += ",";
+            }
+            return "{" + result + "}";
+        }
     }
 
     /// <summary>
@@ -65,6 +77,18 @@ namespace ExtendedTypes
 
         public ReportTable()
         {
+        }
+
+        public override string ToString()
+        {
+            string result = "";
+            for (int i = 0; i < this.Count; i++)
+            {
+                result += this[i].ToString();
+                if (i != this.Count - 1)
+                    result += "," + Environment.NewLine;
+            }
+            return result;
         }
     }
 
