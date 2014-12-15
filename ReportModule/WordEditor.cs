@@ -38,6 +38,9 @@ namespace ReportModule
         {
             ReportEditingContentFile(Path.Combine(reportUnzipPath, 
                 "word"+Path.DirectorySeparatorChar+"document.xml"), values);
+            string[] files = Directory.GetFiles(Path.Combine(reportUnzipPath, "word"), "header*.xml");
+            foreach (string file in files)
+                ReportEditingContentFile(file, values);
         }
 
         /// <summary>

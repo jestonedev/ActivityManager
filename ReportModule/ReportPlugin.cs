@@ -130,7 +130,7 @@ namespace ReportModule
             if (File.Exists(fileName))
                 this.template_file = fileName;
             else
-                if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName)))
+                if (fileName != null && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName)))
                     this.template_file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
             else
             {
@@ -169,6 +169,8 @@ namespace ReportModule
         /// <param name="xmlContractor">XML-замыкатель. Поддерживаемые замыкатели по умолчанию table, row, cell, p</param>
         public void ReportSetTableValue(ReportTable table, XmlContractor xmlContractor)
 		{
+            if (table == null)
+                throw new ReportException("Не передана ссылка ана объект класса ReportTable");
             Values.Add(new TableReportValue(table, xmlContractor.ToString()));
 		}
         

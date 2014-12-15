@@ -77,10 +77,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ScintillaNET, Version=2.5.2.0, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ScintillaNET\ScintillaNET.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -101,6 +97,10 @@
     <ProjectReference Include="..\AmClasses\AmClasses.csproj">
       <Project>{5E75F821-DEB5-4338-A20D-0AA3E35834F1}</Project>
       <Name>AmClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AmLibrary\AmLibrary.csproj">
+      <Project>{590ff2a9-5e7a-4d65-92e5-e14ebe126c66}</Project>
+      <Name>AmLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

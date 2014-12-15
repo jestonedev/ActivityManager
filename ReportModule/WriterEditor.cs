@@ -266,13 +266,32 @@ namespace ReportModule
         /// <summary>
         /// Метод, производящий замену специальных тэгов в отчете
         /// </summary>
-        /// <param name="report_unzip_path">Путь до файлов отчета во временной директории</param>
-        public override void SpecialTagEditing(string report_unzip_path)
+        /// <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
+        public override void SpecialTagEditing(string reportUnzipPath)
         {
-            XDocument xdocument = XDocument.Load(Path.Combine(report_unzip_path, "content.xml"), 
-                LoadOptions.PreserveWhitespace);
+            XDocument xdocument = null;
+            XDocument xstyles = null;
+            string reportContentFile = Path.Combine(reportUnzipPath, "content.xml");
+            string reportStylesFile = Path.Combine(reportUnzipPath, "styles.xml");
+            if (!cachedDocuments.ContainsKey(reportContentFile) || 
+                cachedDocuments[reportContentFile] == null)
+            {
+                xdocument = XDocument.Load(reportContentFile, LoadOptions.PreserveWhitespace);
+                cachedDocuments[reportContentFile] = xdocument;
+            }
+            else
+                xdocument = cachedDocuments[reportContentFile];
+            if (!cachedDocuments.ContainsKey(reportStylesFile) || 
+                cachedDocuments[reportStylesFile] == null)
+            {
+                xstyles = XDocument.Load(reportStylesFile, LoadOptions.PreserveWhitespace);
+                cachedDocuments[reportStylesFile] = xdocument;
+            }
+            else
+                xstyles = cachedDocuments[reportStylesFile];
             OOStyleSheet style_sheet = new OOStyleSheet(xdocument);
-            List<XElement> xelements = ReportHelper.FindElementsByTag(xdocument.Root, "p");
+            List<XElement> xelements = ReportHelper.FindElementsByTag(xdocument.Root, "p").Union(
+                                       ReportHelper.FindElementsByTag(xstyles.Root, "p")).ToList();
             foreach(XElement xelement in xelements)
             {
                 prepair_paragraph(xelement, style_sheet);
@@ -280,7 +299,8 @@ namespace ReportModule
                 parse_br_tags(xelement);
                 parse_sbr_tags(xelement);
             }
-           xdocument.Save(Path.Combine(report_unzip_path, "content.xml"), SaveOptions.DisableFormatting);
+            xdocument.Save(Path.Combine(reportUnzipPath, "content.xml"), SaveOptions.DisableFormatting);
+            xstyles.Save(Path.Combine(reportUnzipPath, "styles.xml"), SaveOptions.DisableFormatting);
         }
     }
 }

@@ -16,6 +16,9 @@ namespace ReportModule
     /// </summary>
     public class ReportEditor
     {
+        //Кэш загруженных документов
+        protected Dictionary<string, XDocument> cachedDocuments = new Dictionary<string, XDocument>();
+
         /// <summary>
         /// Метод конвертации xml-замыкателей
         /// </summary>
@@ -58,7 +61,14 @@ namespace ReportModule
             if (values == null)
                 throw new ReportException("Не задана ссылка на переменные отчета");
             Console.WriteLine(String.Format(CultureInfo.CurrentCulture,"Загружаем файл {0} отчета", reportContentFile));
-            XDocument xdocument = XDocument.Load(reportContentFile, LoadOptions.PreserveWhitespace);
+            XDocument xdocument = null;
+            if (!cachedDocuments.ContainsKey(reportContentFile) || cachedDocuments[reportContentFile] == null)
+            {
+                xdocument = XDocument.Load(reportContentFile, LoadOptions.PreserveWhitespace);
+                cachedDocuments[reportContentFile] = xdocument;
+            }
+            else
+                xdocument = cachedDocuments[reportContentFile];
             XElement root = xdocument.Root;
             Console.WriteLine(String.Format(CultureInfo.CurrentCulture,"Заполняем файл {0} отчета данными", reportContentFile));
             foreach (ReportValue report_value in values)
@@ -86,16 +96,17 @@ namespace ReportModule
                 throw new ReportException("Не задана ссылка на параметр шаблона");
             if (document == null)
                 throw new ReportException("Не задана ссылка на документ шаблона");
-            WritePattern(document.Root, reportValue.Pattern, reportValue.Value);
+            WritePatternText(document.Root, reportValue.Pattern, reportValue.Value);
+            WritePatternAttributes(document.Root, reportValue.Pattern, reportValue.Value);
         }
 
         /// <summary>
-        /// Метод, заменяющий шаблонную строку на значение в указанном элементе
+        /// Метод, заменяющий шаблонную строку на значение в контенте указанного элемента
         /// </summary>
         /// <param name="element">Элемент</param>
         /// <param name="pattern">Шаблон</param>
         /// <param name="value">Значение</param>
-        protected virtual void WritePattern(XElement element, string pattern, string value)
+        protected virtual void WritePatternText(XElement element, string pattern, string value)
         {
             if (element == null)
                 throw new ReportException("Не задана ссылка на элемент документ шаблона");
@@ -120,6 +131,23 @@ namespace ReportModule
         }
 
         /// <summary>
+        /// Метод, заменяющий шаблонную строку на значения в атрибутах указанного элемента
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="pattern"></param>
+        /// <param name="value"></param>
+        protected virtual void WritePatternAttributes(XElement element, string pattern, string value)
+        {
+            if (element == null)
+                throw new ReportException("Не задана ссылка на элемент");
+            foreach (XAttribute attribute in element.Attributes())
+                if (Regex.IsMatch(attribute.Value, Regex.Escape(pattern)))
+                    attribute.Value = Regex.Replace(attribute.Value, Regex.Escape(pattern), value);
+            foreach (XElement child_element in element.Elements())
+                WritePatternAttributes(child_element, pattern, value);
+        }
+
+        /// <summary>
         /// Метод, заменяющий табличный шаблон отчета
         /// </summary>
         /// <param name="reportValue">Табличная переменная отчета</param>
@@ -130,7 +158,9 @@ namespace ReportModule
                 throw new ReportException("Не задана ссылка на таблицу подставляемых значений шаблона");
             if (document == null)
                 throw new ReportException("Не задана ссылка на документ шаблона");
-            IEnumerable<XElement> elements = ReportHelper.FindElementsByTag(document.Root, reportValue.XmlContractor);
+            List<XElement> elements = ReportHelper.FindElementsByTag(document.Root, reportValue.XmlContractor);
+            // Сортировка позволяет определить вложенные таблицы и выставить их в начало каскадной замены
+            elements.Sort(new XComparer()); 
             List<string> patterns = new List<string>();
             foreach (string column in reportValue.Table.Columns)
                 patterns.Add("$" + column + "$");
@@ -149,13 +179,15 @@ namespace ReportModule
                     int count = 0;
                     foreach (ReportRow row in reportValue.Table)
                     {
+                        if (row == null)
+                            throw new ReportException("В коллекции Table отсутствует ссылка на объект класса ReportRow");
                         count++;
                         if (count % 500 == 0)
                             Console.WriteLine(String.Format(CultureInfo.CurrentCulture,"Заполнено {0} из {1} строк", count, reportValue.Table.Count));
                         XElement new_element = XElement.Parse(element_value, LoadOptions.PreserveWhitespace);
                         //Заменить шаблоны для каждой колонки
                         for (int i = 0; i < patterns.Count; i++)
-                            WritePattern(new_element, patterns[i], row[i].Value);
+                            WritePatternText(new_element, patterns[i], row[i].Value);
                         new_elements.Add(new_element);
                     }
                     Console.WriteLine("Заполнение табличных данных отчета закончено");

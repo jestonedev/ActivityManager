@@ -46,7 +46,6 @@ namespace ReportModule
                 if ((element.Name.LocalName == xml_tag))
                     elements.Add(element);
             }
-            elements.Sort(new XComparer()); 
             return elements;
         }
 
@@ -115,7 +114,7 @@ namespace ReportModule
                         pni = new PatternNodeInfo(textNode);
                         if (!isNewPNIC)
                         {
-                            for (int j = pnic.Items.Count - 1; j >= 0; j++)
+                            for (int j = pnic.Items.Count - 1; j >= 0; j--)
                             {
                                 if (!pnic.Items[j].IsStartingPatternNode)
                                     pnic.Items.Remove(pnic.Items[j]);
@@ -158,7 +157,7 @@ namespace ReportModule
             else
                 if (node.NodeType == System.Xml.XmlNodeType.Element)
                 {
-                    //Если элемент имеет дочерние, то входим в дочерний элемент и обрабатываем его
+                    // Если элемент имеет дочерние, то входим в дочерний элемент и обрабатываем его
                     foreach (XNode child_node in (node as XElement).Nodes())
                     {
                         if (child_node.NodeType == System.Xml.XmlNodeType.Element)
@@ -205,22 +204,12 @@ namespace ReportModule
                 throw new ReportException("Тип xml-узла неизвестен");
             if (pnic.Node.Parent as XElement == null)
                 throw new ReportException("Тип родительского xml-узла неизвестен");
-                /*if (pnic.Node.NodeType == System.Xml.XmlNodeType.Element)
-                    text = (pnic.Node as XElement).Value;*/
             leftTextPart = text.Substring(0, text.Length - pnic.StartIndex);
             rightTextPart = text.Substring(text.Length - pnic.EndIndex + 1);
             text = leftTextPart + value + rightTextPart;
-            //if (pnic.Node.NodeType == System.Xml.XmlNodeType.Text)
             XText node = new XText(text);
-            
-            /*XNode parent = pnic.Node.Parent;
-            pnic.Node.Remove();
-            (parent as XElement).Add(node);*/
             (pnic.Node as XText).ReplaceWith(node);
             return node;
-            //else
-                /*if (pnic.Node.NodeType == System.Xml.XmlNodeType.Element)
-                    (pnic.Node as XElement).SetValue(text);*/
         }
 
         /// <summary>

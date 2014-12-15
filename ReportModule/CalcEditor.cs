@@ -278,8 +278,17 @@ namespace ReportModule
         /// <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
         public override void SpecialTagEditing(string reportUnzipPath)
         {
-            XDocument xdocument = XDocument.Load(Path.Combine(reportUnzipPath, "content.xml"),
-                LoadOptions.PreserveWhitespace);
+            string reportContentFile = Path.Combine(reportUnzipPath, "content.xml");
+            XDocument xdocument = null;
+            if (!cachedDocuments.ContainsKey(reportContentFile) ||
+                cachedDocuments[reportContentFile] == null)
+            {
+                xdocument = XDocument.Load(Path.Combine(reportUnzipPath, "content.xml"),
+                    LoadOptions.PreserveWhitespace);
+                cachedDocuments[reportContentFile] = xdocument;
+            }
+            else
+                xdocument = cachedDocuments[reportContentFile];
             OOStyleSheet style_sheet = new OOStyleSheet(xdocument);
             List<XElement> xelements = ReportHelper.FindElementsByTag(xdocument.Root, "p");
             foreach (XElement xelement in xelements)

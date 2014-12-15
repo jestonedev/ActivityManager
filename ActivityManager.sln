@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityManager", "ActivityManager\ActivityManager.csproj", "{350D16B2-470A-44B4-AE65-29AE582CE109}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportModule", "ReportModule\ReportModule.csproj", "{A1DB2572-4DA5-4179-A0A7-0ED0010F20CF}"
@@ -24,6 +26,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSModule", "JSModule\JSModule.csproj", "{21397A58-0156-465D-AFE2-F69181056AC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextDataSource", "TextDataSource\TextDataSource.csproj", "{BC1924E8-6084-4186-8FE1-3E070386010C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{67D5EA30-1773-4CA2-843E-C5ACC2F6BCEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmLibrary", "AmLibrary\AmLibrary.csproj", "{590FF2A9-5E7A-4D65-92E5-E14EBE126C66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +85,14 @@ Global
 		{BC1924E8-6084-4186-8FE1-3E070386010C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC1924E8-6084-4186-8FE1-3E070386010C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC1924E8-6084-4186-8FE1-3E070386010C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67D5EA30-1773-4CA2-843E-C5ACC2F6BCEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D5EA30-1773-4CA2-843E-C5ACC2F6BCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D5EA30-1773-4CA2-843E-C5ACC2F6BCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D5EA30-1773-4CA2-843E-C5ACC2F6BCEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590FF2A9-5E7A-4D65-92E5-E14EBE126C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590FF2A9-5E7A-4D65-92E5-E14EBE126C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590FF2A9-5E7A-4D65-92E5-E14EBE126C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590FF2A9-5E7A-4D65-92E5-E14EBE126C66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
