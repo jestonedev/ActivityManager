@@ -1,6 +1,7 @@
 ﻿using AMClasses;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -138,11 +139,11 @@ namespace AmLibrary
                                 match = match.NextMatch();
                             }
                             //Если ожидается значение перечисления, а передается строка из config-файла, то конвертируем
-                            if (plugin_parameter.ParameterType.IsEnum && (value is string))
+                            /*if (plugin_parameter.ParameterType.IsEnum && (value is string))
                                 value = Enum.Parse(plugin_parameter.ParameterType, value.ToString(), true);
-                            //Пробуем конвертировать тип данных
+                            //Пробуем конвертировать через ChangeType
                             if (plugin_parameter.ParameterType != typeof(System.String))
-                                Convert.ChangeType(value, plugin_parameter.ParameterType, CultureInfo.CurrentCulture);
+                                Convert.ChangeType(value, plugin_parameter.ParameterType, CultureInfo.CurrentCulture);*/
                             break;
                         }
                         catch (Exception)

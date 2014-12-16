@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ReportModuleUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExtendedTypesUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExtendedTypes\ExtendedTypes.csproj">

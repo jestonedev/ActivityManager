@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace ExtendedTypes
 {
@@ -31,6 +34,7 @@ namespace ExtendedTypes
     /// <summary>
     /// Строка таблицы отчета
     /// </summary>
+    [TypeConverter(typeof(ReportRowTypeConverter))]
     public class ReportRow : Collection<ReportCell>
     {
         private ReportTable table;
@@ -54,17 +58,32 @@ namespace ExtendedTypes
             string result = "";
             for (int i = 0; i < this.Count; i++)
             {
-                result += "\"" + this.table.Columns[i].Replace("\"", "\\\"") + "\":\"" + this[i].Value.Replace("\"", "\\\"") + "\"";
+                result += "\"" + this.table.Columns[i].Replace("\\", "\\\\").Replace("\"", "\\\"") + "\":\"" + this[i].Value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
                 if (i != this.Count - 1)
                     result += ",";
             }
             return "{" + result + "}";
+        }
+
+        public static implicit operator ReportRow(string json)
+        {
+            Dictionary<string, string> row = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            ReportTable table = new ReportTable();
+            ReportRow reportRow = new ReportRow(table);
+            foreach (var value in row)
+            {
+                table.Columns.Add(value.Key);
+                reportRow.Add(new ReportCell(reportRow, value.Value));
+            }
+            table.Add(reportRow);
+            return reportRow;
         }
     }
 
     /// <summary>
     /// Таблица отчета
     /// </summary>
+    [TypeConverter(typeof(ReportTableTypeConverter))]
     public class ReportTable : Collection<ReportRow>
     {
         private Collection<string> columns = new Collection<string>();
@@ -88,8 +107,28 @@ namespace ExtendedTypes
                 if (i != this.Count - 1)
                     result += "," + Environment.NewLine;
             }
-            return result;
+            return "["+result+"]";
+        }
+
+        public static implicit operator ReportTable(string json)
+        {
+            List<Dictionary<string, string>> rows = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json);
+            ReportTable table = new ReportTable();
+            bool is_first_row = true;
+            foreach (var row in rows)
+            {
+                ReportRow reportRow = new ReportRow(table);
+                foreach (var value in row)
+                {
+                    if (is_first_row)
+                        table.Columns.Add(value.Key);
+                    reportRow.Add(new ReportCell(reportRow, value.Value));
+                }
+                table.Add(reportRow);
+                if (is_first_row)
+                    is_first_row = false;
+            }
+            return table;
         }
     }
-
 }

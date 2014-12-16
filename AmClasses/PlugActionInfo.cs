@@ -4,6 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.ComponentModel;
 
 namespace AMClasses
 {
@@ -61,10 +62,16 @@ namespace AMClasses
 					Type ParameterType = this.Parameters[i].ParameterType;
                     try
                     {
+                        // Если ожидается перечисление, а входной параметр - строка, то парсим
                         if (ParameterType.IsEnum && (inputParameters[j] is string))
                             inputParameters[j] = Enum.Parse(ParameterType, inputParameters[j].ToString(), true);
+
+                        TypeConverter conv = TypeDescriptor.GetConverter(ParameterType);
                         if (ParameterType == typeof(System.String))
                             exec_parameters[i] = inputParameters[j].ToString();
+                        else
+                        if (conv.CanConvertFrom(inputParameters[j].GetType()))
+                            exec_parameters[i] = conv.ConvertFrom(inputParameters[j]);
                         else
                             exec_parameters[i] = Convert.ChangeType(inputParameters[j], ParameterType, CultureInfo.CurrentCulture);
                     }
