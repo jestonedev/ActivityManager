@@ -4,6 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Security.Policy;
 
 namespace AMClasses
 {
@@ -30,6 +31,10 @@ namespace AMClasses
         public PlugInfo(string assemblyPath)
         {
             this.PlugPath = assemblyPath;
+            AppDomainSetup domainInfo = new AppDomainSetup();
+            domainInfo.ApplicationBase = System.Environment.CurrentDirectory;
+            Evidence adEvidence = AppDomain.CurrentDomain.Evidence;
+            AppDomain domain = AppDomain.CreateDomain(this.PlugPath, adEvidence, domainInfo);
             assembly = Assembly.LoadFile(assemblyPath, AppDomain.CurrentDomain.Evidence);
             this.PlugName = assembly.GetName().Name;
             Type IPlug = assembly.GetType(this.PlugName + ".IPlug");

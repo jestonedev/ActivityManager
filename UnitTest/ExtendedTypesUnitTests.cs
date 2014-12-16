@@ -1,12 +1,14 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ExtendedTypes;
+using System.Text;
 
 namespace UnitTest
 {
     [TestClass]
     public class ExtendedTypesUnitTests
     {
+
         [TestMethod]
         public void ReportRowImplicitTest()
         {
@@ -18,9 +20,9 @@ namespace UnitTest
             row.Add(new ReportCell(row, "Ignatov"));
             string json = row.ToString();
             ReportRow newRow = json;
-            Assert.AreNotEqual(newRow["name"], "Vasily");
-            Assert.AreNotEqual(newRow["surname"], "Ignatov");
-            Assert.AreNotEqual(newRow.Table.Columns.Count, 2);               
+            Assert.AreEqual(newRow["name"].Value, "Vasily");
+            Assert.AreEqual(newRow["surname"].Value, "Ignatov");
+            Assert.AreEqual(newRow.Table.Columns.Count, 2);               
         }
 
         [TestMethod]

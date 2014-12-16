@@ -17,9 +17,10 @@ namespace ExtendedTypes
 
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
         {
-            if (value is string)
+            string val = value as string;
+            if (val != null)
             {
-                ReportRow row = (string)value;
+                ReportRow row = val;
                 return row;
             }
             return base.ConvertFrom(context, culture, value);
@@ -28,7 +29,12 @@ namespace ExtendedTypes
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string))
-                return value.ToString();
+            {
+                if (value != null)
+                    return value.ToString();
+                else
+                    return null;
+            }
             return base.ConvertTo(context, culture, value, destinationType);
         }
     }
@@ -44,9 +50,10 @@ namespace ExtendedTypes
 
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
         {
-            if (value is string)
+            string val = value as string;
+            if (val != null)
             {
-                ReportTable table = (string)value;
+                ReportTable table = val;
                 return table;
             }
             return base.ConvertFrom(context, culture, value);
@@ -55,7 +62,12 @@ namespace ExtendedTypes
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string))
-                return value.ToString();
+            {
+                if (value != null)
+                    return value.ToString();
+                else
+                    return null;
+            }
             return base.ConvertTo(context, culture, value, destinationType);
         }
     }

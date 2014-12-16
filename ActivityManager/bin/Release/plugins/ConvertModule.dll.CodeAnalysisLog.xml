@@ -1,43 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
- <Targets>
-  <Target Name="E:\ActivityManager\ActivityManager\bin\Release\plugins\ConvertModule.dll">
-   <Modules>
-    <Module Name="convertmodule.dll">
-     <Namespaces>
-      <Namespace Name="ConvertModule">
-       <Types>
-        <Type Name="IPlug" Kind="Interface" Accessibility="Public" ExternallyVisible="True">
-         <Members>
-          <Member Name="#ConvertFloatToString(System.Double,ConvertModule.TextCase,System.Boolean,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message Id="3#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2014-12-16 02:16:23Z" FixCategory="Breaking">
-             <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'words' be an out parameter.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-         </Members>
-        </Type>
-       </Types>
-      </Namespace>
-     </Namespaces>
-    </Module>
-   </Modules>
-  </Target>
- </Targets>
- <Rules>
-  <Rule TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021">
-   <Name>Avoid out parameters</Name>
-   <Description>Using out parameters might indicate a design flaw. Although there are legitimate times to use out parameters, their use frequently indicates a design that does not conform to the design guidelines for managed code.</Description>
-   <Resolution Name="Default">Consider a design that does not require that {0} be an out parameter.</Resolution>
-   <Owner />
-   <Url>http://msdn.microsoft.com/library/ms182131.aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="50">Warning</MessageLevel>
-   <File Name="designrules.dll" Version="12.0.0.0" />
-  </Rule>
- </Rules>
  <Localized>
   <String Key="Category">Category</String>
   <String Key="Certainty">Certainty</String>

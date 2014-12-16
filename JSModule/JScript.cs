@@ -33,7 +33,17 @@ namespace JSModule
         /// <param name="result">Возвращаемое значение</param>
         public void JSRun(string script, out object result)
         {
-            using (JavascriptContext context = new JavascriptContext())
+            JavascriptContext context = null;
+            try
+            {
+                context = new JavascriptContext();
+            } catch(DivideByZeroException)
+            {
+                // Этот костыль необходим, т.к. пока не смог выяснить почему конфликтуют библиотеки Padeg.dll и Noesis.Javascript, 
+                // что приводит к Divide by zero exception во время создания контекста JavascriptContext
+                context = new JavascriptContext();
+            }
+            using (context)
             {
                 context.SetParameter("result", null);
                 string v = "function main() { var result = null; "+script+"; return result; }; var result = main();";
