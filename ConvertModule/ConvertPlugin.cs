@@ -638,8 +638,8 @@ namespace ConvertModule
                 string words = inRow[i].Value;
                 if (tmp_row.Table.Columns[i] == column)
                 {
-                    float value;
-                    if (float.TryParse(words, out value))
+                    double value;
+                    if (double.TryParse(words, out value))
                         ConvertFloatToString(value, textCase, firstCapital, out words);
                 }
                 tmp_row.Add(new ReportCell(tmp_row, words));

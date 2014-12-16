@@ -789,6 +789,8 @@ namespace ConvertModule
         public string FloatToString(double number)
         {
             bool negative = false;
+            //Округляем точность number до поддерживаемой массивом fractional_postfixs
+            number = Math.Round(number, fractional_postfixs.Count);
             if (number < 0)
             {
                 number = Math.Abs(number);
