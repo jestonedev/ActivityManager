@@ -28,7 +28,7 @@ namespace ConvertModule
     public class GenitiveCaseClass : TextCaseClass
     {
         private Dictionary<string, string> words = new Dictionary<string, string>() {
-        {"ноль","нуля"},
+        {"ноль","ноля"},
         {"один","одного"},
         {"одна","одной"},
         {"одно","одного"},
@@ -85,7 +85,8 @@ namespace ConvertModule
         {"цент","цента"},
         {"цента","центов"},
         {"третий", "третьего"},
-        {"третья", "третью"},
+        {"третье", "третьего"},
+        {"третья", "третьей"},
         {"январь", "января"},
         {"февраль", "февраля"},
         {"март", "марта"},
@@ -139,7 +140,7 @@ namespace ConvertModule
     public class DativeCaseClass : TextCaseClass
     {
         private Dictionary<string, string> words = new Dictionary<string, string>() {
-        {"ноль","нулю"},
+        {"ноль","нолю"},
         {"один","одному"},
         {"одна","одной"},
         {"одно","одному"},
@@ -188,7 +189,7 @@ namespace ConvertModule
         {"миллиард","миллиарду"},
         {"миллиарда","миллиардам"},
         {"миллиардов","миллиардам"},
-        {"триллион","триллионам"},
+        {"триллион","триллиону"},
         {"триллиона","триллионам"},
         {"триллионов","триллионам"},
         {"рубль","рублю"},
@@ -227,9 +228,7 @@ namespace ConvertModule
         {"минут", "минутам"},
         {"час", "часу"},
         {"часа", "часам"},
-        {"часов", "часам"},
-        {"целых","целым"},
-        {"десятых","десятым"}
+        {"часов", "часам"}
         };
 
         /// <summary>
@@ -251,6 +250,9 @@ namespace ConvertModule
                         if (Regex.IsMatch(text, @"(ое)$"))
                             return Regex.Replace(text, @"(ое)$", "ому");
                         else
+                            if (Regex.IsMatch(text, @"(ых)$"))
+                                return Regex.Replace(text, @"(ых)$", "ым");
+                        else
                             return text;
         }
     }
@@ -266,7 +268,6 @@ namespace ConvertModule
         {"копейка","копейку"},
         {"третий", "третьего"},
         {"третья", "третью"},
-        {"третье", "третьего"},
         {"секунда", "секунду"},
         {"минута", "минуту"}
         };
@@ -287,9 +288,9 @@ namespace ConvertModule
                     if (Regex.IsMatch(text, @"(ая)$"))
                         return Regex.Replace(text, @"(ая)$", "ую");
                     else
-                        if (Regex.IsMatch(text, @"(ое)$"))
-                            return Regex.Replace(text, @"(ое)$", "ого");
-                        else
+                        /*if (Regex.IsMatch(text, @"(ое)$"))
+                            return Regex.Replace(text, @"(ое)$", "ого");*/
+                        //else
                             return text;
         }
     }
@@ -300,7 +301,7 @@ namespace ConvertModule
     public class InstrumentalCaseClass : TextCaseClass
     {
         private Dictionary<string, string> words = new Dictionary<string, string>() {
-        {"ноль","нулем"},
+        {"ноль","нолем"},
         {"один","одним"},
         {"одна","одной"},
         {"одно","одним"},
@@ -326,18 +327,18 @@ namespace ConvertModule
         {"двадцать","двадцатью"},
         {"тридцать","тридцатью"},
         {"сорок","сорока"},
-        {"пятьдесят","пятидесятью"},
-        {"шестьдесят","шестидесятью"},
-        {"семьдесят","семидесятью"},
-        {"восемьдесят","восьмидесятью"},
-        {"девяносто","девяносто"},
+        {"пятьдесят","пятьюдесятью"},
+        {"шестьдесят","шестьюдесятью"},
+        {"семьдесят","семьюдесятью"},
+        {"восемьдесят","восьмьюдесятью"},
+        {"девяносто","девяноста"},
         {"сто","ста"},
         {"двести","двумястами"},
         {"триста","тремястами"},
-        {"четыреста","четыремястами"},
+        {"четыреста","четырьмястами"},
         {"пятьсот","пятьюстами"},
         {"шестьсот","шестьюстами"},
-        {"семьсот","семистами"},
+        {"семьсот","семьюстами"},
         {"восемьсот","восьмьюстами"},
         {"девятьсот","девятьюстами"},
         {"тысяча","тысячей"},
@@ -412,7 +413,10 @@ namespace ConvertModule
                         if (Regex.IsMatch(text, @"(ое)$"))
                             return Regex.Replace(text, @"(ое)$", "ым");
                         else
-                            return text;
+                            if (Regex.IsMatch(text, @"(ых)$"))
+                                return Regex.Replace(text, @"(ых)$", "ыми");
+                            else
+                                return text;
         }
     }
 
@@ -422,7 +426,7 @@ namespace ConvertModule
     public class PrepositionalCaseClass : TextCaseClass
     {
         private Dictionary<string, string> words = new Dictionary<string, string>() {
-        {"ноль","нуле"},
+        {"ноль","ноле"},
         {"один","одном"},
         {"одна","одной"},
         {"одно","одном"},

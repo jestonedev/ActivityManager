@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Noesis.Javascript">
-      <HintPath>..\ActivityManager\bin\Release\plugins\Noesis.Javascript.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -56,11 +53,12 @@
     <Compile Include="ReportModuleUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtendedTypesUnitTests.cs" />
+    <Compile Include="ConvertModuleUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Declension\Declension.csproj">
-      <Project>{66ffbc03-77f3-4158-9a1b-0174a5f302a8}</Project>
-      <Name>Declension</Name>
+    <ProjectReference Include="..\ConvertModule\ConvertModule.csproj">
+      <Project>{c07dc238-7603-43ac-abd7-45327614aba1}</Project>
+      <Name>ConvertModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\ExtendedTypes\ExtendedTypes.csproj">
       <Project>{fd073480-5548-42b9-b70f-88e7b984fc1c}</Project>

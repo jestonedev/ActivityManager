@@ -94,6 +94,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="ConvertModule.snk" />
     <None Include="Migrated rules for ConvertModule.ruleset" />
   </ItemGroup>

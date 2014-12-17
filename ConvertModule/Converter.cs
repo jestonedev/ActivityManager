@@ -97,7 +97,7 @@ namespace ConvertModule
             "восемь", "девять", "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", 
             "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"};
 
-        List<string> ordinals_ones = new List<string>() { "", "первый", "второй", "третий", "четвертый", "пятый", 
+        List<string> ordinals_ones = new List<string>() { "нулевой", "первый", "второй", "третий", "четвертый", "пятый", 
             "шестой", "седьмой", "восьмой", "девятый", "десятый", "одиннадцатый", "двенадцатый", "тринадцатый", 
             "четырнадцатый", "пятнадцатый", "шестнадцатый", "семнадцатый", "восемнадцатый", "девятнадцатый"
         };
@@ -108,7 +108,7 @@ namespace ConvertModule
                                                     "пятисотый","шестисотый","семисотый","восьмисотый","девятисотый"};
         List<string> ordinal_part = new List<string>() { "тысячный", "миллионный", "миллиардный", "триллионный" };
 
-        List<string> ordinals_part_ones_prefix = new List<string>() { "", "одно", "двух", "трех", "четырех", "пяти", 
+        List<string> ordinals_part_ones_prefix = new List<string>() { "", "", "двух", "трех", "четырех", "пяти", 
             "шести", "семи", "восьми", "девяти", "десяти", "одиннадцати", "двенадцати", "тринадцати", 
             "четырнадцати", "пятнадцати", "шестнадцати", "семнадцати", "восемнадцати", "девятнадцати"};
 
@@ -245,13 +245,13 @@ namespace ConvertModule
         {
             string result = "";
             bool negative = false;
+            if ((number >= Math.Pow(10, 15) || (number <= (0 - Math.Pow(10,15)))))
+                return number.ToString(CultureInfo.CurrentCulture);
             if (number < 0)
             {
                 number = Math.Abs(number);
                 negative = true;
             }
-            if (number > Math.Pow(10, 15))
-                return "";
             int i = 0;
             while (number != 0)
             {
@@ -306,13 +306,13 @@ namespace ConvertModule
         {
             string result = "";
             bool negative = false;
+            if ((number >= Math.Pow(10, 15) || (number <= (0 - Math.Pow(10, 15)))))
+                return number.ToString(CultureInfo.CurrentCulture);
             if (number < 0)
             {
                 number = Math.Abs(number);
                 negative = true;
             }
-            if (number > Math.Pow(10, 15))
-                return "";
             int i = 0;
             while (number != 0)
             {
@@ -332,7 +332,7 @@ namespace ConvertModule
                     prefix = remainder % 100;
                 else
                     prefix = remainder % 10;
-                if ((i > 0) && (remainder_str.Length > 0))
+                if ((i > 0) && ((remainder_str.Length > 0) || (number == 0)))
                 {
                     if (result.Length == 0)
                     {
@@ -356,7 +356,7 @@ namespace ConvertModule
                 i++;
             }
             if (result.Length == 0)
-                result = textcase.Translate(sex.Translate("нулевой"));
+                result = textcase.Translate(sex.Translate(ordinals_ones[0]));
             if (negative)
                 result = "минус " + result;
             return result;
@@ -598,7 +598,7 @@ namespace ConvertModule
                     if (isOrdinal)
                         return "доллар";
                     else
-                        if ((integral % 10 == 0) && (integral % 10 >= 5) || ((integral >= 11) && (integral <= 14)))
+                        if ((integral % 10 == 0) || (integral % 10 >= 5) || ((integral >= 11) && (integral <= 14)))
                             return "долларов";
                         else
                             if (integral % 10 == 1)
@@ -631,7 +631,7 @@ namespace ConvertModule
                     if (isOrdinal)
                         return "цент";
                     else
-                        if ((fractional % 10 == 0) && (fractional % 10 >= 5) ||
+                        if ((fractional % 10 == 0) || (fractional % 10 >= 5) ||
                             ((fractional >= 11) && (fractional <= 14)))
                             return "центов";
                         else
@@ -643,7 +643,7 @@ namespace ConvertModule
                     if (isOrdinal)
                         return "цент";
                     else
-                        if ((fractional % 10 == 0) && (fractional % 10 >= 5) ||
+                        if ((fractional % 10 == 0) || (fractional % 10 >= 5) ||
                             ((fractional >= 11) && (fractional <= 14)))
                             return "центов";
                         else
@@ -655,7 +655,7 @@ namespace ConvertModule
             }
         }
 
-        private static List<string> GetCurrenctyPostfix(ConvertModule.CurrencyType currencyType, double currency, bool isOrdinal)
+        private static List<string> GetCurrenctyPostfix(ConvertModule.CurrencyType currencyType, decimal currency, bool isOrdinal)
         {
             string[] currency_parts = currency.ToString(CultureInfo.CurrentCulture).Split(new char[] { '.', ',' });
             long integral = long.Parse(currency_parts[0], CultureInfo.CurrentCulture);
@@ -692,9 +692,13 @@ namespace ConvertModule
         /// <param name="thousandSeparator">Разделитель порядков</param>
         /// <param name="isOrdinal">Если true - порядковое числительное (первый рубль), если false - количественное числительное (один рубль)</param>
         /// <returns>Возвращает строковое представление суммы</returns>
-        public string CurrencyToString(double currency, CurrencyType currencyType, string format, string thousandSeparator, bool isOrdinal)
+        public string CurrencyToString(decimal currency, CurrencyType currencyType, string format, string thousandSeparator, bool isOrdinal)
         {
             bool negative = false;
+            if ((currency >= (decimal)Math.Pow(10, 15) || (currency <= (decimal)(0 - Math.Pow(10, 15)))))
+                return currency.ToString(CultureInfo.CurrentCulture);
+            //Округляем точность currency до 2
+            currency = Math.Round(currency, 2);
             if (currency < 0)
             {
                 currency = Math.Abs(currency);
@@ -703,10 +707,7 @@ namespace ConvertModule
             List<string> currency_types = GetCurrenctyPostfix(currencyType, currency, isOrdinal);
             string[] currency_parts = currency.ToString(CultureInfo.CurrentCulture).Split(new char[] { '.', ',' }, 2, StringSplitOptions.RemoveEmptyEntries);
             long integral = long.Parse(currency_parts[0], CultureInfo.CurrentCulture);
-            if (currencyType == CurrencyType.Euro)
-                this.sex = new NeuterClass();
-            else
-                this.sex = new MaleClass();
+            this.sex = new MaleClass();
             Match match_integral = Regex.Match(format, "ii[ngdaip]");
             while (match_integral.Success)
             {
@@ -786,9 +787,11 @@ namespace ConvertModule
         /// </summary>
         /// <param name="number">Вещественное число</param>
         /// <returns>Результат</returns>
-        public string FloatToString(double number)
+        public string FloatToString(decimal number)
         {
             bool negative = false;
+            if ((number >= (decimal)Math.Pow(10, 15) || (number <= (decimal)(0 - Math.Pow(10, 15)))))
+                return number.ToString(CultureInfo.CurrentCulture);
             //Округляем точность number до поддерживаемой массивом fractional_postfixs
             number = Math.Round(number, fractional_postfixs.Count);
             if (number < 0)
@@ -797,12 +800,13 @@ namespace ConvertModule
                 negative = true;
             }
             string[] number_parts = number.ToString(CultureInfo.CurrentCulture).Split(new char[] { '.', ',' }, 2, StringSplitOptions.RemoveEmptyEntries);
-            long integral = long.Parse(number_parts[0], CultureInfo.CurrentCulture);
+            long integral = 0;
             long fractional = 0;
-            if (number_parts.Length > 1)
-                fractional = long.Parse(number_parts[1], CultureInfo.CurrentCulture);
-            string integrel_part = "";
-            integrel_part = NumberToText(integral, false);
+            if (!long.TryParse(number_parts[0], out integral))
+                return number.ToString(CultureInfo.CurrentCulture);
+            if ((number_parts.Length > 1) && !long.TryParse(number_parts[1], out fractional))
+                return number.ToString(CultureInfo.CurrentCulture);
+            string integrel_part = NumberToText(integral, false);
             string fractional_part = NumberToText(fractional, false);
             string integral_postfix = "";
             string fractional_postfix = "";
@@ -810,14 +814,17 @@ namespace ConvertModule
                 integral_postfix = "целая";
             else
                 integral_postfix = "целых";
-            if ((fractional % 10 == 1) && (fractional != 11))
-                fractional_postfix = fractional_postfixs[fractional.ToString(CultureInfo.CurrentCulture).Length - 1];
+            if ((number_parts.Length > 1) && (fractional != 0))
+            {
+                if ((fractional % 10 == 1) && (fractional != 11))
+                    fractional_postfix = fractional_postfixs[number_parts[1].Length - 1];
+                else
+                    fractional_postfix = Regex.Replace(fractional_postfixs[number_parts[1].Length - 1], @"(ая)$", "ых");
+            }
             else
-                fractional_postfix = Regex.Replace(fractional_postfixs[fractional.ToString(CultureInfo.CurrentCulture).Length - 1], @"(ая)$", "ых");
-            string full_text = integrel_part;
-            if (fractional != 0)
-                full_text = full_text + " " + this.textcase.Translate(integral_postfix)
-                    + " " + fractional_part + " " + this.textcase.Translate(fractional_postfix);
+                fractional_postfix = Regex.Replace(fractional_postfixs[0], @"(ая)$", "ых");
+            string full_text = integrel_part + " " + (integral == 0 ? integral_postfix : this.textcase.Translate(integral_postfix))
+                + " " + fractional_part + " " + (fractional == 0 ? fractional_postfix : this.textcase.Translate(fractional_postfix));
             if (negative)
                 full_text = "минус " + full_text;
             return full_text;

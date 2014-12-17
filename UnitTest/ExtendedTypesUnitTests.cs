@@ -10,7 +10,7 @@ namespace UnitTest
     {
 
         [TestMethod]
-        public void ReportRowImplicitTest()
+        public void ExtendedTypesReportRowImplicitTest()
         {
             ReportTable table = new ReportTable();
             table.Columns.Add("name");
@@ -26,7 +26,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void ReportTableImplicitTest()
+        public void ExtendedTypesReportTableImplicitTest()
         {
             ReportTable table = new ReportTable();
             table.Columns.Add("name");

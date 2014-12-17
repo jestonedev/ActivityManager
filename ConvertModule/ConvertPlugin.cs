@@ -135,7 +135,7 @@ namespace ConvertModule
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
         /// <param name="isOrdinal">Если true, то порядковое числительно, если false, то количественное</param>
         /// <param name="words">Возвращаемый текст</param>
-        void ConvertCurrencyToString(double currency, CurrencyType currencyType, string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out string words);
+        void ConvertCurrencyToString(decimal currency, CurrencyType currencyType, string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out string words);
 
         /// <summary>
         /// Метод конвертации значения ячейки с суммой в строковое представление суммы
@@ -150,6 +150,8 @@ namespace ConvertModule
         /// ffx - копейки (центы) в виде строки
         /// rx - слово "рубль" ("доллар", "евро")
         /// kx - словок "копейка" ("цент")
+        /// nn - слово "минус ", если число отрицательное. Если число положительное, то пустая строка. Пробел после слова минус ставится автоматически.
+        /// n - знак "-", если число отрицательное. Если число положительное, то знак не ставится. Пробел после знака "-" автоматически НЕ ставится.
         /// Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
         /// </param>
         /// <param name="thousandSeparator">Разделитель порядков</param>
@@ -171,6 +173,8 @@ namespace ConvertModule
         /// ffx - копейки (центы) в виде строки
         /// rx - слово "рубль" ("доллар", "евро")
         /// kx - словок "копейка" ("цент")
+        /// nn - слово "минус ", если число отрицательное. Если число положительное, то пустая строка. Пробел после слова минус ставится автоматически.
+        /// n - знак "-", если число отрицательное. Если число положительное, то знак не ставится. Пробел после знака "-" автоматически НЕ ставится.
         /// Буква "х" во всех форматах - первая буква падежа n,g,d,a,i,p
         /// </param>
         /// <param name="thousandSeparator">Разделитель порядков</param>
@@ -186,7 +190,7 @@ namespace ConvertModule
         /// <param name="textCase">Падеж</param>
         /// <param name="firstCapital">Ставить первую букву прописной</param>
         /// <param name="words">Возвращаемый текст</param>
-        void ConvertFloatToString(double number, TextCase textCase, bool firstCapital, out string words);
+        void ConvertFloatToString(decimal number, TextCase textCase, bool firstCapital, out string words);
 
         /// <summary>
         /// Метод конвертации значения ячейки с вещественным числом в троку
@@ -337,7 +341,7 @@ namespace ConvertModule
         /// <param name="textCase">Падеж</param>
         /// <param name="firstCapital">Ставить первую букву прописной</param>
         /// <param name="words">Возвращаемый текст</param>
-        public void ConvertFloatToString(double number, TextCase textCase, bool firstCapital, out string words)
+        public void ConvertFloatToString(decimal number, TextCase textCase, bool firstCapital, out string words)
         {
             Converter conv = new Converter(textCase, Sex.Female);
             words = conv.FloatToString(number);
@@ -401,7 +405,7 @@ namespace ConvertModule
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
         /// <param name="isOrdinal">Если true, то порядковое числительно, если false, то количественное</param>
         /// <param name="words">Возвращаемый текст</param>
-        public void ConvertCurrencyToString(double currency, CurrencyType currencyType, string format, 
+        public void ConvertCurrencyToString(decimal currency, CurrencyType currencyType, string format, 
             string thousandSeparator, bool firstCapital, bool isOrdinal, out string words)
         {
             Converter conv = new Converter(TextCase.Nominative, Sex.Neuter);
@@ -573,8 +577,8 @@ namespace ConvertModule
                 string words = inRow[i].Value;
                 if (tmp_row.Table.Columns[i] == column)
                 {
-                    double value;
-                    if (double.TryParse(words, out value))
+                    decimal value;
+                    if (decimal.TryParse(words, out value))
                         ConvertCurrencyToString(value, currencyType, format, thousandSeparator, firstCapital, isOrdinal,
                             out words);
                 }
@@ -638,8 +642,8 @@ namespace ConvertModule
                 string words = inRow[i].Value;
                 if (tmp_row.Table.Columns[i] == column)
                 {
-                    double value;
-                    if (double.TryParse(words, out value))
+                    decimal value;
+                    if (decimal.TryParse(words, out value))
                         ConvertFloatToString(value, textCase, firstCapital, out words);
                 }
                 tmp_row.Add(new ReportCell(tmp_row, words));
