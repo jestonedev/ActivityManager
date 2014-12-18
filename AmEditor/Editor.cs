@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
+using System.Reflection;
 
 namespace AmEditor
 {
@@ -403,7 +404,7 @@ namespace AmEditor
             _ = language.Translate;
 
             //Задаем путь до папки с плагинами по умолчанию
-            plugins_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
+            plugins_path = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "plugins");
             if (!Directory.Exists(plugins_path))
             {
                 MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Путь до папки {0} не найден"), plugins_path), _("Ошибка"),

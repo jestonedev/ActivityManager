@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Globalization;
+using System.Reflection;
 
 namespace AMClasses
 {
@@ -16,7 +17,7 @@ namespace AMClasses
         public Language(string lang)
         {
             prefix = lang;
-            string lang_dir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lang");
+            string lang_dir = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "lang");
             string[] files = Directory.GetFiles(lang_dir, "*." + lang);
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             foreach (string file in files)

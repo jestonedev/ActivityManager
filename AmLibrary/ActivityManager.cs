@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -48,7 +49,7 @@ namespace AmLibrary
             }
 
             //инициализируем путь до папки с плагинами
-            plugins_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
+            plugins_path = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "plugins");
 
             if (!Directory.Exists(plugins_path))
                 throw new AMException(String.Format(CultureInfo.CurrentCulture, _("Путь до папки {0} не найден"), plugins_path));
