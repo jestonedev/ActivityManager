@@ -4076,17 +4076,16 @@ namespace UnitTest
         [TestMethod]
         public void ConvertModuleConvertDateTimeTest1()
         {
-            ReportTable table = "[{\"id\":\"13:00:12\"},{\"id\":\"" + DateTime.MaxValue + "\"},{\"id\":\"" + DateTime.MinValue + "\"},{\"id\":\"26.06.1988 13:47:56\"},{\"id\":\"1988-06-26 13:47:56\"},{\"id\":\"1988-06-26\"},{\"id\":\"26.06.1988\"},{\"id\":\"кирпич\"}]";
+            ReportTable table = "[{\"id\":\"" + DateTime.MaxValue + "\"},{\"id\":\"" + DateTime.MinValue + "\"},{\"id\":\"26.06.1988 13:47:56\"},{\"id\":\"1988-06-26 13:47:56\"},{\"id\":\"1988-06-26\"},{\"id\":\"26.06.1988\"},{\"id\":\"кирпич\"}]";
             ConvertPlug plug = new ConvertPlug();
-            plug.ConvertDateTimeColToString(table, "id", "dd.MM.yyyy (yy yyn) - HH:mm:ss - ddn MMg yyyyg HHn mmn ssn", true, out table);
-            Assert.AreEqual(table[0]["id"].Value, "17.12.2014 (14 четырнадцатый год) - 13:00:12 - семнадцатое декабря две тысячи четырнадцатого года тринадцать часов ноль минут двенадцать секунд");
-            Assert.AreEqual(table[1]["id"].Value, "31.12.9999 (99 девяносто девятый год) - 23:59:59 - тридцать первое декабря девять тысяч девятьсот девяносто девятого года двадцать три часа пятьдесят девять минут пятьдесят девять секунд");
-            Assert.AreEqual(table[2]["id"].Value, "01.01.0001 (01 первый год) - 00:00:00 - первое января первого года ноль часов ноль минут ноль секунд");
-            Assert.AreEqual(table[3]["id"].Value, "26.06.1988 (88 восемьдесят восьмой год) - 13:47:56 - двадцать шестое июня одна тысяча девятьсот восемьдесят восьмого года тринадцать часов сорок семь минут пятьдесят шесть секунд");
-            Assert.AreEqual(table[4]["id"].Value, "26.06.1988 (88 восемьдесят восьмой год) - 13:47:56 - двадцать шестое июня одна тысяча девятьсот восемьдесят восьмого года тринадцать часов сорок семь минут пятьдесят шесть секунд");
-            Assert.AreEqual(table[5]["id"].Value, "26.06.1988 (88 восемьдесят восьмой год) - 00:00:00 - двадцать шестое июня одна тысяча девятьсот восемьдесят восьмого года ноль часов ноль минут ноль секунд");
-            Assert.AreEqual(table[6]["id"].Value, "26.06.1988 (88 восемьдесят восьмой год) - 00:00:00 - двадцать шестое июня одна тысяча девятьсот восемьдесят восьмого года ноль часов ноль минут ноль секунд");
-            Assert.AreEqual(table[7]["id"].Value, "кирпич");
+            plug.ConvertDateTimeColToString(table, "id", "dd.MM.yyyy (yy yyn) - HH:mm:ss - ddn MMg yyyyg HHn mmn ssn hhn", true, out table);
+            Assert.AreEqual(table[0]["id"].Value, "31.12.9999 (99 девяносто девятый год) - 23:59:59 - тридцать первое декабря девять тысяч девятьсот девяносто девятого года двадцать три часа пятьдесят девять минут пятьдесят девять секунд одиннадцать часов");
+            Assert.AreEqual(table[1]["id"].Value, "01.01.0001 (01 первый год) - 00:00:00 - первое января первого года ноль часов ноль минут ноль секунд двенадцать часов");
+            Assert.AreEqual(table[2]["id"].Value, "26.06.1988 (88 восемьдесят восьмой год) - 13:47:56 - двадцать шестое июня одна тысяча девятьсот восемьдесят восьмого года тринадцать часов сорок семь минут пятьдесят шесть секунд один час");
+            Assert.AreEqual(table[3]["id"].Value, "26.06.1988 (88 восемьдесят восьмой год) - 13:47:56 - двадцать шестое июня одна тысяча девятьсот восемьдесят восьмого года тринадцать часов сорок семь минут пятьдесят шесть секунд один час");
+            Assert.AreEqual(table[4]["id"].Value, "26.06.1988 (88 восемьдесят восьмой год) - 00:00:00 - двадцать шестое июня одна тысяча девятьсот восемьдесят восьмого года ноль часов ноль минут ноль секунд двенадцать часов");
+            Assert.AreEqual(table[5]["id"].Value, "26.06.1988 (88 восемьдесят восьмой год) - 00:00:00 - двадцать шестое июня одна тысяча девятьсот восемьдесят восьмого года ноль часов ноль минут ноль секунд двенадцать часов");
+            Assert.AreEqual(table[6]["id"].Value, "кирпич");
         }
 
         [TestMethod]
@@ -4103,6 +4102,205 @@ namespace UnitTest
             Assert.AreEqual(table[5]["id"].Value, "Эльтекова Сергея Валерьевича Э С В");
             Assert.AreEqual(table[6]["id"].Value, "Игнатова Василия Васильевича И В В");
             Assert.AreEqual(table[7]["id"].Value, "кирпич");
+        }
+
+        [TestMethod]
+        public void ConvertModuleConcatTest1()
+        {
+            ReportTable table = new ReportTable();
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+            table.Columns.Add("id2");
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, null));
+                row.Add(new ReportCell(row, (10-i).ToString()));
+                table.Add(row);
+            }
+            ConvertPlug plug = new ConvertPlug();
+            string result;
+            plug.TableConcat(table, "|", ";", out result);
+            Assert.AreEqual(result,"0;;10|1;;9|2;;8|3;;7|4;;6|5;;5|6;;4|7;;3|8;;2|9;;1");
+        }
+
+        [TestMethod]
+        public void ConvertModuleConcatTest2()
+        {
+            ReportRow row = new ReportRow(null);
+            row.Add(new ReportCell(row, "Hell".ToString()));
+            row.Add(new ReportCell(row, null));
+            row.Add(new ReportCell(row, "o".ToString()));
+            ConvertPlug plug = new ConvertPlug();
+            string result;
+            plug.RowConcat(row, "", out result);
+            Assert.AreEqual(result, "Hello");
+        }
+
+        [TestMethod]
+        public void ConvertModuleConcatTest3()
+        {
+            ReportTable table = new ReportTable();
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+            table.Columns.Add("id2");
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, null));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                table.Add(row);
+            }
+            ConvertPlug plug = new ConvertPlug();
+            string result;
+            plug.ColumnConcat(table, "id", ";", out result);
+            Assert.AreEqual(result, "0;1;2;3;4;5;6;7;8;9");
+        }
+
+        [TestMethod]
+        public void ConvertModuleGetTest1()
+        {
+            ReportTable table = new ReportTable();
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+            table.Columns.Add("id2");
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, null));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                table.Add(row);
+            }
+            ConvertPlug plug = new ConvertPlug();
+            object result;
+            plug.GetCell(table, 0, "name", out result);
+            Assert.AreEqual(result, null);
+            plug.GetCell(table, 1, "id2", out result);
+            Assert.AreEqual(result, "9");
+        }
+
+        [TestMethod]
+        public void ConvertModuleGetTest2()
+        {
+            ReportTable table = new ReportTable();
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+            table.Columns.Add("id2");
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, null));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                table.Add(row);
+            }
+            ConvertPlug plug = new ConvertPlug();
+            ReportRow result;
+            plug.GetRow(table, 1, out result);
+            Assert.AreEqual(result, table[1]);
+        }
+
+        [TestMethod]
+        public void ConvertModuleGetTest3()
+        {
+            ReportTable table = new ReportTable();
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+            table.Columns.Add("id2");
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, null));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                table.Add(row);
+            }
+            ConvertPlug plug = new ConvertPlug();
+            ReportRow result;
+            try
+            {
+                plug.GetRow(table, 10, out result);
+                Assert.Fail();
+            } catch (ConvertException)
+            {
+            }
+        }
+
+        [TestMethod]
+        public void ConvertModuleGetTest4()
+        {
+            ReportTable table = new ReportTable();
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+            table.Columns.Add("id2");
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, null));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                table.Add(row);
+            }
+            ConvertPlug plug = new ConvertPlug();
+            object result;
+            try
+            {
+                plug.GetCell(table, 80, "name", out result);
+                Assert.Fail();
+            } catch (ConvertException)
+            {
+            }
+        }
+
+        [TestMethod]
+        public void ConvertModuleGetTes5()
+        {
+            ReportTable table = new ReportTable();
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+            table.Columns.Add("id2");
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, null));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                table.Add(row);
+            }
+            ConvertPlug plug = new ConvertPlug();
+            object result;
+            try
+            {
+                plug.GetCell(table, 1, "name2", out result);
+                Assert.Fail();
+            }
+            catch (ConvertException)
+            {
+            }
+        }
+
+        [TestMethod]
+        public void ConvertModuleGetTes6()
+        {
+            ReportTable table = new ReportTable();
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+            table.Columns.Add("id");
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, null));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                table.Add(row);
+            }
+            ConvertPlug plug = new ConvertPlug();
+            object result;
+            plug.GetCell(table, 1, "id", out result);
+            Assert.AreEqual(result, "1");
         }
     }
 }
