@@ -284,7 +284,11 @@ namespace AmLibrary
                                         j = stepNum - 1;
                                     }
                                     else
+                                    {
+                                        step_num = Int32.MaxValue;
+                                        j = Int32.MaxValue-1;
                                         break;
+                                    }
                                 continue;
                             }
                             message = _(e.InnerException.Message);
