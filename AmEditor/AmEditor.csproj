@@ -198,6 +198,10 @@
     <None Include="Resources\new-go-down-5895517224.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\down.png" />
+    <None Include="Resources\minus.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\up.png" />
     <Content Include="start-here-gnome-green.ico" />
   </ItemGroup>
   <ItemGroup>

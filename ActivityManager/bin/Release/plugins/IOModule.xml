@@ -29,6 +29,13 @@
             <param name="condition">Если true - то переходить, если false - пропустить</param>
             <param name="step">Шаг, на который необходимо перейти</param>
         </member>
+        <member name="M:IOModule.IPlug.IOIfCondititonToLabel(System.Boolean,System.String)">
+            <summary>
+            Условный переход на указанную метку
+            </summary>
+            <param name="condition">Если true - то переходить, если false - пропустить</param>
+            <param name="label">Текстовая метка, на которую необходимо произвести переход</param>
+        </member>
         <member name="M:IOModule.IPlug.IOIfCondititonExit(System.Boolean)">
             <summary>
             Условный переход на конец программы
@@ -65,6 +72,13 @@
             </summary>
             <param name="condition">Если true - то переходить, если false - пропустить</param>
             <param name="step">Шаг, на который необходимо перейти</param>
+        </member>
+        <member name="M:IOModule.IOPlug.IOIfCondititonToLabel(System.Boolean,System.String)">
+            <summary>
+            Условный переход на указанную метку
+            </summary>
+            <param name="condition">Если true - то переходить, если false - пропустить</param>
+            <param name="label">Текстовая метка, на которую необходимо произвести переход</param>
         </member>
         <member name="M:IOModule.IOPlug.IOIfCondititonExit(System.Boolean)">
             <summary>

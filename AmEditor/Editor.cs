@@ -18,7 +18,6 @@ namespace AmEditor
 {
     internal partial class Editor : Form
     {
-
         //Параметры командной строки
         private Dictionary<string, string> command_line_params = new Dictionary<string, string>();
 
@@ -52,6 +51,9 @@ namespace AmEditor
         //Состояние формы
         private enum FormState { Display, Edit }
         private FormState form_state;
+        
+        private int rowIndexFromMouseDown;
+        private DataGridViewRow rw;
 
         private List<Type> ComboBoxValueTypes = new List<Type>() { typeof(Int16), typeof(Int32), typeof(Int64), 
             typeof(UInt16), typeof(UInt32), typeof(UInt64), 
@@ -179,11 +181,24 @@ namespace AmEditor
         private void LoadDataGridViewSteps()
         {
             dataGridViewSteps.Rows.Clear();
+            StepLabel.Visible = false;
             int i = 0;
             foreach (ActivityStep step in activity_steps)
             {
                 i++;
-                dataGridViewSteps.Rows.Add(new object[] { i, step });
+                dataGridViewSteps.Rows.Add(new object[] { i, step.Label, step.ToString() + 
+                    (step.RepeatCount > 1 ? " "+String.Format(CultureInfo.CurrentCulture, language.Translate("[повторений - {0}]"), step.RepeatCount) : "") });
+                dataGridViewSteps.Rows[i-1].ContextMenuStrip = contextMenuStrip1;
+                if (!String.IsNullOrEmpty(step.Label))
+                {
+                    StepLabel.Visible = true;
+                    dataGridViewSteps.Rows[i - 1].Cells["StepLabel"].Style.BackColor = Color.FromArgb(174,210,79);
+                }
+                if (!String.IsNullOrEmpty(step.Description))
+                {
+                    foreach (DataGridViewCell cell in dataGridViewSteps.Rows[i - 1].Cells)
+                        cell.ToolTipText = step.Description;
+                }
             }
         }
 
@@ -249,7 +264,7 @@ namespace AmEditor
             activity_element.Add(new XElement("language", new XText(config_language.Prefix)));
             if (activity_steps.Count > 0)
             {
-                int i = 1;
+                int i = 0;
                 foreach (ActivityStep step in activity_steps)
                 {
                     if (step.PlugName == null || step.ActionName == null)
@@ -259,8 +274,15 @@ namespace AmEditor
                         return false;
                     }
                     i++;
+                    XComment step_comment = new XComment(String.Format(CultureInfo.CurrentCulture, "step {0}", i));
                     XElement step_element = new XElement("step", new XAttribute("plugin", step.PlugName), 
-                        new XAttribute("action", step.ActionName), new XAttribute("repeat", step.RepeatCount));
+                        new XAttribute("action", step.ActionName));
+                    if (step.RepeatCount > 1)
+                        step_element.Add(new XAttribute("repeat", step.RepeatCount));
+                    if (step.Label != null)
+                        step_element.Add(new XAttribute("label", step.Label));
+                    if (step.Description != null)
+                        step_element.Add(new XAttribute("description", step.Description));
                     if (step.InputParameters.Count > 0)
                     {
                         XElement input_parameters = new XElement("input");
@@ -275,6 +297,7 @@ namespace AmEditor
                             output_parameters.Add(new XElement("parameter", new XAttribute("name", asp.Name), new XText(asp.Value)));
                         step_element.Add(output_parameters);
                     }
+                    activity_element.Add(step_comment);
                     activity_element.Add(step_element);
                 }
             }
@@ -376,14 +399,25 @@ namespace AmEditor
             параметрыКоманднойСтрокиToolStripMenuItem.Text = _("Параметры командной строки");
             языкToolStripMenuItem2.Text = _("Язык");
             dataGridViewSteps.Columns["StepName"].HeaderText = _("Шаг");
+            dataGridViewSteps.Columns["StepLabel"].HeaderText = _("Метка");
             label1.Text = _("Действие");
             label2.Text = _("Плагин");
             label3.Text = _("Параметры");
             label4.Text = _("Описание");
+            повторенийToolStripMenuItem.Text = _("Число повторений");
+            меткаToolStripMenuItem.Text = _("Метка");
+            примечаниеToolStripMenuItem.Text = _("Примечание");
             dataGridViewParams.Columns["ParamName"].HeaderText = _("Имя");
             dataGridViewParams.Columns["ParamType"].HeaderText = _("Тип");
             dataGridViewParams.Columns["ParamDirection"].HeaderText = _("Направление");
             dataGridViewParams.Columns["ParamValue"].HeaderText = _("Значение");
+            if (dataGridViewSteps.SelectedRows.Count > 0)
+            {
+                int step = dataGridViewSteps.SelectedRows[0].Index;
+                LoadDataGridViewSteps();
+                dataGridViewSteps.Rows[step].Selected = true;
+                dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[step].Cells[0];
+            }
             ShowActionDescription();
             ChangeFormState();
         }
@@ -507,7 +541,7 @@ namespace AmEditor
             richTextBoxDescription.Clear();
             if (dataGridViewSteps.SelectedRows.Count == 0)
                 return;
-            ActivityStep step = ((ActivityStep)dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value);
+            ActivityStep step = activity_steps[dataGridViewSteps.SelectedRows[0].Index];
             string plugin_name = step.PlugName;
             string action_name = step.ActionName;
             //Выбираем плагин из списка
@@ -672,7 +706,7 @@ namespace AmEditor
             int i = 0;
             if (is_manual_change_state && dataGridViewSteps.SelectedRows.Count > 0)
             {
-                ActivityStep step = ((ActivityStep)dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value);
+                ActivityStep step = activity_steps[dataGridViewSteps.SelectedRows[0].Index];
                 step.InputParameters.Clear();
                 step.OutputParameters.Clear();
                 foreach (PlugActionParameter pap in pai.Parameters)
@@ -693,7 +727,7 @@ namespace AmEditor
                 }
                 //Если выбран шаг, то подгрузить значения для него
                 object value = null;
-                ActivityStep step = ((ActivityStep)dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value);
+                ActivityStep step = activity_steps[dataGridViewSteps.SelectedRows[0].Index];
                 foreach (ActivityStepParameter asp in step.InputParameters)
                 {
                     if (pap.Name == asp.Name)
@@ -717,7 +751,10 @@ namespace AmEditor
             //Обновить состояние формы
             if (is_manual_change_state)
             {
-                activity_steps[dataGridViewSteps.SelectedRows[0].Index].ActionName = pai.ActionName;
+                ActivityStep step = activity_steps[dataGridViewSteps.SelectedRows[0].Index];
+                step.ActionName = pai.ActionName;
+                dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value = step +
+                    (step.RepeatCount > 1 ? " " + String.Format(CultureInfo.CurrentCulture, language.Translate("[повторений - {0}]"), step.RepeatCount) : "");
                 form_state = FormState.Edit;
                 ChangeFormState();
             }
@@ -741,7 +778,7 @@ namespace AmEditor
         {
             if (dataGridViewSteps.SelectedRows.Count == 0)
                 return;
-            ActivityStep step = ((ActivityStep)dataGridViewSteps.SelectedRows[0].Cells["StepName"].Value);
+            ActivityStep step = activity_steps[dataGridViewSteps.SelectedRows[0].Index];
             int index = dataGridViewSteps.SelectedRows[0].Index;
             activity_steps.Remove(step);
             LoadDataGridViewSteps();
@@ -781,10 +818,7 @@ namespace AmEditor
             ChangeFormState();
         }
 
-        int rowIndexFromMouseDown;
-        DataGridViewRow rw;
-
-        private void dataGridViewSteps_MouseClick(object sender, MouseEventArgs e)
+        private void dataGridViewSteps_MouseMove(object sender, MouseEventArgs e)
         {
             if (dataGridViewSteps.SelectedRows.Count == 1)
             {
@@ -794,6 +828,16 @@ namespace AmEditor
                     rowIndexFromMouseDown = dataGridViewSteps.SelectedRows[0].Index;
                     dataGridViewSteps.DoDragDrop(rw, DragDropEffects.Move);
                 }
+            }
+        }
+
+        private void dataGridViewSteps_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                DataGridView.HitTestInfo hti = dataGridViewSteps.HitTest(e.X, e.Y);
+                if (hti.RowIndex != -1)
+                    dataGridViewSteps.Rows[hti.RowIndex].Selected = true;
             }
         }
 
@@ -831,6 +875,8 @@ namespace AmEditor
                 foreach (PlugInfo plugin in plugins)
                     if (plugin.PlugName == activity_steps[i].PlugName)
                         current_plugin = plugin;
+                if (current_plugin == null)
+                    continue;
                 PlugActionInfo current_action = null;
                 foreach (PlugActionInfo pai in current_plugin.PlugActions)
                     if (pai.ActionName == activity_steps[i].ActionName)
@@ -1067,6 +1113,76 @@ namespace AmEditor
             {
                 dataGridViewParams_DoubleClick(sender, e);
                 e.Handled = true;
+            }
+        }
+
+        private void повторенийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewSteps.SelectedRows.Count == 0)
+                return;
+            int step = dataGridViewSteps.SelectedRows[0].Index;
+            using (FormStringValue fsv = new FormStringValue(language))
+            {
+                fsv.Text = _("Задать число повторений шага") + " №" + (step+1);
+                fsv.Value = activity_steps[step].RepeatCount.ToString(CultureInfo.CurrentCulture);
+                if (fsv.ShowDialog() == DialogResult.OK)
+                {
+                    int repeatCount = 1;
+                    if (int.TryParse(fsv.Value.Trim(), out repeatCount))
+                        activity_steps[step].RepeatCount = repeatCount;
+                    else
+                    {
+                        MessageBox.Show(String.Format(CultureInfo.CurrentCulture, _("Не удалось привести значение '{0}' к числовому типу. Число повторений шага задано по умолчанию равным единице"), fsv.Value),
+                            _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        activity_steps[step].RepeatCount = 1;
+                    }
+                    LoadDataGridViewSteps();
+                    dataGridViewSteps.Rows[step].Selected = true;
+                    dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[step].Cells[0];
+                    form_state = FormState.Edit;
+                    ChangeFormState();
+                }
+            }
+        }
+
+        private void меткаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewSteps.SelectedRows.Count == 0)
+                return;
+            int step = dataGridViewSteps.SelectedRows[0].Index;
+            using (FormStringValue fsv = new FormStringValue(language))
+            {
+                fsv.Text = _("Задать метку шага") + " №" + (step+1);
+                fsv.Value = activity_steps[step].Label;
+                if (fsv.ShowDialog() == DialogResult.OK)
+                {
+                    activity_steps[step].Label = String.IsNullOrEmpty(fsv.Value.Trim()) ? null : fsv.Value.Trim();
+                    LoadDataGridViewSteps();
+                    dataGridViewSteps.Rows[step].Selected = true;
+                    dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[step].Cells[0];
+                    form_state = FormState.Edit;
+                    ChangeFormState();
+                }
+            }
+        }
+
+        private void примечаниеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewSteps.SelectedRows.Count == 0)
+                return;
+            int step = dataGridViewSteps.SelectedRows[0].Index;
+            using (FormStringValue fsv = new FormStringValue(language))
+            {
+                fsv.Text = _("Задать примечание шага") + " №" + (step + 1);
+                fsv.Value = activity_steps[step].Description;
+                if (fsv.ShowDialog() == DialogResult.OK)
+                {
+                    activity_steps[step].Description = String.IsNullOrEmpty(fsv.Value.Trim()) ? null : fsv.Value.Trim();
+                    foreach (DataGridViewCell cell in dataGridViewSteps.SelectedRows[0].Cells)
+                        cell.ToolTipText = String.IsNullOrEmpty(fsv.Value.Trim()) ? null : fsv.Value.Trim();
+                    form_state = FormState.Edit;
+                    ChangeFormState();
+                }
             }
         }
     }

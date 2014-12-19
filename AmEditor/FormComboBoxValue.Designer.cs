@@ -36,6 +36,8 @@
             // 
             // comboBoxValue
             // 
+            this.comboBoxValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxValue.FormattingEnabled = true;
             this.comboBoxValue.Location = new System.Drawing.Point(12, 25);
             this.comboBoxValue.Name = "comboBoxValue";
@@ -45,6 +47,7 @@
             // 
             // button1
             // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button1.Location = new System.Drawing.Point(50, 52);
             this.button1.Name = "button1";
@@ -55,6 +58,7 @@
             // 
             // button2
             // 
+            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(131, 52);
             this.button2.Name = "button2";

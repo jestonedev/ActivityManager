@@ -1,4 +1,4 @@
-Ошибка:Error
+﻿Ошибка:Error
 AM-редактор:AM-editor
 Неизвестный плагин {0}:Unknown plugin {0}
 Неизвестное действие {0}:Unknown action {0}
@@ -44,3 +44,18 @@ AM-редактор:AM-editor
 Имя переменной:Variable name
 Вставить:Insert
 Задать глобальное имя:Set global parameter name
+Метка:Label
+[повторений - {0}]:[repeat - {0}]
+Число повторений:Repeat count
+Примечание:Description
+Без подсветки:Without highlighting
+Подсветка синтаксиса:Syntax highlighting
+Отменить:Cancel
+Вставить:Insert
+Удалить:Delete
+Вырезать:Cut
+Буфер обмена:Clipboard
+Путь до папки:Path to directory
+Путь до файла:Path to file
+Повторить:Repeat
+Копировать:Copy

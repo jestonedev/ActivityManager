@@ -23,7 +23,6 @@ namespace AmEditor
             InitializeComponent();
             button1.Text = language.Translate(button1.Text);
             button2.Text = language.Translate(button2.Text);
-            label1.Text = language.Translate(label1.Text);
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)

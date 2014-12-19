@@ -139,12 +139,6 @@ namespace AmLibrary
                                         value = global_parameters[param];
                                 match = match.NextMatch();
                             }
-                            //Если ожидается значение перечисления, а передается строка из config-файла, то конвертируем
-                            /*if (plugin_parameter.ParameterType.IsEnum && (value is string))
-                                value = Enum.Parse(plugin_parameter.ParameterType, value.ToString(), true);
-                            //Пробуем конвертировать через ChangeType
-                            if (plugin_parameter.ParameterType != typeof(System.String))
-                                Convert.ChangeType(value, plugin_parameter.ParameterType, CultureInfo.CurrentCulture);*/
                             break;
                         }
                         catch (Exception)
@@ -228,65 +222,91 @@ namespace AmLibrary
             for (int j = 0; j < activity_steps.Count; j++)
             {
                 step_num++;
-                //Выполняем проверку соответствия значений параметров их типам
-                CheckActivityVariablesValues(activity_steps[j]);
-                //Получаем список входных параметров
-                object[] input_parameters = new object[activity_steps[j].InputParameters.Count];
-                for (int i = 0; i < input_parameters.Length; i++)
+                ActivityStep step = activity_steps[j];
+                for (int rc = 0; rc < step.RepeatCount; rc++)
                 {
-                    object value = activity_steps[j].InputParameters[i].Value;
-                    Match match = Regex.Match(value.ToString(), @"\[[\w]*\]");
-                    while (match.Success)
+                    //Выполняем проверку соответствия значений параметров их типам
+                    CheckActivityVariablesValues(step);
+                    //Получаем список входных параметров
+                    object[] input_parameters = new object[step.InputParameters.Count];
+                    for (int i = 0; i < input_parameters.Length; i++)
                     {
-                        string param = match.Value;
-                        param = param.Trim(new char[] { '[', ']' });
-                        if (global_parameters.ContainsKey(param))
-                            if (match.Value.Length != value.ToString().Length)
-                                value = value.ToString().Replace(match.Value, global_parameters[param].ToString());
-                            else
-                                value = global_parameters[param];
-                        match = match.NextMatch();
+                        object value = step.InputParameters[i].Value;
+                        Match match = Regex.Match(value.ToString(), @"\[[\w]*\]");
+                        while (match.Success)
+                        {
+                            string param = match.Value;
+                            param = param.Trim(new char[] { '[', ']' });
+                            if (global_parameters.ContainsKey(param))
+                                if (match.Value.Length != value.ToString().Length)
+                                    value = value.ToString().Replace(match.Value, global_parameters[param].ToString());
+                                else
+                                    value = global_parameters[param];
+                            match = match.NextMatch();
+                        }
+                        input_parameters[i] = value;
                     }
-                    input_parameters[i] = value;
-                }
-                object[] output_parameters = null;
-                try
-                {
-                    for (int i = 0; i < activity_steps[j].RepeatCount; i++)
+                    object[] output_parameters = null;
+                    try
                     {
-                        PlugActionHelper.FindPlugAction(plugins, activity_steps[j])
+                        PlugActionHelper.FindPlugAction(plugins, step)
                             .Execute(input_parameters, out output_parameters);
                     }
-                }
-                catch (ApplicationException e)
-                {
-                    if (e.InnerException.GetType().FullName == "IOModule.IfConditionException")
+                    catch (ApplicationException e)
                     {
-                        int step = step_num;
-                        if (Int32.TryParse(e.InnerException.Data["step"].ToString(), out step))
+                        string message = "";
+                        if (e.InnerException != null)
                         {
-                            //Элменты массива нумеруются с 0, но пользователь вводит их с 1. При этом по окончании цикла идет инкремент, который необходимо учитывать
-                            step_num = step - 1;
-                            j = step - 2;
+                            if (e.InnerException.GetType().FullName == "IOModule.IfConditionException")
+                            {
+                                if (e.InnerException.Data.Contains("step"))
+                                {
+                                    int stepNum = -1;
+                                    if (Int32.TryParse(e.InnerException.Data["step"].ToString().Trim(), out stepNum))
+                                    {
+                                        //Элменты массива нумеруются с 0, но пользователь вводит их с 1. При этом по окончании цикла идет инкремент, который необходимо учитывать
+                                        step_num = stepNum - 1;
+                                        j = stepNum - 2;
+                                    }
+                                }
+                                else
+                                    if (e.InnerException.Data.Contains("label"))
+                                    {
+                                        string label = e.InnerException.Data["label"].ToString().Trim();
+                                        int stepNum = int.MaxValue;
+                                        for (int k = 0; k < activity_steps.Count; k++)
+                                            if (activity_steps[k].Label != null && activity_steps[k].Label.Trim() == label)
+                                            {
+                                                stepNum = k;
+                                                break;
+                                            }
+                                        step_num = stepNum;
+                                        j = stepNum - 1;
+                                    }
+                                    else
+                                        break;
+                                continue;
+                            }
+                            message = _(e.InnerException.Message);
+                            foreach (string key in e.InnerException.Data.Keys)
+                                message = message.Replace(key, e.InnerException.Data[key].ToString());
                         }
-                        continue;
+                        else
+                            message = e.Message;
+                        throw new AMException(String.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", step_num) + message);
                     }
-                    string message = _(e.InnerException.Message);
-                    foreach (string key in e.InnerException.Data.Keys)
-                        message = message.Replace(key, e.InnerException.Data[key].ToString());
-                    throw new AMException(String.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", step_num) + message);
-                }
-                for (int i = 0; i < output_parameters.Length; i++)
-                {
-                    string param_name = "";
-                    if (!String.IsNullOrEmpty(activity_steps[j].OutputParameters[i].Value.Trim()))
-                        param_name = activity_steps[j].OutputParameters[i].Value;
-                    else
-                        param_name = activity_steps[j].OutputParameters[i].Name;
-                    if (global_parameters.ContainsKey(param_name))
-                        global_parameters[param_name] = output_parameters[i];
-                    else
-                        global_parameters.Add(param_name, output_parameters[i]);
+                    for (int k = 0; k < output_parameters.Length; k++)
+                    {
+                        string param_name = "";
+                        if (!String.IsNullOrEmpty(activity_steps[j].OutputParameters[k].Value.Trim()))
+                            param_name = activity_steps[j].OutputParameters[k].Value;
+                        else
+                            param_name = activity_steps[j].OutputParameters[k].Name;
+                        if (global_parameters.ContainsKey(param_name))
+                            global_parameters[param_name] = output_parameters[k];
+                        else
+                            global_parameters.Add(param_name, output_parameters[k]);
+                    }
                 }
             }
         }

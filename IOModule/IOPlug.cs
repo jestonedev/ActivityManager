@@ -38,6 +38,13 @@ namespace IOModule
         void IOIfCondititonToStep(bool condition, int step);
 
         /// <summary>
+        /// Условный переход на указанную метку
+        /// </summary>
+        /// <param name="condition">Если true - то переходить, если false - пропустить</param>
+        /// <param name="label">Текстовая метка, на которую необходимо произвести переход</param>
+        void IOIfCondititonToLabel(bool condition, string label);
+
+        /// <summary>
         /// Условный переход на конец программы
         /// </summary>
         /// <param name="condition">Если true - то переходить, если false - пропустить</param>
@@ -103,6 +110,21 @@ namespace IOModule
         }
 
         /// <summary>
+        /// Условный переход на указанную метку
+        /// </summary>
+        /// <param name="condition">Если true - то переходить, если false - пропустить</param>
+        /// <param name="label">Текстовая метка, на которую необходимо произвести переход</param>
+        public void IOIfCondititonToLabel(bool condition, string label)
+        {
+            if (condition)
+            {
+                IfConditionException exception = new IfConditionException();
+                exception.Data.Add("label", label);
+                throw exception;
+            }
+        }
+
+        /// <summary>
         /// Условный переход на конец программы
         /// </summary>
         /// <param name="condition">Если true - то переходить, если false - пропустить</param>
@@ -110,9 +132,7 @@ namespace IOModule
         {
             if (condition)
             {
-                IfConditionException exception = new IfConditionException();
-                exception.Data.Add("step", Int32.MaxValue);
-                throw exception;
+                throw new IfConditionException();
             }
         }
 

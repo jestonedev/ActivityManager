@@ -13,6 +13,7 @@ namespace AmEditor
 {
     internal partial class FormMultiValue : Form
     {
+
         public string Value
         {
             get { return scintillaEditor.Text; }
@@ -24,9 +25,20 @@ namespace AmEditor
             InitializeComponent();
             foreach (string GlobalVariable in globalVariables)
                 comboBoxValues.Items.Add(GlobalVariable);
-            button1.Text = language.Translate(button1.Text);
-            button2.Text = language.Translate(button2.Text);
-            button4.Text = language.Translate(button4.Text);
+            button1.Text = language.Translate("Сохранить");
+            button2.Text = language.Translate("Отменить");
+            button4.Text = language.Translate("Вставить");
+            безПодсветкиToolStripMenuItem.Text = language.Translate("Без подсветки");
+            отменитьToolStripMenuItem.Text = language.Translate("Отменить");
+            повторитьToolStripMenuItem.Text = language.Translate("Повторить");
+            копироватьToolStripMenuItem1.Text = language.Translate("Копировать");
+            вырезатьToolStripMenuItem.Text = language.Translate("Вырезать");
+            вставитьToolStripMenuItem.Text = language.Translate("Вставить");
+            удалитьToolStripMenuItem.Text = language.Translate("Удалить");
+            буферОбменаToolStripMenuItem.Text = language.Translate("Буфер обмена");
+            путьДоПапкиToolStripMenuItem.Text = language.Translate("Путь до папки");
+            путьДоФайлаToolStripMenuItem.Text = language.Translate("Путь до файла");
+            синтаксисToolStripMenuItem.Text = language.Translate("Подсветка синтаксиса");
             setEditorLanguage(mSSQLToolStripMenuItem, "mssql");
         }
 

@@ -12,6 +12,8 @@ namespace AMClasses
 		public string PlugName { get; set; }
 		public string ActionName { get; set; }
 		public int RepeatCount { get; set; }
+        public string Label { get; set; }
+        public string Description { get; set; }
 
         private Collection<ActivityStepParameter> inputParameters = new Collection<ActivityStepParameter>();
         private Collection<ActivityStepParameter> outputParameters = new Collection<ActivityStepParameter>();
@@ -60,6 +62,14 @@ namespace AMClasses
                     throw new AMException(String.Format(CultureInfo.CurrentCulture,"[config.xml]" + 
                         lang.Translate("Некорректное числовое значение атрибута \"repeat\" = {0}"), repeat.Value));
             }
+            //Задаем значение атритубат Label
+            XAttribute label = element.Attribute("label");
+            if (label != null)
+                activity_step.Label = label.Value;
+            //Задаем значение атритубат Description
+            XAttribute description = element.Attribute("description");
+            if (description != null)
+                activity_step.Description = description.Value;
             XElement input = element.Element("input");
             if (input != null)
             {
