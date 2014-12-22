@@ -4020,6 +4020,15 @@ namespace UnitTest
         }
 
         [TestMethod]
+        public void ConvertModuleConvertFloatTest7()
+        {
+            ConvertPlug plug = new ConvertPlug();
+            string value = "";
+            plug.ConvertFloatToString((decimal)21.10, TextCase.Genitive, false, out value);
+            Assert.AreEqual(value, "двадцати одной целой одной десятой");
+        }
+
+        [TestMethod]
         public void ConvertModuleConvertCurrencyTest1()
         {
             ReportTable table = "[{\"id\":\"-1,11\"},{\"id\":\"" + decimal.MaxValue + "\"},{\"id\":\"" + decimal.MinValue + "\"},{\"id\":\"7654,321012345\"},{\"id\":\"123456789000654,00012345\"},{\"id\":\"0,012\"},{\"id\":\"1,001012\"},{\"id\":\"21\"},{\"id\":\"0\"},{\"id\":\"0,00\"}]";

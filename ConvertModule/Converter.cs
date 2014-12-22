@@ -799,7 +799,7 @@ namespace ConvertModule
                 number = Math.Abs(number);
                 negative = true;
             }
-            string[] number_parts = number.ToString(CultureInfo.CurrentCulture).Split(new char[] { '.', ',' }, 2, StringSplitOptions.RemoveEmptyEntries);
+            string[] number_parts = number.ToString("0.0########",CultureInfo.CurrentCulture).Split(new char[] { '.', ',' }, 2, StringSplitOptions.RemoveEmptyEntries);
             long integral = 0;
             long fractional = 0;
             if (!long.TryParse(number_parts[0], out integral))
