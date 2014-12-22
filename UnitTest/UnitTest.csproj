@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtendedTypesUnitTests.cs" />
     <Compile Include="ConvertModuleUnitTests.cs" />
+    <Compile Include="XmlDataSourceUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConvertModule\ConvertModule.csproj">
@@ -71,6 +72,10 @@
     <ProjectReference Include="..\ReportModule\ReportModule.csproj">
       <Project>{a1db2572-4da5-4179-a0a7-0ed0010f20cf}</Project>
       <Name>ReportModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XmlDataSource\XmlDataSource.csproj">
+      <Project>{fef2ff5e-9cad-47ff-bf74-4d316d1b2521}</Project>
+      <Name>XmlDataSource</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

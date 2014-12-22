@@ -47,5 +47,19 @@ namespace UnitTest
             Assert.AreEqual(newTable[1]["surname"].Value, "Ignatov2");
             Assert.AreEqual(newTable[0].Table.Columns.Count, 2);
         }
+
+        [TestMethod]
+        public void ExtendedTypesReportTableIncorrectImplicitTest()
+        {
+            ReportTable newTable = "[{\"name\":\"value}]";
+            Assert.AreEqual(newTable, null);
+        }
+
+        [TestMethod]
+        public void ExtendedTypesReportRowIncorrectImplicitTest()
+        {
+            ReportRow newRow = "{\"name\":\"value}";
+            Assert.AreEqual(newRow, null);
+        }
     }
 }

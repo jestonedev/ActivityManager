@@ -28,7 +28,7 @@ namespace TextDataSource
         void TextSelectTable(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, bool ignoreDataTypes, out ReportTable table);
 
         /// <summary>
-        /// Выборка скалярного значения из базы данных
+        /// Выборка скалярного значения из текстового файла
         /// </summary>
         /// <param name="query">Запрос на выполнение</param>
         /// <param name="columnSeparator">Разделитель колонок</param>
@@ -56,9 +56,9 @@ namespace TextDataSource
     public class TextDataSourcePlug : IPlug
     {
         /// <summary>
-        /// Выборка данных из базы данных
+        /// Выборка данных из текстового файла
         /// </summary>
-        /// <param name="query">Запрос к базе данных в формате Sql</param>
+        /// <param name="query">Запрос на выполнение</param>
         /// <param name="columnSeparator">Разделитель колонок</param>
         /// <param name="rowSeparator">Разделитель строк. По умолчанию перенос строки</param>
         /// <param name="firstRowHeader">Является ли первая строка файла(ов) источника(ов) заголовком</param>
@@ -92,7 +92,7 @@ namespace TextDataSource
         }
 
         /// <summary>
-        /// Выборка скалярного значения из базы данных
+        /// Выборка скалярного значения из текстового файла
         /// </summary>
         /// <param name="query">Запрос на выполнение</param>
         /// <param name="columnSeparator">Разделитель колонок</param>

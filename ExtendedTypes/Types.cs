@@ -67,7 +67,14 @@ namespace ExtendedTypes
 
         public static implicit operator ReportRow(string json)
         {
-            Dictionary<string, string> row = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            Dictionary<string, string> row = null;
+            try
+            {
+                row = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            } catch (JsonException)
+            {
+                return null;
+            }
             ReportTable table = new ReportTable();
             ReportRow reportRow = new ReportRow(table);
             foreach (var value in row)
@@ -112,7 +119,14 @@ namespace ExtendedTypes
 
         public static implicit operator ReportTable(string json)
         {
-            List<Dictionary<string, string>> rows = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json);
+            List<Dictionary<string, string>> rows = null;
+            try
+            { 
+                rows = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json);
+            } catch (JsonException)
+            {
+                return null;
+            }
             ReportTable table = new ReportTable();
             bool is_first_row = true;
             foreach (var row in rows)

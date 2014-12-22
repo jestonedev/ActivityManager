@@ -22,7 +22,7 @@
         </member>
         <member name="M:TextDataSource.IPlug.TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Object@)">
             <summary>
-            Выборка скалярного значения из базы данных
+            Выборка скалярного значения из текстового файла
             </summary>
             <param name="query">Запрос на выполнение</param>
             <param name="columnSeparator">Разделитель колонок</param>
@@ -49,9 +49,9 @@
         </member>
         <member name="M:TextDataSource.TextDataSourcePlug.TextSelectTable(System.String,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Выборка данных из базы данных
+            Выборка данных из текстового файла
             </summary>
-            <param name="query">Запрос к базе данных в формате Sql</param>
+            <param name="query">Запрос на выполнение</param>
             <param name="columnSeparator">Разделитель колонок</param>
             <param name="rowSeparator">Разделитель строк. По умолчанию перенос строки</param>
             <param name="firstRowHeader">Является ли первая строка файла(ов) источника(ов) заголовком</param>
@@ -60,7 +60,7 @@
         </member>
         <member name="M:TextDataSource.TextDataSourcePlug.TextSelectScalar(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Object@)">
             <summary>
-            Выборка скалярного значения из базы данных
+            Выборка скалярного значения из текстового файла
             </summary>
             <param name="query">Запрос на выполнение</param>
             <param name="columnSeparator">Разделитель колонок</param>
