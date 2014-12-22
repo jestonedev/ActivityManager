@@ -316,6 +316,7 @@ namespace AmLibrary
         }
         public static void Run(string configFile, Dictionary<string, object> parameters)
         {
+            Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + Path.Combine(Environment.CurrentDirectory,"plugins"));
             ActivityManager manager = new ActivityManager(configFile, parameters);
             manager.LoadConfigFile();
             manager.LoadPlugins();

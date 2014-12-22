@@ -22,7 +22,7 @@ namespace XmlDataSource
         /// </summary>
         /// <param name="xml">Путь до xml-файла или текст в формате xml</param>
         /// <param name="rowXPath">XPath-выражение, указывающее какие узлы xml-дерева считать строками таблицы</param>
-        /// <param name="cellXPathes">XPath-выражения в виде JSON-объекта, указывающих какие узлы xml-дерева считать ячейками, 
+        /// <param name="cellXPathes">XPath-выражения в виде JSON-объекта, указывающие какие узлы xml-дерева считать ячейками, 
         /// где ключ - имя будущего столбца, значение - вычисляемое XPath-выражение относительно XPath-выражения строки
         /// Пример: {"column1":"@attr1","column2":"text()"}
         /// </param>
@@ -48,7 +48,7 @@ namespace XmlDataSource
         /// </summary>
         /// <param name="xml">Путь до xml-файла или текст в формате xml</param>
         /// <param name="rowXPath">XPath-выражение, указывающее какие узлы xml-дерева считать строками таблицы</param>
-        /// <param name="cellXPathes">XPath-выражения в виде JSON-объекта, указывающих какие узлы xml-дерева считать ячейками, 
+        /// <param name="cellXPathes">XPath-выражения в виде JSON-объекта, указывающие какие узлы xml-дерева считать ячейками, 
         /// где ключ - имя будущего столбца, значение - вычисляемое XPath-выражение относительно XPath-выражения строки
         /// Пример: {"column1":"@attr1","column2":"text()"}
         /// </param>
