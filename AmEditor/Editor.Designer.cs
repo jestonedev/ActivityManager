@@ -206,6 +206,7 @@
             this.dataGridViewSteps.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridViewSteps_DragEnter);
             this.dataGridViewSteps.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridViewSteps_MouseDown);
             this.dataGridViewSteps.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridViewSteps_MouseMove);
+            this.dataGridViewSteps.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dataGridViewSteps_MouseUp);
             // 
             // NumStep
             // 

@@ -92,7 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ActivityManager.snk" />
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Migrated rules for ActivityManager.ruleset" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

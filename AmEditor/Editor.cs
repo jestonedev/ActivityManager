@@ -47,7 +47,8 @@ namespace AmEditor
 
         //В ручную ли изменяется состояние формы?
         private bool is_manual_change_state = false;
-
+        
+        private bool can_drag = false;
         //Состояние формы
         private enum FormState { Display, Edit }
         private FormState form_state;
@@ -485,6 +486,7 @@ namespace AmEditor
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                can_drag = false;
                 //Если есть несохраненные данные, то сохраняем их
                 if (!SetDisplayFormState())
                     return;
@@ -822,7 +824,7 @@ namespace AmEditor
         {
             if (dataGridViewSteps.SelectedRows.Count == 1)
             {
-                if (e.Button == MouseButtons.Left)
+                if ((e.Button == MouseButtons.Left) && can_drag)
                 {
                     rw = dataGridViewSteps.SelectedRows[0];
                     rowIndexFromMouseDown = dataGridViewSteps.SelectedRows[0].Index;
@@ -833,12 +835,18 @@ namespace AmEditor
 
         private void dataGridViewSteps_MouseDown(object sender, MouseEventArgs e)
         {
+            can_drag = true;
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 DataGridView.HitTestInfo hti = dataGridViewSteps.HitTest(e.X, e.Y);
                 if (hti.RowIndex != -1)
                     dataGridViewSteps.Rows[hti.RowIndex].Selected = true;
             }
+        }
+
+        private void dataGridViewSteps_MouseUp(object sender, MouseEventArgs e)
+        {
+            can_drag = false;
         }
 
         private void dataGridViewSteps_DragDrop(object sender, DragEventArgs e)
