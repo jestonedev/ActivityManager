@@ -33,9 +33,13 @@ namespace ActivityManager
                 for (int i = 0; i < args.Length; i++)
                 {
                     string[] arg = args[i].Split(new char[] { '=' }, 2);
-                    if (arg.Length != 2)
+                    if (arg.Length == 1)
+                        parameters.Add(arg[0], null);
+                    else
+                    if (arg.Length == 2)
+                        parameters.Add(arg[0], arg[1]);
+                    else
                         throw new AMException(_("Некорректный формат входной строки параметров"));
-                    parameters.Add(arg[0], arg[1]);
                 }
 
                 //проверяем наличие обязательного параметра: config
@@ -47,7 +51,18 @@ namespace ActivityManager
             }
             catch (AMException e)
             {
-                MessageBox.Show(e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (parameters.ContainsKey("--nodialog"))
+                    Console.WriteLine(e.Message);
+                else
+                    MessageBox.Show(e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception e)
+            {
+                if (parameters.ContainsKey("--nodialog"))
+                    Console.WriteLine(e.Message);
+                else
+                    MessageBox.Show("Данное сообщение является следствием ошибки в работе ядра менеджера отчетов. Обратитесь к разработчику. Подробный текст ошибки: "+e.Message, 
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 		}
 	}
