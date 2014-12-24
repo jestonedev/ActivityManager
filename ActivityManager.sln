@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlDataSource", "XmlDataSou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlDataSource", "HtmlDataSource\HtmlDataSource.csproj", "{35948156-0FD6-4021-81AB-D3E7F82EF681}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonDataSource", "JsonDataSource\JsonDataSource.csproj", "{0766808B-6976-44E7-B5C3-D648F1D3A377}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{35948156-0FD6-4021-81AB-D3E7F82EF681}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35948156-0FD6-4021-81AB-D3E7F82EF681}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35948156-0FD6-4021-81AB-D3E7F82EF681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0766808B-6976-44E7-B5C3-D648F1D3A377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0766808B-6976-44E7-B5C3-D648F1D3A377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0766808B-6976-44E7-B5C3-D648F1D3A377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0766808B-6976-44E7-B5C3-D648F1D3A377}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

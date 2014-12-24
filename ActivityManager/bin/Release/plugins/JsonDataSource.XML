@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JsonDataSource</name>
+    </assembly>
+    <members>
+        <member name="T:JsonDataSource.IPlug">
+            <summary>
+            Доступный из-вне интерфейс плагина
+            </summary>
+        </member>
+        <member name="M:JsonDataSource.IPlug.JsonSelectTable(System.String,System.String,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из json-файла
+            </summary>
+            <param name="json">Путь до json-файла или текст в формате json</param>
+            <param name="cellsJson">json-объект, указывающие какие свойства json-документа считать ячейками, 
+            где ключ - имя будущего столбца, значение - свойство или цепочка вложенных свойств, разделенных знаком "точка" 
+            Пример: {"name":"stuff.name","surname":"stuff.surname","department":"organization.name"}
+            </param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:JsonDataSource.IPlug.JsonSelectScalar(System.String,System.String,System.Object@)">
+            <summary>
+            Выборка скалярного значения из json-файла
+            </summary>
+            <param name="json">Путь до json-файла или текст в формате json</param>
+            <param name="key">Ключ для выборки свойства из json-документа. Пример для json-документа {"stuff": {"name":"Ivan","surname":"Ivanov"} } : stuff.name</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="M:JsonDataSource.JsonDataSourcePlug.JsonSelectTable(System.String,System.String,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из json-файла
+            </summary>
+            <param name="json">Путь до json-файла или текст в формате json</param>
+            <param name="cellsJson">json-объект, указывающие какие свойства json-документа считать ячейками, 
+            где ключ - имя будущего столбца, значение - свойство или цепочка вложенных свойств, разделенных знаком "точка" 
+            Пример: {"name":"stuff.name","surname":"stuff.surname","department":"organization.name"}
+            </param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:JsonDataSource.JsonDataSourcePlug.JsonSelectScalar(System.String,System.String,System.Object@)">
+            <summary>
+            Выборка скалярного значения из json-файла
+            </summary>
+            <param name="json">Путь до json-файла или текст в формате json</param>
+            <param name="key">Ключ для выборки свойства из json-документа. Пример для json-документа {"stuff": {"name":"Ivan","surname":"Ivanov"} } : stuff.name</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="T:JsonDataSource.JsonDataSourceException">
+            <summary>
+            Класс исключения модуля JsonDataSource
+            </summary>
+        </member>
+        <member name="M:JsonDataSource.JsonDataSourceException.#ctor">
+            <summary>
+            Конструктор класса исключения JsonDataSourceException
+            </summary>
+        </member>
+        <member name="M:JsonDataSource.JsonDataSourceException.#ctor(System.String)">
+            <summary>
+            Конструктор класса исключения JsonDataSourceException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+        </member>
+        <member name="M:JsonDataSource.JsonDataSourceException.#ctor(System.String,System.Exception)">
+            <summary>
+            Конструктор класса исключения JsonDataSourceException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+            <param name="innerException">Вложенное исключение</param>
+        </member>
+        <member name="M:JsonDataSource.JsonDataSourceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Конструктор класса исключения JsonDataSourceException
+            </summary>
+            <param name="info">Информация сериализации</param>
+            <param name="context">Контекст потока</param>
+        </member>
+    </members>
+</doc>

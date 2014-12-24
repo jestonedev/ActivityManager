@@ -22,7 +22,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertIntCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,ConvertModule.Sex,System.Boolean,System.Boolean,ExtendedTypes.ReportRow@)">
             <summary>
-            Метод конвертации ячейки с числом в строковое представление чисел
+            Действие конвертации ячейки с числом в строковое представление чисел
             </summary>
             <param name="inRow">Входная строка</param>
             <param name="column">Имя колонки</param>
@@ -34,7 +34,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertIntColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,ConvertModule.Sex,System.Boolean,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Метод конвертации всех значений колонки таблицы в строковое представление чисел
+            Действие конвертации всех значений колонки таблицы в строковое представление чисел
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -66,7 +66,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertDateTimeCellToString(ExtendedTypes.ReportRow,System.String,System.String,System.Boolean,ExtendedTypes.ReportRow@)">
             <summary>
-            Метод конвертации ячейки с датой в форматированное представление даты
+            Действие конвертации ячейки с датой в форматированное представление даты
             </summary>
             <param name="inRow">Входная строка</param>
             <param name="column">Имя колонки</param>
@@ -87,7 +87,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertDateTimeColToString(ExtendedTypes.ReportTable,System.String,System.String,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Метод конвертации всех значений колонки таблицы в форматированное представление даты
+            Действие конвертации всех значений колонки таблицы в форматированное представление даты
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -108,7 +108,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertCurrencyToString(System.Decimal,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,System.String@)">
             <summary>
-            Метод конвертации суммы в строку
+            Действие конвертации суммы в строку
             </summary>
             <param name="currency">Сумма</param>
             <param name="currencyType">Тип валюты</param>
@@ -128,7 +128,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertCurrencyCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportRow@)">
             <summary>
-            Метод конвертации значения ячейки с суммой в строковое представление суммы
+            Действие конвертации значения ячейки с суммой в строковое представление суммы
             </summary>
             <param name="inRow">Входная строка</param>
             <param name="column">Имя колонки</param>
@@ -151,7 +151,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertCurrencyColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Метод конвертации всех значений колонки таблицы в строковое представление суммы
+            Действие конвертации всех значений колонки таблицы в строковое представление суммы
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -183,7 +183,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertFloatCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,System.Boolean,ExtendedTypes.ReportRow@)">
             <summary>
-            Метод конвертации значения ячейки с вещественным числом в троку
+            Действие конвертации значения ячейки с вещественным числом в троку
             </summary>
             <param name="inRow">Входная строка</param>
             <param name="column">Имя колонки</param>
@@ -193,7 +193,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ConvertFloatColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Метод конвертации всех значений колонки таблицы в строковое представление вещественного числа
+            Действие конвертации всех значений колонки таблицы в строковое представление вещественного числа
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -253,7 +253,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.RowConcat(ExtendedTypes.ReportRow,System.String,System.String@)">
             <summary>
-            Метод объединения всех ячеек строки данных в одну строку
+            Действие объединения всех ячеек строки данных в одну строку
             </summary>
             <param name="inRow">Входная строка отчета</param>
             <param name="separator">Разделитель ячеек</param>
@@ -261,7 +261,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.ColumnConcat(ExtendedTypes.ReportTable,System.String,System.String,System.String@)">
             <summary>
-            Метод объединения всех значений колонки в одну строку
+            Действие объединения всех значений колонки в одну строку
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -270,7 +270,7 @@
         </member>
         <member name="M:ConvertModule.IPlug.TableConcat(ExtendedTypes.ReportTable,System.String,System.String,System.String@)">
             <summary>
-            Метод объединения значений всех ячеек таблицы в одну строку
+            Действие объединения значений всех ячеек таблицы в одну строку
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="rowSeparator">Разделитель строк</param>
@@ -341,7 +341,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertCurrencyToString(System.Decimal,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,System.String@)">
             <summary>
-            Метод конвертации суммы в строку
+            Действие конвертации суммы в строку
             </summary>
             <param name="currency">Сумма</param>
             <param name="currencyType">Тип валюты</param>
@@ -363,7 +363,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertIntCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,ConvertModule.Sex,System.Boolean,System.Boolean,ExtendedTypes.ReportRow@)">
             <summary>
-            Метод конвертации ячейки с числом в строковое представление чисел
+            Действие конвертации ячейки с числом в строковое представление чисел
             </summary>
             <param name="inRow">Входная строка</param>
             <param name="column">Имя колонки</param>
@@ -375,7 +375,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertIntColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,ConvertModule.Sex,System.Boolean,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Метод конвертации всех значений колонки таблицы в строковое представление чисел
+            Действие конвертации всех значений колонки таблицы в строковое представление чисел
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -387,7 +387,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertDateTimeCellToString(ExtendedTypes.ReportRow,System.String,System.String,System.Boolean,ExtendedTypes.ReportRow@)">
             <summary>
-            Метод конвертации ячейки с датой в форматированное представление даты
+            Действие конвертации ячейки с датой в форматированное представление даты
             </summary>
             <param name="inRow">Входная строка</param>
             <param name="column">Имя колонки</param>
@@ -408,7 +408,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertDateTimeColToString(ExtendedTypes.ReportTable,System.String,System.String,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Метод конвертации всех значений колонки таблицы в форматированное представление даты
+            Действие конвертации всех значений колонки таблицы в форматированное представление даты
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -429,7 +429,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertCurrencyCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportRow@)">
             <summary>
-            Метод конвертации значения ячейки с суммой в строковое представление суммы
+            Действие конвертации значения ячейки с суммой в строковое представление суммы
             </summary>
             <param name="inRow">Входная строка</param>
             <param name="column">Имя колонки</param>
@@ -452,7 +452,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertCurrencyColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.CurrencyType,System.String,System.String,System.Boolean,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Метод конвертации всех значений колонки таблицы в строковое представление суммы
+            Действие конвертации всех значений колонки таблицы в строковое представление суммы
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -475,7 +475,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertFloatCellToString(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,System.Boolean,ExtendedTypes.ReportRow@)">
             <summary>
-            Метод конвертации значения ячейки с вещественным числом в троку
+            Действие конвертации значения ячейки с вещественным числом в троку
             </summary>
             <param name="inRow">Входная строка</param>
             <param name="column">Имя колонки</param>
@@ -485,7 +485,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertFloatColToString(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,System.Boolean,ExtendedTypes.ReportTable@)">
             <summary>
-            Метод конвертации всех значений колонки таблицы в строковое представление вещественного числа
+            Действие конвертации всех значений колонки таблицы в строковое представление вещественного числа
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -545,7 +545,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.RowConcat(ExtendedTypes.ReportRow,System.String,System.String@)">
             <summary>
-            Метод объединения всех ячеек строки данных в одну строку
+            Действие объединения всех ячеек строки данных в одну строку
             </summary>
             <param name="inRow">Входная строка отчета</param>
             <param name="separator">Разделитель ячеек</param>
@@ -553,7 +553,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.ColumnConcat(ExtendedTypes.ReportTable,System.String,System.String,System.String@)">
             <summary>
-            Метод объединения всех значений колонки в одну строку
+            Действие объединения всех значений колонки в одну строку
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки</param>
@@ -562,7 +562,7 @@
         </member>
         <member name="M:ConvertModule.ConvertPlug.TableConcat(ExtendedTypes.ReportTable,System.String,System.String,System.String@)">
             <summary>
-            Метод объединения значений всех ячеек таблицы в одну строку
+            Действие объединения значений всех ячеек таблицы в одну строку
             </summary>
             <param name="inTable">Входная таблица</param>
             <param name="rowSeparator">Разделитель строк</param>
@@ -713,7 +713,7 @@
         </member>
         <member name="M:ConvertModule.Converter.DateTimeToText(System.DateTime,System.String)">
             <summary>
-            Метод конвертации даты в текст
+            Действие конвертации даты в текст
             </summary>
             <param name="dateTime">Дата</param>
             <param name="format">
@@ -732,7 +732,7 @@
         </member>
         <member name="M:ConvertModule.Converter.CurrencyToString(System.Decimal,ConvertModule.CurrencyType,System.String,System.String,System.Boolean)">
             <summary>
-            Метод конвертации суммы в строку
+            Действие конвертации суммы в строку
             </summary>
             <param name="currency">Сумма</param>
             <param name="currencyType">Тип валюты</param>
@@ -754,7 +754,7 @@
         </member>
         <member name="M:ConvertModule.Converter.FloatToString(System.Decimal)">
             <summary>
-            Метод конвертации вещественного числа в строку
+            Действие конвертации вещественного числа в строку
             </summary>
             <param name="number">Вещественное число</param>
             <returns>Результат</returns>

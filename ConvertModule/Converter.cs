@@ -552,7 +552,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации даты в текст
+        /// Действие конвертации даты в текст
         /// </summary>
         /// <param name="dateTime">Дата</param>
         /// <param name="format">
@@ -673,7 +673,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации суммы в строку
+        /// Действие конвертации суммы в строку
         /// </summary>
         /// <param name="currency">Сумма</param>
         /// <param name="currencyType">Тип валюты</param>
@@ -783,7 +783,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации вещественного числа в строку
+        /// Действие конвертации вещественного числа в строку
         /// </summary>
         /// <param name="number">Вещественное число</param>
         /// <returns>Результат</returns>

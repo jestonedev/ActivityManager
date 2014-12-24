@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
  <Targets>
-  <Target Name="E:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
+  <Target Name="E:\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
    <Modules>
     <Module Name="reportmodule.dll">
      <Namespaces>
@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#cachedDocuments" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2014-12-23 15:10:54Z" FixCategory="Breaking">
+            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2014-12-24 01:52:17Z" FixCategory="Breaking">
              <Issue Certainty="90" Level="Error">Because field 'ReportEditor.cachedDocuments' is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Issue>
             </Message>
            </Messages>

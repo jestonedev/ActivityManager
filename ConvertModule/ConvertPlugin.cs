@@ -32,7 +32,7 @@ namespace ConvertModule
         void ConvertIntToString(long number, TextCase textCase, Sex sex, bool firstCapital, bool isOrdinal, out string words);
 
         /// <summary>
-        /// Метод конвертации ячейки с числом в строковое представление чисел
+        /// Действие конвертации ячейки с числом в строковое представление чисел
         /// </summary>
         /// <param name="inRow">Входная строка</param>
         /// <param name="column">Имя колонки</param>
@@ -44,7 +44,7 @@ namespace ConvertModule
         void ConvertIntCellToString(ReportRow inRow, string column, TextCase textCase, Sex sex, bool firstCapital, bool isOrdinal, out ReportRow outRow);
 
         /// <summary>
-        /// Метод конвертации всех значений колонки таблицы в строковое представление чисел
+        /// Действие конвертации всех значений колонки таблицы в строковое представление чисел
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -76,7 +76,7 @@ namespace ConvertModule
         void ConvertDateTimeToString(DateTime dateTime, string format, bool firstCapital, out string words);
 
         /// <summary>
-        /// Метод конвертации ячейки с датой в форматированное представление даты
+        /// Действие конвертации ячейки с датой в форматированное представление даты
         /// </summary>
         /// <param name="inRow">Входная строка</param>
         /// <param name="column">Имя колонки</param>
@@ -97,7 +97,7 @@ namespace ConvertModule
         void ConvertDateTimeCellToString(ReportRow inRow, string column, string format, bool firstCapital, out ReportRow outRow);
 
         /// <summary>
-        /// Метод конвертации всех значений колонки таблицы в форматированное представление даты
+        /// Действие конвертации всех значений колонки таблицы в форматированное представление даты
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -118,7 +118,7 @@ namespace ConvertModule
         void ConvertDateTimeColToString(ReportTable inTable, string column, string format, bool firstCapital, out ReportTable outTable);
 
         /// <summary>
-        /// Метод конвертации суммы в строку
+        /// Действие конвертации суммы в строку
         /// </summary>
         /// <param name="currency">Сумма</param>
         /// <param name="currencyType">Тип валюты</param>
@@ -138,7 +138,7 @@ namespace ConvertModule
         void ConvertCurrencyToString(decimal currency, CurrencyType currencyType, string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out string words);
 
         /// <summary>
-        /// Метод конвертации значения ячейки с суммой в строковое представление суммы
+        /// Действие конвертации значения ячейки с суммой в строковое представление суммы
         /// </summary>
         /// <param name="inRow">Входная строка</param>
         /// <param name="column">Имя колонки</param>
@@ -161,7 +161,7 @@ namespace ConvertModule
         void ConvertCurrencyCellToString(ReportRow inRow, string column, CurrencyType currencyType, string format, string thousandSeparator, bool firstCapital, bool isOrdinal, out ReportRow outRow);
 
         /// <summary>
-        /// Метод конвертации всех значений колонки таблицы в строковое представление суммы
+        /// Действие конвертации всех значений колонки таблицы в строковое представление суммы
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -193,7 +193,7 @@ namespace ConvertModule
         void ConvertFloatToString(decimal number, TextCase textCase, bool firstCapital, out string words);
 
         /// <summary>
-        /// Метод конвертации значения ячейки с вещественным числом в троку
+        /// Действие конвертации значения ячейки с вещественным числом в троку
         /// </summary>
         /// <param name="inRow">Входная строка</param>
         /// <param name="column">Имя колонки</param>
@@ -203,7 +203,7 @@ namespace ConvertModule
         void ConvertFloatCellToString(ReportRow inRow, string column, TextCase textCase, bool firstCapital, out ReportRow outRow);
 
         /// <summary>
-        /// Метод конвертации всех значений колонки таблицы в строковое представление вещественного числа
+        /// Действие конвертации всех значений колонки таблицы в строковое представление вещественного числа
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -263,7 +263,7 @@ namespace ConvertModule
         void ConvertNameColToCase(ReportTable inTable, string column, string format, TextCase textCase, out ReportTable outTable);
 
         /// <summary>
-        /// Метод объединения всех ячеек строки данных в одну строку
+        /// Действие объединения всех ячеек строки данных в одну строку
         /// </summary>
         /// <param name="inRow">Входная строка отчета</param>
         /// <param name="separator">Разделитель ячеек</param>
@@ -271,7 +271,7 @@ namespace ConvertModule
         void RowConcat(ReportRow inRow, string separator, out string outValue);
 
         /// <summary>
-        /// Метод объединения всех значений колонки в одну строку
+        /// Действие объединения всех значений колонки в одну строку
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -280,7 +280,7 @@ namespace ConvertModule
         void ColumnConcat(ReportTable inTable, string column, string separator, out string outValue);
 
         /// <summary>
-        /// Метод объединения значений всех ячеек таблицы в одну строку
+        /// Действие объединения значений всех ячеек таблицы в одну строку
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="rowSeparator">Разделитель строк</param>
@@ -386,7 +386,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации суммы в строку
+        /// Действие конвертации суммы в строку
         /// </summary>
         /// <param name="currency">Сумма</param>
         /// <param name="currencyType">Тип валюты</param>
@@ -420,7 +420,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации ячейки с числом в строковое представление чисел
+        /// Действие конвертации ячейки с числом в строковое представление чисел
         /// </summary>
         /// <param name="inRow">Входная строка</param>
         /// <param name="column">Имя колонки</param>
@@ -449,7 +449,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации всех значений колонки таблицы в строковое представление чисел
+        /// Действие конвертации всех значений колонки таблицы в строковое представление чисел
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -474,7 +474,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации ячейки с датой в форматированное представление даты
+        /// Действие конвертации ячейки с датой в форматированное представление даты
         /// </summary>
         /// <param name="inRow">Входная строка</param>
         /// <param name="column">Имя колонки</param>
@@ -512,7 +512,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации всех значений колонки таблицы в форматированное представление даты
+        /// Действие конвертации всех значений колонки таблицы в форматированное представление даты
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -546,7 +546,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации значения ячейки с суммой в строковое представление суммы
+        /// Действие конвертации значения ячейки с суммой в строковое представление суммы
         /// </summary>
         /// <param name="inRow">Входная строка</param>
         /// <param name="column">Имя колонки</param>
@@ -588,7 +588,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации всех значений колонки таблицы в строковое представление суммы
+        /// Действие конвертации всех значений колонки таблицы в строковое представление суммы
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -625,7 +625,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации значения ячейки с вещественным числом в троку
+        /// Действие конвертации значения ячейки с вещественным числом в троку
         /// </summary>
         /// <param name="inRow">Входная строка</param>
         /// <param name="column">Имя колонки</param>
@@ -652,7 +652,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод конвертации всех значений колонки таблицы в строковое представление вещественного числа
+        /// Действие конвертации всех значений колонки таблицы в строковое представление вещественного числа
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -807,7 +807,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод объединения всех ячеек строки данных в одну строку
+        /// Действие объединения всех ячеек строки данных в одну строку
         /// </summary>
         /// <param name="inRow">Входная строка отчета</param>
         /// <param name="separator">Разделитель ячеек</param>
@@ -827,7 +827,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод объединения всех значений колонки в одну строку
+        /// Действие объединения всех значений колонки в одну строку
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки</param>
@@ -848,7 +848,7 @@ namespace ConvertModule
         }
 
         /// <summary>
-        /// Метод объединения значений всех ячеек таблицы в одну строку
+        /// Действие объединения значений всех ячеек таблицы в одну строку
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
         /// <param name="rowSeparator">Разделитель строк</param>
