@@ -14,6 +14,7 @@ namespace AmEditor
     internal partial class FormPlugins : Form
     {
         private List<PlugIncludeRule> _plugins_include_rules;
+        private List<string> plugins_ignore_list;
 
         public List<PlugIncludeRule> PluginsIncludeRules
         {
@@ -27,13 +28,14 @@ namespace AmEditor
             set { _plugins_include_rules = value; }
         }
 
-        public FormPlugins(List<PlugIncludeRule> PluginsIncludeRules, Language language)
+        public FormPlugins(List<PlugIncludeRule> PluginsIncludeRules, Language language, List<string> PluginsIgnoreList)
         {
             InitializeComponent();
             this.PluginsIncludeRules = PluginsIncludeRules;
             Text = language.Translate("Плагины");
             button1.Text = language.Translate(button1.Text);
             button2.Text = language.Translate(button2.Text);
+            this.plugins_ignore_list = PluginsIgnoreList;
         }
 
         private void FormPlugins_Load(object sender, EventArgs e)
@@ -43,6 +45,8 @@ namespace AmEditor
             foreach (string file in files)
             {
                 FileInfo fi = new FileInfo(file);
+                if (plugins_ignore_list.Contains(fi.Name))
+                    continue;
                 if (PlugInfo.IsPlug(file))
                 {
                     bool include = false;

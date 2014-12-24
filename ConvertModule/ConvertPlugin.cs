@@ -11,6 +11,8 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using System.IO;
+using System.Reflection;
 
 namespace ConvertModule
 {
@@ -35,7 +37,7 @@ namespace ConvertModule
         /// Действие конвертации ячейки с числом в строковое представление чисел
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="textCase">Падеж</param>
         /// <param name="sex">Пол</param>
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
@@ -47,7 +49,7 @@ namespace ConvertModule
         /// Действие конвертации всех значений колонки таблицы в строковое представление чисел
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="textCase">Падеж</param>
         /// <param name="sex">Пол</param>
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
@@ -79,7 +81,7 @@ namespace ConvertModule
         /// Действие конвертации ячейки с датой в форматированное представление даты
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="format">
         /// Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
         /// ddx - день месяца в виде текста
@@ -100,7 +102,7 @@ namespace ConvertModule
         /// Действие конвертации всех значений колонки таблицы в форматированное представление даты
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="format">
         /// Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
         /// ddx - день месяца в виде текста
@@ -141,7 +143,7 @@ namespace ConvertModule
         /// Действие конвертации значения ячейки с суммой в строковое представление суммы
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="currencyType">Тип валюты</param>
         /// <param name="format">Формат строки вывода суммы:
         /// ii - рубли (доллары, евро) в виде числа
@@ -164,7 +166,7 @@ namespace ConvertModule
         /// Действие конвертации всех значений колонки таблицы в строковое представление суммы
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="currencyType">Тип валюты</param>
         /// <param name="format">Формат строки вывода суммы:
         /// ii - рубли (доллары, евро) в виде числа
@@ -196,7 +198,7 @@ namespace ConvertModule
         /// Действие конвертации значения ячейки с вещественным числом в троку
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="textCase">Падеж</param>
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
         /// <param name="outRow">Выходная строка</param>
@@ -206,14 +208,14 @@ namespace ConvertModule
         /// Действие конвертации всех значений колонки таблицы в строковое представление вещественного числа
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="textCase">Падеж</param>
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
         /// <param name="outTable">Выходная таблица</param>
         void ConvertFloatColToString(ReportTable inTable, string column, TextCase textCase, bool firstCapital, out ReportTable outTable);
 
         /// <summary>
-        /// Перевод ФИО в указанный падеж
+        /// Действие перевода ФИО в указанный падеж
         /// </summary>
         /// <param name="nameIn">ФИО в именительном падеже</param>
         /// <param name="format">Формат ФИО:
@@ -232,7 +234,7 @@ namespace ConvertModule
         /// Перевод ячейки с ФИО в указанный падеж
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="format">Формат ФИО:
         /// ss - полное представление фамилии
         /// s - первая буква фамилии
@@ -249,7 +251,7 @@ namespace ConvertModule
         /// Перевод всех значений колонки с ФИО в указанный падеж
         /// </summary>
         /// <param name="inTable">Входная таблица</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="format">Формат ФИО:
         /// ss - полное представление фамилии
         /// s - первая буква фамилии
@@ -261,6 +263,58 @@ namespace ConvertModule
         /// <param name="textCase">Падеж</param>
         /// <param name="outTable">Выходная таблица</param>
         void ConvertNameColToCase(ReportTable inTable, string column, string format, TextCase textCase, out ReportTable outTable);
+
+        /// <summary>
+        /// Действие перевода должности в указанный падеж 
+        /// </summary>
+        /// <param name="postIn">Должность в именительном падеже</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="postOut">Выходная строка с должностью</param>
+        void ConvertPostToCase(string postIn, TextCase textCase, out string postOut);
+
+        /// <summary>
+        /// Действие перевода ячейки с должностью в указанный падеж 
+        /// </summary>
+        /// <param name="inRow">Входная строка</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="outRow">Выходная строка</param>
+        void ConvertPostCellToCase(ReportRow inRow, string column, TextCase textCase, out ReportRow outRow);
+
+        /// <summary>
+        /// Действие перевода колонки с должностью в указанный падеж 
+        /// </summary>
+        /// <param name="inRow">Входная таблица</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="outRow">Выходная таблица</param>
+        void ConvertPostColToCase(ReportTable inTable, string column, TextCase textCase, out ReportTable outTable);
+
+        /// <summary>
+        /// Действие перевода названия подразделения или предприятия в указанный падеж 
+        /// </summary>
+        /// <param name="officeIn">Название подразделения или предприятия в именительном падеже</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="officeOut">Выходная строка с названием подразделения или предприятия</param>
+        void ConvertOfficeToCase(string officeIn, TextCase textCase, out string officetOut);
+
+        /// <summary>
+        /// Действие перевода ячейки с названием подразделения или предприятия в указанный падеж 
+        /// </summary>
+        /// <param name="inRow">Входная строка</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="outRow">Выходная строка</param>
+        void ConvertOfficeCellToCase(ReportRow inRow, string column, TextCase textCase, out ReportRow outRow);
+
+        /// <summary>
+        /// Действие перевода колонки с названием подразделения или предприятия в указанный падеж 
+        /// </summary>
+        /// <param name="inRow">Входная таблица</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="outRow">Выходная таблица</param>
+        void ConvertOfficeColToCase(ReportTable inTable, string column, TextCase textCase, out ReportTable outTable);
 
         /// <summary>
         /// Действие объединения всех ячеек строки данных в одну строку
@@ -311,6 +365,20 @@ namespace ConvertModule
     /// </summary>
     public class ConvertPlug : IPlug
     {
+        /// <summary>
+        /// В конструкторе происходит подгрузка словаря для Padeg.dll
+        /// </summary>
+        public ConvertPlug()
+        {
+            string dictionary = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "PadegExcept.dic");
+            if (File.Exists(dictionary))
+                if (!Declension1251.SetExceptionsDictionaryFileName(dictionary))
+                {
+                    ConvertException exception = new ConvertException("Словарь {0} имеет неверный формат");
+                    exception.Data.Add("{0}", dictionary);
+                    throw exception;
+                }
+        }
 
         /// <summary>
         /// Функция конвертации целого числа в текст
@@ -826,6 +894,174 @@ namespace ConvertModule
             {
                 ReportRow tmp_row = new ReportRow(tmp_table);
                 ConvertNameCellToCase(row, column, format, textCase, out tmp_row);
+                tmp_table.Add(tmp_row);
+            }
+            outTable = tmp_table;
+        }
+
+        /// <summary>
+        /// Действие перевода должности в указанный падеж 
+        /// </summary>
+        /// <param name="postIn">Должность в именительном падеже</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="postOut">Выходная строка с должностью</param>
+        public void ConvertPostToCase(string postIn, TextCase textCase, out string postOut)
+        {
+            if (postIn == null)
+            {
+                postOut = "";
+                return;
+            }
+            DeclensionCase dec_case;
+            switch (textCase)
+            {
+                case TextCase.Nominative: dec_case = DeclensionCase.Imenit;
+                    break;
+                case TextCase.Genitive: dec_case = DeclensionCase.Rodit;
+                    break;
+                case TextCase.Dative: dec_case = DeclensionCase.Datel;
+                    break;
+                case TextCase.Accusative: dec_case = DeclensionCase.Vinit;
+                    break;
+                case TextCase.Instrumental: dec_case = DeclensionCase.Tvorit;
+                    break;
+                case TextCase.Prepositional: dec_case = DeclensionCase.Predl;
+                    break;
+                default:
+                    dec_case = DeclensionCase.Imenit;
+                    break;
+            }
+            postOut = Declension1251.GetAppointmentDeclension(postIn, dec_case);
+        }
+
+        /// <summary>
+        /// Действие перевода ячейки с должностью в указанный падеж 
+        /// </summary>
+        /// <param name="inRow">Входная строка</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="outRow">Выходная строка</param>
+        public void ConvertPostCellToCase(ReportRow inRow, string column, TextCase textCase, out ReportRow outRow)
+        {
+            if (inRow == null)
+                throw new ConvertException("Не задана входная строка");
+            if (column == null)
+                throw new ConvertException("Не задано имя колонки");
+            ReportRow tmp_row = new ReportRow(inRow.Table);
+            string[] columns = column.Split(new char[] { ',' });
+            for (int i = 0; i < columns.Count(); i++)
+                columns[i] = columns[i].Trim();
+            for (int i = 0; i < inRow.Count; i++)
+            {
+                string words = inRow[i].Value;
+                if (columns.Contains(tmp_row.Table.Columns[i]))
+                    ConvertPostToCase(words, textCase, out words);
+                tmp_row.Add(new ReportCell(tmp_row, words));
+            }
+            outRow = tmp_row;
+        }
+
+        /// <summary>
+        /// Действие перевода колонки с должностью в указанный падеж 
+        /// </summary>
+        /// <param name="inTable">Входная таблица</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="outTable">Выходная таблица</param>
+        public void ConvertPostColToCase(ReportTable inTable, string column, TextCase textCase, out ReportTable outTable)
+        {
+            if (inTable == null)
+                throw new ConvertException("Не задана входная таблица");
+            ReportTable tmp_table = new ReportTable();
+            tmp_table.SetColumns(inTable.Columns);
+            foreach (ReportRow row in inTable)
+            {
+                ReportRow tmp_row = new ReportRow(tmp_table);
+                ConvertPostCellToCase(row, column, textCase, out tmp_row);
+                tmp_table.Add(tmp_row);
+            }
+            outTable = tmp_table;
+        }
+
+        /// <summary>
+        /// Действие перевода названия подразделения или предприятия в указанный падеж 
+        /// </summary>
+        /// <param name="officeIn">Название подразделения или предприятия в именительном падеже</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="officeOut">Выходная строка с названием подразделения или предприятия</param>
+        public void ConvertOfficeToCase(string officeIn, TextCase textCase, out string officeOut)
+        {
+            if (officeIn == null)
+            {
+                officeOut = "";
+                return;
+            }
+            DeclensionCase dec_case;
+            switch (textCase)
+            {
+                case TextCase.Nominative: dec_case = DeclensionCase.Imenit;
+                    break;
+                case TextCase.Genitive: dec_case = DeclensionCase.Rodit;
+                    break;
+                case TextCase.Dative: dec_case = DeclensionCase.Datel;
+                    break;
+                case TextCase.Accusative: dec_case = DeclensionCase.Vinit;
+                    break;
+                case TextCase.Instrumental: dec_case = DeclensionCase.Tvorit;
+                    break;
+                case TextCase.Prepositional: dec_case = DeclensionCase.Predl;
+                    break;
+                default:
+                    dec_case = DeclensionCase.Imenit;
+                    break;
+            }
+            officeOut = Declension1251.GetOfficeDeclension(officeIn, dec_case);
+        }
+
+        /// <summary>
+        /// Действие перевода ячейки с названием подразделения или предприятия в указанный падеж 
+        /// </summary>
+        /// <param name="inRow">Входная строка</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="outRow">Выходная строка</param>
+        public void ConvertOfficeCellToCase(ReportRow inRow, string column, TextCase textCase, out ReportRow outRow)
+        {
+            if (inRow == null)
+                throw new ConvertException("Не задана входная строка");
+            if (column == null)
+                throw new ConvertException("Не задано имя колонки");
+            ReportRow tmp_row = new ReportRow(inRow.Table);
+            string[] columns = column.Split(new char[] { ',' });
+            for (int i = 0; i < columns.Count(); i++)
+                columns[i] = columns[i].Trim();
+            for (int i = 0; i < inRow.Count; i++)
+            {
+                string words = inRow[i].Value;
+                if (columns.Contains(tmp_row.Table.Columns[i]))
+                    ConvertOfficeToCase(words, textCase, out words);
+                tmp_row.Add(new ReportCell(tmp_row, words));
+            }
+            outRow = tmp_row;
+        }
+
+        /// <summary>
+        /// Действие перевода колонки с названием подразделения или предприятия в указанный падеж 
+        /// </summary>
+        /// <param name="inTable">Входная таблица</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+        /// <param name="textCase">Падеж</param>
+        /// <param name="outTable">Выходная таблица</param>
+        public void ConvertOfficeColToCase(ReportTable inTable, string column, TextCase textCase, out ReportTable outTable)
+        {
+            if (inTable == null)
+                throw new ConvertException("Не задана входная таблица");
+            ReportTable tmp_table = new ReportTable();
+            tmp_table.SetColumns(inTable.Columns);
+            foreach (ReportRow row in inTable)
+            {
+                ReportRow tmp_row = new ReportRow(tmp_table);
+                ConvertOfficeCellToCase(row, column, textCase, out tmp_row);
                 tmp_table.Add(tmp_row);
             }
             outTable = tmp_table;

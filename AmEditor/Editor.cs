@@ -35,6 +35,9 @@ namespace AmEditor
         private string plugins_path = "";
         private List<PlugIncludeRule> plugins_include_rules = new List<PlugIncludeRule>();
 
+        //Перечень игнорируемых библиотек
+        List<string> plugins_ignore_list = new List<string>();
+
         //Плагины и документация по ним
         private List<PlugInfo> plugins = new List<PlugInfo>();
         private Dictionary<string, XDocument> plugins_doc = new Dictionary<string, XDocument>();
@@ -69,6 +72,8 @@ namespace AmEditor
             {
                 bool include = false;
                 FileInfo fi = new FileInfo(file);
+                if (plugins_ignore_list.Contains(fi.Name))
+                    continue;
                 foreach (PlugIncludeRule pir in plugins_include_rules)
                 {
                     if ((pir.PlugNameMask == "*") || (pir.PlugNameMask == fi.Name))
@@ -88,6 +93,9 @@ namespace AmEditor
             string[] files_doc = Directory.GetFiles(plugins_path, "*.xml", SearchOption.TopDirectoryOnly);
             foreach (string file in files_doc)
             {
+                FileInfo fi = new FileInfo(file);
+                if (plugins_ignore_list.Contains(fi.Name))
+                    continue;
                 try
                 {
                     XDocument xdoc = XDocument.Load(file);
@@ -95,6 +103,22 @@ namespace AmEditor
                     plugins_doc.Add(assembly_name, xdoc);
                 }
                 catch { } //Если произошла ошибка загрузки документации, просто игнорировать
+            }
+        }
+
+        private void LoadPluginsIgnoreList()
+        {
+            string ignoreListFile = Path.Combine(Environment.CurrentDirectory,"AmEditor.ignorelist");
+            if (!File.Exists(ignoreListFile))
+                return;
+            using (StreamReader reader = new StreamReader(ignoreListFile))
+            {
+                while (!reader.EndOfStream)
+                {
+                    string fileName = reader.ReadLine();
+                    if (!String.IsNullOrEmpty(fileName.Trim()))
+                        plugins_ignore_list.Add(fileName.Trim());
+                }
             }
         }
 
@@ -447,7 +471,8 @@ namespace AmEditor
                 Close();
                 return;
             }
-
+            //Загружаем список файлов в папке plugins, которые заведомо не являются плагинами
+            LoadPluginsIgnoreList();
             //Настраиваем состояине формы
             InterfaceLanguageReload();
             form_state = FormState.Display;
@@ -464,7 +489,7 @@ namespace AmEditor
 
         private void плагиныToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            using (FormPlugins fp = new FormPlugins(plugins_include_rules, language))
+            using (FormPlugins fp = new FormPlugins(plugins_include_rules, language, plugins_ignore_list))
                 if (fp.ShowDialog() == DialogResult.OK)
                 {
                     this.plugins_include_rules = fp.PluginsIncludeRules;

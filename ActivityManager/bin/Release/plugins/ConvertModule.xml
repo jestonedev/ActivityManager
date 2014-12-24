@@ -25,7 +25,7 @@
             Действие конвертации ячейки с числом в строковое представление чисел
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
             <param name="sex">Пол</param>
             <param name="firstCapital">Ставить первую букву прописной или нет</param>
@@ -37,7 +37,7 @@
             Действие конвертации всех значений колонки таблицы в строковое представление чисел
             </summary>
             <param name="inTable">Входная таблица</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
             <param name="sex">Пол</param>
             <param name="firstCapital">Ставить первую букву прописной или нет</param>
@@ -69,7 +69,7 @@
             Действие конвертации ячейки с датой в форматированное представление даты
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="format">
             Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
             ddx - день месяца в виде текста
@@ -90,7 +90,7 @@
             Действие конвертации всех значений колонки таблицы в форматированное представление даты
             </summary>
             <param name="inTable">Входная таблица</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="format">
             Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
             ddx - день месяца в виде текста
@@ -131,7 +131,7 @@
             Действие конвертации значения ячейки с суммой в строковое представление суммы
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="currencyType">Тип валюты</param>
             <param name="format">Формат строки вывода суммы:
             ii - рубли (доллары, евро) в виде числа
@@ -154,7 +154,7 @@
             Действие конвертации всех значений колонки таблицы в строковое представление суммы
             </summary>
             <param name="inTable">Входная таблица</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="currencyType">Тип валюты</param>
             <param name="format">Формат строки вывода суммы:
             ii - рубли (доллары, евро) в виде числа
@@ -186,7 +186,7 @@
             Действие конвертации значения ячейки с вещественным числом в троку
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
             <param name="firstCapital">Ставить первую букву прописной или нет</param>
             <param name="outRow">Выходная строка</param>
@@ -196,14 +196,14 @@
             Действие конвертации всех значений колонки таблицы в строковое представление вещественного числа
             </summary>
             <param name="inTable">Входная таблица</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
             <param name="firstCapital">Ставить первую букву прописной или нет</param>
             <param name="outTable">Выходная таблица</param>
         </member>
         <member name="M:ConvertModule.IPlug.ConvertNameToCase(System.String,System.String,ConvertModule.TextCase,System.String@)">
             <summary>
-            Перевод ФИО в указанный падеж
+            Действие перевода ФИО в указанный падеж
             </summary>
             <param name="nameIn">ФИО в именительном падеже</param>
             <param name="format">Формат ФИО:
@@ -222,7 +222,7 @@
             Перевод ячейки с ФИО в указанный падеж
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="format">Формат ФИО:
             ss - полное представление фамилии
             s - первая буква фамилии
@@ -239,7 +239,7 @@
             Перевод всех значений колонки с ФИО в указанный падеж
             </summary>
             <param name="inTable">Входная таблица</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="format">Формат ФИО:
             ss - полное представление фамилии
             s - первая буква фамилии
@@ -250,6 +250,58 @@
             </param>
             <param name="textCase">Падеж</param>
             <param name="outTable">Выходная таблица</param>
+        </member>
+        <member name="M:ConvertModule.IPlug.ConvertPostToCase(System.String,ConvertModule.TextCase,System.String@)">
+            <summary>
+            Действие перевода должности в указанный падеж 
+            </summary>
+            <param name="postIn">Должность в именительном падеже</param>
+            <param name="textCase">Падеж</param>
+            <param name="postOut">Выходная строка с должностью</param>
+        </member>
+        <member name="M:ConvertModule.IPlug.ConvertPostCellToCase(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,ExtendedTypes.ReportRow@)">
+            <summary>
+            Действие перевода ячейки с должностью в указанный падеж 
+            </summary>
+            <param name="inRow">Входная строка</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+            <param name="textCase">Падеж</param>
+            <param name="outRow">Выходная строка</param>
+        </member>
+        <member name="M:ConvertModule.IPlug.ConvertPostColToCase(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,ExtendedTypes.ReportTable@)">
+            <summary>
+            Действие перевода колонки с должностью в указанный падеж 
+            </summary>
+            <param name="inRow">Входная таблица</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+            <param name="textCase">Падеж</param>
+            <param name="outRow">Выходная таблица</param>
+        </member>
+        <member name="M:ConvertModule.IPlug.ConvertOfficeToCase(System.String,ConvertModule.TextCase,System.String@)">
+            <summary>
+            Действие перевода названия подразделения или предприятия в указанный падеж 
+            </summary>
+            <param name="officeIn">Название подразделения или предприятия в именительном падеже</param>
+            <param name="textCase">Падеж</param>
+            <param name="officeOut">Выходная строка с названием подразделения или предприятия</param>
+        </member>
+        <member name="M:ConvertModule.IPlug.ConvertOfficeCellToCase(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,ExtendedTypes.ReportRow@)">
+            <summary>
+            Действие перевода ячейки с названием подразделения или предприятия в указанный падеж 
+            </summary>
+            <param name="inRow">Входная строка</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+            <param name="textCase">Падеж</param>
+            <param name="outRow">Выходная строка</param>
+        </member>
+        <member name="M:ConvertModule.IPlug.ConvertOfficeColToCase(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,ExtendedTypes.ReportTable@)">
+            <summary>
+            Действие перевода колонки с названием подразделения или предприятия в указанный падеж 
+            </summary>
+            <param name="inRow">Входная таблица</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+            <param name="textCase">Падеж</param>
+            <param name="outRow">Выходная таблица</param>
         </member>
         <member name="M:ConvertModule.IPlug.RowConcat(ExtendedTypes.ReportRow,System.String,System.String@)">
             <summary>
@@ -297,6 +349,11 @@
         <member name="T:ConvertModule.ConvertPlug">
             <summary>
             Плагин, реализующий интерфейс IPlug
+            </summary>
+        </member>
+        <member name="M:ConvertModule.ConvertPlug.#ctor">
+            <summary>
+            В конструкторе происходит подгрузка словаря для Padeg.dll
             </summary>
         </member>
         <member name="M:ConvertModule.ConvertPlug.ConvertIntToString(System.Int64,ConvertModule.TextCase,ConvertModule.Sex,System.Boolean,System.Boolean,System.String@)">
@@ -540,6 +597,58 @@
             pp - полное представление отчества 
             p - первая буква отчества
             </param>
+            <param name="textCase">Падеж</param>
+            <param name="outTable">Выходная таблица</param>
+        </member>
+        <member name="M:ConvertModule.ConvertPlug.ConvertPostToCase(System.String,ConvertModule.TextCase,System.String@)">
+            <summary>
+            Действие перевода должности в указанный падеж 
+            </summary>
+            <param name="postIn">Должность в именительном падеже</param>
+            <param name="textCase">Падеж</param>
+            <param name="postOut">Выходная строка с должностью</param>
+        </member>
+        <member name="M:ConvertModule.ConvertPlug.ConvertPostCellToCase(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,ExtendedTypes.ReportRow@)">
+            <summary>
+            Действие перевода ячейки с должностью в указанный падеж 
+            </summary>
+            <param name="inRow">Входная строка</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+            <param name="textCase">Падеж</param>
+            <param name="outRow">Выходная строка</param>
+        </member>
+        <member name="M:ConvertModule.ConvertPlug.ConvertPostColToCase(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,ExtendedTypes.ReportTable@)">
+            <summary>
+            Действие перевода колонки с должностью в указанный падеж 
+            </summary>
+            <param name="inTable">Входная таблица</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+            <param name="textCase">Падеж</param>
+            <param name="outTable">Выходная таблица</param>
+        </member>
+        <member name="M:ConvertModule.ConvertPlug.ConvertOfficeToCase(System.String,ConvertModule.TextCase,System.String@)">
+            <summary>
+            Действие перевода названия подразделения или предприятия в указанный падеж 
+            </summary>
+            <param name="officeIn">Название подразделения или предприятия в именительном падеже</param>
+            <param name="textCase">Падеж</param>
+            <param name="officeOut">Выходная строка с названием подразделения или предприятия</param>
+        </member>
+        <member name="M:ConvertModule.ConvertPlug.ConvertOfficeCellToCase(ExtendedTypes.ReportRow,System.String,ConvertModule.TextCase,ExtendedTypes.ReportRow@)">
+            <summary>
+            Действие перевода ячейки с названием подразделения или предприятия в указанный падеж 
+            </summary>
+            <param name="inRow">Входная строка</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
+            <param name="textCase">Падеж</param>
+            <param name="outRow">Выходная строка</param>
+        </member>
+        <member name="M:ConvertModule.ConvertPlug.ConvertOfficeColToCase(ExtendedTypes.ReportTable,System.String,ConvertModule.TextCase,ExtendedTypes.ReportTable@)">
+            <summary>
+            Действие перевода колонки с названием подразделения или предприятия в указанный падеж 
+            </summary>
+            <param name="inTable">Входная таблица</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
             <param name="outTable">Выходная таблица</param>
         </member>

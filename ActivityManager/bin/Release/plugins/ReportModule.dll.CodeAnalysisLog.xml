@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#cachedDocuments" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2014-12-24 01:52:17Z" FixCategory="Breaking">
+            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2014-12-24 07:43:59Z" FixCategory="Breaking">
              <Issue Certainty="90" Level="Error">Because field 'ReportEditor.cachedDocuments' is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Issue>
             </Message>
            </Messages>
