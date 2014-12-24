@@ -423,7 +423,7 @@ namespace ConvertModule
         /// Действие конвертации ячейки с числом в строковое представление чисел
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="textCase">Падеж</param>
         /// <param name="sex">Пол</param>
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
@@ -433,11 +433,16 @@ namespace ConvertModule
         {
             if (inRow == null)
                 throw new ConvertException("Не задана входная строка");
+            if (column == null)
+                throw new ConvertException("Не задано имя колонки");
             ReportRow tmp_row = new ReportRow(inRow.Table);
+            string[] columns = column.Split(new char[] { ',' });
+            for (int i = 0; i < columns.Count(); i++)
+                columns[i] = columns[i].Trim();
             for (int i = 0; i < inRow.Count; i++)
             {
                 string words = inRow[i].Value;
-                if (tmp_row.Table.Columns[i] == column)
+                if (columns.Contains(tmp_row.Table.Columns[i]))
                 {
                     long value;
                     if (long.TryParse(words.Split(new char[] { '.', ',' })[0], out value))
@@ -477,7 +482,7 @@ namespace ConvertModule
         /// Действие конвертации ячейки с датой в форматированное представление даты
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="format">
         /// Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
         /// ddx - день месяца в виде текста
@@ -496,11 +501,16 @@ namespace ConvertModule
         {
             if (inRow == null)
                 throw new ConvertException("Не задана входная строка");
+            if (column == null)
+                throw new ConvertException("Не задано имя колонки");
             ReportRow tmp_row = new ReportRow(inRow.Table);
+            string[] columns = column.Split(new char[] { ',' });
+            for (int i = 0; i < columns.Count(); i++)
+                columns[i] = columns[i].Trim();
             for (int i = 0; i < inRow.Count; i++)
             {
                 string words = inRow[i].Value;
-                if (tmp_row.Table.Columns[i] == column)
+                if (columns.Contains(tmp_row.Table.Columns[i]))
                 {
                     DateTime value;
                     if (DateTime.TryParse(words, out value))
@@ -549,7 +559,7 @@ namespace ConvertModule
         /// Действие конвертации значения ячейки с суммой в строковое представление суммы
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="currencyType">Тип валюты</param>
         /// <param name="format">Формат строки вывода суммы:
         /// ii - рубли (доллары, евро) в виде числа
@@ -571,11 +581,16 @@ namespace ConvertModule
         {
             if (inRow == null)
                 throw new ConvertException("Не задана входная строка");
+            if (column == null)
+                throw new ConvertException("Не задано имя колонки");
             ReportRow tmp_row = new ReportRow(inRow.Table);
+            string[] columns = column.Split(new char[] { ',' });
+            for (int i = 0; i < columns.Count(); i++)
+                columns[i] = columns[i].Trim();
             for (int i = 0; i < inRow.Count; i++)
             {
                 string words = inRow[i].Value;
-                if (tmp_row.Table.Columns[i] == column)
+                if (columns.Contains(tmp_row.Table.Columns[i]))
                 {
                     decimal value;
                     if (decimal.TryParse(words, out value))
@@ -628,7 +643,7 @@ namespace ConvertModule
         /// Действие конвертации значения ячейки с вещественным числом в троку
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="textCase">Падеж</param>
         /// <param name="firstCapital">Ставить первую букву прописной или нет</param>
         /// <param name="outRow">Выходная строка</param>
@@ -636,11 +651,16 @@ namespace ConvertModule
         {
             if (inRow == null)
                 throw new ConvertException("Не задана входная строка");
+            if (column == null)
+                throw new ConvertException("Не задано имя колонки");
             ReportRow tmp_row = new ReportRow(inRow.Table);
+            string[] columns = column.Split(new char[] { ',' });
+            for (int i = 0; i < columns.Count(); i++)
+                columns[i] = columns[i].Trim();
             for (int i = 0; i < inRow.Count; i++)
             {
                 string words = inRow[i].Value;
-                if (tmp_row.Table.Columns[i] == column)
+                if (columns.Contains(tmp_row.Table.Columns[i]))
                 {
                     decimal value;
                     if (decimal.TryParse(words, out value))
@@ -750,7 +770,7 @@ namespace ConvertModule
         /// Перевод ячейки с ФИО в указанный падеж
         /// </summary>
         /// <param name="inRow">Входная строка</param>
-        /// <param name="column">Имя колонки</param>
+        /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="format">Формат ФИО:
         /// ss - полное представление фамилии
         /// s - первая буква фамилии
@@ -765,11 +785,16 @@ namespace ConvertModule
         {
             if (inRow == null)
                 throw new ConvertException("Не задана входная строка");
+            if (column == null)
+                throw new ConvertException("Не задано имя колонки");
             ReportRow tmp_row = new ReportRow(inRow.Table);
+            string[] columns = column.Split(new char[] { ',' });
+            for (int i = 0; i < columns.Count(); i++)
+                columns[i] = columns[i].Trim();
             for (int i = 0; i < inRow.Count; i++)
             {
                 string words = inRow[i].Value;
-                if (tmp_row.Table.Columns[i] == column)
+                if (columns.Contains(tmp_row.Table.Columns[i]))
                     ConvertNameToCase(words, format, textCase, out words);
                 tmp_row.Add(new ReportCell(tmp_row, words));
             }

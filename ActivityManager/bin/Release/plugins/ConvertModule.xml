@@ -366,7 +366,7 @@
             Действие конвертации ячейки с числом в строковое представление чисел
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
             <param name="sex">Пол</param>
             <param name="firstCapital">Ставить первую букву прописной или нет</param>
@@ -390,7 +390,7 @@
             Действие конвертации ячейки с датой в форматированное представление даты
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="format">
             Формат даты и времени. Можно задавать стандартный формат даты и времени, либо расширенный вариант:
             ddx - день месяца в виде текста
@@ -432,7 +432,7 @@
             Действие конвертации значения ячейки с суммой в строковое представление суммы
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="currencyType">Тип валюты</param>
             <param name="format">Формат строки вывода суммы:
             ii - рубли (доллары, евро) в виде числа
@@ -478,7 +478,7 @@
             Действие конвертации значения ячейки с вещественным числом в троку
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
             <param name="firstCapital">Ставить первую букву прописной или нет</param>
             <param name="outRow">Выходная строка</param>
@@ -514,7 +514,7 @@
             Перевод ячейки с ФИО в указанный падеж
             </summary>
             <param name="inRow">Входная строка</param>
-            <param name="column">Имя колонки</param>
+            <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="format">Формат ФИО:
             ss - полное представление фамилии
             s - первая буква фамилии
