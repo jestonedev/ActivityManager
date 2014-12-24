@@ -165,31 +165,31 @@ namespace XmlDataSource
     }
 
     /// <summary>
-    /// Класс исключения модуля CSVModule
+    /// Класс исключения модуля XmlDataSource
     /// </summary>
     [Serializable()]
     public class XmlDataSourceException : Exception
     {
         /// <summary>
-        /// Конструктор класса исключения CSVException
+        /// Конструктор класса исключения XmlDataSourceException
         /// </summary>
         public XmlDataSourceException() : base() { }
 
         /// <summary>
-        /// Конструктор класса исключения CSVException
+        /// Конструктор класса исключения XmlDataSourceException
         /// </summary>
         /// <param name="message">Сообщение об ошибке</param>
         public XmlDataSourceException(string message) : base(message) { }
 
         /// <summary>
-        /// Конструктор класса исключения CSVException
+        /// Конструктор класса исключения XmlDataSourceException
         /// </summary>
         /// <param name="message">Сообщение об ошибке</param>
         /// <param name="innerException">Вложенное исключение</param>
         public XmlDataSourceException(string message, Exception innerException) : base(message, innerException) { }
 
         /// <summary>
-        /// Конструктор класса исключения CSVException
+        /// Конструктор класса исключения XmlDataSourceException
         /// </summary>
         /// <param name="info">Информация сериализации</param>
         /// <param name="context">Контекст потока</param>

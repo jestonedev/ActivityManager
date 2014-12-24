@@ -131,31 +131,31 @@ namespace TextDataSource
     }
 
     /// <summary>
-    /// Класс исключения модуля CSVModule
+    /// Класс исключения модуля TextDataSource
     /// </summary>
     [Serializable()]
     public class TextDataSourceException : Exception
     {
         /// <summary>
-        /// Конструктор класса исключения CSVException
+        /// Конструктор класса исключения TextDataSourceException
         /// </summary>
         public TextDataSourceException() : base() { }
 
         /// <summary>
-        /// Конструктор класса исключения CSVException
+        /// Конструктор класса исключения TextDataSourceException
         /// </summary>
         /// <param name="message">Сообщение об ошибке</param>
         public TextDataSourceException(string message) : base(message) { }
 
         /// <summary>
-        /// Конструктор класса исключения CSVException
+        /// Конструктор класса исключения TextDataSourceException
         /// </summary>
         /// <param name="message">Сообщение об ошибке</param>
         /// <param name="innerException">Вложенное исключение</param>
         public TextDataSourceException(string message, Exception innerException) : base(message, innerException) { }
 
         /// <summary>
-        /// Конструктор класса исключения CSVException
+        /// Конструктор класса исключения TextDataSourceException
         /// </summary>
         /// <param name="info">Информация сериализации</param>
         /// <param name="context">Контекст потока</param>

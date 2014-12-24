@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HtmlDataSource</name>
+    </assembly>
+    <members>
+        <member name="T:HtmlDataSource.IPlug">
+            <summary>
+            Доступный из-вне интерфейс плагина
+            </summary>
+        </member>
+        <member name="M:HtmlDataSource.IPlug.HtmlSelectTable(System.String,System.String,System.String,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из html-файла
+            </summary>
+            <param name="html">Локальный путь до html-файла или текст в формате html</param>
+            <param name="rowXPath">XPath-выражение, указывающее какие узлы html-дерева считать строками таблицы</param>
+            <param name="cellXPathes">XPath-выражения в виде JSON-объекта, указывающие какие узлы html-дерева считать ячейками, 
+            где ключ - имя будущего столбца, значение - вычисляемое XPath-выражение относительно XPath-выражения строки
+            Пример: {"column1":"@attr1","column2":"text()"}
+            </param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:HtmlDataSource.IPlug.HtmlWebSelectTable(System.String,HtmlDataSource.HttpMethod,System.String,System.String,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из html-файла
+            </summary>
+            <param name="uri">URI http-запроса</param>
+            <param name="method">http-метод: get, post, put. propfind</param>
+            <param name="rowXPath">XPath-выражение, указывающее какие узлы html-дерева считать строками таблицы</param>
+            <param name="cellXPathes">XPath-выражения в виде JSON-объекта, указывающие какие узлы html-дерева считать ячейками, 
+            где ключ - имя будущего столбца, значение - вычисляемое XPath-выражение относительно XPath-выражения строки
+            Пример: {"column1":"@attr1","column2":"text()"}
+            </param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:HtmlDataSource.IPlug.HtmlSelectScalar(System.String,System.String,System.Object@)">
+            <summary>
+            Выборка скалярного значения из html-файла
+            </summary>
+            <param name="xml">Путь до html-файла или текст в формате html</param>
+            <param name="xpath">XPath-выражение для выборки скалярного значения</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="M:HtmlDataSource.IPlug.HtmlWebSelectScalar(System.String,HtmlDataSource.HttpMethod,System.String,System.Object@)">
+            <summary>
+            Выборка скалярного значения из html-файла
+            </summary>
+            <param name="uri">URI http-запроса</param>
+            <param name="method">http-метод: post, get</param>
+            <param name="xpath">XPath-выражение для выборки скалярного значения</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="T:HtmlDataSource.HtmlDataSourcePlug">
+            <summary>
+            Класс, реализующий интерфейс плагина
+            </summary>
+        </member>
+        <member name="M:HtmlDataSource.HtmlDataSourcePlug.HtmlSelectTable(System.String,System.String,System.String,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из html-файла
+            </summary>
+            <param name="html">Локальный путь до html-файла или текст в формате html</param>
+            <param name="rowXPath">XPath-выражение, указывающее какие узлы html-дерева считать строками таблицы</param>
+            <param name="cellXPathes">XPath-выражения в виде JSON-объекта, указывающие какие узлы html-дерева считать ячейками, 
+            где ключ - имя будущего столбца, значение - вычисляемое XPath-выражение относительно XPath-выражения строки
+            Пример: {"column1":"@attr1","column2":"text()"}
+            </param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:HtmlDataSource.HtmlDataSourcePlug.HtmlWebSelectTable(System.String,HtmlDataSource.HttpMethod,System.String,System.String,ExtendedTypes.ReportTable@)">
+            <summary>
+            Выборка данных из html-файла
+            </summary>
+            <param name="uri">URI http-запроса</param>
+            <param name="method">http-метод: post, get</param>
+            <param name="rowXPath">XPath-выражение, указывающее какие узлы html-дерева считать строками таблицы</param>
+            <param name="cellXPathes">XPath-выражения в виде JSON-объекта, указывающие какие узлы html-дерева считать ячейками, 
+            где ключ - имя будущего столбца, значение - вычисляемое XPath-выражение относительно XPath-выражения строки
+            Пример: {"column1":"@attr1","column2":"text()"}
+            </param>
+            <param name="table">Результат запроса</param>
+        </member>
+        <member name="M:HtmlDataSource.HtmlDataSourcePlug.HtmlSelectScalar(System.String,System.String,System.Object@)">
+            <summary>
+            Выборка скалярного значения из html-файла
+            </summary>
+            <param name="xml">Путь до html-файла или текст в формате html</param>
+            <param name="xpath">XPath-выражение для выборки скалярного значения</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="M:HtmlDataSource.HtmlDataSourcePlug.HtmlWebSelectScalar(System.String,HtmlDataSource.HttpMethod,System.String,System.Object@)">
+            <summary>
+            Выборка скалярного значения из html-файла
+            </summary>
+            <param name="uri">URI http-запроса</param>
+            <param name="method">http-метод: post, get</param>
+            <param name="xpath">XPath-выражение для выборки скалярного значения</param>
+            <param name="result">Возврат скалярного значения</param>
+        </member>
+        <member name="T:HtmlDataSource.HtmlDataSourceException">
+            <summary>
+            Класс исключения модуля HtmlModule
+            </summary>
+        </member>
+        <member name="M:HtmlDataSource.HtmlDataSourceException.#ctor">
+            <summary>
+            Конструктор класса исключения HtmlDataSourceException
+            </summary>
+        </member>
+        <member name="M:HtmlDataSource.HtmlDataSourceException.#ctor(System.String)">
+            <summary>
+            Конструктор класса исключения HtmlDataSourceException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+        </member>
+        <member name="M:HtmlDataSource.HtmlDataSourceException.#ctor(System.String,System.Exception)">
+            <summary>
+            Конструктор класса исключения HtmlDataSourceException
+            </summary>
+            <param name="message">Сообщение об ошибке</param>
+            <param name="innerException">Вложенное исключение</param>
+        </member>
+        <member name="M:HtmlDataSource.HtmlDataSourceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Конструктор класса исключения HtmlDataSourceException
+            </summary>
+            <param name="info">Информация сериализации</param>
+            <param name="context">Контекст потока</param>
+        </member>
+    </members>
+</doc>

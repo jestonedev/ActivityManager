@@ -55,14 +55,10 @@ namespace ExtendedTypes
 
         public override string ToString()
         {
-            string result = "";
+            Dictionary<string, string> row = new Dictionary<string, string>();
             for (int i = 0; i < this.Count; i++)
-            {
-                result += "\"" + this.table.Columns[i].Replace("\\", "\\\\").Replace("\"", "\\\"") + "\":\"" + this[i].Value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
-                if (i != this.Count - 1)
-                    result += ",";
-            }
-            return "{" + result + "}";
+                row.Add(this.table.Columns[i], this[i].Value);
+            return JsonConvert.SerializeObject(row);
         }
 
         public static implicit operator ReportRow(string json)

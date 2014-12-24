@@ -96,7 +96,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Migrated rules for ActivityManager.ruleset" />
-    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
