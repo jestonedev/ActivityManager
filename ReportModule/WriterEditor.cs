@@ -71,11 +71,6 @@ namespace ReportModule
             SortedDictionary<int, TagInfo> dic = new SortedDictionary<int, TagInfo>();
             foreach (string spec_tag in Enum.GetNames(typeof(SpecTag)))
             {
-                if (Regex.IsMatch(text, Regex.Escape("$b$")))
-                {
-                    int i = 0;
-                    i = i + 1;
-                }
                 Match match = Regex.Match(text, Regex.Escape(@"$" + spec_tag + @"$"), RegexOptions.IgnoreCase);
                 while (match.Success)
                 {

@@ -833,5 +833,26 @@ namespace UnitTest
             report.ReportGenerate(out resultFileName);
             io.IOOpenFile(resultFileName, null);
         }
+
+        /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах docx
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsDocxTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.docx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test f1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
     }
 }

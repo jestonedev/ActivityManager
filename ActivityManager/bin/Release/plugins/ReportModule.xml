@@ -577,6 +577,11 @@
             Редактор отчетов Word
             </summary>
         </member>
+        <member name="F:ReportModule.WordEditor.styles">
+            <summary>
+            Список стилей, которые необходимо применить к каждому последующему элементу
+            </summary>
+        </member>
         <member name="M:ReportModule.WordEditor.XmlContractorsConvert(System.Collections.ObjectModel.Collection{ReportModule.ReportValue})">
             <summary>
             Класс конвертации xml-замыкателя
