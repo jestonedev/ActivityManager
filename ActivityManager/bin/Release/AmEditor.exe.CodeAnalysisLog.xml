@@ -1,6 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
+ <Targets>
+  <Target Name="E:\ActivityManager\ActivityManager\bin\Release\AmEditor.exe">
+   <Modules>
+    <Module Name="ameditor.exe">
+     <Namespaces>
+      <Namespace Name="AmEditor">
+       <Types>
+        <Type Name="Editor" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#OpenConfig(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2014-12-25 02:30:42Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="e:\ActivityManager\AmEditor" File="Editor.cs" Line="455">Modify 'Editor.OpenConfig(string)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+   <Name>Do not catch general exception types</Name>
+   <Description>You should not catch Exception or SystemException. Catching generic exception types can hide run-time problems from the library user, and can complicate debugging. You should catch only those exceptions that you can handle gracefully.</Description>
+   <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182137.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="12.0.0.0" />
+  </Rule>
+ </Rules>
  <Localized>
   <String Key="Category">Category</String>
   <String Key="Certainty">Certainty</String>

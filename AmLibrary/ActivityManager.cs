@@ -324,6 +324,8 @@ namespace AmLibrary
         }
         public static void Run(string configFile, Dictionary<string, object> parameters)
         {
+            string pluginsDir = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().FullName).DirectoryName, "plugins");
+            Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + pluginsDir);
             ActivityManager manager = new ActivityManager(configFile, parameters);
             manager.LoadConfigFile();
             manager.LoadPlugins();

@@ -74,8 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Declension1251.cs" />
-    <Compile Include="DeclensionBLL.cs" />
+    <Compile Include="DeclensionWindows1251.cs" />
+    <Compile Include="DeclensionUnicode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

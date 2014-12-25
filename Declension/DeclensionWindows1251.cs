@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace FSLib.Declension
+namespace Declensions.Windows1251
 {
     /// <summary>
     /// Класс для преобразования фамилии, имени и отчества (ФИО), наименования должности или подразделения, 
@@ -17,7 +17,7 @@ namespace FSLib.Declension
     /// <remarks>
     /// Класс является C# оберткой над библиотекой Плахова С.В. и Покаташкина Г.Л. Padeg.dll
     /// </remarks>
-    public static class Declension1251
+    public static class Declension
     {
         #region Public properties and functions
 

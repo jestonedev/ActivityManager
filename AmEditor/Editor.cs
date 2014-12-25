@@ -383,6 +383,7 @@ namespace AmEditor
             return false;
         }
 
+        //Сохранить состояние параметров тестирования
         private void SaveOpenFileState()
         {
             //Добавляем информацию о только что сохраненном файле в историю открытых файлов
@@ -405,6 +406,55 @@ namespace AmEditor
                 ofhi.OpenDateTime = current_file_open_datetime;
                 ofhi.CommandLineParams = command_line_params;
                 settings_storage.OpenFileHistory.Add(ofhi);
+            }
+        }
+
+        //Открыть
+        private void OpenConfig(string FileName)
+        {
+            can_drag = false;
+            //Если есть несохраненные данные, то сохраняем их
+            if (!SetDisplayFormState())
+                return;
+            //Обновляем состояние внутренних переменных
+            current_file_name = FileName;
+            current_file_open_datetime = DateTime.Now;
+            command_line_params.Clear();
+            try
+            {
+                //Загружаем информацию
+                LoadConfigFile(current_file_name);
+                LoadPlugins();
+                PrepareConfig();
+                LoadPluginsComboBox();
+                LoadDataGridViewSteps();
+
+                //Обновляем состояние формы
+                ChangeFormState();
+
+                //Если в истории открытых файлов есть данный файл, то обновляем время открытия и загружаем список параметров командной строки
+                bool is_exists = false;
+                foreach (OpenFileHistoryItem item in settings_storage.OpenFileHistory)
+                    if (item.FileName == current_file_name)
+                    {
+                        item.OpenDateTime = current_file_open_datetime;
+                        foreach (string key in item.CommandLineParams.Keys)
+                            command_line_params.Add(key, item.CommandLineParams[key]);
+                        is_exists = true;
+                    }
+                //Добавляем информацию об открытом файле в историю открытых файлов если его не существует
+                if (!is_exists)
+                {
+                    OpenFileHistoryItem ofhi = new OpenFileHistoryItem();
+                    ofhi.FileName = current_file_name;
+                    ofhi.OpenDateTime = current_file_open_datetime;
+                    ofhi.CommandLineParams = command_line_params;
+                    settings_storage.OpenFileHistory.Add(ofhi);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -447,7 +497,7 @@ namespace AmEditor
             ChangeFormState();
         }
 
-        public Editor()
+        public Editor(string FileName)
         {
             InitializeComponent();
 
@@ -477,6 +527,8 @@ namespace AmEditor
             InterfaceLanguageReload();
             form_state = FormState.Display;
             this.FormClosing += new FormClosingEventHandler(Editor_FormClosing);
+            if (!String.IsNullOrEmpty(FileName))
+                OpenConfig(FileName);
         }
 
         void Editor_FormClosing(object sender, FormClosingEventArgs e)
@@ -510,52 +562,7 @@ namespace AmEditor
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                can_drag = false;
-                //Если есть несохраненные данные, то сохраняем их
-                if (!SetDisplayFormState())
-                    return;
-                //Обновляем состояние внутренних переменных
-                current_file_name = openFileDialog1.FileName;
-                current_file_open_datetime = DateTime.Now;
-                command_line_params.Clear();
-                try
-                {
-                    //Загружаем информацию
-                    LoadConfigFile(current_file_name);
-                    LoadPlugins();
-                    PrepareConfig();
-                    LoadPluginsComboBox();
-                    LoadDataGridViewSteps();
-
-                    //Обновляем состояние формы
-                    ChangeFormState();
-
-                    //Если в истории открытых файлов есть данный файл, то обновляем время открытия и загружаем список параметров командной строки
-                    bool is_exists = false;
-                    foreach (OpenFileHistoryItem item in settings_storage.OpenFileHistory)
-                        if (item.FileName == current_file_name)
-                        {
-                            item.OpenDateTime = current_file_open_datetime;
-                            foreach (string key in item.CommandLineParams.Keys)
-                                command_line_params.Add(key, item.CommandLineParams[key]);
-                            is_exists = true;
-                        }
-                    //Добавляем информацию об открытом файле в историю открытых файлов если его не существует
-                    if (!is_exists)
-                    {
-                        OpenFileHistoryItem ofhi = new OpenFileHistoryItem();
-                        ofhi.FileName = current_file_name;
-                        ofhi.OpenDateTime = current_file_open_datetime;
-                        ofhi.CommandLineParams = command_line_params;
-                        settings_storage.OpenFileHistory.Add(ofhi);
-                    }
-                }
-                catch (Exception err)
-                {
-                    MessageBox.Show(err.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+                OpenConfig(openFileDialog1.FileName);
         }
 
         private void dataGridViewSteps_SelectionChanged(object sender, EventArgs e)
@@ -876,26 +883,46 @@ namespace AmEditor
 
         private void dataGridViewSteps_DragDrop(object sender, DragEventArgs e)
         {
-            int rowIndexOfItemUnderMouseToDrop;
-            Point clientPoint = dataGridViewSteps.PointToClient(new Point(e.X, e.Y));
-            rowIndexOfItemUnderMouseToDrop = dataGridViewSteps.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
-            if ((e.Effect == DragDropEffects.Move) && (rowIndexOfItemUnderMouseToDrop != -1) && (rowIndexOfItemUnderMouseToDrop != rowIndexFromMouseDown))
+            Array files = (Array)e.Data.GetData(DataFormats.FileDrop);
+            if (files != null)
             {
-                ActivityStep step = activity_steps[rowIndexFromMouseDown];
-                activity_steps.Remove(step);
-                activity_steps.Insert(rowIndexOfItemUnderMouseToDrop, step);
-                LoadDataGridViewSteps();
-                dataGridViewSteps.Rows[rowIndexOfItemUnderMouseToDrop].Selected = true;
-                dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[rowIndexOfItemUnderMouseToDrop].Cells[0];
-                form_state = FormState.Edit;
-                ChangeFormState();
+                string file = files.GetValue(0).ToString();
+                if (File.Exists(file))
+                {
+                    FileInfo fi = new FileInfo(file);
+                    if (fi.Extension.ToUpper(CultureInfo.CurrentCulture) == ".XML")
+                        OpenConfig(file);
+                }
+                this.Activate();
+            }
+            else
+            {
+                int rowIndexOfItemUnderMouseToDrop;
+                Point clientPoint = dataGridViewSteps.PointToClient(new Point(e.X, e.Y));
+                rowIndexOfItemUnderMouseToDrop = dataGridViewSteps.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
+                if ((e.Effect == DragDropEffects.Move) && (rowIndexOfItemUnderMouseToDrop != -1) && (rowIndexOfItemUnderMouseToDrop != rowIndexFromMouseDown))
+                {
+                    ActivityStep step = activity_steps[rowIndexFromMouseDown];
+                    activity_steps.Remove(step);
+                    activity_steps.Insert(rowIndexOfItemUnderMouseToDrop, step);
+                    LoadDataGridViewSteps();
+                    dataGridViewSteps.Rows[rowIndexOfItemUnderMouseToDrop].Selected = true;
+                    dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[rowIndexOfItemUnderMouseToDrop].Cells[0];
+                    form_state = FormState.Edit;
+                    ChangeFormState();
+                }
             }
         }
 
         private void dataGridViewSteps_DragEnter(object sender, DragEventArgs e)
         {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
             if (dataGridViewSteps.SelectedRows.Count > 0)
                 e.Effect = DragDropEffects.Move;
+            else
+                e.Effect = DragDropEffects.None;
         }
 
         //Поиск списка видимых глобальных параметров указанного типа на данном шаге выполнения
@@ -1218,5 +1245,29 @@ namespace AmEditor
                 }
             }
         }
+
+        private void Editor_DragDrop(object sender, DragEventArgs e)
+        {
+            Array files = (Array)e.Data.GetData(DataFormats.FileDrop);
+            if (files != null)
+            {
+                string file = files.GetValue(0).ToString();
+                if (File.Exists(file))
+                {
+                    FileInfo fi = new FileInfo(file);
+                    if (fi.Extension.ToUpper(CultureInfo.CurrentCulture) == ".XML")
+                        OpenConfig(file);
+                }
+                this.Activate();
+            }
+        }
+
+        private void Editor_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }  
     }
 }

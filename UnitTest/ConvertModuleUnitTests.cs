@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ConvertModule;
 using ExtendedTypes;
 using System.Globalization;
+using System.IO;
+using System.Reflection;
 
 namespace UnitTest
 {

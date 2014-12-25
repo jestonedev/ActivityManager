@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ExtendedTypes;
-using FSLib.Declension;
+using Declensions.Unicode;
 using System.Runtime.Serialization;
 
 //Модуль специальных функций программы Мена
@@ -58,7 +58,7 @@ namespace MenaModule
                 if (!String.IsNullOrEmpty(rr["warrant_fio"].Value.Trim()))
                 {
                     if (rr["text_case"].Value == "Nominative")
-                        fio = Declension1251.GetNominativeDeclension(rr["warrant_fio"].Value);
+                        fio = Declension.GetNominativeDeclension(rr["warrant_fio"].Value);
                     else
                         fio = rr["warrant_fio"].Value;
                     string[] fio_arr = fio.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

@@ -272,10 +272,10 @@
             <summary>
             Действие перевода колонки с должностью в указанный падеж 
             </summary>
-            <param name="inRow">Входная таблица</param>
+            <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
-            <param name="outRow">Выходная таблица</param>
+            <param name="outTable">Выходная таблица</param>
         </member>
         <member name="M:ConvertModule.IPlug.ConvertOfficeToCase(System.String,ConvertModule.TextCase,System.String@)">
             <summary>
@@ -298,10 +298,10 @@
             <summary>
             Действие перевода колонки с названием подразделения или предприятия в указанный падеж 
             </summary>
-            <param name="inRow">Входная таблица</param>
+            <param name="inTable">Входная таблица</param>
             <param name="column">Имя колонки (или перечень колонок через запятую)</param>
             <param name="textCase">Падеж</param>
-            <param name="outRow">Выходная таблица</param>
+            <param name="outTable">Выходная таблица</param>
         </member>
         <member name="M:ConvertModule.IPlug.RowConcat(ExtendedTypes.ReportRow,System.String,System.String@)">
             <summary>

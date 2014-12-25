@@ -644,6 +644,7 @@
             // 
             // Editor
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 514);
@@ -656,6 +657,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AM-редактор";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Editor_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Editor_DragEnter);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();

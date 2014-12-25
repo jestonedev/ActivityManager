@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ExtendedTypes;
 using System.Data;
-using FSLib.Declension;
+using Declensions.Unicode;
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
 using System.Diagnostics;
@@ -284,10 +284,10 @@ namespace ConvertModule
         /// <summary>
         /// Действие перевода колонки с должностью в указанный падеж 
         /// </summary>
-        /// <param name="inRow">Входная таблица</param>
+        /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="textCase">Падеж</param>
-        /// <param name="outRow">Выходная таблица</param>
+        /// <param name="outTable">Выходная таблица</param>
         void ConvertPostColToCase(ReportTable inTable, string column, TextCase textCase, out ReportTable outTable);
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace ConvertModule
         /// <param name="officeIn">Название подразделения или предприятия в именительном падеже</param>
         /// <param name="textCase">Падеж</param>
         /// <param name="officeOut">Выходная строка с названием подразделения или предприятия</param>
-        void ConvertOfficeToCase(string officeIn, TextCase textCase, out string officetOut);
+        void ConvertOfficeToCase(string officeIn, TextCase textCase, out string officeOut);
 
         /// <summary>
         /// Действие перевода ячейки с названием подразделения или предприятия в указанный падеж 
@@ -310,10 +310,10 @@ namespace ConvertModule
         /// <summary>
         /// Действие перевода колонки с названием подразделения или предприятия в указанный падеж 
         /// </summary>
-        /// <param name="inRow">Входная таблица</param>
+        /// <param name="inTable">Входная таблица</param>
         /// <param name="column">Имя колонки (или перечень колонок через запятую)</param>
         /// <param name="textCase">Падеж</param>
-        /// <param name="outRow">Выходная таблица</param>
+        /// <param name="outTable">Выходная таблица</param>
         void ConvertOfficeColToCase(ReportTable inTable, string column, TextCase textCase, out ReportTable outTable);
 
         /// <summary>
@@ -370,14 +370,17 @@ namespace ConvertModule
         /// </summary>
         public ConvertPlug()
         {
-            string dictionary = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "PadegExcept.dic");
-            if (File.Exists(dictionary))
-                if (!Declension1251.SetExceptionsDictionaryFileName(dictionary))
+            string fileName = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().FullName).DirectoryName, "plugins" + Path.DirectorySeparatorChar + "Except.dic");
+            if (File.Exists(fileName))
+            {
+                Declension.SetExceptionsDictionaryFileName(fileName);
+                if (!Declension.UpdateExceptionsDictionary())
                 {
-                    ConvertException exception = new ConvertException("Словарь {0} имеет неверный формат");
-                    exception.Data.Add("{0}", dictionary);
+                    ConvertException exception = new ConvertException("Не удалось подгрузить словарь {0}");
+                    exception.Data.Add("{0}",fileName);
                     throw exception;
                 }
+            }
         }
 
         /// <summary>
@@ -811,10 +814,10 @@ namespace ConvertModule
             }
             //Формирует входную строку ФИО, исключая лишние пробелы
             string nameInTrimSpaces = String.Join(" ", nameInParts);
-            Gender gender = Declension1251.GetGender(nameInTrimSpaces);
+            Gender gender = Declension.GetGender(nameInTrimSpaces);
             string nameInGender = "";
             if (gender != Gender.NotDefind)
-                nameInGender = Declension1251.GetSNPDeclension(nameInTrimSpaces, gender, dec_case);
+                nameInGender = Declension.GetSNPDeclension(nameInTrimSpaces, gender, dec_case);
             else
                 nameInGender = nameInTrimSpaces;
             string[] nameInGenderParts = nameInGender.Split(new char[] { ' ' });
@@ -931,7 +934,7 @@ namespace ConvertModule
                     dec_case = DeclensionCase.Imenit;
                     break;
             }
-            postOut = Declension1251.GetAppointmentDeclension(postIn, dec_case);
+            postOut = Declension.GetAppointmentDeclension(postIn, dec_case);
         }
 
         /// <summary>
@@ -1015,7 +1018,7 @@ namespace ConvertModule
                     dec_case = DeclensionCase.Imenit;
                     break;
             }
-            officeOut = Declension1251.GetOfficeDeclension(officeIn, dec_case);
+            officeOut = Declension.GetOfficeDeclension(officeIn, dec_case);
         }
 
         /// <summary>
