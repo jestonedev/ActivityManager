@@ -185,8 +185,9 @@ namespace ReportModule
             xroot.ReplaceNodes(new_xroot.Nodes());
         }
 
-        private static void parse_br_tags(XElement xroot)
+        private static List<XElement> parse_br_tags(XElement xroot)
         {
+            List<XElement> new_xelements = new List<XElement>();
             XElement new_xroot = new XElement(xroot);
             new_xroot.RemoveAll();
             foreach (XElement xelement in xroot.Elements())
@@ -214,6 +215,7 @@ namespace ReportModule
                             new_xroot.Add(new XAttribute(XName.Get("style-name", OOStyleSheet.XmlnsText),
                                 xroot.Attribute(XName.Get("style-name", OOStyleSheet.XmlnsText)).Value));
                         }
+                        new_xelements.Add(new_xroot);
                         xroot.AddBeforeSelf(new_xroot);
                         new_xroot = new XElement(xroot);
                         new_xroot.RemoveAll();
@@ -225,6 +227,8 @@ namespace ReportModule
                 }
             }
             xroot.ReplaceNodes(new_xroot.Nodes());
+            new_xelements.Add(xroot);
+            return new_xelements;
         }
 
         private static void parse_sbr_tags(XElement xroot)
@@ -291,8 +295,9 @@ namespace ReportModule
             {
                 prepair_paragraph(xelement, style_sheet);
                 parse_style_tags(xelement, style_sheet);
-                parse_br_tags(xelement);
-                parse_sbr_tags(xelement);
+                List<XElement> new_xelements = parse_br_tags(xelement);
+                foreach (XElement new_xelement in new_xelements)
+                    parse_sbr_tags(new_xelement);
             }
             xdocument.Save(Path.Combine(reportUnzipPath, "content.xml"), SaveOptions.DisableFormatting);
             xstyles.Save(Path.Combine(reportUnzipPath, "styles.xml"), SaveOptions.DisableFormatting);

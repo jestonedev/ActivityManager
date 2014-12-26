@@ -62,38 +62,6 @@ namespace ReportModule
                 ReportEditingContentFile(file, values);
         }
 
-        /// <summary>
-        /// Метод, производящий замену специальных тэгов в отчете
-        /// </summary>
-        /// <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
-        public override void SpecialTagEditing(string reportUnzipPath)
-        {
-            string reportContentFile = Path.Combine(reportUnzipPath,
-                "word" + Path.DirectorySeparatorChar + "document.xml");
-            string[] headerFiles = Directory.GetFiles(Path.Combine(reportUnzipPath, "word"), "header*.xml");
-            string [] files = headerFiles.Union(new List<string>() { reportContentFile }).ToArray();
-            foreach (string file in files)
-            {
-                XDocument xdocument = null;
-                if (!cachedDocuments.ContainsKey(file) ||
-                    cachedDocuments[file] == null)
-                {
-                    xdocument = XDocument.Load(file, LoadOptions.PreserveWhitespace);
-                    cachedDocuments[file] = xdocument;
-                }
-                else
-                    xdocument = cachedDocuments[file];
-                List<XElement> xelements = ReportHelper.FindElementsByTag(xdocument.Root, "p");
-                foreach (XElement xelement in xelements)
-                {
-                    prepair_paragraph(xelement);
-                    parse_style_tags(xelement);
-                    parse_br_tags(xelement);
-                }
-                xdocument.Save(file, SaveOptions.DisableFormatting);
-            }
-        }
-
         private static void prepair_paragraph(XElement xelement)
         {
             if (xelement == null)
@@ -106,6 +74,10 @@ namespace ReportModule
                 patterns.Add("$/" + spec_tag.ToUpper(CultureInfo.CurrentCulture) + "$");
                 patterns.Add("$/" + spec_tag.ToLower(CultureInfo.CurrentCulture) + "$");
             }
+            patterns.Add("$br$");
+            patterns.Add("$BR$");
+            patterns.Add("$sbr$");
+            patterns.Add("$SBR$");
             foreach (string pattern in patterns)
             {
                 List<PatternNodeInfoCollection> ppis = new List<PatternNodeInfoCollection>();
@@ -164,12 +136,72 @@ namespace ReportModule
             }
         }
 
-        private static void parse_br_tags(XElement xelement)
+        private List<XElement> parse_br_tags(XElement xelement, string tag = "$br$", bool clearInd = false)
         {
-            //throw new NotImplementedException();
+            List<XElement> new_xelements = new List<XElement>();
+            XElement new_xelement = new XElement(xelement);
+            new_xelement.RemoveNodes();
+            foreach (var child_element in xelement.Elements())
+                if (child_element.Name.LocalName == "r")
+                {
+                    XElement textElement = child_element.Element(XName.Get("t", w));
+                    if (textElement == null)
+                    {
+                        new_xelement.Add(child_element);
+                        continue;
+                    }
+                    string content = textElement.Value;
+                    string[] values = content.Split(new string[] { 
+                        tag.ToLower(CultureInfo.CurrentCulture), 
+                        tag.ToUpper(CultureInfo.CurrentCulture) }, StringSplitOptions.None);
+                    if (values.Length == 1)
+                    {
+                        new_xelement.Add(child_element);
+                        continue;
+                    }
+                    int i = 0;
+                    foreach (string value in values)
+                    {
+                        if (i == 0)
+                        {
+                            XElement new_element = new XElement(child_element);
+                            new_element.Element(XName.Get("t", w)).Value = value;
+                            new_xelement.Add(new_element);
+                        }
+                        else
+                        {
+                            xelement.AddBeforeSelf(new_xelement);
+                            new_xelements.Add(new_xelement);
+                            new_xelement = new XElement(xelement);
+                            new_xelement.RemoveNodes();
+                            if (xelement.Element(XName.Get("pPr", w)) != null)
+                                new_xelement.Add(xelement.Element(XName.Get("pPr", w)));
+                            if (clearInd)
+                            {
+                                XElement ind = new_xelement.Element(XName.Get("pPr", w)).Element(XName.Get("ind", w));
+                                if (ind != null)
+                                    ind.Remove();
+                            }
+                            XElement new_element = new XElement(child_element);
+                            new_element.Element(XName.Get("t", w)).Value = value;
+                            new_xelement.Add(new_element);
+                        }
+                        i++;
+                    }
+                }
+                else
+                    new_xelement.Add(child_element);
+            xelement.ReplaceWith(new_xelement);
+            new_xelements.Add(new_xelement);
+            return new_xelements;
         }
 
-        private void parse_style_tags(XElement xelement)
+        private void parse_sbr_tags(XElement xelement)
+        {
+            parse_br_tags(xelement, @"$sbr$", true);
+        }
+
+        private XElement parse_style_tags(XElement xelement)
         {
             XElement new_xelement = new XElement(xelement);
             new_xelement.RemoveNodes();
@@ -265,6 +297,41 @@ namespace ReportModule
                 } else
                     new_xelement.Add(child_element);
             xelement.ReplaceWith(new_xelement);
+            return new_xelement;
+        }
+
+        /// <summary>
+        /// Метод, производящий замену специальных тэгов в отчете
+        /// </summary>
+        /// <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
+        public override void SpecialTagEditing(string reportUnzipPath)
+        {
+            string reportContentFile = Path.Combine(reportUnzipPath,
+                "word" + Path.DirectorySeparatorChar + "document.xml");
+            string[] headerFiles = Directory.GetFiles(Path.Combine(reportUnzipPath, "word"), "header*.xml");
+            string[] files = headerFiles.Union(new List<string>() { reportContentFile }).ToArray();
+            foreach (string file in files)
+            {
+                XDocument xdocument = null;
+                if (!cachedDocuments.ContainsKey(file) ||
+                    cachedDocuments[file] == null)
+                {
+                    xdocument = XDocument.Load(file, LoadOptions.PreserveWhitespace);
+                    cachedDocuments[file] = xdocument;
+                }
+                else
+                    xdocument = cachedDocuments[file];
+                List<XElement> xelements = ReportHelper.FindElementsByTag(xdocument.Root, "p");
+                foreach (XElement xelement in xelements)
+                {
+                    prepair_paragraph(xelement);
+                    XElement new_xelement = parse_style_tags(xelement);
+                    List<XElement> new_xelements = parse_br_tags(new_xelement);
+                    foreach (XElement element in new_xelements)
+                        parse_sbr_tags(element);
+                }
+                xdocument.Save(file, SaveOptions.DisableFormatting);
+            }
         }
     }
 }

@@ -210,6 +210,43 @@ namespace Declensions.Unicode
             }
         }
 
+        /// <summary>
+        /// Позволяет выделить из заданного ФИО его части. Корректно обрабатываются ФИО, содержащие 
+        /// признак рода (Оглы, Кызы) записанный через дефис или пробел
+        /// </summary>
+        /// <param name="surnameNamePatronimic">ФИО</param>
+        /// <param name="surname">Фамилия</param>
+        /// <param name="name">Имя</param>
+        /// <param name="patronimic">Отчество</param>
+        public static void GetSNM(string surnameNamePatronimic,
+            out string surname, out string name, out string patronimic)
+        {
+            if (surnameNamePatronimic == null) throw new ArgumentNullException("surnameNamePatronimic");
+
+            surname = name = patronimic = null;
+
+            FIOParts parts = new FIOParts();
+            IntPtr ptr = IntPtr.Zero;
+            try
+            {
+                parts = new FIOParts(m_MaxResultStringBufSize);
+                ptr = Marshal.StringToHGlobalUni(surnameNamePatronimic);
+
+                int err = decGetFIOParts(ptr, ref parts);
+                if (err < 0) err--;
+                ThrowException(err);
+
+                surname = Marshal.PtrToStringUni(parts.pSurname, parts.lenSurname);
+                name = Marshal.PtrToStringUni(parts.pName, parts.lenName);
+                patronimic = Marshal.PtrToStringUni(parts.pPatronimic, parts.lenPatronimic);
+            }
+            finally
+            {
+                parts.Free();
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
+
         #endregion Service functions
 
         #region Exceptions dictionary functions
@@ -352,7 +389,37 @@ namespace Declensions.Unicode
         [DllImport("PadegUC.dll", EntryPoint = "GetExceptionsFileName", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         private static extern Int32 decGetExceptionsFileName([Out] [MarshalAs(UnmanagedType.LPTStr)]StringBuilder result, [In, Out] ref Int32 resultLength);
 
+        [DllImport("PadegUC.dll", EntryPoint = "GetFIOParts", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        private static extern Int32 decGetFIOParts([In] IntPtr surnameNamePatronimic, [In, Out] ref FIOParts result);
+
         #endregion Padeg.dll functions and structs
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct FIOParts
+        {
+            public IntPtr pSurname;
+            public IntPtr pName;
+            public IntPtr pPatronimic;
+            public Int32 lenSurname;
+            public Int32 lenName;
+            public Int32 lenPatronimic;
+
+            public FIOParts(int maxResultStringBufSize)
+            {
+                this.pSurname = Marshal.AllocHGlobal(maxResultStringBufSize);
+                this.pName = Marshal.AllocHGlobal(maxResultStringBufSize);
+                this.pPatronimic = Marshal.AllocHGlobal(maxResultStringBufSize);
+
+                this.lenSurname = this.lenName = this.lenPatronimic = maxResultStringBufSize;
+            }
+
+            public void Free()
+            {
+                Marshal.FreeHGlobal(pPatronimic);
+                Marshal.FreeHGlobal(pName);
+                Marshal.FreeHGlobal(pSurname);
+            }
+        }
     }
 
     /// <summary>

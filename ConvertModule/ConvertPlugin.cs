@@ -787,8 +787,11 @@ namespace ConvertModule
                 return;
             }
             //Если входная строка не соответствует шаблону ФИО, то вернуть как есть
-            string[] nameInParts = nameIn.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (nameInParts.Length != 3)
+            string surname;
+            string name;
+            string patronymic;
+            Declension.GetSNM(nameIn, out surname, out name, out patronymic);
+            if (String.IsNullOrEmpty(surname) || String.IsNullOrEmpty(name) || String.IsNullOrEmpty(patronymic))
             {
                 nameOut = nameIn;
                 return;
@@ -812,28 +815,26 @@ namespace ConvertModule
                     dec_case = DeclensionCase.Imenit;
                     break;
             }
-            //Формирует входную строку ФИО, исключая лишние пробелы
-            string nameInTrimSpaces = String.Join(" ", nameInParts);
-            Gender gender = Declension.GetGender(nameInTrimSpaces);
+            Gender gender = Declension.GetGender(nameIn);
             string nameInGender = "";
             if (gender != Gender.NotDefind)
-                nameInGender = Declension.GetSNPDeclension(nameInTrimSpaces, gender, dec_case);
+                nameInGender = Declension.GetSNPDeclension(nameIn, gender, dec_case);
             else
-                nameInGender = nameInTrimSpaces;
-            string[] nameInGenderParts = nameInGender.Split(new char[] { ' ' });
+                nameInGender = nameIn;
+            Declension.GetSNM(nameInGender, out surname, out name, out patronymic);
             //Заменяем шаблонные строки
             if (Regex.IsMatch(format, "ss"))
-                format = Regex.Replace(format, "ss", nameInGenderParts[0]);
+                format = Regex.Replace(format, "ss", surname);
             if (Regex.IsMatch(format, "s"))
-                format = Regex.Replace(format, "s", nameInGenderParts[0][0].ToString());
+                format = Regex.Replace(format, "s", surname[0].ToString());
             if (Regex.IsMatch(format, "nn"))
-                format = Regex.Replace(format, "nn", nameInGenderParts[1]);
+                format = Regex.Replace(format, "nn", name);
             if (Regex.IsMatch(format, "n"))
-                format = Regex.Replace(format, "n", nameInGenderParts[1][0].ToString());
+                format = Regex.Replace(format, "n", name[0].ToString());
             if (Regex.IsMatch(format, "pp"))
-                format = Regex.Replace(format, "pp", nameInGenderParts[2]);
+                format = Regex.Replace(format, "pp", patronymic);
             if (Regex.IsMatch(format, "p"))
-                format = Regex.Replace(format, "p", nameInGenderParts[2][0].ToString());
+                format = Regex.Replace(format, "p", patronymic[0].ToString());
             nameOut = format;
         }
 

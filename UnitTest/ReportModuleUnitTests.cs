@@ -511,23 +511,17 @@ namespace UnitTest
         [TestMethod]
         public void ReportModuleSetTableValueOdsTest4()
         {
-            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.ods");
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueCellTests.ods");
             string resultFileName = "";
             ReportPlug report = new ReportPlug();
             IOPlug io = new IOPlug();
             ReportTable table = new ReportTable();
             table.Columns.Add("name");
-            table.Columns.Add("surname");
-            table.Columns.Add("patronymic");
-            table.Columns.Add("date");
             Random rand = new Random();
             for (int i = 0; i < 10; i++)
             {
                 ReportRow row = new ReportRow(table);
                 row.Add(new ReportCell(row, rand.Next().ToString()));
-                row.Add(new ReportCell(row, i.ToString()));
-                row.Add(new ReportCell(row, (10 - i).ToString()));
-                row.Add(new ReportCell(row, DateTime.Now.ToString()));
                 table.Add(row);
             }
             report.ReportSetTemplateFile(reportFile);
@@ -769,23 +763,17 @@ namespace UnitTest
         [TestMethod]
         public void ReportModuleSetTableValueXlsxTest4()
         {
-            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.xlsx");
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueCellTests.xlsx");
             string resultFileName = "";
             ReportPlug report = new ReportPlug();
             IOPlug io = new IOPlug();
             ReportTable table = new ReportTable();
             table.Columns.Add("name");
-            table.Columns.Add("surname");
-            table.Columns.Add("patronymic");
-            table.Columns.Add("date");
             Random rand = new Random();
             for (int i = 0; i < 10; i++)
             {
                 ReportRow row = new ReportRow(table);
                 row.Add(new ReportCell(row, rand.Next().ToString()));
-                row.Add(new ReportCell(row, i.ToString()));
-                row.Add(new ReportCell(row, (10 - i).ToString()));
-                row.Add(new ReportCell(row, DateTime.Now.ToString()));
                 table.Add(row);
             }
             report.ReportSetTemplateFile(reportFile);

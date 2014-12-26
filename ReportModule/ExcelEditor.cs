@@ -158,7 +158,12 @@ namespace ReportModule
                                 x_increment++;
                     }
                     element.Remove();
-                    string address = element.Elements().First().Attribute("r").Value;
+                    string address = "";
+                    if (element.Name.LocalName == "row")
+                        address = element.Elements().First().Attribute("r").Value;
+                    else
+                        if (element.Name.LocalName == "c")
+                            address = element.Attribute("r").Value;
                     recalculate_merge_cells(document, address, y_increment);
                 }
             }

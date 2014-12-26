@@ -209,6 +209,8 @@ namespace ReportModule
             text = leftTextPart + value + rightTextPart;
             XText node = new XText(text);
             (pnic.Node as XText).ReplaceWith(node);
+            if ((text != text.Trim()) && (node.Parent.Attribute(XNamespace.Xml + "space") == null))
+                node.Parent.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
             return node;
         }
 
