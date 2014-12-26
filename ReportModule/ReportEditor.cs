@@ -159,8 +159,6 @@ namespace ReportModule
             if (document == null)
                 throw new ReportException("Не задана ссылка на документ шаблона");
             List<XElement> elements = ReportHelper.FindElementsByTag(document.Root, reportValue.XmlContractor);
-            // Сортировка позволяет определить вложенные таблицы и выставить их в начало каскадной замены
-            elements.Sort(new XComparer()); 
             List<string> patterns = new List<string>();
             foreach (string column in reportValue.Table.Columns)
                 patterns.Add("$" + column + "$");

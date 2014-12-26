@@ -43,9 +43,9 @@ namespace ReportModule
                 List<XElement> child_elements = ReportHelper.FindElementsByTag(element, xml_tag);
                 foreach (XElement child_element in child_elements)
                     elements.Add(child_element);
-                if ((element.Name.LocalName == xml_tag))
-                    elements.Add(element);
             }
+            if ((xelement.Name.LocalName == xml_tag))
+                elements.Add(xelement);
             return elements;
         }
 
@@ -267,17 +267,6 @@ namespace ReportModule
             this.Node = node;
             StartIndex = -1;
             EndIndex = -1;
-        }
-    }
-
-    /// <summary>
-    /// Компаратор классов XElement
-    /// </summary>
-    internal class XComparer : IComparer<XElement>
-    {
-        public int Compare(XElement x, XElement y)
-        {
-            return String.Compare(y == null ? "" : y.ToString(), x == null ? "" : x.ToString(), StringComparison.Ordinal);
         }
     }
 }

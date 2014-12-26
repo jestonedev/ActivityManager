@@ -17,8 +17,12 @@ namespace ReportModule
     public class ExcelEditor: ReportEditor
     {
         private SharedExcelStrings shared_strings;
+        private XDocument workbook;
+        private XDocument workbookRel;
+        private XDocument contentTypes;
 
         private Dictionary<string, string> xml_contractors = new Dictionary<string, string>() {
+        {"table","worksheet"},
         {"row","row"},
         {"cell","c"}
         };
@@ -43,27 +47,41 @@ namespace ReportModule
             if (values == null)
                 throw new ReportException("Не задана ссылка на список переменных");
             string xl_path = Path.Combine(reportUnzipPath, "xl");
+            string _rels_path = Path.Combine(xl_path, "_rels");
             shared_strings = new SharedExcelStrings(Path.Combine(xl_path, "sharedStrings.xml"));
             string[] sheets = Directory.GetFiles(Path.Combine(xl_path, "worksheets"), "*.xml");
-            List<XDocument> xdoc_sheets = new List<XDocument>();
+            string contentTypesFile = Path.Combine(reportUnzipPath, "[Content_Types].xml");
+            string workbookFile = Path.Combine(xl_path, "workbook.xml");
+            string workbookRelFile = Path.Combine(_rels_path, "workbook.xml.rels");
             Console.WriteLine("Загружаем файлы отчета");
+            Dictionary<string, XDocument> xdocuments = new Dictionary<string, XDocument>();
+            contentTypes = XDocument.Load(contentTypesFile, LoadOptions.PreserveWhitespace);
+            workbook = XDocument.Load(workbookFile, LoadOptions.PreserveWhitespace);
+            workbookRel = XDocument.Load(workbookRelFile, LoadOptions.PreserveWhitespace);
+            xdocuments.Add(contentTypesFile, contentTypes);
+            xdocuments.Add(workbookFile, workbook);
+            xdocuments.Add(workbookRelFile, workbookRel);
             foreach (string sheet in sheets)
-                xdoc_sheets.Add(XDocument.Load(sheet));
+                 xdocuments.Add(sheet, XDocument.Load(sheet, LoadOptions.PreserveWhitespace));
             Console.WriteLine("Заполняем файлы отчета данными");
             foreach (ReportValue report_value in values)
             {
                 StringReportValue string_report_value = report_value as StringReportValue;
                 TableReportValue table_report_value = report_value as TableReportValue;
-                foreach (XDocument sheet in xdoc_sheets)
-                if (string_report_value != null)    
-                    WriteString(string_report_value, sheet);
-                else
-                if (table_report_value != null)
-                    WriteTable(table_report_value, sheet);
+                Dictionary<string, XDocument> new_xdocuments = new Dictionary<string, XDocument>();
+                foreach (var xdocument in xdocuments)
+                {
+                    if (string_report_value != null)
+                        WriteString(string_report_value, xdocument.Value);
+                    else
+                        if (table_report_value != null)
+                            new_xdocuments.Union(WriteTable(table_report_value, xdocument));
+                }
+                xdocuments.Union(new_xdocuments);
             }
             Console.WriteLine("Сохраняем файлы отчета во временную директорию");
-            for (int i = 0; i < sheets.Length; i++)
-                xdoc_sheets[i].Save(sheets[i]);
+            foreach (var xdocument in xdocuments)
+                xdocument.Value.Save(xdocument.Key);
             shared_strings.Save(Path.Combine(xl_path, "sharedStrings.xml"));
         }
 
@@ -97,6 +115,7 @@ namespace ReportModule
                     t_element.ReplaceWith(XElement.Parse(t_element_str, LoadOptions.PreserveWhitespace));
                 }
             }
+            WritePatternAttributes(document.Root, reportValue.Pattern, reportValue.Value);
         }
 
         /// <summary>
@@ -104,12 +123,13 @@ namespace ReportModule
         /// </summary>
         /// <param name="reportValue">Табличная переменная отчета</param>
         /// <param name="document">Отчет</param>
-        protected override void WriteTable(TableReportValue reportValue, XDocument document)
+        protected new Dictionary<string, XDocument> WriteTable(TableReportValue reportValue, KeyValuePair<string, XDocument> document)
         {
             if (reportValue == null)
                 throw new ReportException("Не задана ссылка на табличную переменную отчета");
-            if (document == null)
+            if (document.Value == null)
                 throw new ReportException("Не задана ссылка на документ шаблона");
+            Dictionary<string, XDocument> new_xdocuments = new Dictionary<string, XDocument>();
             List<int> excel_templates_ss_indexes = new List<int>();
             foreach (string template in reportValue.Table.Columns)
                 excel_templates_ss_indexes.Add(ss_index("$" + template + "$", shared_strings));
@@ -118,55 +138,64 @@ namespace ReportModule
                 excel_templates.Add("<v>" + ss_index.ToString(CultureInfo.CurrentCulture) + "</v>");
             string reg_match_pattern = ReportHelper.get_table_pattern_regex(excel_templates);
 
-            List<XElement> xml_contractor_elements = ReportHelper.FindElementsByTag(document.Root, reportValue.XmlContractor);
+            List<XElement> xml_contractor_elements = ReportHelper.FindElementsByTag(document.Value.Root, reportValue.XmlContractor);
             int x_increment = 0;        //Инкремент адреса столбца
             int y_increment = 0;        //Инкремент адреса строки
-
             foreach (XElement element in xml_contractor_elements)
             {
                 recalculate_xelement_address(element, x_increment, y_increment);
                 string element_value = element.ToString(SaveOptions.DisableFormatting);
                 if (Regex.IsMatch(element_value, reg_match_pattern))
                 {
-                    List<XElement> new_elements = new List<XElement>();
-                    int count = 0;
-                    foreach (ReportRow row in reportValue.Table)
+                    if (reportValue.XmlContractor == "row" || reportValue.XmlContractor == "c")
                     {
-                        count++;
-                        if (count % 500 == 0)
-                            Console.WriteLine(String.Format(CultureInfo.CurrentCulture,"Заполнено {0} из {1} строк", count, reportValue.Table.Count));
-                        string result_row = element_value;
-                        for (int i = 0; i < reportValue.Table.Columns.Count; i++)
+                        List<XElement> new_elements = new List<XElement>();
+                        int count = 0;
+                        foreach (ReportRow row in reportValue.Table)
                         {
-                            result_row = result_row.Replace(
-                                "<v>" + ss_index("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(CultureInfo.CurrentCulture) + "</v>",
-                                "<v>" + shared_strings.Add(
-                                ss_element("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(SaveOptions.DisableFormatting).
-                                Replace("$" + reportValue.Table.Columns[i] + "$", row[i].Value).ToString()) + "</v>");
+                            count++;
+                            if (count % 500 == 0)
+                                Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Заполнено {0} из {1} строк", count, reportValue.Table.Count));
+                            string result_row = element_value;
+                            for (int i = 0; i < reportValue.Table.Columns.Count; i++)
+                            {
+                                result_row = result_row.Replace(
+                                    "<v>" + ss_index("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(CultureInfo.CurrentCulture) + "</v>",
+                                    "<v>" + shared_strings.Add(
+                                    ss_element("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(SaveOptions.DisableFormatting).
+                                    Replace("$" + reportValue.Table.Columns[i] + "$", row[i].Value).ToString()) + "</v>");
+                            }
+                            XElement new_element = XElement.Parse(result_row, LoadOptions.PreserveWhitespace);
+                            new_elements.Add(new_element);
                         }
-                        XElement new_element = XElement.Parse(result_row, LoadOptions.PreserveWhitespace);
-                        new_elements.Add(new_element);
-                    }
-                    foreach (XElement new_element in new_elements)
-                    {
-                        recalculate_xelement_address(new_element, x_increment, y_increment);
-                        element.AddBeforeSelf(new_element);
-                        if ((element.Name.LocalName == "row") && (new_elements.Count - 1 > y_increment))
-                            y_increment++;
+                        foreach (XElement new_element in new_elements)
+                        {
+                            recalculate_xelement_address(new_element, x_increment, y_increment);
+                            element.AddBeforeSelf(new_element);
+                            if ((element.Name.LocalName == "row") && (new_elements.Count - 1 > y_increment))
+                                y_increment++;
+                            else
+                                if ((element.Name.LocalName == "c") && (new_elements.Count - 1 > x_increment))
+                                    x_increment++;
+                        }
+                        element.Remove();
+                        string address = "";
+                        if (element.Name.LocalName == "row")
+                            address = element.Elements().First().Attribute("r").Value;
                         else
-                            if ((element.Name.LocalName == "c") && (new_elements.Count - 1 > x_increment))
-                                x_increment++;
+                            if (element.Name.LocalName == "c")
+                                address = element.Attribute("r").Value;
+                        recalculate_merge_cells(document.Value, address, y_increment);
+                    } else
+                    if (reportValue.XmlContractor == "worksheet")
+                    {
+                        //TODO создать новый лист - копию текущего
+                        //добавить в workbook.xml копию записи
+                        throw new ReportException("Не реализовано");
                     }
-                    element.Remove();
-                    string address = "";
-                    if (element.Name.LocalName == "row")
-                        address = element.Elements().First().Attribute("r").Value;
-                    else
-                        if (element.Name.LocalName == "c")
-                            address = element.Attribute("r").Value;
-                    recalculate_merge_cells(document, address, y_increment);
                 }
             }
+            return new_xdocuments;
         }
 
         /// <summary>

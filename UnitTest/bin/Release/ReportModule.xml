@@ -129,7 +129,7 @@
             <param name="reportValue">Строковая переменная отчета</param>
             <param name="document">Отчет</param>
         </member>
-        <member name="M:ReportModule.ExcelEditor.WriteTable(ReportModule.TableReportValue,System.Xml.Linq.XDocument)">
+        <member name="M:ReportModule.ExcelEditor.WriteTable(ReportModule.TableReportValue,System.Collections.Generic.KeyValuePair{System.String,System.Xml.Linq.XDocument})">
             <summary>
             Метод, заменяющий табличный шаблон отчета
             </summary>
@@ -320,11 +320,6 @@
         <member name="T:ReportModule.PatternNodeInfo">
             <summary>
             Класс с информацией о позиции частей паттерна в элементах
-            </summary>
-        </member>
-        <member name="T:ReportModule.XComparer">
-            <summary>
-            Компаратор классов XElement
             </summary>
         </member>
         <member name="T:ReportModule.XmlContractor">
