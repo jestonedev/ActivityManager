@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace HtmlDataSource
 {
@@ -66,6 +67,180 @@ namespace HtmlDataSource
     /// </summary>
     public class HtmlDataSourcePlug : IPlug
     {
+        #region html_spec_simbols
+        private Dictionary<string, string> html_spec_simbols = new Dictionary<string,string>()
+        {
+            {"&nbsp;"," "},  //неразрывный пробел
+            {"&ensp;"," "},  //узкий пробел (еn-шириной в букву n)
+            {"&emsp;"," "},  //широкий пробел (em-шириной в букву m)
+            {"&ndash;","–"}, //узкое тире (en-тире)
+            {"&mdash;","—"}, //широкое тире (em-тире)
+            {"&shy;","\u00AD"},   //мягкий перенос
+            {"&copy;","©"},  //копирайт
+            {"&reg;","®"},   //знак зарегистрированной торговой марки
+            {"&trade;","™"}, //знак торговой марки
+            {"&ordm;","º"},  //копье Марса
+            {"&ordf;","ª"},  //зеркало Венеры
+            {"&permil;","‰"},//промилле
+            {"&brvbar;","¦"},//вертикальный пунктир
+            {"&sect;","§"},  //параграф
+            {"&deg;","°"},   //градус
+            {"&micro;","µ"}, //знак "микро"
+            {"&para;","¶"},  //знак абзаца
+            {"&hellip;","…"},//многоточие
+            {"&oline;","‾"}, //надчеркивание
+            {"&#8254;","‾"}, //надчеркивание
+            {"&acute;","´"}, //знак ударения
+            {"&times;","×"}, //умножить
+            {"&divide;","÷"},//разделить
+            {"&lt;","<"},    //меньше
+            {"&gt;",">"},    //больше
+            {"&plusmn;","±"},//плюс/минус
+            {"&sup1;","¹"},  //степень 1
+            {"&sup2;","²"},  //степень 2
+            {"&sup3;","³"},  //степень 3
+            {"&not;","¬"},   //отрицание
+            {"&frac14;","¼"},//одна четвертая
+            {"&frac12;","½"},//одна вторая
+            {"&frac34;","¾"},//три четверти
+            {"&frasl;","⁄"}, //дробная черта
+            {"&minus;","−"}, //минус
+            {"&le;","≤"},    //меньше или равно
+            {"&ge;","≥"},    //больше или равно
+            {"&asymp;","≈"}, //приблизительно (почти) равно
+            {"&ne;","≠"},    //не равно
+            {"&equiv;","≡"}, //тождественно
+            {"&radic;","√"}, //квадратный корень (радикал)
+            {"&infin;","∞"}, //бесконечность
+            {"&sum;","∑"},   //знак суммирования
+            {"&prod;","∏"},  //знак произведения
+            {"&part;","∂"},  //частичный дифференциал
+            {"&int;","∫"},   //интеграл
+            {"&forall;","∀"},//для всех
+            {"&exist;","∃"}, //существует
+            {"&empty;","∅"}, //пустое множество
+            {"&Oslash;","Ø"},//диаметр
+            {"&isin;","∈"},  //принадлежит
+            {"&notin;","∉"}, //не принадлежит
+            {"&ni;","∋"},    //содержит
+            {"&sub;","⊂"},   //является подмножеством
+            {"&sup;","⊃"},   //является надмножеством
+            {"&nsub;","⊄"},  //не является подмножеством
+            {"&sube;","⊆"},  //является подмножеством либо равно
+            {"&supe;","⊇"},  //является надмножеством либо равно
+            {"&oplus;","⊕"}, //плюс в кружке
+            {"&otimes;","⊗"},//знак умножения в кружке
+            {"&perp;","⊥"},  //перпендикулярно
+            {"&ang;","∠"},   //угол
+            {"&and;","∧"},   //логическое И
+            {"&or;","∨"},    //логическое ИЛИ
+            {"&cap;","∩"},   //пересечение
+            {"&cup;","∪"},   //объединение
+            {"&euro;","€"},   //Евро
+            {"&cent;","¢"},   //Цент
+            {"&pound;","£"},  //Фунт
+            {"&current;","¤"},//Знак валюты
+            {"&yen;","¥"},    //Знак йены и юаня
+            {"&fnof;","ƒ"},   //Знак флорина
+            {"&bull;","•"},   //простой маркер
+            {"&middot;","·"}, //средняя точка
+            {"&spades;","♠"}, //пики
+            {"&clubs;","♣"},  //трефы
+            {"&hearts;","♥"}, //червы
+            {"&diams;","♦"},  //бубны
+            {"&loz;","◊"},    //ромб
+            {"&quot;","\""},  //двойная кавычка
+            {"&amp;","&"},    //амперсанд
+            {"&laquo;","«"},  //левая типографская кавычка (кавычка-елочка)
+            {"&raquo;","»"},  //правая типографская кавычка (кавычка-елочка)
+            {"&prime;","′"},  //штрих (минуты, футы)
+            {"&Prime;","″"},  //двойной штрих (секунды, дюймы)
+            {"&lsquo;","‘"},  //левая верхняя одиночная кавычка
+            {"&rsquo;","’"},  //правая  верхняя одиночная кавычка
+            {"&sbquo;","‚"},  //правая нижняя одиночная кавычка
+            {"&ldquo;","“"},  //кавычка-лапка левая
+            {"&rdquo;","”"},  //кавычка-лапка правая верхняя
+            {"&bdquo;","„"},  //кавычка-лапка правая нижняя
+            {"&larr;","←"},   //стрелка влево
+            {"&uarr;","↑"},   //стрелка вверх
+            {"&rarr;","→"},   //стрелка вправо
+            {"&darr;","↓"},   //стрелка вниз
+            {"&harr;","↔"},   //стрелка влево и вправо
+            {"&crarr;","↵"},  //возврат каретки
+            {"&lArr;","⇐"},  //двойная стрелка влево
+            {"&uArr;","⇑"},   //двойная стрелка вверх
+            {"&rArr;","⇒"},  //двойная стрелка вправо
+            {"&dArr;","⇓"},  //двойная стрелка вниз
+            {"&hArr;","⇔"},  //двойная стрелка влево и вправо
+            {"&alpha;","α"},  
+            {"&beta;","β"},  
+            {"&gamma;","γ"},  
+            {"&delta;","δ"},  
+            {"&epsilon;","ε"},  
+            {"&zeta;","ζ"},  
+            {"&eta;","η"},  
+            {"&theta;","θ"}, 
+            {"&iota;","ι"}, 
+            {"&kappa;","κ"}, 
+            {"&lambda;","λ"}, 
+            {"&mu;","μ"}, 
+            {"&nu;","ν"}, 
+            {"&xi;","ξ"}, 
+            {"&omicron;","ο"}, 
+            {"&pi;","π"}, 
+            {"&rho;","ρ"}, 
+            {"&sigma;","σ"}, 
+            {"&sigmaf;","ς"}, 
+            {"&tau;","τ"}, 
+            {"&upsilon;","υ"}, 
+            {"&phi;","φ"}, 
+            {"&chi;","χ"}, 
+            {"&psi;","ψ"}, 
+            {"&omega;","ω"}, 
+            {"&Alpha;","Α"},  
+            {"&Beta;","Β"},  
+            {"&Gamma;","Γ"},  
+            {"&Delta;","Δ"},  
+            {"&Epsilon;","Ε"},  
+            {"&Zeta;","Ζ"},  
+            {"&Eta;","Η"},  
+            {"&Theta;","Θ"}, 
+            {"&Iota;","Ι"}, 
+            {"&Kappa;","Κ"}, 
+            {"&Lambda;","Λ"}, 
+            {"&Mu;","Μ"}, 
+            {"&Nu;","Ν"}, 
+            {"&Xi;","Ξ"}, 
+            {"&Omicron;","Ο"}, 
+            {"&Pi;","Π"}, 
+            {"&Rho;","Ρ"}, 
+            {"&Sigma;","Σ"}, 
+            {"&Tau;","Τ"}, 
+            {"&Upsilon;","Υ"}, 
+            {"&Phi;","Φ"}, 
+            {"&Chi;","Χ"}, 
+            {"&Psi;","Ψ"}, 
+            {"&Omega;","Ω"}
+        };
+        #endregion html_spec_simbols
+
+        private string ReplaceSpecSymbols(string value)
+        {
+            foreach (var html_spec_simbol in html_spec_simbols)
+                value.Replace(html_spec_simbol.Key, html_spec_simbol.Value);
+            MatchCollection matches = Regex.Matches(value, "&#([xX]){0,1}([0-9a-fA-F]{1,8});", RegexOptions.IgnoreCase);
+            foreach (Match match in matches)
+            {
+                char c;
+                if (match.Groups.Count == 3)
+                    c = ((char)int.Parse(match.Groups[match.Groups.Count - 1].Value, System.Globalization.NumberStyles.HexNumber));
+                else
+                    c = ((char)int.Parse(match.Groups[match.Groups.Count - 1].Value));
+                value = value.Replace(match.Value, c.ToString());
+            }
+            return value;
+        }
+
         /// <summary>
         /// Выборка данных из html-файла
         /// </summary>
@@ -127,10 +302,11 @@ namespace HtmlDataSource
                     while (cellIterator.MoveNext())
                     {
                         if (cellIterator.Current.NodeType == XPathNodeType.Element)
-                            result += cellIterator.Current.InnerXml;
+                            result += cellIterator.Current.InnerXml.Replace("&amp;", "&");
                         else
                             result += cellIterator.Current.Value;
                     }
+                    result = ReplaceSpecSymbols(result);
                     ReportCell cell = new ReportCell(row, result);
                     row.Add(cell);
                 }
@@ -202,11 +378,14 @@ namespace HtmlDataSource
                     string result = "";
                     while (cellIterator.MoveNext())
                     {
+                        string tmpStr = "";
                         if (cellIterator.Current.NodeType == XPathNodeType.Element)
-                            result += cellIterator.Current.InnerXml;
+                            tmpStr = cellIterator.Current.InnerXml.Replace("&amp;", "&");
                         else
-                            result += cellIterator.Current.Value;
+                            tmpStr = cellIterator.Current.Value;
+                        result += tmpStr;
                     }
+                    result = ReplaceSpecSymbols(result);
                     ReportCell cell = new ReportCell(row, result);
                     row.Add(cell);
                 }
@@ -243,10 +422,11 @@ namespace HtmlDataSource
             while (iterator.MoveNext())
             {
                 if (iterator.Current.NodeType == XPathNodeType.Element)
-                    result += iterator.Current.InnerXml;
+                    result += iterator.Current.InnerXml.Replace("&amp;", "&");
                 else
                     result += iterator.Current.Value;
             }
+            result = ReplaceSpecSymbols(result.ToString());
         }
 
         /// <summary>
@@ -283,10 +463,11 @@ namespace HtmlDataSource
             while (iterator.MoveNext())
             {
                 if (iterator.Current.NodeType == XPathNodeType.Element)
-                    result += iterator.Current.InnerXml;
+                    result += iterator.Current.InnerXml.Replace("&amp;","&");
                 else
                     result += iterator.Current.Value;
             }
+            result = ReplaceSpecSymbols(result.ToString());
         }
     }
 
