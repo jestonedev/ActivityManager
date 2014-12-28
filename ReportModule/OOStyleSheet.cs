@@ -79,6 +79,7 @@ namespace ReportModule
                 new XAttribute(XName.Get("text-underline-color",XmlnsStyle),"font-color")
             } },
             {Style.Strike, new List<XAttribute>() {
+                new XAttribute(XName.Get("text-line-through-style",XmlnsStyle),"solid")
             } }
         };
 
