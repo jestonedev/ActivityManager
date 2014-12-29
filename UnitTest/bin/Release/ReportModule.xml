@@ -136,6 +136,15 @@
             <param name="reportValue">Табличная переменная отчета</param>
             <param name="document">Отчет</param>
         </member>
+        <member name="M:ReportModule.ExcelEditor.CreateSheetsByElements(System.String,System.Collections.Generic.List{System.Xml.Linq.XElement},ExtendedTypes.ReportTable)">
+            <summary>
+            Метод создает листы Excel по шаблонному документу и перечню элементов. Метаданные шаблонного листа удаляются из документа.
+            </summary>
+            <param name="tempSheetName">Полный путь до файла шаблона</param>
+            <param name="elements">Перечень элементов worksheet, на базе которых будут созданы листы</param>
+            <param name="table">Таблица с параметрами. Используется для задания имен листов</param>
+            <returns>Возвращает коллекцию новых листов (исключая шаблонный)</returns>
+        </member>
         <member name="M:ReportModule.ExcelEditor.ss_element(System.String,ReportModule.SharedExcelStrings)">
             <summary>
             Получить элемент в файле sharedStrings.xml Excel-отчета

@@ -169,7 +169,6 @@ namespace ReportModule
                 foreach (string pattern in patterns)
                     if (ReportHelper.MatchesPattern(element, pattern) > 0)
                         pattern_match_count++;
-
                 if (pattern_match_count > 0 && ((double)(patterns.Count) / 2) <= pattern_match_count)
                 {
                     List<XElement> new_elements = new List<XElement>();

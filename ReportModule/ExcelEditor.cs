@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using ExtendedTypes;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Xml.XPath;
 
 namespace ReportModule
 {
@@ -20,6 +21,13 @@ namespace ReportModule
         private XDocument workbook;
         private XDocument workbookRel;
         private XDocument contentTypes;
+        private string report_unzip_path;
+        private int next_sheet_number = 1;
+        private int next_rId = 1;
+        private static string xmlnsMain = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+        private static string xmlnsRel = "http://schemas.openxmlformats.org/package/2006/relationships";
+        private static string xmlnsRelOD = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+        private static string xmlnsContentTypes = "http://schemas.openxmlformats.org/package/2006/content-types";
 
         private Dictionary<string, string> xml_contractors = new Dictionary<string, string>() {
         {"table","worksheet"},
@@ -46,6 +54,7 @@ namespace ReportModule
         {
             if (values == null)
                 throw new ReportException("Не задана ссылка на список переменных");
+            this.report_unzip_path = reportUnzipPath;
             string xl_path = Path.Combine(reportUnzipPath, "xl");
             string _rels_path = Path.Combine(xl_path, "_rels");
             shared_strings = new SharedExcelStrings(Path.Combine(xl_path, "sharedStrings.xml"));
@@ -69,15 +78,25 @@ namespace ReportModule
                 StringReportValue string_report_value = report_value as StringReportValue;
                 TableReportValue table_report_value = report_value as TableReportValue;
                 Dictionary<string, XDocument> new_xdocuments = new Dictionary<string, XDocument>();
+                Dictionary<string, XDocument> remove_xdocuments = new Dictionary<string, XDocument>();
                 foreach (var xdocument in xdocuments)
                 {
                     if (string_report_value != null)
                         WriteString(string_report_value, xdocument.Value);
                     else
                         if (table_report_value != null)
-                            new_xdocuments.Union(WriteTable(table_report_value, xdocument));
+                        {
+                            Dictionary<string, XDocument> result_new_xdocuments = WriteTable(table_report_value, xdocument);
+                            if (result_new_xdocuments.Count > 0)
+                            {
+                                remove_xdocuments.Add(xdocument.Key, xdocument.Value);
+                                new_xdocuments = new_xdocuments.Union(result_new_xdocuments).ToDictionary(s => s.Key, s => s.Value);
+                            }
+                        }
                 }
-                xdocuments.Union(new_xdocuments);
+                foreach (var xdocument in remove_xdocuments)
+                    xdocuments.Remove(xdocument.Key);
+                xdocuments = xdocuments.Union(new_xdocuments).ToDictionary(s => s.Key, s => s.Value);
             }
             Console.WriteLine("Сохраняем файлы отчета во временную директорию");
             foreach (var xdocument in xdocuments)
@@ -123,7 +142,7 @@ namespace ReportModule
         /// </summary>
         /// <param name="reportValue">Табличная переменная отчета</param>
         /// <param name="document">Отчет</param>
-        protected new Dictionary<string, XDocument> WriteTable(TableReportValue reportValue, KeyValuePair<string, XDocument> document)
+        protected Dictionary<string, XDocument> WriteTable(TableReportValue reportValue, KeyValuePair<string, XDocument> document)
         {
             if (reportValue == null)
                 throw new ReportException("Не задана ссылка на табличную переменную отчета");
@@ -137,37 +156,18 @@ namespace ReportModule
             foreach (int ss_index in excel_templates_ss_indexes)
                 excel_templates.Add("<v>" + ss_index.ToString(CultureInfo.CurrentCulture) + "</v>");
             string reg_match_pattern = ReportHelper.get_table_pattern_regex(excel_templates);
-
             List<XElement> xml_contractor_elements = ReportHelper.FindElementsByTag(document.Value.Root, reportValue.XmlContractor);
             int x_increment = 0;        //Инкремент адреса столбца
             int y_increment = 0;        //Инкремент адреса строки
             foreach (XElement element in xml_contractor_elements)
             {
-                recalculate_xelement_address(element, x_increment, y_increment);
-                string element_value = element.ToString(SaveOptions.DisableFormatting);
-                if (Regex.IsMatch(element_value, reg_match_pattern))
+                if (reportValue.XmlContractor == "row" || reportValue.XmlContractor == "c")
+                    recalculate_xelement_address(element, x_increment, y_increment);
+                if (Regex.IsMatch(element.ToString(SaveOptions.DisableFormatting), reg_match_pattern))
                 {
+                    List<XElement> new_elements = CreateElementsByTemplate(reportValue, element);
                     if (reportValue.XmlContractor == "row" || reportValue.XmlContractor == "c")
                     {
-                        List<XElement> new_elements = new List<XElement>();
-                        int count = 0;
-                        foreach (ReportRow row in reportValue.Table)
-                        {
-                            count++;
-                            if (count % 500 == 0)
-                                Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Заполнено {0} из {1} строк", count, reportValue.Table.Count));
-                            string result_row = element_value;
-                            for (int i = 0; i < reportValue.Table.Columns.Count; i++)
-                            {
-                                result_row = result_row.Replace(
-                                    "<v>" + ss_index("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(CultureInfo.CurrentCulture) + "</v>",
-                                    "<v>" + shared_strings.Add(
-                                    ss_element("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(SaveOptions.DisableFormatting).
-                                    Replace("$" + reportValue.Table.Columns[i] + "$", row[i].Value).ToString()) + "</v>");
-                            }
-                            XElement new_element = XElement.Parse(result_row, LoadOptions.PreserveWhitespace);
-                            new_elements.Add(new_element);
-                        }
                         foreach (XElement new_element in new_elements)
                         {
                             recalculate_xelement_address(new_element, x_increment, y_increment);
@@ -188,14 +188,134 @@ namespace ReportModule
                         recalculate_merge_cells(document.Value, address, y_increment);
                     } else
                     if (reportValue.XmlContractor == "worksheet")
-                    {
-                        //TODO создать новый лист - копию текущего
-                        //добавить в workbook.xml копию записи
-                        throw new ReportException("Не реализовано");
-                    }
+                        new_xdocuments = new_xdocuments.Union(
+                            CreateSheetsByElements(document.Key, new_elements, reportValue.Table)).ToDictionary(s => s.Key, s => s.Value);
                 }
             }
             return new_xdocuments;
+        }
+
+        /// <summary>
+        /// Метод создает листы Excel по шаблонному документу и перечню элементов. Метаданные шаблонного листа удаляются из документа.
+        /// </summary>
+        /// <param name="tempSheetName">Полный путь до файла шаблона</param>
+        /// <param name="elements">Перечень элементов worksheet, на базе которых будут созданы листы</param>
+        /// <param name="table">Таблица с параметрами. Используется для задания имен листов</param>
+        /// <returns>Возвращает коллекцию новых листов (исключая шаблонный)</returns>
+        private Dictionary<string, XDocument> CreateSheetsByElements(string tempSheetName, List<XElement> elements, ReportTable table)
+        {
+            Dictionary<string, XDocument> new_xdocuments = new Dictionary<string, XDocument>();
+            string worksheetsDir = Path.Combine(report_unzip_path, "xl" + Path.DirectorySeparatorChar + "worksheets");
+            string xlDir = Path.Combine(report_unzip_path, "xl");
+            int row_index = 0;
+            string docRId = null;
+            foreach (XElement new_element in elements)
+            {
+                //Создаем новый лист (копию текущего) и заменяем в нем шаблоны
+                while (File.Exists(Path.Combine(worksheetsDir,
+                    "sheet" + next_sheet_number.ToString(CultureInfo.CurrentCulture) + ".xml")))
+                    next_sheet_number++;
+                string newFileName = Path.Combine(worksheetsDir,
+                    "sheet" + next_sheet_number.ToString(CultureInfo.CurrentCulture) + ".xml");
+                File.Copy(tempSheetName, newFileName);
+                XDocument xsheet = XDocument.Load(newFileName);
+                xsheet.Root.ReplaceWith(new_element);
+                new_xdocuments.Add(newFileName, xsheet);
+                //Вычисляем новое значение rId и rId текущего листа
+                string newRId = "rId" + next_rId.ToString(CultureInfo.CurrentCulture);
+                while (true)
+                {
+                    bool founded = false;
+                    foreach (XElement relationship in workbookRel.Root.Elements(XName.Get("Relationship", xmlnsRel)))
+                    {
+                        string currentRId = relationship.Attribute("Id").Value;
+                        string currentfileName = Path.Combine(xlDir, relationship.Attribute("Target").Value.Replace("/","\\"));
+                        if (currentfileName == tempSheetName)
+                            docRId = currentRId;
+                        if (currentRId == newRId)
+                        {
+                            founded = true;
+                            next_rId++;
+                            newRId = "rId" + next_rId.ToString(CultureInfo.CurrentCulture);
+                            break;
+                        }
+                    }
+                    if (!founded)
+                        break;
+                }
+                //добавить в workbook.xml.rels копию записи с новым rId
+                workbookRel.Root.Add(new XElement(XName.Get("Relationship", xmlnsRel),
+                    new XAttribute("Target", Path.Combine("worksheets", "sheet" + 
+                        next_sheet_number.ToString(CultureInfo.CurrentCulture) + ".xml").Replace("\\", "/")),
+                    new XAttribute("Type", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet"),
+                    new XAttribute("Id", newRId)));
+                //добавить в workbook.xml копию записи с новым r:id
+                foreach (XElement sheet in workbook.Root.Element(XName.Get("sheets", xmlnsMain)).Elements(XName.Get("sheet", xmlnsMain)))
+                    if (sheet.Attribute(XName.Get("id", xmlnsRelOD)).Value == docRId)
+                    {
+                        XElement new_sheet = new XElement(sheet);
+                        new_sheet.Attribute(XName.Get("id", xmlnsRelOD)).Value = newRId;
+                        XAttribute sheet_name_attr = new_sheet.Attribute("name");
+                        foreach(string column_name in table.Columns)
+                            if (Regex.IsMatch(sheet_name_attr.Value, Regex.Escape("$"+column_name+"$")))
+                                sheet_name_attr.Value = Regex.Replace(sheet_name_attr.Value, Regex.Escape("$" + column_name + "$"),
+                                    table[row_index][column_name].Value);
+                        string sheet_name = sheet_name_attr.Value;
+                        bool founded = false;
+                        foreach (XElement nsheet in workbook.Root.Element(XName.Get("sheets", xmlnsMain)).Elements(XName.Get("sheet", xmlnsMain)))
+                            if (nsheet.Attribute("name").Value == sheet_name)
+                            {
+                                founded = true;
+                                break;
+                            }
+                        if (founded)
+                            new_sheet.Attribute("name").Value = "Лист" + next_sheet_number.ToString(CultureInfo.CurrentCulture);
+                        new_sheet.Attribute("sheetId").Value = next_sheet_number.ToString(CultureInfo.CurrentCulture);
+                        sheet.AddAfterSelf(new_sheet);
+                    }
+                //добавить в [Content_Types] копию записи с новым PartName
+                contentTypes.Root.Add(new XElement(XName.Get("Override", xmlnsContentTypes),
+                    new XAttribute("ContentType", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"),
+                    new XAttribute("PartName", "/xl/worksheets/sheet" + next_sheet_number.ToString(CultureInfo.CurrentCulture) + ".xml")));
+                row_index++;
+            }
+            //удаляем шаблон
+            File.Delete(tempSheetName);
+            foreach (XElement element in contentTypes.Root.Elements(XName.Get("Override", xmlnsContentTypes)))
+                if (Path.Combine(report_unzip_path, element.Attribute("PartName").Value.Replace("/", "\\")) == tempSheetName)
+                    element.Remove();
+            foreach (XElement element in workbookRel.Root.Elements(XName.Get("Relationship", xmlnsRel)))
+                if (element.Attribute("Id").Value == docRId)
+                    element.Remove();
+            foreach (XElement element in workbook.Root.Elements(XName.Get("sheets", xmlnsMain)).Elements(XName.Get("sheet", xmlnsMain)))
+                if (element.Attribute(XName.Get("id", xmlnsRelOD)).Value == docRId)
+                    element.Remove();
+            return new_xdocuments;
+        }
+
+        private List<XElement> CreateElementsByTemplate(TableReportValue reportValue, XElement templateElement)
+        {
+            List<XElement> new_elements = new List<XElement>();
+            string templateString = templateElement.ToString(SaveOptions.DisableFormatting);
+            int count = 0;
+            foreach (ReportRow row in reportValue.Table)
+            {
+                count++;
+                if (count % 500 == 0)
+                    Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Заполнено {0} из {1} строк", count, reportValue.Table.Count));
+                string result_row = templateString;
+                for (int i = 0; i < reportValue.Table.Columns.Count; i++)
+                {
+                    result_row = result_row.Replace(
+                        "<v>" + ss_index("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(CultureInfo.CurrentCulture) + "</v>",
+                        "<v>" + shared_strings.Add(
+                        ss_element("$" + reportValue.Table.Columns[i] + "$", shared_strings).ToString(SaveOptions.DisableFormatting).
+                        Replace("$" + reportValue.Table.Columns[i] + "$", row[i].Value).ToString()) + "</v>");
+                }
+                XElement new_element = XElement.Parse(result_row, LoadOptions.PreserveWhitespace);
+                new_elements.Add(new_element);
+            }
+            return new_elements;
         }
 
         /// <summary>
@@ -208,13 +328,13 @@ namespace ReportModule
         {
             for (int i = 0; i < shared_strings_list.SharedStrings.Count; i++)
             {
-                foreach (XElement r in shared_strings_list.SharedStrings[i].Elements(XName.Get("r", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")))
+                foreach (XElement r in shared_strings_list.SharedStrings[i].Elements(XName.Get("r", xmlnsMain)))
                 {
-                    if (r.Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
+                    if (r.Elements(XName.Get("t", xmlnsMain)).
                         First().Value == shared_string)
                         return shared_strings_list.SharedStrings[i];
                 }
-                if (shared_strings_list.SharedStrings[i].Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
+                if (shared_strings_list.SharedStrings[i].Elements(XName.Get("t", xmlnsMain)).
                         First().Value == shared_string)
                     return shared_strings_list.SharedStrings[i];
             }
@@ -233,13 +353,13 @@ namespace ReportModule
         {
             for (int i = 0; i < shared_strings_list.SharedStrings.Count; i++)
             {
-                foreach (XElement r in shared_strings_list.SharedStrings[i].Elements(XName.Get("r", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")))
+                foreach (XElement r in shared_strings_list.SharedStrings[i].Elements(XName.Get("r", xmlnsMain)))
                 {
-                    if (r.Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
+                    if (r.Elements(XName.Get("t", xmlnsMain)).
                         First().Value == shared_string)
                         return i;
                 }
-                if (shared_strings_list.SharedStrings[i].Elements(XName.Get("t", "http://schemas.openxmlformats.org/spreadsheetml/2006/main")).
+                if (shared_strings_list.SharedStrings[i].Elements(XName.Get("t", xmlnsMain)).
                         First().Value == shared_string)
                     return i;
             }

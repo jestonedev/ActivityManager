@@ -691,7 +691,7 @@ namespace UnitTest
         [TestMethod]
         public void ReportModuleSetTableValueXlsxTest2()
         {
-            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.xlsx");
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTableClouser.xlsx");
             string resultFileName = "";
             ReportPlug report = new ReportPlug();
             IOPlug io = new IOPlug();
@@ -711,14 +711,9 @@ namespace UnitTest
                 table.Add(row);
             }
             report.ReportSetTemplateFile(reportFile);
-            try
-            {
-                report.ReportSetTableValue(table, XmlContractor.Table);
-                report.ReportGenerate(out resultFileName);
-                Assert.Fail();
-            } catch (ReportException)
-            {
-            }
+            report.ReportSetTableValue(table, XmlContractor.Table);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
         }
 
         /// <summary>
