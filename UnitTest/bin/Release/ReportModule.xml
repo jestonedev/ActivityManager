@@ -102,6 +102,11 @@
             Редактор отчетов Excel
             </summary>
         </member>
+        <member name="F:ReportModule.ExcelEditor.styles">
+            <summary>
+            Список стилей, которые необходимо применить к каждому последующему элементу
+            </summary>
+        </member>
         <member name="M:ReportModule.ExcelEditor.XmlContractorsConvert(System.Collections.ObjectModel.Collection{ReportModule.ReportValue})">
             <summary>
             Метод конвертации xml-замыкателя
@@ -115,12 +120,6 @@
             </summary>
             <param name="reportUnzipPath">Путь до файла отчета</param>
             <param name="values">Список переменных</param>
-        </member>
-        <member name="M:ReportModule.ExcelEditor.SpecialTagEditing(System.String)">
-            <summary>
-            Метод, производящий замену специальных тэгов в отчете
-            </summary>
-            <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
         </member>
         <member name="M:ReportModule.ExcelEditor.WriteString(ReportModule.StringReportValue,System.Xml.Linq.XDocument)">
             <summary>
@@ -177,6 +176,12 @@
             <param name="sheet">Excel-лист</param>
             <param name="address">Адрес ячейки, относительно которой производится смещение</param>
             <param name="y_increment">Смещение по строкам</param>
+        </member>
+        <member name="M:ReportModule.ExcelEditor.SpecialTagEditing(System.String)">
+            <summary>
+            Метод, производящий замену специальных тэгов в отчете
+            </summary>
+            <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
         </member>
         <member name="T:ReportModule.Style">
             <summary>
