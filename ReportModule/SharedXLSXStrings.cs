@@ -12,7 +12,7 @@ namespace ReportModule
     /// <summary>
     /// Класс работы с shared-строками отчета Excel
     /// </summary>
-    public class SharedExcelStrings
+    internal class SharedXLSXStrings
     {
         /// <summary>
         /// Число shared-строк
@@ -24,6 +24,7 @@ namespace ReportModule
         /// </summary>
         public int UniqueCount { get; set; }
 
+        public XDocument sharedStringsDocument { get; set; }
 
         private Collection<XElement> sharedStrings = new Collection<XElement>();
         /// <summary>
@@ -35,16 +36,16 @@ namespace ReportModule
         /// Конструктор класса SharedXLSXStrings
         /// </summary>
         /// <param name="fileName">Путь до файла с shared-строками</param>
-        public SharedExcelStrings(string fileName)
+        public SharedXLSXStrings(string fileName)
         {
-            XDocument sharedStrings_document = XDocument.Load(fileName);
+            sharedStringsDocument = XDocument.Load(fileName);
 
             sharedStrings.Clear();
-            foreach (XElement element in sharedStrings_document.Root.Elements().ToList<XElement>())
+            foreach (XElement element in sharedStringsDocument.Root.Elements().ToList<XElement>())
                 sharedStrings.Add(element);
 
-            Count = Int32.Parse(sharedStrings_document.Root.Attribute("count").Value, CultureInfo.CurrentCulture);
-            UniqueCount = Int32.Parse(sharedStrings_document.Root.Attribute("uniqueCount").Value, CultureInfo.CurrentCulture);
+            Count = Int32.Parse(sharedStringsDocument.Root.Attribute("count").Value, CultureInfo.CurrentCulture);
+            UniqueCount = Int32.Parse(sharedStringsDocument.Root.Attribute("uniqueCount").Value, CultureInfo.CurrentCulture);
         }
 
         /// <summary>
@@ -78,7 +79,6 @@ namespace ReportModule
         /// <param name="fileName">Имя файла</param>
         public void Save(string fileName)
         {
-            XDocument sharedStringsDocument = XDocument.Load(fileName);
             sharedStringsDocument.Root.RemoveNodes();
             sharedStringsDocument.Root.SetAttributeValue("count", Count);
             sharedStringsDocument.Root.SetAttributeValue("uniqueCount", UniqueCount);

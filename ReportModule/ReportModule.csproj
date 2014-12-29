@@ -82,7 +82,9 @@
     <Compile Include="CalcEditor.cs" />
     <Compile Include="ExcelEditor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="MSEditor.cs" />
     <Compile Include="OOStyleSheet.cs" />
+    <Compile Include="OOEditor.cs" />
     <Compile Include="ReportEditor.cs" />
     <Compile Include="ReportHelper.cs" />
     <Compile Include="ReportPlugin.cs" />

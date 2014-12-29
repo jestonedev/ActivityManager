@@ -7,35 +7,11 @@ using System.Globalization;
 
 namespace ReportModule
 {
-    /// <summary>
-    /// Перечисление стилей оформления
-    /// </summary>
-    public enum Style { 
-        /// <summary>
-        /// Жирный
-        /// </summary>
-        Bold, 
-        /// <summary>
-        /// Курсив
-        /// </summary>
-        Italic, 
-        /// <summary>
-        /// Подчеркивание
-        /// </summary>
-        Underline, 
-        /// <summary>
-        /// Зачеркнутый текст
-        /// </summary>
-        Strike, 
-        /// <summary>
-        /// Отсутствует
-        /// </summary>
-        None };
 
     /// <summary>
     /// Класс управления стилями OpenOffice
     /// </summary>
-    public class OOStyleSheet
+    internal class OOStyleSheet
     {
         /// <summary>
         /// Пространство имен fo

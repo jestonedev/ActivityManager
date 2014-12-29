@@ -19,7 +19,7 @@ namespace ReportModule
         /// </summary>
         /// <param name="templates">Список параметров, входящих в паттерн таблицы</param>
         /// <returns>Регулярное выражение</returns>
-        public static string get_table_pattern_regex(List<string> templates)
+        public static string GetTablePatternRegex(List<string> templates)
         {
             if (templates.Count == 0)
                 return "";
@@ -27,6 +27,23 @@ namespace ReportModule
             foreach (string template in templates)
                 reg_match_pattern += @"[\s\S]*" + Regex.Escape(template);
             return reg_match_pattern + @"[\s\S]*$";
+        }
+
+        /// <summary>
+        /// Конвертер объектов SpecTag в объекты Style
+        /// </summary>
+        /// <param name="spec_tag"></param>
+        /// <returns></returns>
+        public static Style GetStyleBySpecTag(SpecTag spec_tag)
+        {
+            switch (spec_tag)
+            {
+                case SpecTag.B: return Style.Bold;
+                case SpecTag.I: return Style.Italic;
+                case SpecTag.U: return Style.Underline;
+                case SpecTag.S: return Style.Strike;
+                default: return Style.None;
+            }
         }
 
         /// <summary>
@@ -217,7 +234,8 @@ namespace ReportModule
         /// <summary>
         /// Метод выполняет перепривязку ноды после замены
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="newNode"></param>
+        /// <param name="oldNode"></param>
         /// <param name="ppis"></param>
         public static void RebindNodePatternPartsInfo(XNode newNode, XNode oldNode, List<PatternNodeInfoCollection> ppis)
         {

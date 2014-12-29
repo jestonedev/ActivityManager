@@ -79,19 +79,19 @@
             </summary>
             <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
         </member>
-        <member name="F:ReportModule.CalcEditor.styles">
+        <member name="F:ReportModule.OOEditor.styles">
             <summary>
             Список стилей, которые необходимо применить к каждому последующему элементу
             </summary>
         </member>
-        <member name="M:ReportModule.CalcEditor.XmlContractorsConvert(System.Collections.ObjectModel.Collection{ReportModule.ReportValue})">
+        <member name="M:ReportModule.OOEditor.ReportEditing(System.String,System.Collections.ObjectModel.Collection{ReportModule.ReportValue})">
             <summary>
-            Метод конвертации xml-замыкателя
+            Метод, производящий замену всех шаблонов отчета на значения переменных отчета
             </summary>
-            <param name="values">Список переменных, в которых надо найти унифицированные замыкатели и заменить на зависимые от типа отчета</param>
-            <returns>Возвращает список переменных отчета с зависимыми от типа отчета xml-замыкателями</returns>
+            <param name="reportUnzipPath">Путь до файла отчета</param>
+            <param name="values">Список переменных</param>
         </member>
-        <member name="M:ReportModule.CalcEditor.SpecialTagEditing(System.String)">
+        <member name="M:ReportModule.OOEditor.SpecialTagEditing(System.String)">
             <summary>
             Метод, производящий замену специальных тэгов в отчете
             </summary>
@@ -102,7 +102,7 @@
             Редактор отчетов Excel
             </summary>
         </member>
-        <member name="F:ReportModule.ExcelEditor.styles">
+        <member name="F:ReportModule.MSEditor.styles">
             <summary>
             Список стилей, которые необходимо применить к каждому последующему элементу
             </summary>
@@ -144,7 +144,7 @@
             <param name="table">Таблица с параметрами. Используется для задания имен листов</param>
             <returns>Возвращает коллекцию новых листов (исключая шаблонный)</returns>
         </member>
-        <member name="M:ReportModule.ExcelEditor.ss_element(System.String,ReportModule.SharedExcelStrings)">
+        <member name="M:ReportModule.ExcelEditor.ss_element(System.String,ReportModule.SharedXLSXStrings)">
             <summary>
             Получить элемент в файле sharedStrings.xml Excel-отчета
             </summary>
@@ -152,7 +152,7 @@
             <param name="shared_strings_list">Класс-обертка sharedStrings.xml</param>
             <returns>Найденый элемент. Если ничего не найдено - вызывается исключение</returns>
         </member>
-        <member name="M:ReportModule.ExcelEditor.ss_index(System.String,ReportModule.SharedExcelStrings)">
+        <member name="M:ReportModule.ExcelEditor.ss_index(System.String,ReportModule.SharedXLSXStrings)">
             <summary>
             Получить индекс строки в файле sharedStrings.xml Excel-отчета
             </summary>
@@ -182,36 +182,6 @@
             Метод, производящий замену специальных тэгов в отчете
             </summary>
             <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
-        </member>
-        <member name="T:ReportModule.Style">
-            <summary>
-            Перечисление стилей оформления
-            </summary>
-        </member>
-        <member name="F:ReportModule.Style.Bold">
-            <summary>
-            Жирный
-            </summary>
-        </member>
-        <member name="F:ReportModule.Style.Italic">
-            <summary>
-            Курсив
-            </summary>
-        </member>
-        <member name="F:ReportModule.Style.Underline">
-            <summary>
-            Подчеркивание
-            </summary>
-        </member>
-        <member name="F:ReportModule.Style.Strike">
-            <summary>
-            Зачеркнутый текст
-            </summary>
-        </member>
-        <member name="F:ReportModule.Style.None">
-            <summary>
-            Отсутствует
-            </summary>
         </member>
         <member name="T:ReportModule.OOStyleSheet">
             <summary>
@@ -271,12 +241,19 @@
             Класс со вспомогательными фунциями
             </summary>
         </member>
-        <member name="M:ReportModule.ReportHelper.get_table_pattern_regex(System.Collections.Generic.List{System.String})">
+        <member name="M:ReportModule.ReportHelper.GetTablePatternRegex(System.Collections.Generic.List{System.String})">
             <summary>
             Получить регулярное выражение по списку параметров, входящих в паттерн таблицы
             </summary>
             <param name="templates">Список параметров, входящих в паттерн таблицы</param>
             <returns>Регулярное выражение</returns>
+        </member>
+        <member name="M:ReportModule.ReportHelper.GetStyleBySpecTag(ReportModule.SpecTag)">
+            <summary>
+            Конвертер объектов SpecTag в объекты Style
+            </summary>
+            <param name="spec_tag"></param>
+            <returns></returns>
         </member>
         <member name="M:ReportModule.ReportHelper.FindElementsByTag(System.Xml.Linq.XElement,System.String)">
             <summary>
@@ -323,7 +300,8 @@
             <summary>
             Метод выполняет перепривязку ноды после замены
             </summary>
-            <param name="node"></param>
+            <param name="newNode"></param>
+            <param name="oldNode"></param>
             <param name="ppis"></param>
         </member>
         <member name="T:ReportModule.PatternNodeInfoCollection">
@@ -498,41 +476,41 @@
             Абстрактный класс значения переменной отчета
             </summary>
         </member>
-        <member name="T:ReportModule.SharedExcelStrings">
+        <member name="T:ReportModule.SharedXLSXStrings">
             <summary>
             Класс работы с shared-строками отчета Excel
             </summary>
         </member>
-        <member name="M:ReportModule.SharedExcelStrings.#ctor(System.String)">
+        <member name="M:ReportModule.SharedXLSXStrings.#ctor(System.String)">
             <summary>
             Конструктор класса SharedXLSXStrings
             </summary>
             <param name="fileName">Путь до файла с shared-строками</param>
         </member>
-        <member name="M:ReportModule.SharedExcelStrings.Add(System.String)">
+        <member name="M:ReportModule.SharedXLSXStrings.Add(System.String)">
             <summary>
             Добавить shared-строку
             </summary>
             <param name="value">Shared-строка</param>
             <returns>возвращает индекс добавленной строки</returns>
         </member>
-        <member name="M:ReportModule.SharedExcelStrings.Save(System.String)">
+        <member name="M:ReportModule.SharedXLSXStrings.Save(System.String)">
             <summary>
             Сохранить список shared-строк в файл
             </summary>
             <param name="fileName">Имя файла</param>
         </member>
-        <member name="P:ReportModule.SharedExcelStrings.Count">
+        <member name="P:ReportModule.SharedXLSXStrings.Count">
             <summary>
             Число shared-строк
             </summary>
         </member>
-        <member name="P:ReportModule.SharedExcelStrings.UniqueCount">
+        <member name="P:ReportModule.SharedXLSXStrings.UniqueCount">
             <summary>
             Число уникальных shared-строк
             </summary>
         </member>
-        <member name="P:ReportModule.SharedExcelStrings.SharedStrings">
+        <member name="P:ReportModule.SharedXLSXStrings.SharedStrings">
             <summary>
             Список shared-строк
             </summary>
@@ -581,14 +559,39 @@
             XML-замыкатель
             </summary>
         </member>
+        <member name="T:ReportModule.Style">
+            <summary>
+            Перечисление стилей оформления
+            </summary>
+        </member>
+        <member name="F:ReportModule.Style.Bold">
+            <summary>
+            Жирный
+            </summary>
+        </member>
+        <member name="F:ReportModule.Style.Italic">
+            <summary>
+            Курсив
+            </summary>
+        </member>
+        <member name="F:ReportModule.Style.Underline">
+            <summary>
+            Подчеркивание
+            </summary>
+        </member>
+        <member name="F:ReportModule.Style.Strike">
+            <summary>
+            Зачеркнутый текст
+            </summary>
+        </member>
+        <member name="F:ReportModule.Style.None">
+            <summary>
+            Отсутствует
+            </summary>
+        </member>
         <member name="T:ReportModule.WordEditor">
             <summary>
             Редактор отчетов Word
-            </summary>
-        </member>
-        <member name="F:ReportModule.WordEditor.styles">
-            <summary>
-            Список стилей, которые необходимо применить к каждому последующему элементу
             </summary>
         </member>
         <member name="M:ReportModule.WordEditor.XmlContractorsConvert(System.Collections.ObjectModel.Collection{ReportModule.ReportValue})">
@@ -606,17 +609,6 @@
             <param name="values">Список переменных</param>
         </member>
         <member name="M:ReportModule.WordEditor.SpecialTagEditing(System.String)">
-            <summary>
-            Метод, производящий замену специальных тэгов в отчете
-            </summary>
-            <param name="reportUnzipPath">Путь до файлов отчета во временной директории</param>
-        </member>
-        <member name="F:ReportModule.WriterEditor.styles">
-            <summary>
-            Список стилей, которые необходимо применить к каждому последующему элементу
-            </summary>
-        </member>
-        <member name="M:ReportModule.WriterEditor.SpecialTagEditing(System.String)">
             <summary>
             Метод, производящий замену специальных тэгов в отчете
             </summary>

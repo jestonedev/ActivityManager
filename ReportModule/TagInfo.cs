@@ -7,6 +7,32 @@ namespace ReportModule
 {
     internal enum SpecTag { B, I, U, S }
     internal enum SpecTagType { OpenTag, CloseTag }
+    /// <summary>
+    /// Перечисление стилей оформления
+    /// </summary>
+    internal enum Style
+    {
+        /// <summary>
+        /// Жирный
+        /// </summary>
+        Bold,
+        /// <summary>
+        /// Курсив
+        /// </summary>
+        Italic,
+        /// <summary>
+        /// Подчеркивание
+        /// </summary>
+        Underline,
+        /// <summary>
+        /// Зачеркнутый текст
+        /// </summary>
+        Strike,
+        /// <summary>
+        /// Отсутствует
+        /// </summary>
+        None
+    };
 
     internal class TagInfo
     {

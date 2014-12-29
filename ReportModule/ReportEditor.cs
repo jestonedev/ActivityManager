@@ -14,10 +14,33 @@ namespace ReportModule
     /// <summary>
     /// Базовый класс редактора отчета
     /// </summary>
-    public class ReportEditor
+    internal class ReportEditor
     {
         //Кэш загруженных документов
         protected Dictionary<string, XDocument> cachedDocuments = new Dictionary<string, XDocument>();
+
+        protected static SortedDictionary<int, TagInfo> GetStyleTags(string text)
+        {
+            SortedDictionary<int, TagInfo> dic = new SortedDictionary<int, TagInfo>();
+            foreach (string spec_tag in Enum.GetNames(typeof(SpecTag)))
+            {
+                Match match = Regex.Match(text, Regex.Escape(@"$" + spec_tag + @"$"), RegexOptions.IgnoreCase);
+                while (match.Success)
+                {
+                    dic.Add(match.Index, new TagInfo((SpecTag)Enum.Parse(typeof(SpecTag), spec_tag),
+                        SpecTagType.OpenTag));
+                    match = match.NextMatch();
+                }
+                match = Regex.Match(text, Regex.Escape(@"$/" + spec_tag + @"$"), RegexOptions.IgnoreCase);
+                while (match.Success)
+                {
+                    dic.Add(match.Index, new TagInfo((SpecTag)Enum.Parse(typeof(SpecTag), spec_tag),
+                        SpecTagType.CloseTag));
+                    match = match.NextMatch();
+                }
+            }
+            return dic;
+        }
 
         /// <summary>
         /// Метод конвертации xml-замыкателей

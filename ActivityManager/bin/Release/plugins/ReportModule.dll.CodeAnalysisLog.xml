@@ -1,41 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
  <Targets>
-  <Target Name="E:\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
+  <Target Name="E:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
    <Modules>
     <Module Name="reportmodule.dll">
      <Namespaces>
       <Namespace Name="ReportModule">
        <Types>
-        <Type Name="ExcelEditor" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+        <Type Name="ExcelEditor" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
          <Members>
           <Member Name="#CreateSheetsByElements(System.String,System.Collections.Generic.List`1&lt;System.Xml.Linq.XElement&gt;,ExtendedTypes.ReportTable)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2014-12-29 09:55:08Z" FixCategory="NonBreaking">
-             <Issue Certainty="90" Level="Warning" Path="e:\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="211">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-          <Member Name="#parse_br_tags(System.Xml.Linq.XElement)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
-           <Messages>
-            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2014-12-29 09:55:08Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="Warning" Path="e:\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="661">The 'this' parameter (or 'Me' in Visual Basic) of 'ExcelEditor.parse_br_tags(XElement)' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
-            </Message>
-            <Message Id="System.String.ToUpper" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2014-12-29 09:55:08Z" FixCategory="DependsOnFix">
-             <Issue Certainty="95" Level="Error" Path="e:\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="672">Because the behavior of 'string.ToUpper()' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.parse_br_tags(XElement)' with a call to 'string.ToUpper(CultureInfo)'. If the result of 'string.ToUpper(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
-             <Issue Certainty="95" Level="Error" Path="e:\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="672">Because the behavior of 'string.ToUpper()' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.parse_br_tags(XElement)' with a call to 'string.ToUpper(CultureInfo)'. If the result of 'string.ToUpper(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-         </Members>
-        </Type>
-        <Type Name="ReportEditor" Kind="Class" Accessibility="Public" ExternallyVisible="True">
-         <Members>
-          <Member Name="#cachedDocuments" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
-           <Messages>
-            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2014-12-29 09:55:08Z" FixCategory="Breaking">
-             <Issue Certainty="90" Level="Error">Because field 'ReportEditor.cachedDocuments' is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Issue>
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2014-12-29 12:09:48Z" FixCategory="NonBreaking">
+             <Issue Certainty="90" Level="Warning" Path="e:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="201">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -58,36 +36,6 @@
    <Email>[none]</Email>
    <MessageLevel Certainty="90">Warning</MessageLevel>
    <File Name="maintainabilityrules.dll" Version="12.0.0.0" />
-  </Rule>
-  <Rule TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051">
-   <Name>Do not declare visible instance fields</Name>
-   <Description>Instance fields that are visible outside of the type that declares them, limit your ability to change the implementation details for those data items. Use properties instead. They do not compromise usability or performance and they do provide flexibility in that they conceal the implementation details of the underlying data.</Description>
-   <Resolution Name="Default">Because field {0} is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Resolution>
-   <Owner />
-   <Url>http://msdn.microsoft.com/library/ms182141.aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="90">Error</MessageLevel>
-   <File Name="designrules.dll" Version="12.0.0.0" />
-  </Rule>
-  <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
-   <Name>Mark members as static</Name>
-   <Description>Methods which do not access instance data or call instance methods can be marked as static (Shared in Visual Basic). After doing so, the compiler will emit non-virtual call sites to these members which will prevent a check at runtime for each call that ensures the current object pointer is non-null. This can result in a measurable performance gain for performance-sensitive code. In some cases, the failure to access the current object instance represents a correctness issue.</Description>
-   <Resolution Name="Default">The 'this' parameter (or 'Me' in Visual Basic) of {0} is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
-   <Owner />
-   <Url>http://msdn.microsoft.com/library/ms245046.aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="95">Warning</MessageLevel>
-   <File Name="performancerules.dll" Version="12.0.0.0" />
-  </Rule>
-  <Rule TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304">
-   <Name>Specify CultureInfo</Name>
-   <Description>If an overload exists that takes a CultureInfo argument, it should always be called in favor of an overload that does not. The CultureInfo type contains culture-specific information required for performing numeric and string operations, such as casing, formatting, and string comparisons. In scenarios where conversion and parsing behavior should never change between cultures, specify CultureInfo.InvariantCulture, otherwise, specify CultureInfo.CurrentCulture.</Description>
-   <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
-   <Owner />
-   <Url>http://msdn.microsoft.com/library/ms182189.aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="95">Error</MessageLevel>
-   <File Name="globalizationrules.dll" Version="12.0.0.0" />
   </Rule>
  </Rules>
  <Localized>
