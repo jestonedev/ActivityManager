@@ -27,7 +27,7 @@ namespace ReportModule
             { Style.Bold, new  Dictionary<string, Dictionary<string, string>>() { {"b", new Dictionary<string,string>() } }},
             { Style.Italic, new  Dictionary<string, Dictionary<string, string>>() { {"i", new Dictionary<string,string>() } }},
             { Style.Underline, new  Dictionary<string, Dictionary<string, string>>() { {"u", new Dictionary<string,string>() {{"val", "single"}}} }},
-            { Style.Strike, new  Dictionary<string, Dictionary<string, string>>() {}}
+            { Style.Strike, new  Dictionary<string, Dictionary<string, string>>() { {"strike", new Dictionary<string,string>() } }}
         };
 
         //Основной namespace w

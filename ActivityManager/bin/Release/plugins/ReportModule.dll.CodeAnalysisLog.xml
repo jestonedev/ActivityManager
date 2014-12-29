@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#CreateSheetsByElements(System.String,System.Collections.Generic.List`1&lt;System.Xml.Linq.XElement&gt;,ExtendedTypes.ReportTable)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2014-12-29 06:40:29Z" FixCategory="NonBreaking">
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2014-12-29 08:57:30Z" FixCategory="NonBreaking">
              <Issue Certainty="90" Level="Warning" Path="e:\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="207">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
             </Message>
            </Messages>
@@ -23,7 +23,7 @@
          <Members>
           <Member Name="#cachedDocuments" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2014-12-29 06:40:29Z" FixCategory="Breaking">
+            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2014-12-29 08:57:30Z" FixCategory="Breaking">
              <Issue Certainty="90" Level="Error">Because field 'ReportEditor.cachedDocuments' is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Issue>
             </Message>
            </Messages>
