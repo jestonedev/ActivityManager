@@ -204,16 +204,18 @@ namespace ReportModule
         private void ReportEditing(string report_unzip_path, string extension)
         {
             ReportEditor editor;
-            if (File.Exists(Path.Combine(report_unzip_path, "content.xml")) && (extension == ".odt"))
+            if (File.Exists(Path.Combine(report_unzip_path, "content.xml")) && (extension == ".odt" || extension == ".ott"))
                 editor = new WriterEditor();
             else
-            if (File.Exists(Path.Combine(report_unzip_path, "content.xml")) && (extension == ".ods"))
+            if (File.Exists(Path.Combine(report_unzip_path, "content.xml")) && (extension == ".ods" || extension == ".ots"))
                 editor = new CalcEditor();
             else
-                if (File.Exists(Path.Combine(report_unzip_path, @"word" + Path.DirectorySeparatorChar + "document.xml")))
+                if (File.Exists(Path.Combine(report_unzip_path, @"word" + Path.DirectorySeparatorChar + "document.xml")) &&
+                    (extension == ".docx" || extension == ".docm" || extension == ".dotx" || extension == ".dotm"))
                 editor = new WordEditor();
             else
-            if (Directory.Exists(Path.Combine(report_unzip_path, "xl")))
+            if (Directory.Exists(Path.Combine(report_unzip_path, "xl")) &&
+                    (extension == ".xlsx" || extension == ".xlsm" || extension == ".xltx" || extension == ".xltm"))
                 editor = new ExcelEditor();
             else
                 throw new ReportException("Формат файла шаблона некорректный");

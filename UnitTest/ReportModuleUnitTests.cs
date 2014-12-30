@@ -79,6 +79,28 @@ namespace UnitTest
         }
 
         /// <summary>
+        /// Установка корректных значений ReportModuleSetStringValue в файл ott
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetStringValueOttTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetStringValueTests.ott");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportSetStringValue("test7", "Test7");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
         /// Установка null-строк и пустых строк ReportModuleSetStringValue в файл odt
         /// </summary>
         [TestMethod]
@@ -96,6 +118,72 @@ namespace UnitTest
             report.ReportSetStringValue("test5", null);
             report.ReportSetStringValue("test6", "");
             report.ReportSetStringValue("test7", null);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetStringValue в файл dotx
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetStringValueDotxTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetStringValueTests.dotx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportSetStringValue("test7", "Test7");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetStringValue в файл docm
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetStringValueDocmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetStringValueTests.docm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportSetStringValue("test7", "Test7");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetStringValue в файл dotm
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetStringValueDotmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetStringValueTests.dotm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportSetStringValue("test7", "Test7");
             report.ReportGenerate(out resultFileName);
             io.IOOpenFile(resultFileName, null);
         }
@@ -145,6 +233,26 @@ namespace UnitTest
         }
 
         /// <summary>
+        /// Установка корректных значений ReportModuleSetStringValue в файл ots
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetStringValueOtsTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetStringValueTests.ots");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
         /// Установка корректных значений ReportModuleSetStringValue в файл ods
         /// </summary>
         [TestMethod]
@@ -185,6 +293,63 @@ namespace UnitTest
         }
 
         /// <summary>
+        /// Установка корректных значений ReportModuleSetStringValue в файл xltx
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetStringValueXltxTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetStringValueTests.xltx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetStringValue в файл xlsm
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetStringValueXlsmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetStringValueTests.xlsm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetStringValue в файл xltm
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetStringValueXltmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetStringValueTests.xltm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
         /// Установка корректных значений ReportModuleSetStringValue в файл xlsx
         /// </summary>
         [TestMethod]
@@ -218,6 +383,37 @@ namespace UnitTest
             report.ReportSetStringValue("test2", "");
             report.ReportSetStringValue("test3", null);
             report.ReportSetStringValue("test4", "");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл ott, xmlContractor = Row
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueOttTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.ott");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            table.Columns.Add("surname");
+            table.Columns.Add("patronymic");
+            table.Columns.Add("date");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                row.Add(new ReportCell(row, DateTime.Now.ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Row);
             report.ReportGenerate(out resultFileName);
             io.IOOpenFile(resultFileName, null);
         }
@@ -353,7 +549,6 @@ namespace UnitTest
         public void ReportModuleSetTableValueOdtTest5()
         {
             string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.odt");
-            string resultFileName = "";
             ReportPlug report = new ReportPlug();
             IOPlug io = new IOPlug();
             ReportTable table = null;
@@ -410,6 +605,37 @@ namespace UnitTest
             catch (ReportException)
             {
             }
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл ots, xmlContractor = Row
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueOtsTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.ots");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            table.Columns.Add("surname");
+            table.Columns.Add("patronymic");
+            table.Columns.Add("date");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                row.Add(new ReportCell(row, DateTime.Now.ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Row);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
         }
 
         /// <summary>
@@ -562,6 +788,99 @@ namespace UnitTest
         }
 
         /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл dotx, xmlContractor = Row
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueDotxTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.dotx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            table.Columns.Add("surname");
+            table.Columns.Add("patronymic");
+            table.Columns.Add("date");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                row.Add(new ReportCell(row, DateTime.Now.ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Row);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл dotm, xmlContractor = Row
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueDotmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.dotm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            table.Columns.Add("surname");
+            table.Columns.Add("patronymic");
+            table.Columns.Add("date");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                row.Add(new ReportCell(row, DateTime.Now.ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Row);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл docm, xmlContractor = Row
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueDocmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.docm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            table.Columns.Add("surname");
+            table.Columns.Add("patronymic");
+            table.Columns.Add("date");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                row.Add(new ReportCell(row, DateTime.Now.ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Row);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
         /// Установка корректных значений ReportModuleSetTableValue в файл docx, xmlContractor = Table
         /// </summary>
         [TestMethod]
@@ -650,6 +969,99 @@ namespace UnitTest
             }
             report.ReportSetTemplateFile(reportFile);
             report.ReportSetTableValue(table, XmlContractor.Cell);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл xltx, xmlContractor = Row
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueXltxTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.xltx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            table.Columns.Add("surname");
+            table.Columns.Add("patronymic");
+            table.Columns.Add("date");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                row.Add(new ReportCell(row, DateTime.Now.ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Row);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл xlsm, xmlContractor = Row
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueXlsmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.xlsm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            table.Columns.Add("surname");
+            table.Columns.Add("patronymic");
+            table.Columns.Add("date");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                row.Add(new ReportCell(row, DateTime.Now.ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Row);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл xltm, xmlContractor = Row
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueXltmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueTests.xltm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            table.Columns.Add("surname");
+            table.Columns.Add("patronymic");
+            table.Columns.Add("date");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                row.Add(new ReportCell(row, i.ToString()));
+                row.Add(new ReportCell(row, (10 - i).ToString()));
+                row.Add(new ReportCell(row, DateTime.Now.ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Row);
             report.ReportGenerate(out resultFileName);
             io.IOOpenFile(resultFileName, null);
         }
@@ -753,6 +1165,81 @@ namespace UnitTest
         }
 
         /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл xltx, xmlContractor = Cell
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueXltxTest2()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueCellTests.xltx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Cell);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл xlsm, xmlContractor = Cell
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueXlsmTest2()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueCellTests.xlsm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Cell);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Установка корректных значений ReportModuleSetTableValue в файл xltm, xmlContractor = Cell
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSetTableValueXltmTest2()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSetTableValueCellTests.xltm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            ReportTable table = new ReportTable();
+            table.Columns.Add("name");
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                ReportRow row = new ReportRow(table);
+                row.Add(new ReportCell(row, rand.Next().ToString()));
+                table.Add(row);
+            }
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetTableValue(table, XmlContractor.Cell);
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
         /// Установка корректных значений ReportModuleSetTableValue в файл xlsx, xmlContractor = Cell
         /// </summary>
         [TestMethod]
@@ -799,6 +1286,46 @@ namespace UnitTest
         }
 
         /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах ott
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsOttTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.ott");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах ots
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsOtsTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.ots");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
         /// Тест проверки правильности работы спец. тэгов в файлах ods
         /// </summary>
         [TestMethod]
@@ -824,6 +1351,132 @@ namespace UnitTest
         public void ReportModuleSpecTagsDocxTest1()
         {
             string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.docx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test f1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах dotx
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsDotxTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.dotx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test f1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах dotm
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsDotmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.dotm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test f1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах docm
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsDocmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.docm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test f1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах xltx
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsXltxTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.xltx");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test f1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах xlsm
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsXlsmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.xlsm");
+            string resultFileName = "";
+            ReportPlug report = new ReportPlug();
+            IOPlug io = new IOPlug();
+            report.ReportSetTemplateFile(reportFile);
+            report.ReportSetStringValue("test1", "Test f1");
+            report.ReportSetStringValue("test2", "Test2");
+            report.ReportSetStringValue("test3", "Test3");
+            report.ReportSetStringValue("test4", "Test4");
+            report.ReportSetStringValue("test5", "Test5");
+            report.ReportSetStringValue("test6", "Test6");
+            report.ReportGenerate(out resultFileName);
+            io.IOOpenFile(resultFileName, null);
+        }
+
+        /// <summary>
+        /// Тест проверки правильности работы спец. тэгов в файлах xltm
+        /// </summary>
+        [TestMethod]
+        public void ReportModuleSpecTagsXltmTest1()
+        {
+            string reportFile = Path.Combine(Directory.GetCurrentDirectory(), "templates", "ReportModuleSpecTagsTests.xltm");
             string resultFileName = "";
             ReportPlug report = new ReportPlug();
             IOPlug io = new IOPlug();
