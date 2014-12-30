@@ -33,6 +33,11 @@ namespace ReportModule
         /// </summary>
         public const string XmlnsText = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
 
+        /// <summary>
+        /// Пространство имен table
+        /// </summary>
+        public const string XmlnsTable = "urn:oasis:names:tc:opendocument:xmlns:table:1.0";
+
         private List<XElement> styles = new List<XElement>();
         private int next_style_num;
         private XDocument document;

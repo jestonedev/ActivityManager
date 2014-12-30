@@ -208,6 +208,11 @@
             Пространство имен text
             </summary>
         </member>
+        <member name="F:ReportModule.OOStyleSheet.XmlnsTable">
+            <summary>
+            Пространство имен table
+            </summary>
+        </member>
         <member name="M:ReportModule.OOStyleSheet.#ctor(System.Xml.Linq.XDocument)">
             <summary>
             Конструктор класса OOStyleSheet

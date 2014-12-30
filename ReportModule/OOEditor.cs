@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExtendedTypes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -237,6 +238,65 @@ namespace ReportModule
         {
             ReportEditingContentFile(Path.Combine(reportUnzipPath, "content.xml"), values);
             ReportEditingContentFile(Path.Combine(reportUnzipPath, "styles.xml"), values);
+        }
+
+        protected override void WriteTable(TableReportValue reportValue, XDocument document)
+        {
+            if (reportValue == null)
+                throw new ReportException("Не задана ссылка на таблицу подставляемых значений шаблона");
+            if (document == null)
+                throw new ReportException("Не задана ссылка на документ шаблона");
+            List<XElement> elements = ReportHelper.FindElementsByTag(document.Root, reportValue.XmlContractor);
+            List<string> patterns = new List<string>();
+            foreach (string column in reportValue.Table.Columns)
+                patterns.Add("$" + column + "$");
+            foreach (XElement element in elements)
+            {
+                string element_value = element.ToString(SaveOptions.DisableFormatting);
+                int pattern_match_count = 0; //Число шаблонов, найденных в элементе
+                foreach (string pattern in patterns)
+                    if (ReportHelper.MatchesPattern(element, pattern) > 0)
+                        pattern_match_count++;
+                if (pattern_match_count > 0 && ((double)(patterns.Count) / 2) <= pattern_match_count)
+                {
+                    List<XElement> new_elements = new List<XElement>();
+                    Console.WriteLine("Заполняем табличные данные отчета");
+                    int count = 0;
+                    foreach (ReportRow row in reportValue.Table)
+                    {
+                        if (row == null)
+                            throw new ReportException("В коллекции Table отсутствует ссылка на объект класса ReportRow");
+                        count++;
+                        if (count % 500 == 0)
+                            Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Заполнено {0} из {1} строк", count, reportValue.Table.Count));
+                        XElement new_element = XElement.Parse(element_value, LoadOptions.PreserveWhitespace);
+                        //Заменить шаблоны для каждой колонки
+                        for (int i = 0; i < patterns.Count; i++)
+                            WritePatternText(new_element, patterns[i], row[i].Value);
+                        new_elements.Add(new_element);
+                    }
+                    Console.WriteLine("Заполнение табличных данных отчета закончено");
+                    foreach (XElement new_element in new_elements)
+                    {
+                        element.AddBeforeSelf(new_element);
+                        if (reportValue.XmlContractor == "table-cell")
+                        {
+                            XElement table = element.Parent.Parent;
+                            XElement columnDef = table.Element(XName.Get("table-column", OOStyleSheet.XmlnsTable));
+                            if (columnDef == null)
+                                continue;
+                            XAttribute num_col_rep = columnDef.Attribute(XName.Get("number-columns-repeated", OOStyleSheet.XmlnsTable));
+                            if (num_col_rep == null)
+                            {
+                                num_col_rep = new XAttribute(XName.Get("number-columns-repeated", OOStyleSheet.XmlnsTable), "0");
+                                columnDef.Add(num_col_rep);
+                            }
+                            num_col_rep.Value = (Int32.Parse(num_col_rep.Value, CultureInfo.CurrentCulture) + 1).ToString(CultureInfo.CurrentCulture);
+                        }
+                    }
+                    element.Remove();
+                }
+            }
         }
 
         /// <summary>
