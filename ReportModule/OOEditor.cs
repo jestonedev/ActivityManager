@@ -276,24 +276,22 @@ namespace ReportModule
                         new_elements.Add(new_element);
                     }
                     Console.WriteLine("Заполнение табличных данных отчета закончено");
-                    foreach (XElement new_element in new_elements)
+                    if (reportValue.XmlContractor == "table-cell")
                     {
-                        element.AddBeforeSelf(new_element);
-                        if (reportValue.XmlContractor == "table-cell")
+                        XElement table = element.Parent.Parent;
+                        XElement columnDef = table.Element(XName.Get("table-column", OOStyleSheet.XmlnsTable));
+                        if (columnDef == null)
+                            continue;
+                        XAttribute num_col_rep = columnDef.Attribute(XName.Get("number-columns-repeated", OOStyleSheet.XmlnsTable));
+                        if (num_col_rep == null)
                         {
-                            XElement table = element.Parent.Parent;
-                            XElement columnDef = table.Element(XName.Get("table-column", OOStyleSheet.XmlnsTable));
-                            if (columnDef == null)
-                                continue;
-                            XAttribute num_col_rep = columnDef.Attribute(XName.Get("number-columns-repeated", OOStyleSheet.XmlnsTable));
-                            if (num_col_rep == null)
-                            {
-                                num_col_rep = new XAttribute(XName.Get("number-columns-repeated", OOStyleSheet.XmlnsTable), "0");
-                                columnDef.Add(num_col_rep);
-                            }
-                            num_col_rep.Value = (Int32.Parse(num_col_rep.Value, CultureInfo.CurrentCulture) + 1).ToString(CultureInfo.CurrentCulture);
+                            num_col_rep = new XAttribute(XName.Get("number-columns-repeated", OOStyleSheet.XmlnsTable), new_elements.Count);
+                            columnDef.Add(num_col_rep);
                         }
+                        num_col_rep.Value = new_elements.Count.ToString(CultureInfo.CurrentCulture);
                     }
+                    foreach (XElement new_element in new_elements)
+                        element.AddBeforeSelf(new_element);
                     element.Remove();
                 }
             }
