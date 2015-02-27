@@ -207,7 +207,10 @@ namespace ReportModule
                         XElement new_element = XElement.Parse(element_value, LoadOptions.PreserveWhitespace);
                         //Заменить шаблоны для каждой колонки
                         for (int i = 0; i < patterns.Count; i++)
+                        {
                             WritePatternText(new_element, patterns[i], row[i].Value);
+                            WritePatternAttributes(new_element, patterns[i], row[i].Value);
+                        }
                         new_elements.Add(new_element);
                     }
                     Console.WriteLine("Заполнение табличных данных отчета закончено");
