@@ -31,6 +31,13 @@
             <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
             <param name="result">Возврат скалярного значения</param>
         </member>
+        <member name="M:TextDataSource.IPlug.TextSelectPlain(System.String,System.String@)">
+            <summary>
+            Чтение файла как обычного текста
+            </summary>
+            <param name="fileName">Путь до файла</param>
+            <param name="result">Результат</param>
+        </member>
         <member name="M:TextDataSource.IPlug.TextModifyQuery(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Int32@)">
             <summary>
             Запрос на внесение изменений в текстовом файле
@@ -79,6 +86,13 @@
             <param name="firstRowHeader">Является ли первая строка файла(ов) заголовком</param>
             <param name="ignoreDataTypes">Необходимо ли автоматически определять типы данных, или считать все значения строками</param>
             <param name="rowsAffected">Число измененных строк</param>
+        </member>
+        <member name="M:TextDataSource.TextDataSourcePlug.TextSelectPlain(System.String,System.String@)">
+            <summary>
+            Чтение файла как обычного текста
+            </summary>
+            <param name="fileName">Путь до файла</param>
+            <param name="result">Результат</param>
         </member>
         <member name="T:TextDataSource.TextDataSourceException">
             <summary>

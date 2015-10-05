@@ -39,6 +39,13 @@ namespace TextDataSource
         void TextSelectScalar(string query, string columnSeparator, string rowSeparator, bool firstRowHeader, bool ignoreDataTypes, out Object result);
 
         /// <summary>
+        /// Чтение файла как обычного текста
+        /// </summary>
+        /// <param name="fileName">Путь до файла</param>
+        /// <param name="result">Результат</param>
+	    void TextSelectPlain(string fileName, out string result);
+
+        /// <summary>
         /// Запрос на внесение изменений в текстовом файле
         /// </summary>
         /// <param name="query">Запрос на выполнение</param>
@@ -127,6 +134,17 @@ namespace TextDataSource
             QueryExecutor executor = new QueryExecutor(columnSeparator, rowSeparator, firstRowHeader, ignoreDataTypes);
             executor.Execute(query);
             rowsAffected = executor.RowsAffected;
+        }
+
+        /// <summary>
+        /// Чтение файла как обычного текста
+        /// </summary>
+        /// <param name="fileName">Путь до файла</param>
+        /// <param name="result">Результат</param>
+        public void TextSelectPlain(string fileName, out string result)
+        {
+            using (var sr = new StreamReader(fileName))
+                result = sr.ReadToEnd();
         }
     }
 
