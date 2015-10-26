@@ -9,11 +9,25 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System.Threading;
+using System.Net.Sockets;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace AmLibrary
 {
     public class ActivityManager
     {
+        //сокет-клиент         
+        private TcpClient _client;
+        //флаг отладки
+        private bool _debug = false;
+        //поток клиента
+        private NetworkStream _stream;
+        //буфер клиента
+        private byte[] _buffer;
+        //емкость буфера
+        private Int16 _capacity = 1024;
         //Глобальные параметры (действуют на все шаги задачи)
         private Dictionary<string, object> global_parameters = new Dictionary<string, object>();
 
@@ -32,22 +46,30 @@ namespace AmLibrary
         private delegate string language_delegate(string text);
         private language_delegate _;
 
-        private ActivityManager(string configFile, Dictionary<string, object> parameters)
+        public ActivityManager(string configFile, Dictionary<string, object> parameters)
         {
+
             //инициируем переводчик по умолчанию
             _ = language.Translate;
 
             global_parameters.Add("config", configFile);
             foreach (var parameter in parameters)
+            {
                 global_parameters.Add(parameter.Key, parameter.Value);
-            
+                Console.WriteLine(parameter.Key + ':' + parameter.Value);
+            }
+
+
             //проверяем наличие необязательного конфигурационного параметра: lang
             if (global_parameters.ContainsKey("lang"))
             {
                 language = new Language(global_parameters["lang"].ToString());
                 _ = language.Translate;
             }
-
+            if (global_parameters.ContainsKey("debug"))
+            {
+                bool.TryParse(global_parameters["debug"].ToString(), out _debug);
+            }
             //инициализируем путь до папки с плагинами
             plugins_path = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "plugins");
 
@@ -221,7 +243,7 @@ namespace AmLibrary
         {
             AssemblyName an = new AssemblyName(args.Name);
             Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + Path.Combine(Environment.CurrentDirectory, "plugins"));
-            return Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), @"plugins\"+an.Name+".dll"));
+            return Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), @"plugins\" + an.Name + ".dll"));
         }
 
         private void Execute()
@@ -229,7 +251,7 @@ namespace AmLibrary
             int step_num = 0;
             for (int j = 0; j < activity_steps.Count; j++)
             {
-                step_num++;
+                //step_num++;
                 ActivityStep step = activity_steps[j];
                 for (int rc = 0; rc < step.RepeatCount; rc++)
                 {
@@ -257,6 +279,10 @@ namespace AmLibrary
                     object[] output_parameters = null;
                     try
                     {
+                        if(_debug == true)
+                        {
+                            CommunicationToServer(new MessageForDebug { Step = (j + 1).ToString() });
+                        }                        
                         PlugActionHelper.FindPlugAction(plugins, step)
                             .Execute(input_parameters, out output_parameters);
                     }
@@ -294,7 +320,7 @@ namespace AmLibrary
                                     else
                                     {
                                         step_num = Int32.MaxValue;
-                                        j = Int32.MaxValue-1;
+                                        j = Int32.MaxValue - 1;
                                         break;
                                     }
                                 continue;
@@ -322,15 +348,79 @@ namespace AmLibrary
                 }
             }
         }
-        public static void Run(string configFile, Dictionary<string, object> parameters)
+
+        public TcpClient Client 
+        {
+            get
+            {
+                return _client;
+            }           
+        }
+        
+        public void CommunicationToServer(MessageForDebug message, bool receive = true, bool send = true)
+        {
+            if (_debug)
+            {                 
+                if (receive)
+                {                    
+                    int bytes = _stream.Read(_buffer, 0, _buffer.Length);
+                    var str = Encoding.UTF8.GetString(_buffer, 0, bytes);
+                    var response = JsonConvert.DeserializeObject<MessageForDebug>(str);
+                    if (response.Debug == "false")
+                    {
+                        _debug = false;
+                        send = false;
+                        Console.WriteLine("debug:false");
+                    }
+                    if (response.Debug == "stop")
+                    {
+                        _debug = false;
+                        Console.WriteLine("debug:stop");
+                        Process.GetCurrentProcess().Kill();
+                    }
+                    Console.WriteLine(str);
+                }
+                if (send)
+                {                    
+                    var array = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));                   
+                    _stream.Write(array, 0, array.Length);
+                    Console.WriteLine(_buffer.Length);
+                }
+            }
+        }
+
+        public void ClientCreate(string ip = "127.0.0.1", UInt16 port = 8888)
+        {    
+            if (_debug)
+            {
+                _client = new TcpClient();
+                _client.SendBufferSize = _client.ReceiveBufferSize = _capacity;
+                _client.Connect(ip, port);
+                _stream = _client.GetStream();
+                _buffer = new byte[_capacity];
+            }
+        }
+
+        public void ClientDispose()
+        {
+            if (_client != null)
+            {
+                CommunicationToServer(new MessageForDebug { Debug = "done" });                                     
+                _stream.Close();
+                _client.Close();
+            }
+        }
+
+        public void Run()
         {
             string pluginsDir = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().FullName).DirectoryName, "plugins");
             Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + pluginsDir);
-            ActivityManager manager = new ActivityManager(configFile, parameters);
-            manager.LoadConfigFile();
-            manager.LoadPlugins();
-            manager.PrepareConfig();
-            manager.Execute();
+            LoadConfigFile();
+            LoadPlugins();
+            PrepareConfig();
+            ClientCreate();
+            Execute();
+            ClientDispose();           
         }
     }
 }

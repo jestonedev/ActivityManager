@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using AMClasses;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace ActivityManager
 {
@@ -16,7 +17,8 @@ namespace ActivityManager
 	{
 		//Глобальные параметры
 		private static Dictionary<string, object> parameters = new Dictionary<string,object>();
-		
+        //Экземпляр ActivityManager
+        private static AmLibrary.ActivityManager AM;
 		//Конфигурация языкового пакета
 		private static Language language = new Language("ru");
 		private delegate string language_delegate(string text);
@@ -29,7 +31,9 @@ namespace ActivityManager
             {
                 //инициируем переводчик по умолчанию
                 _ = language.Translate;
-
+                //args = new string[1];             
+                //args[0] = @"config=\\nas\media$\ActivityManager\templates\registry\tenancy\test.xml";
+                //args[1] = @"debug=true";
                 for (int i = 0; i < args.Length; i++)
                 {
                     string[] arg = args[i].Split(new char[] { '=' }, 2);
@@ -47,12 +51,18 @@ namespace ActivityManager
                     throw new AMException(_("Не передана ссылка на файл конфигурации"));
                 string configFile = parameters["config"].ToString();
                 parameters.Remove("config");
-                AmLibrary.ActivityManager.Run(configFile, parameters);
+                AM = new AmLibrary.ActivityManager(configFile, parameters);
+                AM.Run();                                
             }
             catch (AMException e)
             {
                 if (parameters.ContainsKey("--nodialog"))
                     Console.WriteLine(e.Message);
+                else if(AM != null && AM.Client != null)
+                {
+                    AM.CommunicationToServer(new MessageForDebug { Exception = e.Message }, false);
+                    AM.ClientDispose();
+                }
                 else
                     MessageBox.Show(e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -60,6 +70,11 @@ namespace ActivityManager
             {
                 if (parameters.ContainsKey("--nodialog"))
                     Console.WriteLine(e.Message);
+                else if (AM != null && AM.Client != null)
+                {
+                    AM.CommunicationToServer(new MessageForDebug { Exception = e.Message }, false);
+                    AM.ClientDispose();
+                }
                 else
                     MessageBox.Show("Данное сообщение является следствием ошибки в работе ядра менеджера отчетов. Обратитесь к разработчику. Подробный текст ошибки: "+e.Message, 
                         "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -13,16 +13,41 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Reflection;
+using System.Net.Sockets;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace AmEditor
 {
     internal partial class Editor : Form
     {
+        //флаг отладки
+        private bool _debug = false;
+        //сокет-сервер
+        private TcpListener _server;
+        //сокет-клент
+        private TcpClient _client;
+        //поток сервера
+        private NetworkStream _stream;
+        //текс-бокс для вывода инф-ции об отладке
+        private RichTextBox _textbox;
+        //процесс для AM.exe
+        private Process _process;
+        //буфер для сокет-сервера
+        private byte[] _buffer;
+        //емкость буфера
+        private Int16 _capacity = 1024; 
+        //сбросить пользовательский интерфейс в начало
+        bool _reset = false;
         //Параметры командной строки
         private Dictionary<string, string> command_line_params = new Dictionary<string, string>();
 
         //Сохраненные настройки программы
         private SettingsStorage settings_storage;
+
+        //Сохранение правой половины при отладке
+        List<System.Windows.Forms.Control> panel2Controls = new List<System.Windows.Forms.Control>();
+        
 
         //Текущий файл конфигурации
         private string current_file_name = "";
@@ -50,18 +75,59 @@ namespace AmEditor
 
         //В ручную ли изменяется состояние формы?
         private bool is_manual_change_state = false;
-        
+
         private bool can_drag = false;
         //Состояние формы
         private enum FormState { Display, Edit }
         private FormState form_state;
-        
+
         private int rowIndexFromMouseDown;
         private DataGridViewRow rw;
 
         private List<Type> ComboBoxValueTypes = new List<Type>() { typeof(Int16), typeof(Int32), typeof(Int64), 
             typeof(UInt16), typeof(UInt32), typeof(UInt64), 
             typeof(Decimal), typeof(Single), typeof(Double), typeof(Boolean) };
+
+        public Editor(string FileName)
+        {
+            _server = new TcpListener(IPAddress.Parse("127.0.0.1"), 8888);            
+            InitializeComponent();
+
+            //Сохраняем правую сторону сплит-контейнера для отладки
+            foreach (System.Windows.Forms.Control contr in this.splitContainer1.Panel2.Controls)
+            {
+                panel2Controls.Add(contr);
+            }
+
+            //Загружаем настройки, если файл настроек существует либо инициализируем настройки по умолчанию
+            settings_storage = SettingsStorage.LoadSettings();
+            if (settings_storage != null)
+            {
+                language = new Language(settings_storage.InterfaceLanguagePrefix);
+            }
+            else
+                settings_storage = new SettingsStorage();
+            //инициируем переводчик по умолчанию
+            _ = language.Translate;
+
+            //Задаем путь до папки с плагинами по умолчанию
+            plugins_path = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "plugins");
+            if (!Directory.Exists(plugins_path))
+            {
+                MessageBox.Show(String.Format(CultureInfo.CurrentCulture, _("Путь до папки {0} не найден"), plugins_path), _("Ошибка"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+                return;
+            }
+            //Загружаем список файлов в папке plugins, которые заведомо не являются плагинами
+            LoadPluginsIgnoreList();
+            //Настраиваем состояине формы
+            InterfaceLanguageReload();
+            form_state = FormState.Display;
+            this.FormClosing += new FormClosingEventHandler(Editor_FormClosing);
+            if (!String.IsNullOrEmpty(FileName))
+                OpenConfig(FileName);
+        }
 
         private void LoadPlugins()
         {
@@ -108,7 +174,7 @@ namespace AmEditor
 
         private void LoadPluginsIgnoreList()
         {
-            string ignoreListFile = Path.Combine(Environment.CurrentDirectory,"AmEditor.ignorelist");
+            string ignoreListFile = Path.Combine(Environment.CurrentDirectory, "AmEditor.ignorelist");
             if (!File.Exists(ignoreListFile))
                 return;
             using (StreamReader reader = new StreamReader(ignoreListFile))
@@ -132,7 +198,7 @@ namespace AmEditor
             //Обрабатываем элементы step
             IEnumerable<XElement> elements = xdoc.Root.Elements("step");
             foreach (XElement element in elements)
-                 activity_steps.Add(ActivityStep.ConvertXElementToActivityStep(element, this.language));
+                activity_steps.Add(ActivityStep.ConvertXElementToActivityStep(element, this.language));
             //Обрабатываем элемент plugins
             XElement xplugins = xdoc.Root.Element("plugins");
             if (xplugins != null)
@@ -189,15 +255,15 @@ namespace AmEditor
                     }
                 }
                 if (!finded)
-                    throw new AMException(String.Format(CultureInfo.CurrentCulture,_("Не удалось найти действие {0} ни в одном из плагинов"),
+                    throw new AMException(String.Format(CultureInfo.CurrentCulture, _("Не удалось найти действие {0} ни в одном из плагинов"),
                         step.ActionName));
             }
             else
                 foreach (PlugInfo plugin in plugins)
                 {
-                    if ((plugin.PlugName == step.PlugName) && 
+                    if ((plugin.PlugName == step.PlugName) &&
                         (!plugin.HasAction(step.ActionName, PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters))))
-                        throw new AMException(String.Format(CultureInfo.CurrentCulture,_("В плагине {0} не определено действие {1}"),
+                        throw new AMException(String.Format(CultureInfo.CurrentCulture, _("В плагине {0} не определено действие {1}"),
                             plugin.PlugName, step.ActionName));
                 }
         }
@@ -213,11 +279,11 @@ namespace AmEditor
                 i++;
                 dataGridViewSteps.Rows.Add(new object[] { i, step.Label, step.ToString() + 
                     (step.RepeatCount > 1 ? " "+String.Format(CultureInfo.CurrentCulture, language.Translate("[повторений - {0}]"), step.RepeatCount) : "") });
-                dataGridViewSteps.Rows[i-1].ContextMenuStrip = contextMenuStrip1;
+                dataGridViewSteps.Rows[i - 1].ContextMenuStrip = contextMenuStrip1;
                 if (!String.IsNullOrEmpty(step.Label))
                 {
                     StepLabel.Visible = true;
-                    dataGridViewSteps.Rows[i - 1].Cells["StepLabel"].Style.BackColor = Color.FromArgb(174,210,79);
+                    dataGridViewSteps.Rows[i - 1].Cells["StepLabel"].Style.BackColor = Color.FromArgb(174, 210, 79);
                 }
                 if (!String.IsNullOrEmpty(step.Description))
                 {
@@ -240,13 +306,13 @@ namespace AmEditor
         {
             buttonDel.Enabled = dataGridViewSteps.SelectedRows.Count > 0;
             buttonUp.Enabled = dataGridViewSteps.SelectedRows.Count > 0 && dataGridViewSteps.SelectedRows[0].Index > 0;
-            buttonDown.Enabled = dataGridViewSteps.SelectedRows.Count > 0 && 
+            buttonDown.Enabled = dataGridViewSteps.SelectedRows.Count > 0 &&
                 dataGridViewSteps.SelectedRows[0].Index < (dataGridViewSteps.Rows.Count - 1);
             Text = _("AM-редактор");
             if (form_state == FormState.Edit)
                 Text += " [*]";
             if (!String.IsNullOrEmpty(current_file_name))
-                Text += String.Format(CultureInfo.CurrentCulture," [{0}]", current_file_name);
+                Text += String.Format(CultureInfo.CurrentCulture, " [{0}]", current_file_name);
             pluginName_comboBox.Enabled = (dataGridViewSteps.SelectedRows.Count > 0);
             actionName_comboBox.Enabled = (dataGridViewSteps.SelectedRows.Count > 0);
         }
@@ -273,7 +339,7 @@ namespace AmEditor
         //Сохранить файл конфигурации
         private bool SaveFile(string FileName)
         {
-            XDocument document = new XDocument(new XDeclaration("1.0","UTF-8",""), new XElement("activity"));
+            XDocument document = new XDocument(new XDeclaration("1.0", "UTF-8", ""), new XElement("activity"));
             XElement activity_element = document.Root;
             if (plugins_include_rules.Count > 0)
             {
@@ -294,13 +360,13 @@ namespace AmEditor
                 {
                     if (step.PlugName == null || step.ActionName == null)
                     {
-                        MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Ошибка конфигурации шага выполнения №{0}. Данные не могут быть сохранены"), i), 
+                        MessageBox.Show(String.Format(CultureInfo.CurrentCulture, _("Ошибка конфигурации шага выполнения №{0}. Данные не могут быть сохранены"), i),
                             _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
                     i++;
                     XComment step_comment = new XComment(String.Format(CultureInfo.CurrentCulture, "step {0}", i));
-                    XElement step_element = new XElement("step", new XAttribute("plugin", step.PlugName), 
+                    XElement step_element = new XElement("step", new XAttribute("plugin", step.PlugName),
                         new XAttribute("action", step.ActionName));
                     if (step.RepeatCount > 1)
                         step_element.Add(new XAttribute("repeat", step.RepeatCount));
@@ -331,7 +397,7 @@ namespace AmEditor
                 document.Save(FileName);
                 return true;
             }
-            catch(IOException e)
+            catch (IOException e)
             {
                 MessageBox.Show(e.Message, _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -497,38 +563,45 @@ namespace AmEditor
             ChangeFormState();
         }
 
-        public Editor(string FileName)
+        public void StartStopDebug()
         {
-            InitializeComponent();
-
-            //Загружаем настройки, если файл настроек существует либо инициализируем настройки по умолчанию
-            settings_storage = SettingsStorage.LoadSettings();
-            if (settings_storage != null)
+            if (_debug == false)
             {
-                language = new Language(settings_storage.InterfaceLanguagePrefix);
+                if (string.IsNullOrEmpty(current_file_name))
+                {
+                    открытьToolStripMenuItem_Click(this, new EventArgs());
+                    return;
+                }
+                _debug = true;
+                this.splitContainer1.Panel2.Controls.Clear();
+                _textbox = new RichTextBox();
+                _textbox.Size = new Size(567, 87);
+                this.splitContainer1.Panel2.Controls.Add(_textbox);
+                this.следующийШагToolStripMenuItem.ForeColor = Color.FromArgb(0, 0, 192, 0);
+                this.следующийШагToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");
+                this.остановитьОтладкуToolStripMenuItem.ForeColor = Color.FromArgb(0, 0, 192, 0);
+                this.остановитьОтладкуToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");
+                this.остановитьОтладкуToolStripMenuItem.Text = "Остановить отладку";
+                отладкаToolStripMenuItem.ForeColor = Color.FromArgb(0, 0, 192, 0);
+                отладкаToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");
+                отладкаToolStripMenuItem.Checked = true;
+                ProccesReport(_debug);
+
             }
             else
-                settings_storage = new SettingsStorage();
-            //инициируем переводчик по умолчанию
-            _ = language.Translate;
-
-            //Задаем путь до папки с плагинами по умолчанию
-            plugins_path = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "plugins");
-            if (!Directory.Exists(plugins_path))
             {
-                MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Путь до папки {0} не найден"), plugins_path), _("Ошибка"),
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Close();
-                return;
+                _debug = false;
+                _process = null;
+                this.splitContainer1.Panel2.Controls.Clear();
+                this.splitContainer1.Panel2.Controls.AddRange(panel2Controls.ToArray());
+                отладкаToolStripMenuItem.ForeColor = Color.Black;
+                отладкаToolStripMenuItem.BackColor = Color.FromName("Control");
+                this.следующийШагToolStripMenuItem.ForeColor = Color.Black;
+                this.следующийШагToolStripMenuItem.BackColor = Color.FromName("Control");
+                this.остановитьОтладкуToolStripMenuItem.ForeColor = Color.Black;
+                this.остановитьОтладкуToolStripMenuItem.BackColor = Color.FromName("Control");
+                this.остановитьОтладкуToolStripMenuItem.Text = "Начать отладку";
             }
-            //Загружаем список файлов в папке plugins, которые заведомо не являются плагинами
-            LoadPluginsIgnoreList();
-            //Настраиваем состояине формы
-            InterfaceLanguageReload();
-            form_state = FormState.Display;
-            this.FormClosing += new FormClosingEventHandler(Editor_FormClosing);
-            if (!String.IsNullOrEmpty(FileName))
-                OpenConfig(FileName);
         }
 
         void Editor_FormClosing(object sender, FormClosingEventArgs e)
@@ -594,7 +667,7 @@ namespace AmEditor
             }
             if (pluginName_comboBox.SelectedIndex == -1)
             {
-                MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Неизвестный плагин {0}"), plugin_name), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(String.Format(CultureInfo.CurrentCulture, _("Неизвестный плагин {0}"), plugin_name), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 is_manual_change_state = true;
                 return;
             }
@@ -616,7 +689,7 @@ namespace AmEditor
                 foreach (PlugActionParameter parameter in action.Parameters)
                 {
                     bool parameter_founded = false;
-                    foreach (PlugActionParameter chk_parameter in 
+                    foreach (PlugActionParameter chk_parameter in
                         PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters))
                     {
                         if ((chk_parameter.Name == parameter.Name) && (chk_parameter.Direction == parameter.Direction))
@@ -640,7 +713,7 @@ namespace AmEditor
             is_manual_change_state = true;
             if (actionName_comboBox.SelectedIndex == -1)
             {
-                MessageBox.Show(String.Format(CultureInfo.CurrentCulture,_("Неизвестное действие {0}"), action_name), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(String.Format(CultureInfo.CurrentCulture, _("Неизвестное действие {0}"), action_name), _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
         }
@@ -778,7 +851,7 @@ namespace AmEditor
                         break;
                     }
                 }
-                dataGridViewParams.Rows.Add(new object[] { i, pap.Name, pap.ParameterType, pap.Direction, value});
+                dataGridViewParams.Rows.Add(new object[] { i, pap.Name, pap.ParameterType, pap.Direction, value });
             }
             //Если есть документация в plugins_doc по данному действию, то получить ее
             ShowActionDescription();
@@ -847,7 +920,7 @@ namespace AmEditor
             activity_steps[index + 1] = step;
             LoadDataGridViewSteps();
             dataGridViewSteps.Rows[index + 1].Selected = true;
-            dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[index +1].Cells[0];
+            dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[index + 1].Cells[0];
             form_state = FormState.Edit;
             ChangeFormState();
         }
@@ -919,10 +992,10 @@ namespace AmEditor
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
             else
-            if (dataGridViewSteps.SelectedRows.Count > 0)
-                e.Effect = DragDropEffects.Move;
-            else
-                e.Effect = DragDropEffects.None;
+                if (dataGridViewSteps.SelectedRows.Count > 0)
+                    e.Effect = DragDropEffects.Move;
+                else
+                    e.Effect = DragDropEffects.None;
         }
 
         //Поиск списка видимых глобальных параметров указанного типа на данном шаге выполнения
@@ -950,12 +1023,12 @@ namespace AmEditor
                                 if (!String.IsNullOrEmpty(asp.Value.Trim()))
                                 {
                                     if (!global_parameters.Contains("[" + asp.Value + "]"))
-                                        global_parameters.Add("["+asp.Value+"]");
+                                        global_parameters.Add("[" + asp.Value + "]");
                                 }
                                 else
                                 {
                                     if (!global_parameters.Contains("[" + asp.Value + "]"))
-                                        global_parameters.Add("["+asp.Name+"]");
+                                        global_parameters.Add("[" + asp.Name + "]");
                                 }
                             }
                     }
@@ -984,13 +1057,137 @@ namespace AmEditor
             return dataGridViewParams.SelectedRows[0].Cells["ParamValue"].Value.ToString();
         }
 
+        public void ProccesReport(bool debug)
+        {
+            if (string.IsNullOrEmpty(current_file_name))
+            {
+                debug = false;
+                открытьToolStripMenuItem_Click(this, new EventArgs());
+                return;
+            }
+            string activityManager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ActivityManager.exe");
+            if (!File.Exists(activityManager))
+            {
+                MessageBox.Show(_("Не удалось найти исполняемый файл ActivityManager.exe"),
+                    _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string arguments = "config=\"" + current_file_name + "\"";
+            foreach (string key in command_line_params.Keys)
+                arguments += " " + key + "=\"" + command_line_params[key] + "\"";
+            //добавим аргумент отладки
+            arguments += " " + "debug" + "=\"" + debug.ToString() + "\"";
+            //ожидаем клиента в отдельном потоке
+            if (debug)
+            {
+                Thread ts = new Thread(new ThreadStart(ProcessServer));
+                ts.Start();
+            }
+            using (_process = new Process())
+            {
+
+                ProcessStartInfo psi = new ProcessStartInfo(activityManager, arguments);
+                psi.CreateNoWindow = true;
+                psi.UseShellExecute = false;
+                _process.StartInfo = psi;
+                _process.Start();
+            }
+        }
+
+        private void StopReport()
+        {
+            CommunicationToClient(new MessageForDebug { Debug = "stop" }, false);
+        }
+
+        private void CommunicationToClient(MessageForDebug message, bool receive = true)
+        {
+            try
+            {                                             
+                var array = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+                _stream.Write(array, 0, array.Length);
+                if (receive)
+                {                    
+                    int bytes = _stream.Read(_buffer, 0, _buffer.Length);
+                    var str = Encoding.UTF8.GetString(_buffer, 0, bytes);                    
+                    var response = JsonConvert.DeserializeObject<MessageForDebug>(str);
+                    if (response == null)
+                        return;
+                    if (response.Debug == "done")
+                    {
+                        StopServer();
+                        return;
+                    }
+                    if (!string.IsNullOrEmpty(response.Exception))
+                    {
+                        string st = _textbox.Text.Contains('№') ?
+                            _textbox.Text.Substring(_textbox.Text.IndexOf('№') + 1).Trim() : "1"; 
+                        _textbox.Text = "Step №" + st + Environment.NewLine + response.Exception;
+                        _textbox.ForeColor = Color.Red;
+                        _reset = true;
+                        return;
+                    }
+                    if (!string.IsNullOrEmpty(response.Step))
+                    {
+                        int step; 
+                        int.TryParse(response.Step,out step);
+                        _textbox.Text = int.TryParse(response.Step,out step) ? 
+                            "Step №" + response.Step + Environment.NewLine + response.Body :
+                            "Step №" + "unknown" + Environment.NewLine + response.Body;                       
+                        //меняем стиль строк выполненных шагов редактора на зеленый 
+                        if (step > 1)
+                        {
+                            dataGridViewSteps.Rows[step - 2].DefaultCellStyle = new DataGridViewCellStyle
+                            {
+                                BackColor = Color.Green
+                            };
+                        }
+                        //меняем стиль строк следующего шага редактора на красный 
+                        dataGridViewSteps.Rows[step - 1].DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Red };
+                    }
+                                     
+                }
+            }
+
+            catch (Exception e)
+            {
+                StopServer();
+            }         
+        }
+
+        public void ProcessServer()
+        {
+            _server.Start();
+            _client = _server.AcceptTcpClient();
+            _client.SendBufferSize = _client.ReceiveBufferSize = _capacity;
+            _stream = _client.GetStream();
+            _buffer = new byte[_capacity];     
+        }
+
+        public void StopServer()
+        {
+            _reset = false;
+            _stream.Close();
+            _client.Close();
+            _client = null;
+            _server.Stop();
+            StartStopDebug();
+            //меняем стиль строк шагов редактора на стандартный 
+            for (int i = 0; i < dataGridViewSteps.Rows.Count; i++)
+            {
+                dataGridViewSteps.Rows[i].DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = Color.White
+                };
+            }
+        }
+
         private void dataGridViewParams_DoubleClick(object sender, EventArgs e)
         {
             if (dataGridViewParams.SelectedRows.Count == 0)
                 return;
             Type param_type = (Type)dataGridViewParams.SelectedRows[0].Cells["ParamType"].Value;
             string param_name = (string)dataGridViewParams.SelectedRows[0].Cells["ParamName"].Value;
-            AMClasses.ParameterDirection direction = 
+            AMClasses.ParameterDirection direction =
                 (AMClasses.ParameterDirection)dataGridViewParams.SelectedRows[0].Cells["ParamDirection"].Value;
             if (direction == AMClasses.ParameterDirection.Output)
             {
@@ -1097,26 +1294,21 @@ namespace AmEditor
 
         private void выполнитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Save())
-                return;
-            string activityManager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ActivityManager.exe");
-            if (!File.Exists(activityManager))
+            if (_process == null || _client == null)
             {
-                MessageBox.Show(_("Не удалось найти исполняемый файл ActivityManager.exe"),
-                    _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                ProccesReport(_debug);
             }
-            string arguments = "config=\""+current_file_name+"\"";
-            foreach(string key in command_line_params.Keys)
-                arguments += " "+key+"=\""+command_line_params[key]+"\"";
-            using (Process process = new Process())
+
+            else if (_reset)
             {
-                ProcessStartInfo psi = new ProcessStartInfo(activityManager, arguments);
-                psi.CreateNoWindow = true;
-                psi.UseShellExecute = false;
-                process.StartInfo = psi;
-                process.Start();
+                StopServer();
             }
+            else
+            {
+                CommunicationToClient(new MessageForDebug { Debug = "false"});
+                StopServer();
+            }
+
         }
 
         private void выходToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -1163,7 +1355,7 @@ namespace AmEditor
             string arguments = "config=\"" + current_file_name + "\"";
             foreach (string key in command_line_params.Keys)
                 arguments += " " + key + "=\"" + command_line_params[key] + "\"";
-            Clipboard.SetText(activityManager+" "+arguments);
+            Clipboard.SetText(activityManager + " " + arguments);
             MessageBox.Show(_("Строка выполнения успешно скопирована"), _("Информация"), MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -1183,7 +1375,7 @@ namespace AmEditor
             int step = dataGridViewSteps.SelectedRows[0].Index;
             using (FormStringValue fsv = new FormStringValue(language))
             {
-                fsv.Text = _("Задать число повторений шага") + " №" + (step+1);
+                fsv.Text = _("Задать число повторений шага") + " №" + (step + 1);
                 fsv.Value = activity_steps[step].RepeatCount.ToString(CultureInfo.CurrentCulture);
                 if (fsv.ShowDialog() == DialogResult.OK)
                 {
@@ -1212,7 +1404,7 @@ namespace AmEditor
             int step = dataGridViewSteps.SelectedRows[0].Index;
             using (FormStringValue fsv = new FormStringValue(language))
             {
-                fsv.Text = _("Задать метку шага") + " №" + (step+1);
+                fsv.Text = _("Задать метку шага") + " №" + (step + 1);
                 fsv.Value = activity_steps[step].Label;
                 if (fsv.ShowDialog() == DialogResult.OK)
                 {
@@ -1268,6 +1460,32 @@ namespace AmEditor
                 e.Effect = DragDropEffects.Copy;
             else
                 e.Effect = DragDropEffects.None;
-        }  
+        }             
+
+        private void остановитьОтладкуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_debug)
+            {
+                StopReport();
+                StartStopDebug();
+            }
+            
+        }
+
+        private void следующийШагToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!_debug)
+                StartStopDebug();
+            else if(_reset)
+                StopServer();                
+            else
+            {
+                CommunicationToClient(new MessageForDebug { Body = "hello" });
+            }
+        }
+
+
+
+
     }
 }

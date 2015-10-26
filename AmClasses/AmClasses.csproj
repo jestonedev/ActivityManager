@@ -82,6 +82,7 @@
     <Compile Include="AMException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Language.cs" />
+    <Compile Include="MessageForDebug.cs" />
     <Compile Include="PlugActionHelper.cs" />
     <Compile Include="PlugInfo.cs" />
     <Compile Include="PlugActionInfo.cs" />

@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
  <Targets>
-  <Target Name="E:\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
+  <Target Name="D:\Proejcts\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
    <Modules>
     <Module Name="reportmodule.dll">
      <Namespaces>
@@ -12,8 +12,8 @@
          <Members>
           <Member Name="#CreateSheetsByElements(System.String,System.Collections.Generic.List`1&lt;System.Xml.Linq.XElement&gt;,ExtendedTypes.ReportTable)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2015-02-27 04:48:17Z" FixCategory="NonBreaking">
-             <Issue Certainty="90" Level="Warning" Path="e:\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="201">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2015-10-22 08:12:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="90" Level="Warning" Path="d:\Proejcts\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="201">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
             </Message>
            </Messages>
           </Member>
