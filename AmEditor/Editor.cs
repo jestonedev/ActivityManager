@@ -15,6 +15,7 @@ using System.Threading;
 using System.Reflection;
 using System.Net.Sockets;
 using System.Net;
+using System.Net.NetworkInformation;
 using Newtonsoft.Json;
 
 namespace AmEditor
@@ -29,6 +30,8 @@ namespace AmEditor
         private TcpClient _client;
         //поток сервера
         private NetworkStream _stream;
+        //номер порта сервера
+        private int _port;
         //текс-бокс для вывода инф-ции об отладке
         private RichTextBox _textbox;
         //процесс для AM.exe
@@ -89,10 +92,8 @@ namespace AmEditor
             typeof(Decimal), typeof(Single), typeof(Double), typeof(Boolean) };
 
         public Editor(string FileName)
-        {
-            _server = new TcpListener(IPAddress.Parse("127.0.0.1"), 8888);            
+        {            
             InitializeComponent();
-
             //Сохраняем правую сторону сплит-контейнера для отладки
             foreach (System.Windows.Forms.Control contr in this.splitContainer1.Panel2.Controls)
             {
@@ -1072,17 +1073,20 @@ namespace AmEditor
                     _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            
+            if (debug)
+            {
+                _server = new TcpListener(IPAddress.Parse("127.0.0.1"), GetFreePort());
+                //ожидаем клиента в отдельном потоке
+                Thread ts = new Thread(new ThreadStart(ProcessServer));
+                ts.Start();
+            }
             string arguments = "config=\"" + current_file_name + "\"";
             foreach (string key in command_line_params.Keys)
                 arguments += " " + key + "=\"" + command_line_params[key] + "\"";
             //добавим аргумент отладки
             arguments += " " + "debug" + "=\"" + debug.ToString() + "\"";
-            //ожидаем клиента в отдельном потоке
-            if (debug)
-            {
-                Thread ts = new Thread(new ThreadStart(ProcessServer));
-                ts.Start();
-            }
+            arguments += " " + "port" + "=\"" + _port.ToString() + "\"";            
             using (_process = new Process())
             {
 
@@ -1155,7 +1159,7 @@ namespace AmEditor
         }
 
         public void ProcessServer()
-        {
+        {            
             _server.Start();
             _client = _server.AcceptTcpClient();
             _client.SendBufferSize = _client.ReceiveBufferSize = _capacity;
@@ -1169,7 +1173,7 @@ namespace AmEditor
             _stream.Close();
             _client.Close();
             _client = null;
-            _server.Stop();
+            //_server.Stop();
             StartStopDebug();
             //меняем стиль строк шагов редактора на стандартный 
             for (int i = 0; i < dataGridViewSteps.Rows.Count; i++)
@@ -1179,6 +1183,25 @@ namespace AmEditor
                     BackColor = Color.White
                 };
             }
+        }
+
+        private IEnumerable<int> GetOpenPorts()
+        {
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            var tcpConnections = properties.GetActiveTcpConnections();
+            return tcpConnections.Select(c => c.LocalEndPoint.Port);
+        }
+
+        private int GetFreePort()
+        {
+            bool has = true;
+            while (has)
+            {
+                var r = new Random();
+                _port = r.Next(16000, 16535);
+                has = GetOpenPorts().Any(p => p == _port);
+            }
+            return _port;            
         }
 
         private void dataGridViewParams_DoubleClick(object sender, EventArgs e)
@@ -1467,7 +1490,7 @@ namespace AmEditor
             if (_debug)
             {
                 StopReport();
-                StartStopDebug();
+                StopServer(); 
             }
             
         }

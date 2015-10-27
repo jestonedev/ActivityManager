@@ -10,31 +10,34 @@
        <Types>
         <Type Name="Editor" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
          <Members>
-          <Member Name="#CommunicationToClient(System.String,System.Boolean)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+          <Member Name="#CommunicationToClient(AMClasses.MessageForDebug,System.Boolean)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-10-22 08:06:22Z" FixCategory="NonBreaking">
-             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="d:\Proejcts\ActivityManager\AmEditor" File="Editor.cs" Line="1106">Because the behavior of 'int.Parse(string)' could vary based on the current user's locale settings, replace this call in 'Editor.CommunicationToClient(string, bool)' with a call to 'int.Parse(string, IFormatProvider)'. If the result of 'int.Parse(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-10-27 07:21:35Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Proejcts\ActivityManager\AmEditor" File="Editor.cs" Line="1155">Modify 'Editor.CommunicationToClient(MessageForDebug, bool)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.Int32.TryParse(System.String,System.Int32@)" TypeName="DoNotIgnoreMethodResults" Category="Microsoft.Usage" CheckId="CA1806" Status="Active" Created="2015-10-27 07:21:35Z" FixCategory="NonBreaking">
+             <Issue Name="TryParse" Certainty="95" Level="Warning" Path="d:\Proejcts\ActivityManager\AmEditor" File="Editor.cs" Line="1136">'Editor.CommunicationToClient(MessageForDebug, bool)' calls 'int.TryParse(string, out int)' but does not explicitly check whether the conversion succeeded. Either use the return value in a conditional statement or verify that the call site expects that the out argument will be set to the default value when the conversion fails.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetOpenPorts()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-10-27 07:21:35Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="d:\Proejcts\ActivityManager\AmEditor" File="Editor.cs" Line="1190">The 'this' parameter (or 'Me' in Visual Basic) of 'Editor.GetOpenPorts()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#OpenConfig(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-10-22 08:06:22Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="CriticalError" Path="d:\Proejcts\ActivityManager\AmEditor" File="Editor.cs" Line="516">Modify 'Editor.OpenConfig(string)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-10-27 07:21:35Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Proejcts\ActivityManager\AmEditor" File="Editor.cs" Line="522">Modify 'Editor.OpenConfig(string)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ProccesReport(System.Boolean)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
            <Messages>
-            <Message Id="debug" TypeName="VariableNamesShouldNotMatchFieldNames" Category="Microsoft.Maintainability" CheckId="CA1500" Status="Active" Created="2015-10-22 08:06:22Z" FixCategory="NonBreaking">
-             <Issue Name="Parameter" Certainty="95" Level="Error" Path="d:\Proejcts\ActivityManager\AmEditor" File="Editor.cs" Line="1050">'debug', a parameter declared in 'Editor.ProccesReport(bool)', has the same name as an instance field on the type. Change the name of one of these items.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-          <Member Name="#processId" Kind="Field" Static="False" Accessibility="Private" ExternallyVisible="False">
-           <Messages>
-            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-10-22 08:06:22Z" FixCategory="NonBreaking">
-             <Issue Certainty="75" Level="Warning">It appears that field 'Editor.processId' is never used or is only ever assigned to. Use this field or remove it.</Issue>
+            <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-10-27 07:21:35Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="d:\Proejcts\ActivityManager\AmEditor" File="Editor.cs" Line="1089">Because the behavior of 'int.ToString()' could vary based on the current user's locale settings, replace this call in 'Editor.ProccesReport(bool)' with a call to 'int.ToString(IFormatProvider)'. If the result of 'int.ToString(IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -48,16 +51,6 @@
   </Target>
  </Targets>
  <Rules>
-  <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
-   <Name>Avoid unused private fields</Name>
-   <Description>Private fields were detected that do not appear to be accessed within the assembly. If this violation fires in error, please send a problem report to the Visual Studio Code Analysis team.</Description>
-   <Resolution Name="Default">It appears that field {0} is never used or is only ever assigned to. Use this field or remove it.</Resolution>
-   <Owner />
-   <Url>http://msdn.microsoft.com/library/ms245042.aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="75">Warning</MessageLevel>
-   <File Name="performancerules.dll" Version="12.0.0.0" />
-  </Rule>
   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
    <Name>Do not catch general exception types</Name>
    <Description>You should not catch Exception or SystemException. Catching generic exception types can hide run-time problems from the library user, and can complicate debugging. You should catch only those exceptions that you can handle gracefully.</Description>
@@ -68,25 +61,35 @@
    <MessageLevel Certainty="95">CriticalError</MessageLevel>
    <File Name="designrules.dll" Version="12.0.0.0" />
   </Rule>
+  <Rule TypeName="DoNotIgnoreMethodResults" Category="Microsoft.Usage" CheckId="CA1806">
+   <Name>Do not ignore method results</Name>
+   <Description>The result of methods that return new instances of strings should be assigned to a variable and subsequently used. If the result of a method that creates a new object, such as String.ToLower(), is not assigned to a variable, the call is wasted.</Description>
+   <Resolution Name="TryParse">{0} calls {1} but does not explicitly check whether the conversion succeeded. Either use the return value in a conditional statement or verify that the call site expects that the out argument will be set to the default value when the conversion fails.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182273.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="12.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
+   <Name>Mark members as static</Name>
+   <Description>Methods which do not access instance data or call instance methods can be marked as static (Shared in Visual Basic). After doing so, the compiler will emit non-virtual call sites to these members which will prevent a check at runtime for each call that ensures the current object pointer is non-null. This can result in a measurable performance gain for performance-sensitive code. In some cases, the failure to access the current object instance represents a correctness issue.</Description>
+   <Resolution Name="Default">The 'this' parameter (or 'Me' in Visual Basic) of {0} is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms245046.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="12.0.0.0" />
+  </Rule>
   <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
    <Name>Specify IFormatProvider</Name>
    <Description>If an overload exists that takes an IFormatProvider argument, it should always be called in favor of an overload that does not. Some methods in the runtime convert a value to or from a string representation and take a string parameter that contains one or more characters, called format specifiers, which indicate how the value is to be converted. If the meaning of the format specifier varies by culture, a formatting object supplies the actual characters used in the string representation. In scenarios where sorting and comparison behavior should never change between cultures, specify CultureInfo.InvariantCulture, otherwise, specify CultureInfo.CurrentCulture.</Description>
-   <Resolution Name="IFormatProviderAlternate">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be based on input from the user, specify {3} as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify {4}.</Resolution>
+   <Resolution Name="IFormatProviderAlternateString">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify {3} as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify {4}.</Resolution>
    <Owner />
    <Url>http://msdn.microsoft.com/library/ms182190.aspx</Url>
    <Email>[none]</Email>
    <MessageLevel Certainty="95">Error</MessageLevel>
    <File Name="globalizationrules.dll" Version="12.0.0.0" />
-  </Rule>
-  <Rule TypeName="VariableNamesShouldNotMatchFieldNames" Category="Microsoft.Maintainability" CheckId="CA1500">
-   <Name>Variable names should not match field names</Name>
-   <Description>Instance field and variable names should not be identical within the same scope.</Description>
-   <Resolution Name="Parameter">{0}, a parameter declared in {1}, has the same name as an instance field on the type. Change the name of one of these items.</Resolution>
-   <Owner />
-   <Url>http://msdn.microsoft.com/library/ms182216.aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="95">Error</MessageLevel>
-   <File Name="maintainabilityrules.dll" Version="12.0.0.0" />
   </Rule>
  </Rules>
  <Localized>

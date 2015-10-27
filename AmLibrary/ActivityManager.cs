@@ -24,6 +24,8 @@ namespace AmLibrary
         private bool _debug = false;
         //поток клиента
         private NetworkStream _stream;
+        //порт соединения для клиента
+        private int _port;
         //буфер клиента
         private byte[] _buffer;
         //емкость буфера
@@ -69,6 +71,10 @@ namespace AmLibrary
             if (global_parameters.ContainsKey("debug"))
             {
                 bool.TryParse(global_parameters["debug"].ToString(), out _debug);
+            }
+            if (global_parameters.ContainsKey("port"))
+            {
+                int.TryParse(global_parameters["port"].ToString(), out _port);
             }
             //инициализируем путь до папки с плагинами
             plugins_path = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "plugins");
@@ -393,9 +399,9 @@ namespace AmLibrary
         {    
             if (_debug)
             {
-                _client = new TcpClient();
+                _client = new TcpClient("127.0.0.1",_port);
                 _client.SendBufferSize = _client.ReceiveBufferSize = _capacity;
-                _client.Connect(ip, port);
+                //_client.Connect(ip, port);
                 _stream = _client.GetStream();
                 _buffer = new byte[_capacity];
             }
