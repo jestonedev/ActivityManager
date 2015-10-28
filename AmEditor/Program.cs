@@ -27,7 +27,16 @@ namespace AmEditor
                         fileName = args[i];
                 }
             }
-            Application.Run(new Editor(fileName));
+            var editor = new Editor(fileName);
+            Application.Run(editor);
+            if (editor.ServerConnected())
+            {
+                editor.StopReport();
+                editor.ServerDispose();
+
+            }
+                
+
         }
     }
 }

@@ -28,12 +28,13 @@ namespace ActivityManager
 		public static void Main(string[] args)
 		{
             try
-            {
-                //инициируем переводчик по умолчанию
-                _ = language.Translate;
-                //args = new string[1];             
+            {   //Для тестирования AM
+                //args = new string[2];             
                 //args[0] = @"config=\\nas\media$\ActivityManager\templates\registry\tenancy\test.xml";
                 //args[1] = @"debug=true";
+
+                //инициируем переводчик по умолчанию
+                _ = language.Translate;               
                 for (int i = 0; i < args.Length; i++)
                 {
                     string[] arg = args[i].Split(new char[] { '=' }, 2);

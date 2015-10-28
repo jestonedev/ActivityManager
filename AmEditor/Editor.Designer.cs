@@ -89,6 +89,7 @@
             this.параметрыКоманднойСтрокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.языкToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.отладкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.остановитьОтладкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.следующийШагToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -635,6 +636,7 @@
             // 
             // настройкаToolStripMenuItem1
             // 
+            this.настройкаToolStripMenuItem1.BackColor = System.Drawing.SystemColors.Control;
             this.настройкаToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.плагиныToolStripMenuItem2,
             this.параметрыКоманднойСтрокиToolStripMenuItem,
@@ -668,11 +670,19 @@
             // 
             this.отладкаToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.отладкаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem5,
             this.остановитьОтладкуToolStripMenuItem,
             this.следующийШагToolStripMenuItem});
             this.отладкаToolStripMenuItem.Name = "отладкаToolStripMenuItem";
             this.отладкаToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
             this.отладкаToolStripMenuItem.Text = "Отладка";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(280, 24);
+            this.toolStripMenuItem5.Text = "Начать отладку";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
             // остановитьОтладкуToolStripMenuItem
             // 
@@ -680,8 +690,9 @@
             this.остановитьОтладкуToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.остановитьОтладкуToolStripMenuItem.Name = "остановитьОтладкуToolStripMenuItem";
             this.остановитьОтладкуToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
-            this.остановитьОтладкуToolStripMenuItem.Size = new System.Drawing.Size(248, 24);
-            this.остановитьОтладкуToolStripMenuItem.Text = "Начать отладку";
+            this.остановитьОтладкуToolStripMenuItem.Size = new System.Drawing.Size(280, 24);
+            this.остановитьОтладкуToolStripMenuItem.Text = "Остановить отладку";
+            this.остановитьОтладкуToolStripMenuItem.Visible = false;
             this.остановитьОтладкуToolStripMenuItem.Click += new System.EventHandler(this.остановитьОтладкуToolStripMenuItem_Click);
             // 
             // следующийШагToolStripMenuItem
@@ -690,7 +701,7 @@
             this.следующийШагToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.следующийШагToolStripMenuItem.Name = "следующийШагToolStripMenuItem";
             this.следующийШагToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.следующийШагToolStripMenuItem.Size = new System.Drawing.Size(248, 24);
+            this.следующийШагToolStripMenuItem.Size = new System.Drawing.Size(280, 24);
             this.следующийШагToolStripMenuItem.Text = "Следующий шаг";
             this.следующийШагToolStripMenuItem.Click += new System.EventHandler(this.следующийШагToolStripMenuItem_Click);
             // 
@@ -803,6 +814,7 @@
         private System.Windows.Forms.ToolStripMenuItem asdfasdfToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem остановитьОтладкуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem следующийШагToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
 
 
     }

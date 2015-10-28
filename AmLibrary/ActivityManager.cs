@@ -383,14 +383,12 @@ namespace AmLibrary
                         _debug = false;
                         Console.WriteLine("debug:stop");
                         Process.GetCurrentProcess().Kill();
-                    }
-                    Console.WriteLine(str);
+                    }                  
                 }
                 if (send)
                 {                    
                     var array = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));                   
-                    _stream.Write(array, 0, array.Length);
-                    Console.WriteLine(_buffer.Length);
+                    _stream.Write(array, 0, array.Length);                  
                 }
             }
         }
@@ -400,8 +398,7 @@ namespace AmLibrary
             if (_debug)
             {
                 _client = new TcpClient("127.0.0.1",_port);
-                _client.SendBufferSize = _client.ReceiveBufferSize = _capacity;
-                //_client.Connect(ip, port);
+                _client.SendBufferSize = _client.ReceiveBufferSize = _capacity;                
                 _stream = _client.GetStream();
                 _buffer = new byte[_capacity];
             }

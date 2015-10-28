@@ -582,12 +582,23 @@ namespace AmEditor
                 this.следующийШагToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");
                 this.остановитьОтладкуToolStripMenuItem.ForeColor = Color.FromArgb(0, 0, 192, 0);
                 this.остановитьОтладкуToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");
-                this.остановитьОтладкуToolStripMenuItem.Text = "Остановить отладку";
+                this.toolStripMenuItem5.Visible = false;
+                this.остановитьОтладкуToolStripMenuItem.Visible = true;
                 отладкаToolStripMenuItem.ForeColor = Color.FromArgb(0, 0, 192, 0);
-                отладкаToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");
-                отладкаToolStripMenuItem.Checked = true;
+                отладкаToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");                
+                this.dataGridViewSteps.Enabled = false;
+                this.buttonAdd.Enabled = false;
+                this.buttonDel.Enabled = false;
+                this.buttonDown.Enabled = false;
+                this.buttonUp.Enabled = false;
+                this.конфигурацияToolStripMenuItem.Enabled = false;
+                this.настройкаToolStripMenuItem1.Enabled = false;
+                this.выполнитьToolStripMenuItem.Enabled = true;
                 ProccesReport(_debug);
-
+                foreach(DataGridViewRow row in dataGridViewSteps.Rows)
+                {
+                    row.Selected = false;
+                }
             }
             else
             {
@@ -595,13 +606,21 @@ namespace AmEditor
                 _process = null;
                 this.splitContainer1.Panel2.Controls.Clear();
                 this.splitContainer1.Panel2.Controls.AddRange(panel2Controls.ToArray());
-                отладкаToolStripMenuItem.ForeColor = Color.Black;
-                отладкаToolStripMenuItem.BackColor = Color.FromName("Control");
+                this.отладкаToolStripMenuItem.ForeColor = Color.Black;
+                this.отладкаToolStripMenuItem.BackColor = Color.FromName("Control");
+                this.toolStripMenuItem5.Visible = true;
+                this.остановитьОтладкуToolStripMenuItem.Visible = false;
                 this.следующийШагToolStripMenuItem.ForeColor = Color.Black;
                 this.следующийШагToolStripMenuItem.BackColor = Color.FromName("Control");
                 this.остановитьОтладкуToolStripMenuItem.ForeColor = Color.Black;
-                this.остановитьОтладкуToolStripMenuItem.BackColor = Color.FromName("Control");
-                this.остановитьОтладкуToolStripMenuItem.Text = "Начать отладку";
+                this.остановитьОтладкуToolStripMenuItem.BackColor = Color.FromName("Control");               
+                this.dataGridViewSteps.Enabled = true;
+                this.buttonAdd.Enabled = true;
+                this.buttonDel.Enabled = true;
+                this.buttonDown.Enabled = true;
+                this.buttonUp.Enabled = true;
+                this.конфигурацияToolStripMenuItem.Enabled = true;
+                this.настройкаToolStripMenuItem1.Enabled = true;
             }
         }
 
@@ -1076,6 +1095,7 @@ namespace AmEditor
             
             if (debug)
             {
+                //пересоздаем сервер с новым портом
                 _server = new TcpListener(IPAddress.Parse("127.0.0.1"), GetFreePort());
                 //ожидаем клиента в отдельном потоке
                 Thread ts = new Thread(new ThreadStart(ProcessServer));
@@ -1098,7 +1118,7 @@ namespace AmEditor
             }
         }
 
-        private void StopReport()
+        public void StopReport()
         {
             CommunicationToClient(new MessageForDebug { Debug = "stop" }, false);
         }
@@ -1133,20 +1153,36 @@ namespace AmEditor
                     if (!string.IsNullOrEmpty(response.Step))
                     {
                         int step; 
-                        int.TryParse(response.Step,out step);
-                        _textbox.Text = int.TryParse(response.Step,out step) ? 
+                        bool correct = int.TryParse(response.Step,out step);
+                        _textbox.Text = correct ? 
                             "Step №" + response.Step + Environment.NewLine + response.Body :
-                            "Step №" + "unknown" + Environment.NewLine + response.Body;                       
-                        //меняем стиль строк выполненных шагов редактора на зеленый 
+                            "Step " + "unknown" + Environment.NewLine + response.Body;
+                        if (!correct)
+                            return;
+                        //меняем стиль строк выполненных шагов редактора на серый 
                         if (step > 1)
                         {
                             dataGridViewSteps.Rows[step - 2].DefaultCellStyle = new DataGridViewCellStyle
                             {
-                                BackColor = Color.Green
-                            };
+                                BackColor = Color.Gray
+                            };                            
                         }
                         //меняем стиль строк следующего шага редактора на красный 
-                        dataGridViewSteps.Rows[step - 1].DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Red };
+                        dataGridViewSteps.Rows[step - 1].DefaultCellStyle = new DataGridViewCellStyle 
+                        { 
+                            BackColor = Color.Red 
+                        };
+                        //делаем цветными только текущий и предыдущий шаг
+                        foreach(DataGridViewRow row in dataGridViewSteps.Rows)
+                        {
+                            if (row.Index == step - 1 || row.Index == step - 2)
+                                continue;
+                            else
+                                row.DefaultCellStyle = new DataGridViewCellStyle
+                                {
+                                    BackColor = Color.White
+                                };
+                        }
                     }
                                      
                 }
@@ -1170,10 +1206,8 @@ namespace AmEditor
         public void StopServer()
         {
             _reset = false;
-            _stream.Close();
-            _client.Close();
-            _client = null;
-            //_server.Stop();
+            ServerDispose();
+            _client = null;            
             StartStopDebug();
             //меняем стиль строк шагов редактора на стандартный 
             for (int i = 0; i < dataGridViewSteps.Rows.Count; i++)
@@ -1183,6 +1217,21 @@ namespace AmEditor
                     BackColor = Color.White
                 };
             }
+        }
+
+        public void ServerDispose()
+        {
+            _stream.Close();
+            _client.Close();
+            _server.Stop();
+        }
+
+        public bool ServerConnected()
+        {
+            if (_client != null && _client.Connected)
+                return true;
+            else
+                return false;
         }
 
         private IEnumerable<int> GetOpenPorts()
@@ -1488,11 +1537,10 @@ namespace AmEditor
         private void остановитьОтладкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_debug)
-            {
+            {               
                 StopReport();
                 StopServer(); 
-            }
-            
+            }                      
         }
 
         private void следующийШагToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1505,6 +1553,14 @@ namespace AmEditor
             {
                 CommunicationToClient(new MessageForDebug { Body = "hello" });
             }
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {            
+            if (!_debug)
+            {
+                StartStopDebug();             
+            }                
         }
 
 
