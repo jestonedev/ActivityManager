@@ -2,43 +2,28 @@
 <?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
  <Targets>
-  <Target Name="D:\Proejcts\ActivityManager\ActivityManager\bin\Release\AMClasses.dll">
+  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AMClasses.dll">
    <Modules>
     <Module Name="amclasses.dll">
      <Namespaces>
       <Namespace Name="AMClasses">
        <Types>
+        <Type Name="AMException" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="TypesShouldNotExtendCertainBaseTypes" Category="Microsoft.Design" CheckId="CA1058" Status="Active" Created="2015-10-28 06:59:27Z" FixCategory="Breaking">
+           <Issue Name="System.ApplicationException" Certainty="75" Level="Error">Change the base type of 'AMException' so that it no longer extends 'ApplicationException'. This base exception type does not provide any additional value for framework classes. Extend 'System.Exception' or an existing unsealed exception type instead. Do not create a new exception base type unless there is specific value in enabling the creation of a catch handler for an entire class of exceptions.</Issue>
+          </Message>
+         </Messages>
+        </Type>
         <Type Name="MessageForDebug" Kind="Class" Accessibility="Public" ExternallyVisible="True">
-         <Members>
-          <Member Name="#Body" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2015-10-27 07:21:30Z" FixCategory="Breaking">
-             <Issue Certainty="90" Level="Error">Because field 'MessageForDebug.Body' is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-          <Member Name="#Debug" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2015-10-27 07:21:30Z" FixCategory="Breaking">
-             <Issue Certainty="90" Level="Error">Because field 'MessageForDebug.Debug' is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-          <Member Name="#Exception" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2015-10-27 07:21:30Z" FixCategory="Breaking">
-             <Issue Certainty="90" Level="Error">Because field 'MessageForDebug.Exception' is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-          <Member Name="#Step" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2015-10-27 07:21:30Z" FixCategory="Breaking">
-             <Issue Certainty="90" Level="Error">Because field 'MessageForDebug.Step' is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-         </Members>
+         <Messages>
+          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2015-10-28 06:59:27Z" FixCategory="Breaking">
+           <Issue Certainty="95" Level="Error">Rename 'MessageForDebug' to end in 'Dictionary'.</Issue>
+          </Message>
+          <Message TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237" Status="Active" Created="2015-10-28 06:59:27Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">Add [Serializable] to 'MessageForDebug' as this type implements ISerializable.</Issue>
+          </Message>
+         </Messages>
         </Type>
        </Types>
       </Namespace>
@@ -48,14 +33,34 @@
   </Target>
  </Targets>
  <Rules>
-  <Rule TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051">
-   <Name>Do not declare visible instance fields</Name>
-   <Description>Instance fields that are visible outside of the type that declares them, limit your ability to change the implementation details for those data items. Use properties instead. They do not compromise usability or performance and they do provide flexibility in that they conceal the implementation details of the underlying data.</Description>
-   <Resolution Name="Default">Because field {0} is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Resolution>
+  <Rule TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710">
+   <Name>Identifiers should have correct suffix</Name>
+   <Description>Types that extend certain base types have specified name suffixes. Types that extend Attribute, for example, should be suffixed in 'Attribute', as in ObsoleteAttribute. This rules checks types that extend several base types, including Attribute, Exception, EventArgs, IMembershipPermission, Stream, and others.</Description>
+   <Resolution Name="Default">Rename {0} to end in '{1}'.</Resolution>
    <Owner />
-   <Url>http://msdn.microsoft.com/library/ms182141.aspx</Url>
+   <Url>http://msdn.microsoft.com/library/ms182244.aspx</Url>
    <Email>[none]</Email>
-   <MessageLevel Certainty="90">Error</MessageLevel>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="12.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237">
+   <Name>Mark ISerializable types with SerializableAttribute</Name>
+   <Description>The System.Runtime.Serialization.ISerializable interface allows the type to customize its serialization, while the Serializable attribute enables the runtime to recognize the type as being serializable.</Description>
+   <Resolution Name="Default">Add [Serializable] to {0} as this type implements ISerializable.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182350.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="12.0.0.0" />
+  </Rule>
+  <Rule TypeName="TypesShouldNotExtendCertainBaseTypes" Category="Microsoft.Design" CheckId="CA1058">
+   <Name>Types should not extend certain base types</Name>
+   <Description>It is best not to extend some base types or to prefer extending better alternatives to those base types.</Description>
+   <Resolution Name="System.ApplicationException">Change the base type of {0} so that it no longer extends {1}. This base exception type does not provide any additional value for framework classes. Extend 'System.Exception' or an existing unsealed exception type instead. Do not create a new exception base type unless there is specific value in enabling the creation of a catch handler for an entire class of exceptions.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182171.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Error</MessageLevel>
    <File Name="designrules.dll" Version="12.0.0.0" />
   </Rule>
  </Rules>

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace AMClasses
 {
     [Serializable()]
-    public class AMException: Exception
+    public class AMException: ApplicationException
     {
         public AMException(string message)
             : base(message) { }

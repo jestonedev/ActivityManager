@@ -16,68 +16,53 @@ namespace ActivityManager
 	class ActivityManager
 	{
 		//Глобальные параметры
-		private static Dictionary<string, object> parameters = new Dictionary<string,object>();
+		private static readonly Dictionary<string, object> parameters = new Dictionary<string,object>();
         //Экземпляр ActivityManager
-        private static AmLibrary.ActivityManager AM;
+        private static AmLibrary.ActivityManager _am;
 		//Конфигурация языкового пакета
-		private static Language language = new Language("ru");
-		private delegate string language_delegate(string text);
-		private static language_delegate _;
+		private static readonly Language language = new Language("ru");
+		private delegate string LanguageDelegate(string text);
+		private static LanguageDelegate _;
 
         [STAThread()]
 		public static void Main(string[] args)
 		{
             try
-            {   //Для тестирования AM
-                //args = new string[2];             
-                //args[0] = @"config=\\nas\media$\ActivityManager\templates\registry\tenancy\test.xml";
-                //args[1] = @"debug=true";
-
+            {
                 //инициируем переводчик по умолчанию
-                _ = language.Translate;               
-                for (int i = 0; i < args.Length; i++)
+                _ = language.Translate;
+                for (var i = 0; i < args.Length; i++)
                 {
-                    string[] arg = args[i].Split(new char[] { '=' }, 2);
-                    if (arg.Length == 1)
-                        parameters.Add(arg[0], null);
-                    else
-                    if (arg.Length == 2)
-                        parameters.Add(arg[0], arg[1]);
-                    else
-                        throw new AMException(_("Некорректный формат входной строки параметров"));
+                    var arg = args[i].Split(new[] {'='}, 2);
+                    switch (arg.Length)
+                    {
+                        case 1:
+                            parameters.Add(arg[0], null);
+                            break;
+                        case 2:
+                            parameters.Add(arg[0], arg[1]);
+                            break;
+                        default:
+                            throw new AMException(_("Некорректный формат входной строки параметров"));
+                    }
                 }
 
                 //проверяем наличие обязательного параметра: config
                 if (!parameters.ContainsKey("config"))
                     throw new AMException(_("Не передана ссылка на файл конфигурации"));
-                string configFile = parameters["config"].ToString();
+                var configFile = parameters["config"].ToString();
                 parameters.Remove("config");
-                AM = new AmLibrary.ActivityManager(configFile, parameters);
-                AM.Run();                                
-            }
-            catch (AMException e)
-            {
-                if (parameters.ContainsKey("--nodialog"))
-                    Console.WriteLine(e.Message);
-                else if(AM != null && AM.Client != null)
-                {
-                    AM.CommunicationToServer(new MessageForDebug { Exception = e.Message }, false);
-                    AM.ClientDispose();
-                }
-                else
-                    MessageBox.Show(e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _am = new AmLibrary.ActivityManager(configFile, parameters);
+                _am.Run();
             }
             catch (Exception e)
             {
                 if (parameters.ContainsKey("--nodialog"))
                     Console.WriteLine(e.Message);
-                else if (AM != null && AM.Client != null)
-                {
-                    AM.CommunicationToServer(new MessageForDebug { Exception = e.Message }, false);
-                    AM.ClientDispose();
-                }
                 else
-                    MessageBox.Show("Данное сообщение является следствием ошибки в работе ядра менеджера отчетов. Обратитесь к разработчику. Подробный текст ошибки: "+e.Message, 
+                    MessageBox.Show(
+                        "Данное сообщение является следствием ошибки в работе ядра менеджера отчетов. Обратитесь к разработчику. Подробный текст ошибки: " +
+                        e.Message,
                         "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 		}

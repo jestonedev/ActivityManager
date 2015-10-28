@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Net.Sockets;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 
 namespace AmEditor
@@ -40,8 +41,6 @@ namespace AmEditor
         private byte[] _buffer;
         //емкость буфера
         private Int16 _capacity = 1024; 
-        //сбросить пользовательский интерфейс в начало
-        bool _reset = false;
         //Параметры командной строки
         private Dictionary<string, string> command_line_params = new Dictionary<string, string>();
 
@@ -49,7 +48,7 @@ namespace AmEditor
         private SettingsStorage settings_storage;
 
         //Сохранение правой половины при отладке
-        List<System.Windows.Forms.Control> panel2Controls = new List<System.Windows.Forms.Control>();
+        List<Control> panel2Controls = new List<Control>();
         
 
         //Текущий файл конфигурации
@@ -95,7 +94,7 @@ namespace AmEditor
         {            
             InitializeComponent();
             //Сохраняем правую сторону сплит-контейнера для отладки
-            foreach (System.Windows.Forms.Control contr in this.splitContainer1.Panel2.Controls)
+            foreach (Control contr in splitContainer1.Panel2.Controls)
             {
                 panel2Controls.Add(contr);
             }
@@ -125,7 +124,7 @@ namespace AmEditor
             //Настраиваем состояине формы
             InterfaceLanguageReload();
             form_state = FormState.Display;
-            this.FormClosing += new FormClosingEventHandler(Editor_FormClosing);
+            FormClosing += new FormClosingEventHandler(Editor_FormClosing);
             if (!String.IsNullOrEmpty(FileName))
                 OpenConfig(FileName);
         }
@@ -191,15 +190,15 @@ namespace AmEditor
 
         private void LoadConfigFile(string fileName)
         {
-            this.plugins_include_rules.Clear();
-            this.activity_steps.Clear();
+            plugins_include_rules.Clear();
+            activity_steps.Clear();
             XDocument xdoc = XDocument.Load(fileName, LoadOptions.PreserveWhitespace);
             if (xdoc.Root.Name.LocalName != "activity")
                 throw new AMException("[config.xml]" + _("Корневой элемент файла конфигурации неизвестен"));
             //Обрабатываем элементы step
             IEnumerable<XElement> elements = xdoc.Root.Elements("step");
             foreach (XElement element in elements)
-                activity_steps.Add(ActivityStep.ConvertXElementToActivityStep(element, this.language));
+                activity_steps.Add(ActivityStep.ConvertXElementToActivityStep(element, language));
             //Обрабатываем элемент plugins
             XElement xplugins = xdoc.Root.Element("plugins");
             if (xplugins != null)
@@ -210,7 +209,7 @@ namespace AmEditor
                     switch (xplugin_include_rule.Name.LocalName)
                     {
                         case "include":
-                        case "exclude": this.plugins_include_rules.Add(new PlugIncludeRule(
+                        case "exclude": plugins_include_rules.Add(new PlugIncludeRule(
                             xplugin_include_rule.Name.LocalName,
                             xplugin_include_rule.Value));
                             break;
@@ -222,7 +221,7 @@ namespace AmEditor
             //Обрабатываем элемент language
             XElement xlanguage = xdoc.Root.Element("language");
             if (xlanguage != null)
-                this.config_language = new Language(xlanguage.Value);
+                config_language = new Language(xlanguage.Value);
         }
 
         public void PrepareConfig()
@@ -278,7 +277,7 @@ namespace AmEditor
             foreach (ActivityStep step in activity_steps)
             {
                 i++;
-                dataGridViewSteps.Rows.Add(new object[] { i, step.Label, step.ToString() + 
+                dataGridViewSteps.Rows.Add(new object[] { i, step.Label, step + 
                     (step.RepeatCount > 1 ? " "+String.Format(CultureInfo.CurrentCulture, language.Translate("[повторений - {0}]"), step.RepeatCount) : "") });
                 dataGridViewSteps.Rows[i - 1].ContextMenuStrip = contextMenuStrip1;
                 if (!String.IsNullOrEmpty(step.Label))
@@ -564,64 +563,59 @@ namespace AmEditor
             ChangeFormState();
         }
 
-        public void StartStopDebug()
+        private void StartDebug()
         {
-            if (_debug == false)
+            if (string.IsNullOrEmpty(current_file_name))
             {
-                if (string.IsNullOrEmpty(current_file_name))
-                {
-                    открытьToolStripMenuItem_Click(this, new EventArgs());
+                открытьToolStripMenuItem_Click(this, new EventArgs());
+                if (!File.Exists(current_file_name))
                     return;
-                }
-                _debug = true;
-                this.splitContainer1.Panel2.Controls.Clear();
-                _textbox = new RichTextBox();
-                _textbox.Size = new Size(567, 87);
-                this.splitContainer1.Panel2.Controls.Add(_textbox);
-                this.следующийШагToolStripMenuItem.ForeColor = Color.FromArgb(0, 0, 192, 0);
-                this.следующийШагToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");
-                this.остановитьОтладкуToolStripMenuItem.ForeColor = Color.FromArgb(0, 0, 192, 0);
-                this.остановитьОтладкуToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");
-                this.toolStripMenuItem5.Visible = false;
-                this.остановитьОтладкуToolStripMenuItem.Visible = true;
-                отладкаToolStripMenuItem.ForeColor = Color.FromArgb(0, 0, 192, 0);
-                отладкаToolStripMenuItem.BackColor = Color.FromName("ActiveBorder");                
-                this.dataGridViewSteps.Enabled = false;
-                this.buttonAdd.Enabled = false;
-                this.buttonDel.Enabled = false;
-                this.buttonDown.Enabled = false;
-                this.buttonUp.Enabled = false;
-                this.конфигурацияToolStripMenuItem.Enabled = false;
-                this.настройкаToolStripMenuItem1.Enabled = false;
-                this.выполнитьToolStripMenuItem.Enabled = true;
-                ProccesReport(_debug);
-                foreach(DataGridViewRow row in dataGridViewSteps.Rows)
-                {
-                    row.Selected = false;
-                }
             }
             else
             {
-                _debug = false;
-                _process = null;
-                this.splitContainer1.Panel2.Controls.Clear();
-                this.splitContainer1.Panel2.Controls.AddRange(panel2Controls.ToArray());
-                this.отладкаToolStripMenuItem.ForeColor = Color.Black;
-                this.отладкаToolStripMenuItem.BackColor = Color.FromName("Control");
-                this.toolStripMenuItem5.Visible = true;
-                this.остановитьОтладкуToolStripMenuItem.Visible = false;
-                this.следующийШагToolStripMenuItem.ForeColor = Color.Black;
-                this.следующийШагToolStripMenuItem.BackColor = Color.FromName("Control");
-                this.остановитьОтладкуToolStripMenuItem.ForeColor = Color.Black;
-                this.остановитьОтладкуToolStripMenuItem.BackColor = Color.FromName("Control");               
-                this.dataGridViewSteps.Enabled = true;
-                this.buttonAdd.Enabled = true;
-                this.buttonDel.Enabled = true;
-                this.buttonDown.Enabled = true;
-                this.buttonUp.Enabled = true;
-                this.конфигурацияToolStripMenuItem.Enabled = true;
-                this.настройкаToolStripMenuItem1.Enabled = true;
+                if (!Save())
+                    return;
             }
+            _debug = true;
+            ProcessReport(_debug);
+            debugToolStripMenuItem.Text = @"Остановить отладку";
+            dataGridViewSteps.Enabled = false;
+            buttonAdd.Enabled = false;
+            buttonDel.Enabled = false;
+            buttonDown.Enabled = false;
+            buttonUp.Enabled = false;
+            pluginName_comboBox.Enabled = false;
+            actionName_comboBox.Enabled = false;
+            dataGridViewParams.Enabled = false;
+            конфигурацияToolStripMenuItem.Enabled = false;
+            настройкаToolStripMenuItem1.Enabled = false;
+            выполнитьToolStripMenuItem.Enabled = true;
+            dataGridViewSteps.DefaultCellStyle.SelectionBackColor = Color.LightCoral;
+            if (dataGridViewSteps.Rows.Count > 0)
+                dataGridViewSteps.Rows[0].Selected = true;
+            dataGridViewSteps.Enabled = false;
+        }
+
+        private void StopDebug()
+        {
+            StopServer();
+            _debug = false;
+            debugToolStripMenuItem.Text = @"Начать отладку";
+            splitContainer1.Panel2.Controls.Clear();
+            splitContainer1.Panel2.Controls.AddRange(panel2Controls.ToArray());
+            dataGridViewSteps.Enabled = true;
+            buttonAdd.Enabled = true;
+            buttonDel.Enabled = true;
+            buttonDown.Enabled = true;
+            buttonUp.Enabled = true;
+            pluginName_comboBox.Enabled = true;
+            actionName_comboBox.Enabled = true;
+            dataGridViewParams.Enabled = true;
+            конфигурацияToolStripMenuItem.Enabled = true;
+            настройкаToolStripMenuItem1.Enabled = true;
+            //меняем стиль строк шагов редактора на стандартный 
+            dataGridViewSteps.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewSteps.Enabled = true;
         }
 
         void Editor_FormClosing(object sender, FormClosingEventArgs e)
@@ -634,10 +628,10 @@ namespace AmEditor
 
         private void плагиныToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            using (FormPlugins fp = new FormPlugins(plugins_include_rules, language, plugins_ignore_list))
+            using (var fp = new FormPlugins(plugins_include_rules, language, plugins_ignore_list))
                 if (fp.ShowDialog() == DialogResult.OK)
                 {
-                    this.plugins_include_rules = fp.PluginsIncludeRules;
+                    plugins_include_rules = fp.PluginsIncludeRules;
                     try
                     {
                         LoadPlugins();
@@ -961,7 +955,7 @@ namespace AmEditor
         private void dataGridViewSteps_MouseDown(object sender, MouseEventArgs e)
         {
             can_drag = true;
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
                 DataGridView.HitTestInfo hti = dataGridViewSteps.HitTest(e.X, e.Y);
                 if (hti.RowIndex != -1)
@@ -986,7 +980,7 @@ namespace AmEditor
                     if (fi.Extension.ToUpper(CultureInfo.CurrentCulture) == ".XML")
                         OpenConfig(file);
                 }
-                this.Activate();
+                Activate();
             }
             else
             {
@@ -1077,50 +1071,44 @@ namespace AmEditor
             return dataGridViewParams.SelectedRows[0].Cells["ParamValue"].Value.ToString();
         }
 
-        public void ProccesReport(bool debug)
+        public void ProcessReport(bool debug)
         {
             if (string.IsNullOrEmpty(current_file_name))
             {
-                debug = false;
                 открытьToolStripMenuItem_Click(this, new EventArgs());
                 return;
             }
-            string activityManager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ActivityManager.exe");
+            var activityManager = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ActivityManager.exe");
             if (!File.Exists(activityManager))
             {
                 MessageBox.Show(_("Не удалось найти исполняемый файл ActivityManager.exe"),
                     _("Ошибка"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
             if (debug)
             {
                 //пересоздаем сервер с новым портом
                 _server = new TcpListener(IPAddress.Parse("127.0.0.1"), GetFreePort());
                 //ожидаем клиента в отдельном потоке
-                Thread ts = new Thread(new ThreadStart(ProcessServer));
+                var ts = new Thread(StartServer);
                 ts.Start();
             }
-            string arguments = "config=\"" + current_file_name + "\"";
-            foreach (string key in command_line_params.Keys)
+            var arguments = "config=\"" + current_file_name + "\"";
+            foreach (var key in command_line_params.Keys)
                 arguments += " " + key + "=\"" + command_line_params[key] + "\"";
             //добавим аргумент отладки
-            arguments += " " + "debug" + "=\"" + debug.ToString() + "\"";
-            arguments += " " + "port" + "=\"" + _port.ToString() + "\"";            
-            using (_process = new Process())
+            arguments += " " + "debug" + "=\"" + debug + "\"";
+            arguments += " " + "debug_port" + "=\"" + _port + "\"";
+            if (debug)
+                arguments += " " + "--nodialog";
+            _process = new Process();
+            var psi = new ProcessStartInfo(activityManager, arguments)
             {
-
-                ProcessStartInfo psi = new ProcessStartInfo(activityManager, arguments);
-                psi.CreateNoWindow = true;
-                psi.UseShellExecute = false;
-                _process.StartInfo = psi;
-                _process.Start();
-            }
-        }
-
-        public void StopReport()
-        {
-            CommunicationToClient(new MessageForDebug { Debug = "stop" }, false);
+                CreateNoWindow = true,
+                UseShellExecute = false
+            };
+            _process.StartInfo = psi;
+            _process.Start();
         }
 
         private void CommunicationToClient(MessageForDebug message, bool receive = true)
@@ -1129,73 +1117,40 @@ namespace AmEditor
             {                                             
                 var array = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
                 _stream.Write(array, 0, array.Length);
-                if (receive)
-                {                    
-                    int bytes = _stream.Read(_buffer, 0, _buffer.Length);
-                    var str = Encoding.UTF8.GetString(_buffer, 0, bytes);                    
-                    var response = JsonConvert.DeserializeObject<MessageForDebug>(str);
-                    if (response == null)
-                        return;
-                    if (response.Debug == "done")
-                    {
-                        StopServer();
-                        return;
-                    }
-                    if (!string.IsNullOrEmpty(response.Exception))
-                    {
-                        string st = _textbox.Text.Contains('№') ?
-                            _textbox.Text.Substring(_textbox.Text.IndexOf('№') + 1).Trim() : "1"; 
-                        _textbox.Text = "Step №" + st + Environment.NewLine + response.Exception;
-                        _textbox.ForeColor = Color.Red;
-                        _reset = true;
-                        return;
-                    }
-                    if (!string.IsNullOrEmpty(response.Step))
-                    {
-                        int step; 
-                        bool correct = int.TryParse(response.Step,out step);
-                        _textbox.Text = correct ? 
-                            "Step №" + response.Step + Environment.NewLine + response.Body :
-                            "Step " + "unknown" + Environment.NewLine + response.Body;
-                        if (!correct)
-                            return;
-                        //меняем стиль строк выполненных шагов редактора на серый 
-                        if (step > 1)
-                        {
-                            dataGridViewSteps.Rows[step - 2].DefaultCellStyle = new DataGridViewCellStyle
-                            {
-                                BackColor = Color.Gray
-                            };                            
-                        }
-                        //меняем стиль строк следующего шага редактора на красный 
-                        dataGridViewSteps.Rows[step - 1].DefaultCellStyle = new DataGridViewCellStyle 
-                        { 
-                            BackColor = Color.Red 
-                        };
-                        //делаем цветными только текущий и предыдущий шаг
-                        foreach(DataGridViewRow row in dataGridViewSteps.Rows)
-                        {
-                            if (row.Index == step - 1 || row.Index == step - 2)
-                                continue;
-                            else
-                                row.DefaultCellStyle = new DataGridViewCellStyle
-                                {
-                                    BackColor = Color.White
-                                };
-                        }
-                    }
-                                     
+                if (!receive) return;
+                var bytes = _stream.Read(_buffer, 0, _buffer.Length);
+                var str = Encoding.UTF8.GetString(_buffer, 0, bytes);                    
+                var response = JsonConvert.DeserializeObject<MessageForDebug>(str);
+                if (response == null)
+                    return;
+                if (response.ContainsKey("debug") && response["debug"] == "done")
+                {
+                    StopDebug();
+                    return;
                 }
+                if (response.ContainsKey("exception"))
+                {
+                    StopDebug();
+                    MessageBox.Show(response["exception"], @"Ошибка", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);  
+                    return;
+                }
+                if (!response.ContainsKey("step")) return;
+                int step;
+                if (!int.TryParse(response["step"], out step)) return;
+                // Меняем стиль строки следующего шага
+                dataGridViewSteps.Rows[step].Selected = true;
             }
-
-            catch (Exception e)
+            catch (ApplicationException e)
             {
-                StopServer();
+                MessageBox.Show(e.Message, @"Ошибка", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                StopDebug();
             }         
         }
 
-        public void ProcessServer()
-        {            
+        public void StartServer()
+        {
             _server.Start();
             _client = _server.AcceptTcpClient();
             _client.SendBufferSize = _client.ReceiveBufferSize = _capacity;
@@ -1205,45 +1160,25 @@ namespace AmEditor
 
         public void StopServer()
         {
-            _reset = false;
-            ServerDispose();
-            _client = null;            
-            StartStopDebug();
-            //меняем стиль строк шагов редактора на стандартный 
-            for (int i = 0; i < dataGridViewSteps.Rows.Count; i++)
+            if (_server == null) return;
+            if (_client != null && _client.Connected)
             {
-                dataGridViewSteps.Rows[i].DefaultCellStyle = new DataGridViewCellStyle
-                {
-                    BackColor = Color.White
-                };
+                CommunicationToClient(new MessageForDebug { { "command", "stop" } }, false);
+                _client.Close();
             }
-        }
-
-        public void ServerDispose()
-        {
-            _stream.Close();
-            _client.Close();
             _server.Stop();
         }
 
-        public bool ServerConnected()
+        private static IEnumerable<int> GetOpenPorts()
         {
-            if (_client != null && _client.Connected)
-                return true;
-            else
-                return false;
-        }
-
-        private IEnumerable<int> GetOpenPorts()
-        {
-            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            var properties = IPGlobalProperties.GetIPGlobalProperties();
             var tcpConnections = properties.GetActiveTcpConnections();
             return tcpConnections.Select(c => c.LocalEndPoint.Port);
         }
 
         private int GetFreePort()
         {
-            bool has = true;
+            var has = true;
             while (has)
             {
                 var r = new Random();
@@ -1366,21 +1301,17 @@ namespace AmEditor
 
         private void выполнитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_process == null || _client == null)
+            if (_debug == false)
             {
-                ProccesReport(_debug);
-            }
-
-            else if (_reset)
-            {
-                StopServer();
+                if (!Save())
+                    return;
+                ProcessReport(_debug);
             }
             else
             {
-                CommunicationToClient(new MessageForDebug { Debug = "false"});
-                StopServer();
+                CommunicationToClient(new MessageForDebug {{"command", "run"}}, false);
+                StopDebug();
             }
-
         }
 
         private void выходToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -1474,7 +1405,7 @@ namespace AmEditor
             if (dataGridViewSteps.SelectedRows.Count == 0)
                 return;
             int step = dataGridViewSteps.SelectedRows[0].Index;
-            using (FormStringValue fsv = new FormStringValue(language))
+            using (var fsv = new FormStringValue(language))
             {
                 fsv.Text = _("Задать метку шага") + " №" + (step + 1);
                 fsv.Value = activity_steps[step].Label;
@@ -1494,14 +1425,14 @@ namespace AmEditor
         {
             if (dataGridViewSteps.SelectedRows.Count == 0)
                 return;
-            int step = dataGridViewSteps.SelectedRows[0].Index;
-            using (FormStringValue fsv = new FormStringValue(language))
+            var step = dataGridViewSteps.SelectedRows[0].Index;
+            using (var fsv = new FormStringValue(language))
             {
                 fsv.Text = _("Задать примечание шага") + " №" + (step + 1);
                 fsv.Value = activity_steps[step].Description;
                 if (fsv.ShowDialog() == DialogResult.OK)
                 {
-                    activity_steps[step].Description = String.IsNullOrEmpty(fsv.Value.Trim()) ? null : fsv.Value.Trim();
+                    activity_steps[step].Description = string.IsNullOrEmpty(fsv.Value.Trim()) ? null : fsv.Value.Trim();
                     foreach (DataGridViewCell cell in dataGridViewSteps.SelectedRows[0].Cells)
                         cell.ToolTipText = String.IsNullOrEmpty(fsv.Value.Trim()) ? null : fsv.Value.Trim();
                     form_state = FormState.Edit;
@@ -1512,59 +1443,48 @@ namespace AmEditor
 
         private void Editor_DragDrop(object sender, DragEventArgs e)
         {
-            Array files = (Array)e.Data.GetData(DataFormats.FileDrop);
-            if (files != null)
+            var files = (Array)e.Data.GetData(DataFormats.FileDrop);
+            if (files == null) return;
+            var file = files.GetValue(0).ToString();
+            if (File.Exists(file))
             {
-                string file = files.GetValue(0).ToString();
-                if (File.Exists(file))
-                {
-                    FileInfo fi = new FileInfo(file);
-                    if (fi.Extension.ToUpper(CultureInfo.CurrentCulture) == ".XML")
-                        OpenConfig(file);
-                }
-                this.Activate();
+                var fi = new FileInfo(file);
+                if (fi.Extension.ToUpper(CultureInfo.CurrentCulture) == ".XML")
+                    OpenConfig(file);
             }
+            Activate();
         }
 
         private void Editor_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
-            else
-                e.Effect = DragDropEffects.None;
-        }             
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? 
+                DragDropEffects.Copy : DragDropEffects.None;
+        }
 
-        private void остановитьОтладкуToolStripMenuItem_Click(object sender, EventArgs e)
+        private void debugToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_debug)
-            {               
-                StopReport();
-                StopServer(); 
-            }                      
+            if (_debug && _process != null && !_process.HasExited)
+            {
+                StopDebug();
+            }
+            else
+            {
+                if (!_debug || _process == null || _process.HasExited)
+                    StartDebug();
+            }
         }
 
         private void следующийШагToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_debug)
-                StartStopDebug();
-            else if(_reset)
-                StopServer();                
+            if (!_debug || _process == null || _process.HasExited)
+                StartDebug();
             else
-            {
-                CommunicationToClient(new MessageForDebug { Body = "hello" });
-            }
+                CommunicationToClient(new MessageForDebug {{"command", "next"}});
         }
 
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
-        {            
-            if (!_debug)
-            {
-                StartStopDebug();             
-            }                
+        private void Editor_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            StopDebug();
         }
-
-
-
-
     }
 }

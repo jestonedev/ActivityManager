@@ -18,25 +18,15 @@ namespace AmEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             string fileName = null;
-            for (int i = 0; i < args.Length; i++)
+            for (var i = 0; i < args.Length; i++)
             {
-                if (File.Exists(args[i]))
-                {
-                    FileInfo fi = new FileInfo(args[i]);
-                    if (fi.Extension.ToUpper(CultureInfo.CurrentCulture) == ".XML")
-                        fileName = args[i];
-                }
+                if (!File.Exists(args[i])) continue;
+                var fi = new FileInfo(args[i]);
+                if (fi.Extension.ToUpper(CultureInfo.CurrentCulture) == ".XML")
+                    fileName = args[i];
             }
             var editor = new Editor(fileName);
             Application.Run(editor);
-            if (editor.ServerConnected())
-            {
-                editor.StopReport();
-                editor.ServerDispose();
-
-            }
-                
-
         }
     }
 }

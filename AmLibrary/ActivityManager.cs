@@ -1,117 +1,107 @@
-﻿using AMClasses;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Threading;
-using System.Net.Sockets;
-using System.Diagnostics;
-using Newtonsoft.Json;
+using AMClasses;
 
 namespace AmLibrary
 {
     public class ActivityManager
     {
-        //сокет-клиент         
-        private TcpClient _client;
-        //флаг отладки
-        private bool _debug = false;
-        //поток клиента
-        private NetworkStream _stream;
-        //порт соединения для клиента
-        private int _port;
-        //буфер клиента
-        private byte[] _buffer;
-        //емкость буфера
-        private Int16 _capacity = 1024;
+        // Отладчик
+        private AmDebugger _debugger;
+
         //Глобальные параметры (действуют на все шаги задачи)
-        private Dictionary<string, object> global_parameters = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _globalParameters = new Dictionary<string, object>();
 
         //Шаги задачи
-        private List<ActivityStep> activity_steps = new List<ActivityStep>();
+        private readonly List<ActivityStep> _activitySteps = new List<ActivityStep>();
 
         //Путь до папки с плагинами и правила включения плагинов
-        private string plugins_path = "";
-        private List<PlugIncludeRule> plugins_include_rules = new List<PlugIncludeRule>();
+        private readonly string _pluginsPath;
+
+        private readonly List<PlugIncludeRule> _pluginsIncludeRules = new List<PlugIncludeRule>();
 
         //Плагины
-        private List<PlugInfo> plugins = new List<PlugInfo>();
+        private readonly List<PlugInfo> _plugins = new List<PlugInfo>();
 
         //Конфигурация языкового пакета
-        private Language language = new Language("ru");
-        private delegate string language_delegate(string text);
-        private language_delegate _;
+        private Language _language = new Language("ru");
+        private delegate string LanguageDelegate(string text);
+        private LanguageDelegate _;
 
         public ActivityManager(string configFile, Dictionary<string, object> parameters)
         {
-
             //инициируем переводчик по умолчанию
-            _ = language.Translate;
+            _ = _language.Translate;
 
-            global_parameters.Add("config", configFile);
+            _globalParameters.Add("config", configFile);
             foreach (var parameter in parameters)
             {
-                global_parameters.Add(parameter.Key, parameter.Value);
+                _globalParameters.Add(parameter.Key, parameter.Value);
                 Console.WriteLine(parameter.Key + ':' + parameter.Value);
             }
 
 
             //проверяем наличие необязательного конфигурационного параметра: lang
-            if (global_parameters.ContainsKey("lang"))
+            if (_globalParameters.ContainsKey("lang"))
             {
-                language = new Language(global_parameters["lang"].ToString());
-                _ = language.Translate;
+                _language = new Language(_globalParameters["lang"].ToString());
+                _ = _language.Translate;
             }
-            if (global_parameters.ContainsKey("debug"))
+            if (_globalParameters.ContainsKey("debug"))
             {
-                bool.TryParse(global_parameters["debug"].ToString(), out _debug);
+                bool debug;
+                bool.TryParse(_globalParameters["debug"].ToString(), out debug);
+                _debugger = debug ? new AmDebugger() : new AmMokeDebugger();
             }
-            if (global_parameters.ContainsKey("port"))
-            {
-                int.TryParse(global_parameters["port"].ToString(), out _port);
-            }
+            else
+                _debugger = new AmMokeDebugger();
             //инициализируем путь до папки с плагинами
-            plugins_path = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName, "plugins");
+            var amPath = new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName;
+            if (amPath == null)
+                throw new AMException(_("Неизвестный путь запуска сборки"));
+            _pluginsPath = Path.Combine(amPath, "plugins");
 
-            if (!Directory.Exists(plugins_path))
-                throw new AMException(String.Format(CultureInfo.CurrentCulture, _("Путь до папки {0} не найден"), plugins_path));
+            if (!Directory.Exists(_pluginsPath))
+                throw new AMException(string.Format(CultureInfo.CurrentCulture, _("Путь до папки {0} не найден"), _pluginsPath));
 
-            string config_filename = global_parameters["config"].ToString();
-            if (!File.Exists(config_filename))
-                throw new AMException(String.Format(CultureInfo.CurrentCulture, _("Файл {0} не найден"), config_filename));
+            var configFilename = _globalParameters["config"].ToString();
+            if (!File.Exists(configFilename))
+                throw new AMException(String.Format(CultureInfo.CurrentCulture, _("Файл {0} не найден"), configFilename));
         }
 
         private void LoadConfigFile()
         {
-            string fileName = global_parameters["config"].ToString();
-            XDocument xdoc = XDocument.Load(fileName, LoadOptions.PreserveWhitespace);
+            var fileName = _globalParameters["config"].ToString();
+            var xdoc = XDocument.Load(fileName, LoadOptions.PreserveWhitespace);
+            if (xdoc.Root == null)
+                throw new AMException("[config.xml]" + _("Отсутствует корневой элемент файла конфигурации"));
             if (xdoc.Root.Name.LocalName != "activity")
                 throw new AMException("[config.xml]" + _("Корневой элемент файла конфигурации неизвестен"));
             //Обрабатываем элементы step
-            IEnumerable<XElement> elements = xdoc.Root.Elements("step");
-            foreach (XElement element in elements)
+            var elements = xdoc.Root.Elements("step");
+            foreach (var element in elements)
             {
-                activity_steps.Add(ActivityStep.ConvertXElementToActivityStep(element, this.language));
+                _activitySteps.Add(ActivityStep.ConvertXElementToActivityStep(element, _language));
             }
             //Обрабатываем элемент plugins
-            XElement xplugins = xdoc.Root.Element("plugins");
+            var xplugins = xdoc.Root.Element("plugins");
             if (xplugins != null)
             {
-                IEnumerable<XElement> xplugins_include_rules = xplugins.Elements();
-                foreach (XElement xplugin_include_rule in xplugins_include_rules)
+                var xpluginsIncludeRules = xplugins.Elements();
+                foreach (var xpluginIncludeRule in xpluginsIncludeRules)
                 {
-                    switch (xplugin_include_rule.Name.LocalName)
+                    switch (xpluginIncludeRule.Name.LocalName)
                     {
                         case "include":
-                        case "exclude": this.plugins_include_rules.Add(new PlugIncludeRule(
-                            xplugin_include_rule.Name.LocalName,
-                            xplugin_include_rule.Value));
+                        case "exclude": _pluginsIncludeRules.Add(new PlugIncludeRule(
+                            xpluginIncludeRule.Name.LocalName,
+                            xpluginIncludeRule.Value));
                             break;
                         default:
                             throw new AMException("[config.xml]" + _("Неизвестное правило для фильтрации плагинов"));
@@ -119,67 +109,61 @@ namespace AmLibrary
                 }
             }
             //Обрабатываем элемент language
-            XElement xlanguage = xdoc.Root.Element("language");
-            if ((xlanguage != null) && (!global_parameters.ContainsKey("lang")))
-            {
-                this.language = new Language(xlanguage.Value);
-                _ = this.language.Translate;
-            }
+            var xlanguage = xdoc.Root.Element("language");
+            if ((xlanguage == null) || (_globalParameters.ContainsKey("lang"))) return;
+            _language = new Language(xlanguage.Value);
+            _ = _language.Translate;
         }
 
         private void PrepareConfig()
         {
-            for (int i = 0; i < activity_steps.Count; i++)
+            for (var i = 0; i < _activitySteps.Count; i++)
             {
-                ActivityStep step = activity_steps[i];
+                var step = _activitySteps[i];
                 CheckAndPrepareActions(ref step);
             }
         }
 
         private void CheckActivityVariablesValues(ActivityStep step)
         {
-            PlugActionInfo current_action = PlugActionHelper.FindPlugAction(plugins, step);
-            if (current_action == null)
+            var currentAction = PlugActionHelper.FindPlugAction(_plugins, step);
+            if (currentAction == null)
                 throw new AMException(
-                    String.Format(CultureInfo.CurrentCulture, _("Не удалось найти действие {0} в плагине {1}"), step.ActionName, step.PlugName));
-            foreach (ActivityStepParameter action_parameter in step.InputParameters)
+                    string.Format(CultureInfo.CurrentCulture, _("Не удалось найти действие {0} в плагине {1}"), step.ActionName, step.PlugName));
+            foreach (var actionParameter in step.InputParameters)
             {
-                bool finded = false;
-                foreach (PlugActionParameter plugin_parameter in current_action.Parameters)
+                var finded = false;
+                foreach (var pluginParameter in currentAction.Parameters)
                 {
-                    if (action_parameter.Name == plugin_parameter.Name)
+                    if (actionParameter.Name != pluginParameter.Name) continue;
+                    //Нашли параметр значения
+                    finded = true;
+                    try
                     {
-                        //Нашли параметр значения
-                        finded = true;
-                        try
+                        object value = actionParameter.Value;
+                        //Заменяем все шаблоны [variable] на значения
+                        var match = Regex.Match(value.ToString(), @"\[[\w]*\]");
+                        while (match.Success)
                         {
-                            object value = action_parameter.Value;
-                            //Заменяем все шаблоны [variable] на значения
-                            Match match = Regex.Match(value.ToString(), @"\[[\w]*\]");
-                            while (match.Success)
-                            {
-                                string param = match.Value;
-                                param = param.Trim(new char[] { '[', ']' });
-                                if (global_parameters.ContainsKey(param))
-                                    if (match.Value.Length != value.ToString().Length)
-                                        value = value.ToString().Replace(match.Value, global_parameters[param].ToString());
-                                    else
-                                        value = global_parameters[param];
-                                match = match.NextMatch();
-                            }
-                            break;
+                            var param = match.Value;
+                            param = param.Trim('[', ']');
+                            if (_globalParameters.ContainsKey(param))
+                                value = match.Value.Length != value.ToString().Length ? 
+                                    value.ToString().Replace(match.Value, _globalParameters[param].ToString()) : _globalParameters[param];
+                            match = match.NextMatch();
                         }
-                        catch (Exception)
-                        {
-                            throw new AMException(
-                                String.Format(CultureInfo.CurrentCulture, _("Ошибка преобразования значения \"{0}\" параметра {1} к типу {2}, требуемому действием {3} плагина {4}"),
-                                action_parameter.Value, action_parameter.Name, plugin_parameter.ParameterType.ToString(), step.ActionName, step.PlugName));
-                        }
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        throw new AMException(
+                            string.Format(CultureInfo.CurrentCulture, _("Ошибка преобразования значения \"{0}\" параметра {1} к типу {2}, требуемому действием {3} плагина {4}"),
+                                actionParameter.Value, actionParameter.Name, pluginParameter.ParameterType, step.ActionName, step.PlugName));
                     }
                 }
                 if (!finded)
                     throw new AMException(
-                        String.Format(CultureInfo.CurrentCulture, _("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, action_parameter.Name));
+                        string.Format(CultureInfo.CurrentCulture, _("В действии {0} плагина {1} не существует переменной с именем {2}"), step.ActionName, step.PlugName, actionParameter.Name));
             }
         }
 
@@ -189,7 +173,7 @@ namespace AmLibrary
             if (step.PlugName == null)
             {
                 bool finded = false;
-                foreach (PlugInfo plugin in plugins)
+                foreach (PlugInfo plugin in _plugins)
                 {
                     if (plugin.HasAction(step.ActionName,
                         PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters)))
@@ -210,7 +194,7 @@ namespace AmLibrary
                         step.ActionName));
             }
             else
-                foreach (PlugInfo plugin in plugins)
+                foreach (PlugInfo plugin in _plugins)
                 {
                     if ((plugin.PlugName == step.PlugName) && (!plugin.HasAction(step.ActionName,
                         PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters))))
@@ -222,12 +206,12 @@ namespace AmLibrary
         private void LoadPlugins()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-            string[] files = Directory.GetFiles(plugins_path, "*.dll", SearchOption.TopDirectoryOnly);
+            string[] files = Directory.GetFiles(_pluginsPath, "*.dll", SearchOption.TopDirectoryOnly);
             foreach (string file in files)
             {
                 bool include = false;
                 FileInfo fi = new FileInfo(file);
-                foreach (PlugIncludeRule pir in plugins_include_rules)
+                foreach (PlugIncludeRule pir in _pluginsIncludeRules)
                 {
                     if ((pir.PlugNameMask == "*") || (pir.PlugNameMask == fi.Name))
                         include = pir.IncludeRule == "include";
@@ -236,7 +220,7 @@ namespace AmLibrary
                     continue;
                 try
                 {
-                    plugins.Add(new PlugInfo(file));
+                    _plugins.Add(new PlugInfo(file));
                 }
                 catch (ApplicationException e)
                 {
@@ -254,81 +238,96 @@ namespace AmLibrary
 
         private void Execute()
         {
-            int step_num = 0;
-            for (int j = 0; j < activity_steps.Count; j++)
+            var stepNumber = 0;
+            var stepByStep = true;
+            for (var j = 0; j < _activitySteps.Count; j++)
             {
                 //step_num++;
-                ActivityStep step = activity_steps[j];
-                for (int rc = 0; rc < step.RepeatCount; rc++)
+                var step = _activitySteps[j];
+                for (var rc = 0; rc < step.RepeatCount; rc++)
                 {
                     //Выполняем проверку соответствия значений параметров их типам
                     CheckActivityVariablesValues(step);
                     //Получаем список входных параметров
-                    object[] input_parameters = new object[step.InputParameters.Count];
-                    for (int i = 0; i < input_parameters.Length; i++)
+                    var inputParameters = new object[step.InputParameters.Count];
+                    for (var i = 0; i < inputParameters.Length; i++)
                     {
                         object value = step.InputParameters[i].Value;
-                        Match match = Regex.Match(value.ToString(), @"\[[\w]*\]");
+                        var match = Regex.Match(value.ToString(), @"\[[\w]*\]");
                         while (match.Success)
                         {
-                            string param = match.Value;
-                            param = param.Trim(new char[] { '[', ']' });
-                            if (global_parameters.ContainsKey(param))
-                                if (match.Value.Length != value.ToString().Length)
-                                    value = value.ToString().Replace(match.Value, global_parameters[param].ToString());
-                                else
-                                    value = global_parameters[param];
+                            var param = match.Value;
+                            param = param.Trim('[', ']');
+                            if (_globalParameters.ContainsKey(param))
+                                value = match.Value.Length != value.ToString().Length ? 
+                                    value.ToString().Replace(match.Value, _globalParameters[param].ToString()) : 
+                                    _globalParameters[param];
                             match = match.NextMatch();
                         }
-                        input_parameters[i] = value;
+                        inputParameters[i] = value;
                     }
-                    object[] output_parameters = null;
+                    object[] outputParameters;
                     try
                     {
-                        if(_debug == true)
+                        if (stepByStep)
                         {
-                            CommunicationToServer(new MessageForDebug { Step = (j + 1).ToString() });
-                        }                        
-                        PlugActionHelper.FindPlugAction(plugins, step)
-                            .Execute(input_parameters, out output_parameters);
+                            var msg = _debugger.RecieveMessage();
+                            if (msg.ContainsKey("command"))
+                            {
+                                switch (msg["command"])
+                                {
+                                    case "run":
+                                        stepByStep = false;
+                                        _debugger = new AmMokeDebugger();
+                                        break;
+                                    case "stop":
+                                        return;
+                                }
+                            }
+
+                        }
+                        PlugActionHelper.FindPlugAction(_plugins, step)
+                            .Execute(inputParameters, out outputParameters);
+                        _debugger.SendMessage(new MessageForDebug { { "step", (j + 1).ToString() } });    
                     }
                     catch (ApplicationException e)
                     {
-                        string message = "";
+                        string message;
                         if (e.InnerException != null)
                         {
                             if (e.InnerException.GetType().FullName == "IOModule.IfConditionException")
                             {
                                 if (e.InnerException.Data.Contains("step"))
                                 {
-                                    int stepNum = -1;
-                                    if (Int32.TryParse(e.InnerException.Data["step"].ToString().Trim(), out stepNum))
+                                    int stepNum;
+                                    if (int.TryParse(e.InnerException.Data["step"].ToString().Trim(), out stepNum))
                                     {
                                         //Элменты массива нумеруются с 0, но пользователь вводит их с 1. При этом по окончании цикла идет инкремент, который необходимо учитывать
-                                        step_num = stepNum - 1;
+                                        stepNumber = stepNum - 1;
                                         j = stepNum - 2;
                                     }
                                 }
                                 else
                                     if (e.InnerException.Data.Contains("label"))
                                     {
-                                        string label = e.InnerException.Data["label"].ToString().Trim();
-                                        int stepNum = int.MaxValue;
-                                        for (int k = 0; k < activity_steps.Count; k++)
-                                            if (activity_steps[k].Label != null && activity_steps[k].Label.Trim() == label)
+                                        var label = e.InnerException.Data["label"].ToString().Trim();
+                                        var stepNum = int.MaxValue;
+                                        for (var k = 0; k < _activitySteps.Count; k++)
+                                            if (_activitySteps[k].Label != null && _activitySteps[k].Label.Trim() == label)
                                             {
                                                 stepNum = k;
                                                 break;
                                             }
-                                        step_num = stepNum;
+                                        stepNumber = stepNum;
                                         j = stepNum - 1;
                                     }
                                     else
                                     {
-                                        step_num = Int32.MaxValue;
-                                        j = Int32.MaxValue - 1;
+                                        stepNumber = int.MaxValue;
+                                        j = int.MaxValue - 1;
                                         break;
                                     }
+                                _debugger.SendMessage(new MessageForDebug { { "step", (j + 1).ToString() } });    
                                 continue;
                             }
                             message = _(e.InnerException.Message);
@@ -337,93 +336,47 @@ namespace AmLibrary
                         }
                         else
                             message = e.Message;
-                        throw new AMException(String.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", step_num) + message);
-                    }
-                    for (int k = 0; k < output_parameters.Length; k++)
-                    {
-                        string param_name = "";
-                        if (!String.IsNullOrEmpty(activity_steps[j].OutputParameters[k].Value.Trim()))
-                            param_name = activity_steps[j].OutputParameters[k].Value;
+                        var exceptionMsg =
+                            string.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", stepNumber) + message;
+                        _debugger.SendMessage(new MessageForDebug { { "exception", exceptionMsg } });
+                        if (_globalParameters.ContainsKey("--nodialog") && stepByStep)
+                            Console.WriteLine(e.Message);
                         else
-                            param_name = activity_steps[j].OutputParameters[k].Name;
-                        if (global_parameters.ContainsKey(param_name))
-                            global_parameters[param_name] = output_parameters[k];
+                            MessageBox.Show(e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    for (var k = 0; k < outputParameters.Length; k++)
+                    {
+                        var paramName = !string.IsNullOrEmpty(_activitySteps[j].OutputParameters[k].Value.Trim()) ? 
+                            _activitySteps[j].OutputParameters[k].Value : _activitySteps[j].OutputParameters[k].Name;
+                        if (_globalParameters.ContainsKey(paramName))
+                            _globalParameters[paramName] = outputParameters[k];
                         else
-                            global_parameters.Add(param_name, output_parameters[k]);
-                    }
+                            _globalParameters.Add(paramName, outputParameters[k]);
+                    }     
                 }
-            }
-        }
-
-        public TcpClient Client 
-        {
-            get
-            {
-                return _client;
-            }           
-        }
-        
-        public void CommunicationToServer(MessageForDebug message, bool receive = true, bool send = true)
-        {
-            if (_debug)
-            {                 
-                if (receive)
-                {                    
-                    int bytes = _stream.Read(_buffer, 0, _buffer.Length);
-                    var str = Encoding.UTF8.GetString(_buffer, 0, bytes);
-                    var response = JsonConvert.DeserializeObject<MessageForDebug>(str);
-                    if (response.Debug == "false")
-                    {
-                        _debug = false;
-                        send = false;
-                        Console.WriteLine("debug:false");
-                    }
-                    if (response.Debug == "stop")
-                    {
-                        _debug = false;
-                        Console.WriteLine("debug:stop");
-                        Process.GetCurrentProcess().Kill();
-                    }                  
-                }
-                if (send)
-                {                    
-                    var array = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));                   
-                    _stream.Write(array, 0, array.Length);                  
-                }
-            }
-        }
-
-        public void ClientCreate(string ip = "127.0.0.1", UInt16 port = 8888)
-        {    
-            if (_debug)
-            {
-                _client = new TcpClient("127.0.0.1",_port);
-                _client.SendBufferSize = _client.ReceiveBufferSize = _capacity;                
-                _stream = _client.GetStream();
-                _buffer = new byte[_capacity];
-            }
-        }
-
-        public void ClientDispose()
-        {
-            if (_client != null)
-            {
-                CommunicationToServer(new MessageForDebug { Debug = "done" });                                     
-                _stream.Close();
-                _client.Close();
             }
         }
 
         public void Run()
         {
-            string pluginsDir = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().FullName).DirectoryName, "plugins");
+            var amDir = new FileInfo(Assembly.GetExecutingAssembly().FullName).DirectoryName;
+            if (amDir == null)
+                return;
+            var pluginsDir = Path.Combine(amDir, "plugins");
             Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + pluginsDir);
             LoadConfigFile();
             LoadPlugins();
             PrepareConfig();
-            ClientCreate();
+            var ipAddress = "127.0.0.1";
+            if (_globalParameters.ContainsKey("debug_ip_address"))
+                ipAddress = _globalParameters["debug_ip_address"].ToString();
+            ushort port = 8888;
+            if (_globalParameters.ContainsKey("debug_port"))
+                ushort.TryParse(_globalParameters["debug_port"].ToString(), out port);           
+            _debugger.Start(ipAddress, port);
             Execute();
-            ClientDispose();           
+            _debugger.Stop();  
         }
     }
 }

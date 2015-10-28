@@ -5,11 +5,7 @@ using System.Text;
 
 namespace AMClasses
 {
-    public class MessageForDebug
+    public class MessageForDebug: Dictionary<string, string>
     {
-        public string Body;
-        public string Debug;
-        public string Step;
-        public string Exception;
     }
 }
