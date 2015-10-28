@@ -12,14 +12,14 @@
          <Members>
           <Member Name="#_textbox" Kind="Field" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-10-28 08:15:34Z" FixCategory="NonBreaking">
+            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-10-28 08:54:00Z" FixCategory="NonBreaking">
              <Issue Certainty="75" Level="Warning">It appears that field 'Editor._textbox' is never used or is only ever assigned to. Use this field or remove it.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#OpenConfig(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-10-28 08:15:34Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-10-28 08:54:00Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalError" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmEditor" File="Editor.cs" Line="521">Modify 'Editor.OpenConfig(string)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
             </Message>
            </Messages>

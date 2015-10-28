@@ -288,7 +288,8 @@ namespace AmLibrary
                         }
                         PlugActionHelper.FindPlugAction(_plugins, step)
                             .Execute(inputParameters, out outputParameters);
-                        _debugger.SendMessage(new MessageForDebug { { "step", (j + 1).ToString() } });    
+                        if ((j+1) < _activitySteps.Count)
+                            _debugger.SendMessage(new MessageForDebug { { "step", (j + 1).ToString() } });
                     }
                     catch (ApplicationException e)
                     {

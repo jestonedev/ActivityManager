@@ -1131,7 +1131,7 @@ namespace AmEditor
                 _stream.Write(array, 0, array.Length);
                 if (!receive) return;
                 var bytes = _stream.Read(_buffer, 0, _buffer.Length);
-                var str = Encoding.UTF8.GetString(_buffer, 0, bytes);                    
+                var str = Encoding.UTF8.GetString(_buffer, 0, bytes);
                 var response = JsonConvert.DeserializeObject<MessageForDebug>(str);
                 if (response == null)
                     return;
@@ -1151,7 +1151,8 @@ namespace AmEditor
                 int step;
                 if (!int.TryParse(response["step"], out step)) return;
                 // Меняем стиль строки следующего шага
-                dataGridViewSteps.Rows[step].Selected = true;
+                if (dataGridViewSteps.Rows.Count > step)
+                    dataGridViewSteps.Rows[step].Selected = true;
             }
             catch (ApplicationException e)
             {
