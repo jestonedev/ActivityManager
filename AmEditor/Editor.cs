@@ -587,8 +587,13 @@ namespace AmEditor
             pluginName_comboBox.Enabled = false;
             actionName_comboBox.Enabled = false;
             dataGridViewParams.Enabled = false;
-            конфигурацияToolStripMenuItem.Enabled = false;
-            настройкаToolStripMenuItem1.Enabled = false;
+            создатьToolStripMenuItem.Enabled = false;
+            открытьToolStripMenuItem.Enabled = false;
+            сохранитьКакToolStripMenuItem1.Enabled = false;
+            сохранитьToolStripMenuItem.Enabled = false;
+            плагиныToolStripMenuItem2.Enabled = false;
+            параметрыКоманднойСтрокиToolStripMenuItem.Enabled = false;
+            языкToolStripMenuItem2.Enabled = false;
             выполнитьToolStripMenuItem.Enabled = true;
             dataGridViewSteps.DefaultCellStyle.SelectionBackColor = Color.LightCoral;
             if (dataGridViewSteps.Rows.Count > 0)
@@ -613,6 +618,13 @@ namespace AmEditor
             dataGridViewParams.Enabled = true;
             конфигурацияToolStripMenuItem.Enabled = true;
             настройкаToolStripMenuItem1.Enabled = true;
+            создатьToolStripMenuItem.Enabled = true;
+            открытьToolStripMenuItem.Enabled = true;
+            сохранитьКакToolStripMenuItem1.Enabled = true;
+            сохранитьToolStripMenuItem.Enabled = true;
+            плагиныToolStripMenuItem2.Enabled = true;
+            параметрыКоманднойСтрокиToolStripMenuItem.Enabled = true;
+            языкToolStripMenuItem2.Enabled = true;
             //меняем стиль строк шагов редактора на стандартный 
             dataGridViewSteps.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
             dataGridViewSteps.Enabled = true;
