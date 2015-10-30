@@ -10,17 +10,31 @@
        <Types>
         <Type Name="Editor" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
          <Members>
-          <Member Name="#_textbox" Kind="Field" Static="False" Accessibility="Private" ExternallyVisible="False">
+          <Member Name="#.ctor(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-10-28 08:54:00Z" FixCategory="NonBreaking">
-             <Issue Certainty="75" Level="Warning">It appears that field 'Editor._textbox' is never used or is only ever assigned to. Use this field or remove it.</Issue>
+            <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Status="Active" Created="2015-10-30 02:12:12Z" FixCategory="Breaking">
+             <Issue Name="TooGeneric" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmEditor" File="Editor.cs" Line="97">'Editor.Editor(string)' creates an exception of type 'ApplicationException', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#LoadConfigFile(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Status="Active" Created="2015-10-30 02:12:12Z" FixCategory="Breaking">
+             <Issue Name="TooGeneric" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmEditor" File="Editor.cs" Line="194">'Editor.LoadConfigFile(string)' creates an exception of type 'ApplicationException', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#OpenConfig(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-10-28 08:54:00Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="CriticalError" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmEditor" File="Editor.cs" Line="521">Modify 'Editor.OpenConfig(string)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-10-30 02:12:12Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmEditor" File="Editor.cs" Line="505">Modify 'Editor.OpenConfig(string)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SaveFile(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Status="Active" Created="2015-10-30 02:12:12Z" FixCategory="Breaking">
+             <Issue Name="TooGeneric" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmEditor" File="Editor.cs" Line="340">'Editor.SaveFile(string)' creates an exception of type 'ApplicationException', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -34,16 +48,6 @@
   </Target>
  </Targets>
  <Rules>
-  <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
-   <Name>Avoid unused private fields</Name>
-   <Description>Private fields were detected that do not appear to be accessed within the assembly. If this violation fires in error, please send a problem report to the Visual Studio Code Analysis team.</Description>
-   <Resolution Name="Default">It appears that field {0} is never used or is only ever assigned to. Use this field or remove it.</Resolution>
-   <Owner />
-   <Url>http://msdn.microsoft.com/library/ms245042.aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="75">Warning</MessageLevel>
-   <File Name="performancerules.dll" Version="12.0.0.0" />
-  </Rule>
   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
    <Name>Do not catch general exception types</Name>
    <Description>You should not catch Exception or SystemException. Catching generic exception types can hide run-time problems from the library user, and can complicate debugging. You should catch only those exceptions that you can handle gracefully.</Description>
@@ -53,6 +57,16 @@
    <Email>[none]</Email>
    <MessageLevel Certainty="95">CriticalError</MessageLevel>
    <File Name="designrules.dll" Version="12.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201">
+   <Name>Do not raise reserved exception types</Name>
+   <Description>User code should not create and raise exceptions of certain types that are reserved by the runtime or which are of a too general exception type. Exception types that are too general include Exception, SystemException, and ApplicationException. Exception types that are reserved by the runtime include ThreadAbortException, OutOfMemoryException, ExecutionEngineException, and IndexOutOfRangeException.</Description>
+   <Resolution Name="TooGeneric">{0} creates an exception of type {1}, an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182338.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="usagerules.dll" Version="12.0.0.0" />
   </Rule>
  </Rules>
  <Localized>
