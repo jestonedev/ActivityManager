@@ -58,11 +58,11 @@ namespace ActivityManager
             catch (Exception e)
             {
                 if (parameters.ContainsKey("--nodialog"))
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.InnerException != null ? e.InnerException.Message : e.Message);
                 else
                     MessageBox.Show(
                         "Данное сообщение является следствием ошибки в работе ядра менеджера отчетов. Обратитесь к разработчику. Подробный текст ошибки: " +
-                        e.Message,
+                        (e.InnerException != null ? e.InnerException.Message : e.Message),
                         "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 		}
