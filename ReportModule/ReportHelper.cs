@@ -143,8 +143,7 @@ namespace ReportModule
                                 }
                             }
                         }
-                        else
-                            pnic = new PatternNodeInfoCollection();
+                        pnic = new PatternNodeInfoCollection();
                         isNewPNIC = true;
                     }
             }

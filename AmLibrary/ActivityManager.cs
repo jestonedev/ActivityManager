@@ -338,12 +338,12 @@ namespace AmLibrary
                         else
                             message = e.Message;
                         var exceptionMsg =
-                            string.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", stepNumber) + message;
+                            string.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", j) + message;
                         _debugger.SendMessage(new MessageForDebug { { "exception", exceptionMsg } });
                         if (_globalParameters.ContainsKey("--nodialog") && stepByStep)
-                            Console.WriteLine(e.Message);
+                            Console.WriteLine(exceptionMsg);
                         else
-                            MessageBox.Show(e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(exceptionMsg, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                     for (var k = 0; k < outputParameters.Length; k++)

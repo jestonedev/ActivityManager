@@ -1121,7 +1121,7 @@ namespace AmEditor
             }
             catch (ApplicationException e)
             {
-                MessageBox.Show(e.Message, @"Ошибка", 
+                MessageBox.Show(e.InnerException != null ? e.InnerException.Message : e.Message,  @"Ошибка", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 StopDebug();
             }         
