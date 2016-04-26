@@ -781,7 +781,7 @@ namespace ConvertModule
         /// <param name="nameOut">Выходная строка с ФИО</param>
         public void ConvertNameToCase(string nameIn, string format, TextCase textCase, out string nameOut)
         {
-            if (nameIn == null)
+            if (string.IsNullOrEmpty(nameIn))
             {
                 nameOut = "";
                 return;
@@ -911,7 +911,7 @@ namespace ConvertModule
         /// <param name="postOut">Выходная строка с должностью</param>
         public void ConvertPostToCase(string postIn, TextCase textCase, out string postOut)
         {
-            if (postIn == null)
+            if (string.IsNullOrEmpty(postIn))
             {
                 postOut = "";
                 return;
@@ -995,7 +995,7 @@ namespace ConvertModule
         /// <param name="officeOut">Выходная строка с названием подразделения или предприятия</param>
         public void ConvertOfficeToCase(string officeIn, TextCase textCase, out string officeOut)
         {
-            if (officeIn == null)
+            if (string.IsNullOrEmpty(officeIn))
             {
                 officeOut = "";
                 return;

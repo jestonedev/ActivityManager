@@ -5,6 +5,7 @@ using ExtendedTypes;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using ReportModule;
 
 namespace UnitTest
 {
@@ -4312,6 +4313,60 @@ namespace UnitTest
             object result;
             plug.GetCell(table, 1, "id", out result);
             Assert.AreEqual(result, "1");
+        }
+
+        [TestMethod]
+        public void ConvertNullNameToCase()
+        {
+            var plug = new ConvertPlug();
+            string result;
+            plug.ConvertNameToCase(null, "ss", TextCase.Genitive, out result);
+            Assert.AreEqual("", result);
+        }
+
+        [TestMethod]
+        public void ConvertEmptyNameToCase()
+        {
+            var plug = new ConvertPlug();
+            string result;
+            plug.ConvertNameToCase("", "ss", TextCase.Genitive, out result);
+            Assert.AreEqual("", result);
+        }
+
+        [TestMethod]
+        public void ConvertNullPostToCase()
+        {
+            var plug = new ConvertPlug();
+            string result;
+            plug.ConvertPostToCase(null, TextCase.Genitive, out result);
+            Assert.AreEqual("", result);
+        }
+
+        [TestMethod]
+        public void ConvertEmptyPostToCase()
+        {
+            var plug = new ConvertPlug();
+            string result;
+            plug.ConvertPostToCase("", TextCase.Genitive, out result);
+            Assert.AreEqual("", result);
+        }
+
+        [TestMethod]
+        public void ConvertNullOfficeToCase()
+        {
+            var plug = new ConvertPlug();
+            string result;
+            plug.ConvertOfficeToCase(null, TextCase.Genitive, out result);
+            Assert.AreEqual("", result);
+        }
+
+        [TestMethod]
+        public void ConvertEmptyOfficeToCase()
+        {
+            var plug = new ConvertPlug();
+            string result;
+            plug.ConvertOfficeToCase(" ", TextCase.Genitive, out result);
+            Assert.AreEqual("", result);
         }
     }
 }
