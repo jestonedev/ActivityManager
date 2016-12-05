@@ -12,36 +12,36 @@
          <Members>
           <Member Name="#add_xelement_merge(System.Xml.Linq.XDocument,System.Xml.Linq.XElement,System.Int32)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2016-12-05 04:38:03Z" FixCategory="NonBreaking">
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2016-12-05 08:17:00Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="208">The 'this' parameter (or 'Me' in Visual Basic) of 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
             </Message>
-            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-12-05 04:38:03Z" FixCategory="NonBreaking">
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-12-05 08:17:00Z" FixCategory="NonBreaking">
              <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="231">Because the behavior of 'int.Parse(string)' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' with a call to 'int.Parse(string, IFormatProvider)'. If the result of 'int.Parse(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
              <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="233">Because the behavior of 'int.Parse(string)' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' with a call to 'int.Parse(string, IFormatProvider)'. If the result of 'int.Parse(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
              <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="236">Because the behavior of 'int.Parse(string)' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' with a call to 'int.Parse(string, IFormatProvider)'. If the result of 'int.Parse(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
             </Message>
-            <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-12-05 04:38:03Z" FixCategory="NonBreaking">
+            <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-12-05 08:17:00Z" FixCategory="NonBreaking">
              <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="237">Because the behavior of 'int.ToString()' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' with a call to 'int.ToString(IFormatProvider)'. If the result of 'int.ToString(IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#CreateSheetsByElements(System.String,System.Collections.Generic.List`1&lt;System.Xml.Linq.XElement&gt;,ExtendedTypes.ReportTable)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2016-12-05 04:38:03Z" FixCategory="NonBreaking">
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2016-12-05 08:17:00Z" FixCategory="NonBreaking">
              <Issue Certainty="90" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="256">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#recalculate_merge_cells(System.Xml.Linq.XDocument,System.String,System.Int32,System.Int32)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message Id="x_increment" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2016-12-05 04:38:03Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="461">Parameter 'x_increment' of 'ExcelEditor.recalculate_merge_cells(XDocument, string, int, int)' is never used. Remove the parameter or use it in the method body.</Issue>
+            <Message Id="x_increment" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2016-12-05 08:17:00Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="463">Parameter 'x_increment' of 'ExcelEditor.recalculate_merge_cells(XDocument, string, int, int)' is never used. Remove the parameter or use it in the method body.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#WriteTable(ReportModule.TableReportValue,System.Collections.Generic.KeyValuePair`2&lt;System.String,System.Xml.Linq.XDocument&gt;)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2016-12-05 04:38:03Z" FixCategory="NonBreaking">
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2016-12-05 08:17:00Z" FixCategory="NonBreaking">
              <Issue Certainty="90" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="141">'ExcelEditor.WriteTable(TableReportValue, KeyValuePair&lt;string, XDocument&gt;)' has a cyclomatic complexity of 26. Rewrite or refactor the method to reduce complexity to 25.</Issue>
             </Message>
            </Messages>

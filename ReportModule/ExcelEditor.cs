@@ -435,19 +435,21 @@ namespace ReportModule
             int value = 0;
             for (int i = col_address.Length - 1; i >= 0; i--)
             {
-                int curr_base_index = (int)Math.Pow(base_index, i);
-                value += ((int)col_address[i] - 64) * curr_base_index;
+                int curr_base_index = (int)Math.Pow(base_index, col_address.Length - 1 - i);
+                value += (col_address[i] - 64) * curr_base_index;
             }
             value += x_increment;
             col_address = "";
             do
             {
-                char index_value = (char)((value % base_index) + 64);
-                value = (value - index_value) / base_index;
-                col_address = index_value + col_address;
+                var code = (value - 1)%base_index;
+                var indexValue = (char)(code + 65);
+                value = (value - 1 - code) / base_index;
+                col_address = indexValue + col_address;
             }
-            while ((value / base_index) > base_index);
+            while (value > 0);
             return col_address + row_address;
+
         }
 
         /// <summary>
