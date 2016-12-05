@@ -303,6 +303,7 @@ namespace AmEditor
         private void ChangeFormState()
         {
             buttonDel.Enabled = dataGridViewSteps.SelectedRows.Count > 0;
+            buttonCopy.Enabled = dataGridViewSteps.SelectedRows.Count > 0;
             buttonUp.Enabled = dataGridViewSteps.SelectedRows.Count > 0 && dataGridViewSteps.SelectedRows[0].Index > 0;
             buttonDown.Enabled = dataGridViewSteps.SelectedRows.Count > 0 &&
                 dataGridViewSteps.SelectedRows[0].Index < (dataGridViewSteps.Rows.Count - 1);
@@ -892,6 +893,39 @@ namespace AmEditor
             }
             _formState = FormState.Edit;
             ChangeFormState();
+        }
+
+        private void buttonCopy_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewSteps.SelectedRows.Count == 0)
+                return;
+            var index = dataGridViewSteps.SelectedRows[0].Index;
+            var step = _activitySteps[index];
+            _activitySteps.Insert(index + 1, CopyStep(step));
+            LoadDataGridViewSteps();
+            ChangeFormState();
+            dataGridViewSteps.Rows[index + 1].Selected = true;
+        }
+
+        private static ActivityStep CopyStep(ActivityStep step)
+        {
+            var newStep = new ActivityStep
+            {
+                ActionName = step.ActionName,
+                Description = step.Description,
+                Label = step.Label,
+                PlugName = step.PlugName,
+                RepeatCount = step.RepeatCount
+            };
+            foreach (var parameter in step.InputParameters)
+            {
+                newStep.AddInputParameter(parameter.Name, parameter.Value);
+            }
+            foreach (var parameter in step.OutputParameters)
+            {
+                newStep.AddOutputParameter(parameter.Name, parameter.Value);
+            }
+            return newStep;
         }
 
         private void button4_Click(object sender, EventArgs e)

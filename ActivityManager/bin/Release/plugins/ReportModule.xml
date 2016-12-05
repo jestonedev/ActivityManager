@@ -135,6 +135,14 @@
             <param name="reportValue">Табличная переменная отчета</param>
             <param name="document">Отчет</param>
         </member>
+        <member name="M:ReportModule.ExcelEditor.add_xelement_merge(System.Xml.Linq.XDocument,System.Xml.Linq.XElement,System.Int32)">
+            <summary>
+            Метод добавляет mergeCell для сгенерированных строк на основании шаблона
+            </summary>
+            <param name="sheet">Страница документа</param>
+            <param name="templateElement">Элемент-шаблон</param>
+            <param name="y_increment">Смещение относительно первой ячейки добавляемой таблицы</param>
+        </member>
         <member name="M:ReportModule.ExcelEditor.CreateSheetsByElements(System.String,System.Collections.Generic.List{System.Xml.Linq.XElement},ExtendedTypes.ReportTable)">
             <summary>
             Метод создает листы Excel по шаблонному документу и перечню элементов. Метаданные шаблонного листа удаляются из документа.
@@ -169,7 +177,7 @@
             <param name="address">Исходный адрес ячейки</param>
             <returns>Полученный адресс ячейки</returns>
         </member>
-        <member name="M:ReportModule.ExcelEditor.recalculate_merge_cells(System.Xml.Linq.XDocument,System.String,System.Int32)">
+        <member name="M:ReportModule.ExcelEditor.recalculate_merge_cells(System.Xml.Linq.XDocument,System.String,System.Int32,System.Int32)">
             <summary>
             Пересчитать позиции объединенных ячеек согласно смещениям относительно начальной ячейки
             </summary>

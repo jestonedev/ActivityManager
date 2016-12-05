@@ -162,24 +162,32 @@ namespace ReportModule
                     List<XElement> new_elements = CreateElementsByTemplate(reportValue, element);
                     if (reportValue.XmlContractor == "row" || reportValue.XmlContractor == "c")
                     {
-                        foreach (XElement new_element in new_elements)
+                        foreach (var new_element in new_elements)
                         {
                             recalculate_xelement_address(new_element, x_increment, y_increment);
+                            add_xelement_merge(document.Value, element, y_increment);
                             element.AddBeforeSelf(new_element);
                             if ((element.Name.LocalName == "row") && (new_elements.Count - 1 > y_increment))
+                            {
                                 y_increment++;
-                            else
-                                if ((element.Name.LocalName == "c") && (new_elements.Count - 1 > x_increment))
-                                    x_increment++;
+                            }
+                            else if ((element.Name.LocalName == "c") && (new_elements.Count - 1 > x_increment))
+                                x_increment++;
+                            if (y_increment == 1) continue;
+                            string address;
+                            switch (new_element.Name.LocalName)
+                            {
+                                case "row":
+                                    address = new_element.Elements().First().Attribute("r").Value;
+                                    recalculate_merge_cells(document.Value, address, 1, x_increment);
+                                    break;
+                                case "c":
+                                    address = new_element.Attribute("r").Value;
+                                    recalculate_merge_cells(document.Value, address, 0, x_increment);
+                                    break;
+                            }
                         }
                         element.Remove();
-                        string address = "";
-                        if (element.Name.LocalName == "row")
-                            address = element.Elements().First().Attribute("r").Value;
-                        else
-                            if (element.Name.LocalName == "c")
-                                address = element.Attribute("r").Value;
-                        recalculate_merge_cells(document.Value, address, y_increment);
                     } else
                     if (reportValue.XmlContractor == "worksheet")
                         new_xdocuments = new_xdocuments.Union(
@@ -187,6 +195,53 @@ namespace ReportModule
                 }
             }
             return new_xdocuments;
+        }
+
+        /// <summary>
+        /// Метод добавляет mergeCell для сгенерированных строк на основании шаблона
+        /// </summary>
+        /// <param name="sheet">Страница документа</param>
+        /// <param name="templateElement">Элемент-шаблон</param>
+        /// <param name="y_increment">Смещение относительно первой ячейки добавляемой таблицы</param>
+        private void add_xelement_merge(XDocument sheet, XElement templateElement, int y_increment)
+        {
+            XElement mergeCellsElement = null;
+            foreach (var element in sheet.Root.Elements())
+            {
+                if (element.Name.LocalName == "mergeCells")
+                    mergeCellsElement = element;
+            }
+            if (mergeCellsElement == null)
+                return;
+            var mergeCells = mergeCellsElement.Elements().ToList();
+            if (templateElement.Name.LocalName == "row")
+            {
+                if (y_increment == 0) return;
+                foreach (var cellElement in templateElement.Elements())
+                {
+                    var address = cellElement.Attribute("r").Value; 
+                    foreach (var mergeCell in mergeCells)
+                    {
+                        var mergeRef = mergeCell.Attribute("ref");
+                        if (mergeRef == null) continue;
+                        if (!Regex.IsMatch(mergeRef.Value, @"^" + address + ":")) continue;
+                        var mergeMatch = Regex.Match(mergeRef.Value, @"(\w+)([0-9]+):(\w+)([0-9]+)");
+                        if(mergeMatch.Groups.Count != 5) continue;
+                        var colStart = mergeMatch.Groups[1].Value;
+                        var rowStart = int.Parse(mergeMatch.Groups[2].Value) + y_increment;
+                        var colEnd = mergeMatch.Groups[3].Value;
+                        var rowEnd = int.Parse(mergeMatch.Groups[4].Value) + y_increment;
+                        mergeCellsElement.Add(
+                            XElement.Parse("<mergeCell xmlns=\""+xmlnsMain+"\" ref=\"" + colStart + rowStart + ":" + colEnd + rowEnd + "\"/>"));
+                        var mergeCellCount = int.Parse(mergeCellsElement.Attribute("count").Value);
+                        mergeCellsElement.Attribute("count").Value = (mergeCellCount + 1).ToString();
+                    }
+                }
+            }
+            else
+            {
+                // nothing
+            }
         }
 
         /// <summary>
@@ -401,7 +456,7 @@ namespace ReportModule
         /// <param name="sheet">Excel-лист</param>
         /// <param name="address">Адрес ячейки, относительно которой производится смещение</param>
         /// <param name="y_increment">Смещение по строкам</param>
-        private static void recalculate_merge_cells(XDocument sheet, string address, int y_increment)
+        private static void recalculate_merge_cells(XDocument sheet, string address, int y_increment, int x_increment)
         {
             XElement merge_cells_element = null;
             foreach (XElement element in sheet.Root.Elements())
