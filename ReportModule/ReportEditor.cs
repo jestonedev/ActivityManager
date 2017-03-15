@@ -16,6 +16,17 @@ namespace ReportModule
     /// </summary>
     internal class ReportEditor
     {
+        private Dictionary<ReportOption, string> _additionalOptions = new Dictionary<ReportOption, string>();
+
+        public void SetAdditionalOptions(Dictionary<ReportOption, string> additionalOptions)
+        {
+            if (additionalOptions == null)
+            {
+                throw new ArgumentNullException("additionalOptions");
+            }
+            _additionalOptions = additionalOptions;
+        }
+
         //Кэш загруженных документов
         protected Dictionary<string, XDocument> cachedDocuments = new Dictionary<string, XDocument>();
 
@@ -138,10 +149,15 @@ namespace ReportModule
             {
                 ppis = ReportHelper.GetNodePatternPartsInfo(node, pattern, ppis);
             }
+            if (_additionalOptions.ContainsKey(ReportOption.TryConvertTypes) &&
+                ReportHelper.ParseToBool(_additionalOptions[ReportOption.TryConvertTypes]))
+            {
+                 TryConvertTypes(ppis, value);
+            }
             for (int i = 0; i < ppis.Count; i++)
             {
                 if (ppis[i].Items[ppis[i].Items.Count - 1].IsClosingPatternNode)
-                {
+                {       
                     XNode newNode = ReportHelper.ReplaceNodePatternPart(ppis[i].Items[0], value);
                     ReportHelper.RebindNodePatternPartsInfo(newNode, ppis[i].Items[0].Node, ppis);
                     for (int j = 1; j < ppis[i].Items.Count; j++)
@@ -151,6 +167,15 @@ namespace ReportModule
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Метод, обрабатывающий элементы, в которых находится шаблон, до замены шаблона на значение
+        /// </summary>
+        /// <param name="ppis">Коллекция узлов шаблона</param>
+        /// <param name="value">Значение</param>
+        protected virtual void TryConvertTypes(List<PatternNodeInfoCollection> ppis, string value)
+        {
         }
 
         /// <summary>

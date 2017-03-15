@@ -1,19 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
  <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
+  <Target Name="D:\Projects\ActivityManager\ActivityManager\bin\Release\plugins\ReportModule.dll">
    <Modules>
     <Module Name="reportmodule.dll">
      <Namespaces>
       <Namespace Name="ReportModule">
        <Types>
+        <Type Name="CalcEditor" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#TryConvertTypes(System.Collections.Generic.List`1&lt;ReportModule.PatternNodeInfoCollection&gt;,System.String)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Status="Active" Created="2017-03-15 09:01:37Z" FixCategory="NonBreaking">
+             <Issue Name="Local" Certainty="95" Level="Warning" Path="d:\Projects\ActivityManager\ReportModule" File="CalcEditor.cs" Line="35">'patternNode', a variable, is cast to type 'XElement' multiple times in method 'CalcEditor.TryConvertTypes(List&lt;PatternNodeInfoCollection&gt;, string)'. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant castclass instruction.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
         <Type Name="ExcelEditor" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
          <Members>
           <Member Name="#CreateSheetsByElements(System.String,System.Collections.Generic.List`1&lt;System.Xml.Linq.XElement&gt;,ExtendedTypes.ReportTable)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2016-04-26 04:36:11Z" FixCategory="NonBreaking">
-             <Issue Certainty="90" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="201">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2017-03-15 09:01:37Z" FixCategory="NonBreaking">
+             <Issue Certainty="90" Level="Warning" Path="d:\Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="201">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="IPlug" Kind="Interface" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#ReportSetAdditionalOption(ReportModule.ReportOption,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Option" TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716" Status="Active" Created="2017-03-15 09:01:37Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="95" Level="Error">In virtual/interface member 'IPlug.ReportSetAdditionalOption(ReportOption, string)', rename parameter 'option' so that it no longer conflicts with the reserved language keyword 'Option'. Using a reserved keyword as the name of a parameter on a virtual/interface member makes it harder for consumers in other languages to override/implement the member.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ReportHelper" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#ParseToBool(System.String)" Kind="Method" Static="True" Accessibility="Assembly" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2017-03-15 09:01:37Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Projects\ActivityManager\ReportModule" File="ReportHelper.cs" Line="249">Because the behavior of 'string.ToLower()' could vary based on the current user's locale settings, replace this call in 'ReportHelper.ParseToBool(string)' with a call to 'string.ToLower(CultureInfo)'. If the result of 'string.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -36,6 +69,36 @@
    <Email>[none]</Email>
    <MessageLevel Certainty="90">Warning</MessageLevel>
    <File Name="maintainabilityrules.dll" Version="12.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800">
+   <Name>Do not cast unnecessarily</Name>
+   <Description>Avoid duplicate casts where possible, since there is a cost associated with them.</Description>
+   <Resolution Name="Local">{0}, a variable, is cast to type {1} multiple times in method {2}. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant {3} instruction.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182271.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="12.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716">
+   <Name>Identifiers should not match keywords</Name>
+   <Description>Identifiers which conflict with reserved language keywords should be avoided. Using a reserved keyword as an identifier makes it harder for consumers in other languages to use your API.</Description>
+   <Resolution Name="MemberParameter">In virtual/interface member {0}, rename parameter {1} so that it no longer conflicts with the reserved language keyword '{2}'. Using a reserved keyword as the name of a parameter on a virtual/interface member makes it harder for consumers in other languages to override/implement the member.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182248.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="12.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304">
+   <Name>Specify CultureInfo</Name>
+   <Description>If an overload exists that takes a CultureInfo argument, it should always be called in favor of an overload that does not. The CultureInfo type contains culture-specific information required for performing numeric and string operations, such as casing, formatting, and string comparisons. In scenarios where conversion and parsing behavior should never change between cultures, specify CultureInfo.InvariantCulture, otherwise, specify CultureInfo.CurrentCulture.</Description>
+   <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182189.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="globalizationrules.dll" Version="12.0.0.0" />
   </Rule>
  </Rules>
  <Localized>

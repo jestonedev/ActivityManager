@@ -87,6 +87,7 @@
     <Compile Include="OOEditor.cs" />
     <Compile Include="ReportEditor.cs" />
     <Compile Include="ReportHelper.cs" />
+    <Compile Include="ReportOption.cs" />
     <Compile Include="ReportPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportValue.cs" />

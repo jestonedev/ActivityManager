@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
  <Targets>
-  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\plugins\TextDataSource.dll">
+  <Target Name="D:\Projects\ActivityManager\ActivityManager\bin\Release\plugins\TextDataSource.dll">
    <Modules>
     <Module Name="textdatasource.dll">
      <Namespaces>
@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#TextSelectPlain(System.String,System.String&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2016-04-26 04:38:07Z" FixCategory="Breaking">
+            <Message Id="1#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Active" Created="2017-03-15 09:01:51Z" FixCategory="Breaking">
              <Issue Certainty="50" Level="Warning">Consider a design that does not require that 'result' be an out parameter.</Issue>
             </Message>
            </Messages>

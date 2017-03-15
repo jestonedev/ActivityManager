@@ -243,6 +243,11 @@ namespace ReportModule
                     if (ppis[i].Items[j].Node == oldNode)
                         ppis[i].Items[j].Node = newNode;
         }
+
+        internal static bool ParseToBool(string value)
+        {
+            return new[] { "1", "on", "yes", "true" }.Contains(value.ToLower());
+        }
     }
 
     /// <summary>
