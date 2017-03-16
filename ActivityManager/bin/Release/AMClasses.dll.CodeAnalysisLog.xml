@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
  <Targets>
-  <Target Name="D:\Projects\ActivityManager\ActivityManager\bin\Release\AMClasses.dll">
+  <Target Name="D:\Projects\Visual Studio Projects\ActivityManager\ActivityManager\bin\Release\AMClasses.dll">
    <Modules>
     <Module Name="amclasses.dll">
      <Namespaces>
@@ -10,17 +10,17 @@
        <Types>
         <Type Name="AMException" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="TypesShouldNotExtendCertainBaseTypes" Category="Microsoft.Design" CheckId="CA1058" Status="Active" Created="2017-03-15 09:01:31Z" FixCategory="Breaking">
+          <Message TypeName="TypesShouldNotExtendCertainBaseTypes" Category="Microsoft.Design" CheckId="CA1058" Status="Active" Created="2017-03-16 02:23:46Z" FixCategory="Breaking">
            <Issue Name="System.ApplicationException" Certainty="75" Level="Error">Change the base type of 'AMException' so that it no longer extends 'ApplicationException'. This base exception type does not provide any additional value for framework classes. Extend 'System.Exception' or an existing unsealed exception type instead. Do not create a new exception base type unless there is specific value in enabling the creation of a catch handler for an entire class of exceptions.</Issue>
           </Message>
          </Messages>
         </Type>
         <Type Name="MessageForDebug" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2017-03-15 09:01:31Z" FixCategory="Breaking">
+          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2017-03-16 02:23:46Z" FixCategory="Breaking">
            <Issue Certainty="95" Level="Error">Rename 'MessageForDebug' to end in 'Dictionary'.</Issue>
           </Message>
-          <Message TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237" Status="Active" Created="2017-03-15 09:01:31Z" FixCategory="NonBreaking">
+          <Message TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237" Status="Active" Created="2017-03-16 02:23:46Z" FixCategory="NonBreaking">
            <Issue Certainty="75" Level="Warning">Add [Serializable] to 'MessageForDebug' as this type implements ISerializable.</Issue>
           </Message>
          </Messages>
