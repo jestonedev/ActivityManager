@@ -71,6 +71,15 @@ namespace ReportModule
         /// </summary>
         /// <param name="fileName">Путь до выходного файла отчета</param>
         void ReportGenerate(out string fileName);
+
+        /// <summary>
+        /// Задать дополнительные опции для генератора отчетов.
+        /// Возможные опции:
+        /// TryConvertTypes - неявно преобразовывать типы данных в ячейках OpenOffice Calc в соответствии с форматом подставляемых значений
+        /// </summary>
+        /// <param name="option">Опция</param>
+        /// <param name="value">Значение</param>
+        void ReportSetAdditionalOption(ReportOption option, string value);
 	}
 
 	/// <summary>
@@ -78,6 +87,8 @@ namespace ReportModule
 	/// </summary>
 	public class ReportPlug: IPlug
 	{
+        private readonly Dictionary<ReportOption, string> AdditionalOptions = new Dictionary<ReportOption, string>();
+
         /// <summary>
         /// Файл шаблона отчета
         /// </summary>
@@ -166,7 +177,25 @@ namespace ReportModule
                 throw new ReportException("Не передана ссылка ана объект класса ReportTable");
             Values.Add(new TableReportValue(table, xmlContractor.ToString()));
 		}
-        
+
+        /// <summary>
+        /// Задать дополнительные опции для генератора отчетов.
+        /// Возможные опции:
+        /// TryConvertTypes - неявно преобразовывать типы данных в ячейках OpenOffice Calc в соответствии с форматом подставляемых значений. Возможные значения true, yes, 1, on
+        /// </summary>
+        /// <param name="option">Опция</param>
+        /// <param name="value">Значение</param>
+        public void ReportSetAdditionalOption(ReportOption option, string value)
+        {
+            if (AdditionalOptions.ContainsKey(option))
+            {
+                AdditionalOptions[option] = value;
+            } else
+            {
+                AdditionalOptions.Add(option, value);
+            }
+        }
+
         /// <summary>
         /// Функция генерации отчета
         /// </summary>
@@ -219,6 +248,7 @@ namespace ReportModule
                 editor = new ExcelEditor();
             else
                 throw new ReportException("Формат файла шаблона некорректный");
+            editor.SetAdditionalOptions(AdditionalOptions);
             Values = editor.XmlContractorsConvert(Values);
             editor.ReportEditing(report_unzip_path, Values);
             editor.SpecialTagEditing(report_unzip_path);

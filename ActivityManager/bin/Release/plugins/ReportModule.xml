@@ -44,6 +44,13 @@
             <param name="pattern">Шаблон</param>
             <param name="value">Значение</param>
         </member>
+        <member name="M:ReportModule.ReportEditor.TryConvertTypes(System.Collections.Generic.List{ReportModule.PatternNodeInfoCollection},System.String)">
+            <summary>
+            Метод, обрабатывающий элементы, в которых находится шаблон, до замены шаблона на значение
+            </summary>
+            <param name="ppis">Коллекция узлов шаблона</param>
+            <param name="value">Значение</param>
+        </member>
         <member name="M:ReportModule.ReportEditor.WritePatternAttributes(System.Xml.Linq.XElement,System.String,System.String)">
             <summary>
             Метод, заменяющий шаблонную строку на значения в атрибутах указанного элемента
@@ -389,6 +396,15 @@
             </summary>
             <param name="fileName">Путь до выходного файла отчета</param>
         </member>
+        <member name="M:ReportModule.IPlug.ReportSetAdditionalOption(ReportModule.ReportOption,System.String)">
+            <summary>
+            Задать дополнительные опции для генератора отчетов.
+            Возможные опции:
+            TryConvertTypes - неявно преобразовывать типы данных в ячейках OpenOffice Calc в соответствии с форматом подставляемых значений
+            </summary>
+            <param name="option">Опция</param>
+            <param name="value">Значение</param>
+        </member>
         <member name="T:ReportModule.ReportPlug">
             <summary>
             Класс, реализующий интерфейс плагина, в каждой сборке может быть только один такой класс
@@ -440,6 +456,15 @@
             </summary>
             <param name="table">Список параметров</param>
             <param name="xmlContractor">XML-замыкатель. Поддерживаемые замыкатели по умолчанию table, row, cell, p</param>
+        </member>
+        <member name="M:ReportModule.ReportPlug.ReportSetAdditionalOption(ReportModule.ReportOption,System.String)">
+            <summary>
+            Задать дополнительные опции для генератора отчетов.
+            Возможные опции:
+            TryConvertTypes - неявно преобразовывать типы данных в ячейках OpenOffice Calc в соответствии с форматом подставляемых значений. Возможные значения true, yes, 1, on
+            </summary>
+            <param name="option">Опция</param>
+            <param name="value">Значение</param>
         </member>
         <member name="M:ReportModule.ReportPlug.ReportGenerate(System.String@)">
             <summary>

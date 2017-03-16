@@ -61,13 +61,11 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DataTypes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51fdf0bb33c320e3, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\QueryTextDriver\QueryTextDriver\bin\Release\DataTypes.dll</HintPath>
+    <Reference Include="DataTypes">
+      <HintPath>.\DataTypes.dll</HintPath>
     </Reference>
-    <Reference Include="QueryTextDriver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=77118781517da5a1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\QueryTextDriver\QueryTextDriver\bin\Release\QueryTextDriver.dll</HintPath>
+    <Reference Include="QueryTextDriver">
+      <HintPath>.\QueryTextDriver.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
