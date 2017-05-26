@@ -174,14 +174,18 @@ namespace ReportModule
         public void ReportSetTableValue(ReportTable table, XmlContractor xmlContractor)
 		{
             if (table == null)
-                throw new ReportException("Не передана ссылка ана объект класса ReportTable");
+                throw new ReportException("Не передана ссылка на объект класса ReportTable");
             Values.Add(new TableReportValue(table, xmlContractor.ToString()));
 		}
 
         /// <summary>
         /// Задать дополнительные опции для генератора отчетов.
         /// Возможные опции:
-        /// TryConvertTypes - неявно преобразовывать типы данных в ячейках OpenOffice Calc в соответствии с форматом подставляемых значений. Возможные значения true, yes, 1, on
+        /// TryConvertTypes - преобразовывать типы данных в ячейках OpenOffice Calc в соответствии с форматом подставляемых значений. 
+        /// Возможные значения 
+        /// - true, yes, 1, on - преобразовываться будут все ячейки
+        /// - $pattern1$,$pattern2$ - преобразовываться будут только ячейки, в которых заданы шаблоны $pattern1$ и $pattern2$
+        /// - !$pattern1$,!$pattern2$ - преобразовываться будут все ячейки кроме тех, в которых заданы шаблоны $pattern1$ и $pattern2$
         /// </summary>
         /// <param name="option">Опция</param>
         /// <param name="value">Значение</param>

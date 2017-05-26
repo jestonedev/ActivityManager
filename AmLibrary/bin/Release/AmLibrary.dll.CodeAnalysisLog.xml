@@ -10,30 +10,30 @@
        <Types>
         <Type Name="ActivityManager" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="DependsOnFix">
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-05-26 02:13:42Z" FixCategory="DependsOnFix">
            <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'ActivityManager' because it creates members of the following IDisposable types: 'AmDebugger', 'AmMokeDebugger'. If 'ActivityManager' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
           </Message>
          </Messages>
          <Members>
           <Member Name="#.ctor(System.String,System.Collections.Generic.Dictionary`2&lt;System.String,System.Object&gt;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="DependsOnFix">
+            <Message TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000" Status="Active" Created="2017-05-26 02:13:42Z" FixCategory="DependsOnFix">
              <Issue Name="NonExceptionEdge" Certainty="75" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmLibrary" File="ActivityManager.cs" Line="60">In method 'ActivityManager.ActivityManager(string, Dictionary&lt;string, object&gt;)', call System.IDisposable.Dispose on object 'new AmDebugger()' before all references to it are out of scope.</Issue>
             </Message>
-            <Message Id="System.Boolean.TryParse(System.String,System.Boolean@)" TypeName="DoNotIgnoreMethodResults" Category="Microsoft.Usage" CheckId="CA1806" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message Id="System.Boolean.TryParse(System.String,System.Boolean@)" TypeName="DoNotIgnoreMethodResults" Category="Microsoft.Usage" CheckId="CA1806" Status="Active" Created="2017-05-26 02:13:42Z" FixCategory="NonBreaking">
              <Issue Name="TryParse" Certainty="95" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmLibrary" File="ActivityManager.cs" Line="59">'ActivityManager.ActivityManager(string, Dictionary&lt;string, object&gt;)' calls 'bool.TryParse(string, out bool)' but does not explicitly check whether the conversion succeeded. Either use the return value in a conditional statement or verify that the call site expects that the out argument will be set to the default value when the conversion fails.</Issue>
             </Message>
-            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="DependsOnFix">
+            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2017-05-26 02:13:42Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmLibrary" File="ActivityManager.cs" Line="43">In externally visible method 'ActivityManager.ActivityManager(string, Dictionary&lt;string, object&gt;)', validate parameter 'parameters' before using it.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#Execute()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2017-05-26 02:13:42Z" FixCategory="NonBreaking">
              <Issue Certainty="90" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmLibrary" File="ActivityManager.cs" Line="242">'ActivityManager.Execute()' has a cyclomatic complexity of 29. Rewrite or refactor the method to reduce complexity to 25.</Issue>
             </Message>
-            <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2017-05-26 02:13:42Z" FixCategory="NonBreaking">
              <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmLibrary" File="ActivityManager.cs" Line="292">Because the behavior of 'int.ToString()' could vary based on the current user's locale settings, replace this call in 'ActivityManager.Execute()' with a call to 'int.ToString(IFormatProvider)'. If the result of 'int.ToString(IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
              <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmLibrary" File="ActivityManager.cs" Line="331">Because the behavior of 'int.ToString()' could vary based on the current user's locale settings, replace this call in 'ActivityManager.Execute()' with a call to 'int.ToString(IFormatProvider)'. If the result of 'int.ToString(IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
             </Message>
@@ -41,7 +41,7 @@
           </Member>
           <Member Name="#Run()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="System.UInt16.TryParse(System.String,System.UInt16@)" TypeName="DoNotIgnoreMethodResults" Category="Microsoft.Usage" CheckId="CA1806" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message Id="System.UInt16.TryParse(System.String,System.UInt16@)" TypeName="DoNotIgnoreMethodResults" Category="Microsoft.Usage" CheckId="CA1806" Status="Active" Created="2017-05-26 02:13:42Z" FixCategory="NonBreaking">
              <Issue Name="TryParse" Certainty="95" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\AmLibrary" File="ActivityManager.cs" Line="377">'ActivityManager.Run()' calls 'ushort.TryParse(string, out ushort)' but does not explicitly check whether the conversion succeeded. Either use the return value in a conditional statement or verify that the call site expects that the out argument will be set to the default value when the conversion fails.</Issue>
             </Message>
            </Messages>

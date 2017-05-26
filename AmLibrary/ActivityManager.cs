@@ -338,7 +338,7 @@ namespace AmLibrary
                         else
                             message = e.Message;
                         var exceptionMsg =
-                            string.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", j) + message;
+                            string.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", j+1) + message;
                         _debugger.SendMessage(new MessageForDebug { { "exception", exceptionMsg } });
                         if (_globalParameters.ContainsKey("--nodialog") && stepByStep)
                             Console.WriteLine(exceptionMsg);

@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#TryConvertTypes(System.Collections.Generic.List`1&lt;ReportModule.PatternNodeInfoCollection&gt;,System.String)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="NonBreaking">
              <Issue Name="Local" Certainty="95" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="CalcEditor.cs" Line="35">'patternNode', a variable, is cast to type 'XElement' multiple times in method 'CalcEditor.TryConvertTypes(List&lt;PatternNodeInfoCollection&gt;, string)'. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant castclass instruction.</Issue>
             </Message>
            </Messages>
@@ -23,36 +23,36 @@
          <Members>
           <Member Name="#add_xelement_merge(System.Xml.Linq.XDocument,System.Xml.Linq.XElement,System.Int32)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="208">The 'this' parameter (or 'Me' in Visual Basic) of 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
             </Message>
-            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="NonBreaking">
              <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="231">Because the behavior of 'int.Parse(string)' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' with a call to 'int.Parse(string, IFormatProvider)'. If the result of 'int.Parse(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
              <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="233">Because the behavior of 'int.Parse(string)' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' with a call to 'int.Parse(string, IFormatProvider)'. If the result of 'int.Parse(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
              <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="236">Because the behavior of 'int.Parse(string)' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' with a call to 'int.Parse(string, IFormatProvider)'. If the result of 'int.Parse(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
             </Message>
-            <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="NonBreaking">
              <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="237">Because the behavior of 'int.ToString()' could vary based on the current user's locale settings, replace this call in 'ExcelEditor.add_xelement_merge(XDocument, XElement, int)' with a call to 'int.ToString(IFormatProvider)'. If the result of 'int.ToString(IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#CreateSheetsByElements(System.String,System.Collections.Generic.List`1&lt;System.Xml.Linq.XElement&gt;,ExtendedTypes.ReportTable)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="NonBreaking">
              <Issue Certainty="90" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="256">'ExcelEditor.CreateSheetsByElements(string, List&lt;XElement&gt;, ReportTable)' has a cyclomatic complexity of 27. Rewrite or refactor the method to reduce complexity to 25.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#recalculate_merge_cells(System.Xml.Linq.XDocument,System.String,System.Int32,System.Int32)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message Id="x_increment" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message Id="x_increment" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="463">Parameter 'x_increment' of 'ExcelEditor.recalculate_merge_cells(XDocument, string, int, int)' is never used. Remove the parameter or use it in the method body.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#WriteTable(ReportModule.TableReportValue,System.Collections.Generic.KeyValuePair`2&lt;System.String,System.Xml.Linq.XDocument&gt;)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="NonBreaking">
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="NonBreaking">
              <Issue Certainty="90" Level="Warning" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ExcelEditor.cs" Line="141">'ExcelEditor.WriteTable(TableReportValue, KeyValuePair&lt;string, XDocument&gt;)' has a cyclomatic complexity of 26. Rewrite or refactor the method to reduce complexity to 25.</Issue>
             </Message>
            </Messages>
@@ -63,8 +63,19 @@
          <Members>
           <Member Name="#ReportSetAdditionalOption(ReportModule.ReportOption,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="Option" TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="Breaking">
+            <Message Id="Option" TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="Breaking">
              <Issue Name="MemberParameter" Certainty="95" Level="Error">In virtual/interface member 'IPlug.ReportSetAdditionalOption(ReportOption, string)', rename parameter 'option' so that it no longer conflicts with the reserved language keyword 'Option'. Using a reserved keyword as the name of a parameter on a virtual/interface member makes it harder for consumers in other languages to override/implement the member.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ReportEditor" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#WritePatternText(System.Xml.Linq.XElement,System.String,System.String)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.String.StartsWith(System.String)" TypeName="SpecifyStringComparison" Category="Microsoft.Globalization" CheckId="CA1307" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ReportEditor.cs" Line="159">Because the behavior of 'string.StartsWith(string)' could vary based on the current user's locale settings, replace this call in 'ReportEditor.WritePatternText(XElement, string, string)' with a call to 'string.StartsWith(string, StringComparison)'. If the result of 'string.StartsWith(string, StringComparison)' will be displayed to the user, such as when sorting a list of items for display in a list box, specify 'StringComparison.CurrentCulture' or 'StringComparison.CurrentCultureIgnoreCase' as the 'StringComparison' parameter. If comparing case-insensitive identifiers, such as file paths, environment variables, or registry keys and values, specify 'StringComparison.OrdinalIgnoreCase'. Otherwise, if comparing case-sensitive identifiers, specify 'StringComparison.Ordinal'.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -74,7 +85,7 @@
          <Members>
           <Member Name="#ParseToBool(System.String)" Kind="Method" Static="True" Accessibility="Assembly" ExternallyVisible="False">
            <Messages>
-            <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2017-03-16 02:23:53Z" FixCategory="DependsOnFix">
+            <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2017-05-26 02:17:21Z" FixCategory="DependsOnFix">
              <Issue Certainty="95" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\ReportModule" File="ReportHelper.cs" Line="249">Because the behavior of 'string.ToLower()' could vary based on the current user's locale settings, replace this call in 'ReportHelper.ParseToBool(string)' with a call to 'string.ToLower(CultureInfo)'. If the result of 'string.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
             </Message>
            </Messages>
@@ -156,6 +167,16 @@
    <Resolution Name="IFormatProviderAlternateString">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify {3} as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify {4}.</Resolution>
    <Owner />
    <Url>http://msdn.microsoft.com/library/ms182190.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="globalizationrules.dll" Version="12.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyStringComparison" Category="Microsoft.Globalization" CheckId="CA1307">
+   <Name>Specify StringComparison</Name>
+   <Description>If an overload exists that takes a StringComparison argument, it should always be called in favor of an overload that does not.</Description>
+   <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, such as when sorting a list of items for display in a list box, specify 'StringComparison.CurrentCulture' or 'StringComparison.CurrentCultureIgnoreCase' as the 'StringComparison' parameter. If comparing case-insensitive identifiers, such as file paths, environment variables, or registry keys and values, specify 'StringComparison.OrdinalIgnoreCase'. Otherwise, if comparing case-sensitive identifiers, specify 'StringComparison.Ordinal'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb386080.aspx</Url>
    <Email>[none]</Email>
    <MessageLevel Certainty="95">Error</MessageLevel>
    <File Name="globalizationrules.dll" Version="12.0.0.0" />

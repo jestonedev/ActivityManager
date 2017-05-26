@@ -149,10 +149,20 @@ namespace ReportModule
             {
                 ppis = ReportHelper.GetNodePatternPartsInfo(node, pattern, ppis);
             }
-            if (_additionalOptions.ContainsKey(ReportOption.TryConvertTypes) &&
-                ReportHelper.ParseToBool(_additionalOptions[ReportOption.TryConvertTypes]))
+            if (_additionalOptions.ContainsKey(ReportOption.TryConvertTypes))
             {
-                 TryConvertTypes(ppis, value);
+                if (ReportHelper.ParseToBool(_additionalOptions[ReportOption.TryConvertTypes]) ||
+                    _additionalOptions[ReportOption.TryConvertTypes].Split(',')
+                        .Select(r => r.Trim())
+                        .Contains(pattern) ||
+                    (_additionalOptions[ReportOption.TryConvertTypes]
+                        .Split(',').Select(r => r.Trim()).Any(r => r.StartsWith("!")) &&
+                     !_additionalOptions[ReportOption.TryConvertTypes].Split(',')
+                         .Select(r => r.Trim())
+                         .Contains("!" + pattern)))
+                {
+                    TryConvertTypes(ppis, value);
+                }
             }
             for (int i = 0; i < ppis.Count; i++)
             {
