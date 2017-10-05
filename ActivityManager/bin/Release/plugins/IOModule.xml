@@ -48,6 +48,14 @@
             </summary>
             <param name="text">Текст, который необходимо выводить в консоль</param>
         </member>
+        <member name="M:IOModule.IPlug.IOMoveFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Метод для перемещения и переименования файла
+            </summary>
+            <param name="sourceFileName">Исходное имя файла (включая путь)</param>
+            <param name="destFileName">Новое имя файла (включая путь)</param>
+            <param name="overwrite">Перезаписать существующий фай</param>
+        </member>
         <member name="T:IOModule.IOPlug">
             <summary>
             Класс, реализующий интерфейс IPlug
@@ -91,6 +99,14 @@
             Вывод в консоль
             </summary>
             <param name="text">Текст, который необходимо выводить в консоль</param>
+        </member>
+        <member name="M:IOModule.IOPlug.IOMoveFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Метод для перемещения и переименования файла
+            </summary>
+            <param name="sourceFileName">Исходное имя файла (включая путь)</param>
+            <param name="destFileName">Новое имя файла (включая путь)</param>
+            <param name="overwrite">Перезаписать существующий фай</param>
         </member>
         <member name="T:IOModule.IOException">
             <summary>

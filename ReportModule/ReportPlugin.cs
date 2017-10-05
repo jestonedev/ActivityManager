@@ -151,7 +151,16 @@ namespace ReportModule
         /// <param name="value">Подставляемое значение</param>
         public void ReportSetStringValue(string name, string value)
 		{
-            Values.Add(new StringReportValue(name, (value == null) ? "" : value));             
+            for (var j = 0; j < Values.Count; j++)
+            {
+                var srv = Values[j] as StringReportValue;
+                if (srv == null) continue;
+                if (srv.Pattern == "$" + name + "$")
+                {
+                    Values.Remove(srv);
+                }
+            }
+            Values.Add(new StringReportValue(name, value ?? ""));             
 		}
 
         /// <summary>
@@ -162,8 +171,19 @@ namespace ReportModule
         {
             if (values == null)
                 throw new ReportException("Не задана ссылка на список подставляемых значений шаблона");
-            for (int i = 0; i < values.Count; i++)
-                this.Values.Add(new StringReportValue(values[i].Row.Table.Columns[i], (values[i].Value == null) ? "" : values[i].Value));
+            for (var i = 0; i < values.Count; i++)
+            {
+                for (var j = 0; j < Values.Count; j++)
+                {
+                    var srv = Values[j] as StringReportValue;
+                    if (srv == null) continue;
+                    if (srv.Pattern == "$"+values[i].Row.Table.Columns[i]+"$")
+                    {
+                        Values.Remove(srv);
+                    }
+                }
+                Values.Add(new StringReportValue(values[i].Row.Table.Columns[i], values[i].Value ?? ""));
+            }
         }
 
         /// <summary>

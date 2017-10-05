@@ -55,6 +55,14 @@ namespace IOModule
         /// </summary>
         /// <param name="text">Текст, который необходимо выводить в консоль</param>
         void IOConsole(string text);
+
+        /// <summary>
+        /// Метод для перемещения и переименования файла
+        /// </summary>
+        /// <param name="sourceFileName">Исходное имя файла (включая путь)</param>
+        /// <param name="destFileName">Новое имя файла (включая путь)</param>
+        /// <param name="overwrite">Перезаписать существующий фай</param>
+        void IOMoveFile(string sourceFileName, string destFileName, bool overwrite);
     }
 
     /// <summary>
@@ -70,12 +78,6 @@ namespace IOModule
         [PermissionSetAttribute(SecurityAction.LinkDemand, Name="FullTrust")]
         public void IOOpenFile(string fileName, string arguments)
         {
-            if (!File.Exists(fileName))
-            {
-                IOException exception = new IOException("Файл {0} не существует");
-                exception.Data.Add("{0}", fileName);
-                throw exception;
-            }
             using (Process proc = new Process())
             {
                 proc.StartInfo.FileName = fileName;
@@ -143,6 +145,21 @@ namespace IOModule
         public void IOConsole(string text)
         {
             Console.WriteLine(text);
+        }
+
+        /// <summary>
+        /// Метод для перемещения и переименования файла
+        /// </summary>
+        /// <param name="sourceFileName">Исходное имя файла (включая путь)</param>
+        /// <param name="destFileName">Новое имя файла (включая путь)</param>
+        /// <param name="overwrite">Перезаписать существующий фай</param>
+        public void IOMoveFile(string sourceFileName, string destFileName, bool overwrite = false)
+        {
+            if (overwrite && File.Exists(destFileName))
+            {
+                File.Delete(destFileName);
+            }
+            File.Move(sourceFileName, destFileName);
         }
     }
 

@@ -10,17 +10,17 @@
        <Types>
         <Type Name="AMException" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="TypesShouldNotExtendCertainBaseTypes" Category="Microsoft.Design" CheckId="CA1058" Status="Active" Created="2017-05-26 01:43:40Z" FixCategory="Breaking">
+          <Message TypeName="TypesShouldNotExtendCertainBaseTypes" Category="Microsoft.Design" CheckId="CA1058" Status="Active" Created="2017-10-05 04:36:57Z" FixCategory="Breaking">
            <Issue Name="System.ApplicationException" Certainty="75" Level="Error">Change the base type of 'AMException' so that it no longer extends 'ApplicationException'. This base exception type does not provide any additional value for framework classes. Extend 'System.Exception' or an existing unsealed exception type instead. Do not create a new exception base type unless there is specific value in enabling the creation of a catch handler for an entire class of exceptions.</Issue>
           </Message>
          </Messages>
         </Type>
         <Type Name="MessageForDebug" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2017-05-26 01:43:40Z" FixCategory="Breaking">
+          <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2017-10-05 04:36:57Z" FixCategory="Breaking">
            <Issue Certainty="95" Level="Error">Rename 'MessageForDebug' to end in 'Dictionary'.</Issue>
           </Message>
-          <Message TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237" Status="Active" Created="2017-05-26 01:43:40Z" FixCategory="NonBreaking">
+          <Message TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237" Status="Active" Created="2017-10-05 04:36:57Z" FixCategory="NonBreaking">
            <Issue Certainty="75" Level="Warning">Add [Serializable] to 'MessageForDebug' as this type implements ISerializable.</Issue>
           </Message>
          </Messages>
