@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.buttonDel = new System.Windows.Forms.Button();
@@ -45,6 +47,7 @@
             this.StepLabel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StepName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerParameters = new System.Windows.Forms.SplitContainer();
             this.dataGridViewParams = new System.Windows.Forms.DataGridView();
             this.ParamNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ParamName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,6 +55,10 @@
             this.ParamDirection = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ParamValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
+            this.dataGridViewGlobalParameters = new System.Windows.Forms.DataGridView();
+            this.globalParameterName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.globalParameterValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label5 = new System.Windows.Forms.Label();
             this.richTextBoxDescription = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -82,7 +89,6 @@
             this.копироватьСтрокуЗапускаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.выходToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.asdfasdfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.плагиныToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.параметрыКоманднойСтрокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,7 +99,6 @@
             this.следующийШагToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.buttonCopy = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -101,7 +106,11 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.splitContainerParameters.Panel1.SuspendLayout();
+            this.splitContainerParameters.Panel2.SuspendLayout();
+            this.splitContainerParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewParams)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGlobalParameters)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -130,15 +139,26 @@
             this.splitContainer1.Panel2.Controls.Add(this.actionName_comboBox);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.pluginName_comboBox);
-            this.splitContainer1.Size = new System.Drawing.Size(779, 484);
-            this.splitContainer1.SplitterDistance = 342;
+            this.splitContainer1.Size = new System.Drawing.Size(849, 619);
+            this.splitContainer1.SplitterDistance = 372;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // buttonCopy
+            // 
+            this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonCopy.Image = ((System.Drawing.Image)(resources.GetObject("buttonCopy.Image")));
+            this.buttonCopy.Location = new System.Drawing.Point(110, 577);
+            this.buttonCopy.Name = "buttonCopy";
+            this.buttonCopy.Size = new System.Drawing.Size(44, 39);
+            this.buttonCopy.TabIndex = 7;
+            this.buttonCopy.UseVisualStyleBackColor = true;
+            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             // 
             // buttonDown
             // 
             this.buttonDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonDown.Image = ((System.Drawing.Image)(resources.GetObject("buttonDown.Image")));
-            this.buttonDown.Location = new System.Drawing.Point(287, 442);
+            this.buttonDown.Location = new System.Drawing.Point(317, 577);
             this.buttonDown.Name = "buttonDown";
             this.buttonDown.Size = new System.Drawing.Size(44, 39);
             this.buttonDown.TabIndex = 6;
@@ -149,7 +169,7 @@
             // 
             this.buttonUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUp.Image = ((System.Drawing.Image)(resources.GetObject("buttonUp.Image")));
-            this.buttonUp.Location = new System.Drawing.Point(237, 442);
+            this.buttonUp.Location = new System.Drawing.Point(267, 577);
             this.buttonUp.Name = "buttonUp";
             this.buttonUp.Size = new System.Drawing.Size(44, 39);
             this.buttonUp.TabIndex = 5;
@@ -160,7 +180,7 @@
             // 
             this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonDel.Image = ((System.Drawing.Image)(resources.GetObject("buttonDel.Image")));
-            this.buttonDel.Location = new System.Drawing.Point(60, 442);
+            this.buttonDel.Location = new System.Drawing.Point(60, 577);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(44, 39);
             this.buttonDel.TabIndex = 3;
@@ -171,7 +191,7 @@
             // 
             this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonAdd.Image = ((System.Drawing.Image)(resources.GetObject("buttonAdd.Image")));
-            this.buttonAdd.Location = new System.Drawing.Point(10, 442);
+            this.buttonAdd.Location = new System.Drawing.Point(10, 577);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(44, 39);
             this.buttonAdd.TabIndex = 2;
@@ -206,7 +226,7 @@
             this.dataGridViewSteps.MultiSelect = false;
             this.dataGridViewSteps.Name = "dataGridViewSteps";
             this.dataGridViewSteps.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewSteps.Size = new System.Drawing.Size(336, 433);
+            this.dataGridViewSteps.Size = new System.Drawing.Size(366, 568);
             this.dataGridViewSteps.TabIndex = 0;
             this.dataGridViewSteps.SelectionChanged += new System.EventHandler(this.dataGridViewSteps_SelectionChanged);
             this.dataGridViewSteps.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridViewSteps_DragDrop);
@@ -260,25 +280,42 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.dataGridViewParams);
-            this.splitContainer2.Panel1.Controls.Add(this.label3);
+            this.splitContainer2.Panel1.Controls.Add(this.splitContainerParameters);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.richTextBoxDescription);
             this.splitContainer2.Panel2.Controls.Add(this.label4);
-            this.splitContainer2.Size = new System.Drawing.Size(430, 398);
-            this.splitContainer2.SplitterDistance = 300;
+            this.splitContainer2.Size = new System.Drawing.Size(470, 533);
+            this.splitContainer2.SplitterDistance = 401;
             this.splitContainer2.TabIndex = 8;
+            // 
+            // splitContainerParameters
+            // 
+            this.splitContainerParameters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerParameters.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerParameters.Name = "splitContainerParameters";
+            this.splitContainerParameters.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerParameters.Panel1
+            // 
+            this.splitContainerParameters.Panel1.Controls.Add(this.dataGridViewParams);
+            this.splitContainerParameters.Panel1.Controls.Add(this.label3);
+            // 
+            // splitContainerParameters.Panel2
+            // 
+            this.splitContainerParameters.Panel2.Controls.Add(this.dataGridViewGlobalParameters);
+            this.splitContainerParameters.Panel2.Controls.Add(this.label5);
+            this.splitContainerParameters.Panel2Collapsed = true;
+            this.splitContainerParameters.Size = new System.Drawing.Size(470, 401);
+            this.splitContainerParameters.SplitterDistance = 200;
+            this.splitContainerParameters.TabIndex = 6;
             // 
             // dataGridViewParams
             // 
             this.dataGridViewParams.AllowUserToAddRows = false;
             this.dataGridViewParams.AllowUserToDeleteRows = false;
             this.dataGridViewParams.AllowUserToResizeRows = false;
-            this.dataGridViewParams.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -294,13 +331,14 @@
             this.ParamType,
             this.ParamDirection,
             this.ParamValue});
-            this.dataGridViewParams.Location = new System.Drawing.Point(0, 20);
+            this.dataGridViewParams.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewParams.Location = new System.Drawing.Point(0, 19);
             this.dataGridViewParams.MultiSelect = false;
             this.dataGridViewParams.Name = "dataGridViewParams";
             this.dataGridViewParams.ReadOnly = true;
             this.dataGridViewParams.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewParams.Size = new System.Drawing.Size(424, 277);
-            this.dataGridViewParams.TabIndex = 4;
+            this.dataGridViewParams.Size = new System.Drawing.Size(470, 382);
+            this.dataGridViewParams.TabIndex = 6;
             this.dataGridViewParams.DoubleClick += new System.EventHandler(this.dataGridViewParams_DoubleClick);
             this.dataGridViewParams.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewParams_KeyDown);
             // 
@@ -351,33 +389,90 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(0, 4);
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
-            this.label3.TabIndex = 5;
+            this.label3.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.label3.Size = new System.Drawing.Size(66, 19);
+            this.label3.TabIndex = 7;
             this.label3.Text = "Параметры";
+            // 
+            // dataGridViewGlobalParameters
+            // 
+            this.dataGridViewGlobalParameters.AllowUserToAddRows = false;
+            this.dataGridViewGlobalParameters.AllowUserToDeleteRows = false;
+            this.dataGridViewGlobalParameters.AllowUserToResizeRows = false;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewGlobalParameters.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.dataGridViewGlobalParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewGlobalParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.globalParameterName,
+            this.globalParameterValue});
+            this.dataGridViewGlobalParameters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewGlobalParameters.Location = new System.Drawing.Point(0, 19);
+            this.dataGridViewGlobalParameters.Margin = new System.Windows.Forms.Padding(5);
+            this.dataGridViewGlobalParameters.MultiSelect = false;
+            this.dataGridViewGlobalParameters.Name = "dataGridViewGlobalParameters";
+            this.dataGridViewGlobalParameters.ReadOnly = true;
+            this.dataGridViewGlobalParameters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewGlobalParameters.Size = new System.Drawing.Size(150, 27);
+            this.dataGridViewGlobalParameters.TabIndex = 8;
+            // 
+            // globalParameterName
+            // 
+            this.globalParameterName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.globalParameterName.HeaderText = "Имя";
+            this.globalParameterName.MinimumWidth = 100;
+            this.globalParameterName.Name = "globalParameterName";
+            this.globalParameterName.ReadOnly = true;
+            // 
+            // globalParameterValue
+            // 
+            this.globalParameterValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.globalParameterValue.FillWeight = 200F;
+            this.globalParameterValue.HeaderText = "Значение";
+            this.globalParameterValue.MinimumWidth = 100;
+            this.globalParameterValue.Name = "globalParameterValue";
+            this.globalParameterValue.ReadOnly = true;
+            this.globalParameterValue.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Name = "label5";
+            this.label5.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.label5.Size = new System.Drawing.Size(127, 19);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Состояние переменных";
             // 
             // richTextBoxDescription
             // 
-            this.richTextBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxDescription.BackColor = System.Drawing.Color.White;
             this.richTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBoxDescription.Location = new System.Drawing.Point(3, 19);
+            this.richTextBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxDescription.Location = new System.Drawing.Point(0, 19);
             this.richTextBoxDescription.Name = "richTextBoxDescription";
             this.richTextBoxDescription.ReadOnly = true;
-            this.richTextBoxDescription.Size = new System.Drawing.Size(424, 72);
+            this.richTextBoxDescription.Size = new System.Drawing.Size(470, 109);
             this.richTextBoxDescription.TabIndex = 8;
             this.richTextBoxDescription.Text = "";
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(0, 3);
+            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.label4.Size = new System.Drawing.Size(57, 19);
             this.label4.TabIndex = 7;
             this.label4.Text = "Описание";
             // 
@@ -398,7 +493,7 @@
             this.actionName_comboBox.FormattingEnabled = true;
             this.actionName_comboBox.Location = new System.Drawing.Point(3, 59);
             this.actionName_comboBox.Name = "actionName_comboBox";
-            this.actionName_comboBox.Size = new System.Drawing.Size(424, 21);
+            this.actionName_comboBox.Size = new System.Drawing.Size(470, 21);
             this.actionName_comboBox.TabIndex = 2;
             this.actionName_comboBox.SelectedIndexChanged += new System.EventHandler(this.actionName_comboBox_SelectedIndexChanged);
             // 
@@ -419,7 +514,7 @@
             this.pluginName_comboBox.FormattingEnabled = true;
             this.pluginName_comboBox.Location = new System.Drawing.Point(3, 19);
             this.pluginName_comboBox.Name = "pluginName_comboBox";
-            this.pluginName_comboBox.Size = new System.Drawing.Size(424, 21);
+            this.pluginName_comboBox.Size = new System.Drawing.Size(470, 21);
             this.pluginName_comboBox.TabIndex = 0;
             this.pluginName_comboBox.SelectedIndexChanged += new System.EventHandler(this.pluginName_comboBox_SelectedIndexChanged);
             // 
@@ -526,7 +621,7 @@
             this.отладкаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(797, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(867, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -540,8 +635,7 @@
             this.toolStripMenuItem3,
             this.копироватьСтрокуЗапускаToolStripMenuItem,
             this.toolStripMenuItem4,
-            this.выходToolStripMenuItem3,
-            this.asdfasdfToolStripMenuItem});
+            this.выходToolStripMenuItem3});
             this.конфигурацияToolStripMenuItem.Name = "конфигурацияToolStripMenuItem";
             this.конфигурацияToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
             this.конфигурацияToolStripMenuItem.Text = "Конфигурация";
@@ -601,11 +695,6 @@
             this.выходToolStripMenuItem3.Size = new System.Drawing.Size(251, 22);
             this.выходToolStripMenuItem3.Text = "Выход";
             this.выходToolStripMenuItem3.Click += new System.EventHandler(this.выходToolStripMenuItem3_Click);
-            // 
-            // asdfasdfToolStripMenuItem
-            // 
-            this.asdfasdfToolStripMenuItem.Name = "asdfasdfToolStripMenuItem";
-            this.asdfasdfToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             // 
             // настройкаToolStripMenuItem1
             // 
@@ -689,23 +778,12 @@
             this.saveFileDialog1.DefaultExt = "xml";
             this.saveFileDialog1.Filter = "Config|*.xml";
             // 
-            // buttonCopy
-            // 
-            this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonCopy.Image = ((System.Drawing.Image)(resources.GetObject("buttonCopy.Image")));
-            this.buttonCopy.Location = new System.Drawing.Point(110, 442);
-            this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(44, 39);
-            this.buttonCopy.TabIndex = 7;
-            this.buttonCopy.UseVisualStyleBackColor = true;
-            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
-            // 
             // Editor
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(797, 514);
+            this.ClientSize = new System.Drawing.Size(867, 649);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -725,11 +803,16 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSteps)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.Panel2.PerformLayout();
             this.splitContainer2.ResumeLayout(false);
+            this.splitContainerParameters.Panel1.ResumeLayout(false);
+            this.splitContainerParameters.Panel1.PerformLayout();
+            this.splitContainerParameters.Panel2.ResumeLayout(false);
+            this.splitContainerParameters.Panel2.PerformLayout();
+            this.splitContainerParameters.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewParams)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGlobalParameters)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -746,8 +829,6 @@
         private System.Windows.Forms.ComboBox actionName_comboBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox pluginName_comboBox;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView dataGridViewParams;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem параметрыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem плагиныToolStripMenuItem;
@@ -763,11 +844,6 @@
         private System.Windows.Forms.ToolStripMenuItem настройкаToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem плагиныToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem языкToolStripMenuItem2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ParamNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ParamName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ParamType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ParamDirection;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ParamValue;
         private System.Windows.Forms.ToolStripMenuItem конфигурацияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem открытьToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
@@ -794,11 +870,22 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn StepLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn StepName;
         private System.Windows.Forms.ToolStripMenuItem отладкаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem asdfasdfToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem следующийШагToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выполнитьToolStripMenuItem;
         private System.Windows.Forms.Button buttonCopy;
+        private System.Windows.Forms.SplitContainer splitContainerParameters;
+        private System.Windows.Forms.DataGridView dataGridViewParams;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ParamNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ParamName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ParamType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ParamDirection;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ParamValue;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView dataGridViewGlobalParameters;
+        private System.Windows.Forms.DataGridViewTextBoxColumn globalParameterName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn globalParameterValue;
+        private System.Windows.Forms.Label label5;
 
 
     }

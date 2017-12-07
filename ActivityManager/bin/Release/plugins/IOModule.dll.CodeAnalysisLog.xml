@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#IOMoveFile(System.String,System.String,System.Boolean)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DefaultParametersShouldNotBeUsed" Category="Microsoft.Design" CheckId="CA1026" Status="Active" Created="2017-10-05 04:36:57Z" FixCategory="Breaking">
+            <Message TypeName="DefaultParametersShouldNotBeUsed" Category="Microsoft.Design" CheckId="CA1026" Status="Active" Created="2017-12-07 09:05:03Z" FixCategory="Breaking">
              <Issue Certainty="75" Level="Error" Path="d:\Projects\Visual Studio Projects\ActivityManager\IOModule" File="IOPlug.cs" Line="158">Replace method 'IOPlug.IOMoveFile(string, string, bool)' with an overload that supplies all default arguments.</Issue>
             </Message>
            </Messages>

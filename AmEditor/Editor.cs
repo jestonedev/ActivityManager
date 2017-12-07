@@ -564,6 +564,7 @@ namespace AmEditor
             _debug = true;
             ProcessReport(_debug);
             debugToolStripMenuItem.Text = @"Остановить отладку";
+            splitContainerParameters.Panel2Collapsed = false;
             dataGridViewSteps.Enabled = false;
             buttonAdd.Enabled = false;
             buttonDel.Enabled = false;
@@ -582,7 +583,10 @@ namespace AmEditor
             выполнитьToolStripMenuItem.Enabled = true;
             dataGridViewSteps.DefaultCellStyle.SelectionBackColor = Color.LightCoral;
             if (dataGridViewSteps.Rows.Count > 0)
+            {
                 dataGridViewSteps.Rows[0].Selected = true;
+                dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[0].Cells[0];
+            }
             dataGridViewSteps.Enabled = false;
         }
 
@@ -590,6 +594,8 @@ namespace AmEditor
         {
             StopServer();
             _debug = false;
+            splitContainerParameters.Panel2Collapsed = true; 
+            dataGridViewGlobalParameters.Rows.Clear();
             debugToolStripMenuItem.Text = @"Начать отладку";
             dataGridViewSteps.Enabled = true;
             buttonAdd.Enabled = true;
@@ -1119,6 +1125,12 @@ namespace AmEditor
             };
             _process.StartInfo = psi;
             _process.Start();
+            if (!debug) return;
+            while (_client == null || !_client.Connected)
+            {
+                Application.DoEvents();
+                Thread.Sleep(100);
+            }
         }
 
         private void CommunicationToClient(MessageForDebug message, bool receive = true)
@@ -1128,9 +1140,18 @@ namespace AmEditor
                 var array = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
                 _stream.Write(array, 0, array.Length);
                 if (!receive) return;
-                var buffer = new byte[_client.ReceiveBufferSize];
-                var bytes = _stream.Read(buffer, 0, _client.ReceiveBufferSize);
-                var str = Encoding.UTF8.GetString(buffer, 0, bytes);
+                while (!_stream.DataAvailable)
+                {
+                    Thread.Sleep(100);
+                }
+                var str = "";
+                while (_stream.DataAvailable)
+                {
+                    var buffer = new byte[_client.ReceiveBufferSize];
+                    var bytes = _stream.Read(buffer, 0, _client.ReceiveBufferSize);
+                    str += Encoding.UTF8.GetString(buffer, 0, bytes);
+                }
+                
                 var response = JsonConvert.DeserializeObject<MessageForDebug>(str);
                 if (response == null)
                     return;
@@ -1141,9 +1162,9 @@ namespace AmEditor
                 }
                 if (response.ContainsKey("exception"))
                 {
+                    MessageBox.Show(response["exception"], @"Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     StopDebug();
-                    MessageBox.Show(response["exception"], @"Ошибка", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);  
                     return;
                 }
                 if (!response.ContainsKey("step")) return;
@@ -1151,9 +1172,21 @@ namespace AmEditor
                 if (!int.TryParse(response["step"], out step)) return;
                 // Меняем стиль строки следующего шага
                 if (dataGridViewSteps.Rows.Count > step)
+                {
                     dataGridViewSteps.Rows[step].Selected = true;
+                    dataGridViewSteps.CurrentCell = dataGridViewSteps.Rows[step].Cells[0];
+                }
+                dataGridViewSteps.Refresh();
+                // Обновляем окно отладчика
+                dataGridViewGlobalParameters.Rows.Clear();
+                if (!response.ContainsKey("parameters")) return;
+                var parameters = JsonConvert.DeserializeObject<IEnumerable<KeyValuePair<string, string>>>(response["parameters"]);
+                foreach (var parameter in parameters)
+                {
+                    dataGridViewGlobalParameters.Rows.Add(parameter.Key, parameter.Value);
+                }
             }
-            catch (ApplicationException e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.InnerException != null ? e.InnerException.Message : e.Message,  @"Ошибка", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
@@ -1305,6 +1338,7 @@ namespace AmEditor
 
         private void выполнитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            выполнитьToolStripMenuItem.Enabled = false;
             if (_debug == false)
             {
                 if (!Save())
@@ -1316,6 +1350,7 @@ namespace AmEditor
                 CommunicationToClient(new MessageForDebug {{"command", "run"}}, false);
                 StopDebug();
             }
+            выполнитьToolStripMenuItem.Enabled = true;
         }
 
         private void выходToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -1461,24 +1496,24 @@ namespace AmEditor
 
         private void debugToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_debug && _process != null && !_process.HasExited)
-            {
-                StopDebug();
-            }
+            debugToolStripMenuItem.Enabled = false;
+            if (!_debug)
+                StartDebug();
             else
-            {
-                if (!_debug || _process == null || _process.HasExited)
-                    StartDebug();
-            }
+                StopDebug();
+            debugToolStripMenuItem.Enabled = true;
         }
 
         private void следующийШагToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_debug || _process == null || _process.HasExited)
+            следующийШагToolStripMenuItem.Enabled = false;
+            if (!_debug)
                 StartDebug();
             else
-            if (_client != null && _client.Connected)
+            {
                 CommunicationToClient(new MessageForDebug {{"command", "next"}});
+            }
+            следующийШагToolStripMenuItem.Enabled = true;
         }
 
         private void Editor_FormClosing_1(object sender, FormClosingEventArgs e)

@@ -36,6 +36,7 @@ namespace AmLibrary
         {
             if (Client == null || !Client.Connected) return;
             SendMessage(new MessageForDebug {{"debug", "done"}});
+            RecieveMessage();
             Client.Close();
         }
 

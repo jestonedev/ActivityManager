@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using AMClasses;
+using Newtonsoft.Json;
 
 namespace AmLibrary
 {
@@ -172,8 +174,8 @@ namespace AmLibrary
             //Проверка и сопоставление plugin_name и action
             if (step.PlugName == null)
             {
-                bool finded = false;
-                foreach (PlugInfo plugin in _plugins)
+                var finded = false;
+                foreach (var plugin in _plugins)
                 {
                     if (plugin.HasAction(step.ActionName,
                         PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters)))
@@ -194,7 +196,7 @@ namespace AmLibrary
                         step.ActionName));
             }
             else
-                foreach (PlugInfo plugin in _plugins)
+                foreach (var plugin in _plugins)
                 {
                     if ((plugin.PlugName == step.PlugName) && (!plugin.HasAction(step.ActionName,
                         PlugActionHelper.ConvertActivityStepToPlugParameters(step.InputParameters, step.OutputParameters))))
@@ -206,12 +208,12 @@ namespace AmLibrary
         private void LoadPlugins()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-            string[] files = Directory.GetFiles(_pluginsPath, "*.dll", SearchOption.TopDirectoryOnly);
-            foreach (string file in files)
+            var files = Directory.GetFiles(_pluginsPath, "*.dll", SearchOption.TopDirectoryOnly);
+            foreach (var file in files)
             {
-                bool include = false;
-                FileInfo fi = new FileInfo(file);
-                foreach (PlugIncludeRule pir in _pluginsIncludeRules)
+                var include = false;
+                var fi = new FileInfo(file);
+                foreach (var pir in _pluginsIncludeRules)
                 {
                     if ((pir.PlugNameMask == "*") || (pir.PlugNameMask == fi.Name))
                         include = pir.IncludeRule == "include";
@@ -229,20 +231,17 @@ namespace AmLibrary
             }
         }
 
-        Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            AssemblyName an = new AssemblyName(args.Name);
+            var an = new AssemblyName(args.Name);
             Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + Path.Combine(Environment.CurrentDirectory, "plugins"));
             return Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), @"plugins\" + an.Name + ".dll"));
         }
 
         private void Execute()
         {
-            var stepNumber = 0;
-            var stepByStep = true;
             for (var j = 0; j < _activitySteps.Count; j++)
             {
-                //step_num++;
                 var step = _activitySteps[j];
                 for (var rc = 0; rc < step.RepeatCount; rc++)
                 {
@@ -266,30 +265,51 @@ namespace AmLibrary
                         }
                         inputParameters[i] = value;
                     }
-                    object[] outputParameters;
                     try
                     {
-                        if (stepByStep)
+                        var msg = _debugger.RecieveMessage();
+                        if (msg.ContainsKey("command"))
                         {
-                            var msg = _debugger.RecieveMessage();
-                            if (msg.ContainsKey("command"))
+                            switch (msg["command"])
                             {
-                                switch (msg["command"])
-                                {
-                                    case "run":
-                                        stepByStep = false;
-                                        _debugger = new AmMokeDebugger();
-                                        break;
-                                    case "stop":
-                                        return;
-                                }
+                                case "run":
+                                    _debugger = new AmMokeDebugger();
+                                    break;
+                                case "stop":
+                                    return;
+                                case "next":
+                                    break;
+                                default:
+                                    throw new AMException("Неизвестная команда отладки");
                             }
-
                         }
+
+                        object[] outputParameters;
                         PlugActionHelper.FindPlugAction(_plugins, step)
                             .Execute(inputParameters, out outputParameters);
-                        if ((j+1) < _activitySteps.Count)
-                            _debugger.SendMessage(new MessageForDebug { { "step", (j + 1).ToString() } });
+                        for (var k = 0; k < outputParameters.Length; k++)
+                        {
+                            var paramName = !string.IsNullOrEmpty(_activitySteps[j].OutputParameters[k].Value.Trim()) ?
+                                _activitySteps[j].OutputParameters[k].Value : _activitySteps[j].OutputParameters[k].Name;
+                            if (_globalParameters.ContainsKey(paramName))
+                                _globalParameters[paramName] = outputParameters[k];
+                            else
+                                _globalParameters.Add(paramName, outputParameters[k]);
+                        }
+                        if (j + 1 < _activitySteps.Count)
+                        {
+                            var parametersSerialized = JsonConvert.SerializeObject(
+                                _globalParameters.Select(
+                                    v => new KeyValuePair<string, string>(v.Key,
+                                        v.Value == null ?
+                                        null : v.Value.ToString())));
+                            var message = new MessageForDebug
+                            {
+                                {"step", (j + 1).ToString()},
+                                {"parameters", parametersSerialized}
+                            };
+                            _debugger.SendMessage(message);
+                        }
                     }
                     catch (ApplicationException e)
                     {
@@ -304,7 +324,6 @@ namespace AmLibrary
                                     if (int.TryParse(e.InnerException.Data["step"].ToString().Trim(), out stepNum))
                                     {
                                         //Элменты массива нумеруются с 0, но пользователь вводит их с 1. При этом по окончании цикла идет инкремент, который необходимо учитывать
-                                        stepNumber = stepNum - 1;
                                         j = stepNum - 2;
                                     }
                                 }
@@ -319,16 +338,23 @@ namespace AmLibrary
                                                 stepNum = k;
                                                 break;
                                             }
-                                        stepNumber = stepNum;
                                         j = stepNum - 1;
                                     }
                                     else
                                     {
-                                        stepNumber = int.MaxValue;
                                         j = int.MaxValue - 1;
                                         break;
                                     }
-                                _debugger.SendMessage(new MessageForDebug { { "step", (j + 1).ToString() } });    
+                                var parametersSerialized = JsonConvert.SerializeObject(
+                                _globalParameters.Select(
+                                    v => new KeyValuePair<string, string>(v.Key,
+                                        v.Value == null ?
+                                        null : v.Value.ToString())));
+                                _debugger.SendMessage(new MessageForDebug
+                                {
+                                    {"step", (j + 1).ToString()},
+                                    {"parameters", parametersSerialized}
+                                });    
                                 continue;
                             }
                             message = _(e.InnerException.Message);
@@ -340,21 +366,13 @@ namespace AmLibrary
                         var exceptionMsg =
                             string.Format(CultureInfo.CurrentCulture, _("[Шаг {0}]") + ": ", j+1) + message;
                         _debugger.SendMessage(new MessageForDebug { { "exception", exceptionMsg } });
-                        if (_globalParameters.ContainsKey("--nodialog") && stepByStep)
+                        _debugger.RecieveMessage();
+                        if (_globalParameters.ContainsKey("--nodialog"))
                             Console.WriteLine(exceptionMsg);
                         else
                             MessageBox.Show(exceptionMsg, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    for (var k = 0; k < outputParameters.Length; k++)
-                    {
-                        var paramName = !string.IsNullOrEmpty(_activitySteps[j].OutputParameters[k].Value.Trim()) ? 
-                            _activitySteps[j].OutputParameters[k].Value : _activitySteps[j].OutputParameters[k].Name;
-                        if (_globalParameters.ContainsKey(paramName))
-                            _globalParameters[paramName] = outputParameters[k];
-                        else
-                            _globalParameters.Add(paramName, outputParameters[k]);
-                    }     
                 }
             }
         }
